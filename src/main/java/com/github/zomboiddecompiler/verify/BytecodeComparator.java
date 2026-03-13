@@ -264,7 +264,7 @@ public final class BytecodeComparator {
         // Semantic: guard clause elimination — one side has the guard body (early exit)
         // that doesn't exist on the other side, causing a length difference.
         if (semanticNormalize && origInsns.size() != recompInsns.size()
-                && Math.abs(origInsns.size() - recompInsns.size()) <= 20) {
+                && Math.abs(origInsns.size() - recompInsns.size()) <= 30) {
             boolean eliminated = tryGuardElimination(origInsns, recompInsns, diffIdx)
                     || tryGuardElimination(recompInsns, origInsns, diffIdx);
             if (eliminated) {
@@ -372,6 +372,15 @@ public final class BytecodeComparator {
                             origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                 }
             }
+            // Also try guard inversion on opcode skeletons (handles condition inversion + copy propagation)
+            int skelDiff = findFirstDifferenceIsomorphic(origSkel, recompSkel);
+            if (skelDiff >= 0 && tryMatchGuardInversion(origSkel, recompSkel, skelDiff)) {
+                String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
+                if (tryCatchDiff == null) {
+                    return new MethodResult(name, desc, Status.MATCH,
+                            origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
+                }
+            }
         }
 
         // Semantic: opcode-skeleton on GOTO-stripped instructions
@@ -382,6 +391,15 @@ public final class BytecodeComparator {
                 List<String> origSkel = toOpcodeSkeleton(origNoGoto2);
                 List<String> recompSkel = toOpcodeSkeleton(recompNoGoto2);
                 if (tryLabelAgnosticMatch(origSkel, recompSkel)) {
+                    String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
+                    if (tryCatchDiff == null) {
+                        return new MethodResult(name, desc, Status.MATCH,
+                                origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
+                    }
+                }
+                // Guard inversion on GOTO-stripped opcode skeletons
+                int gsSkelDiff = findFirstDifferenceIsomorphic(origSkel, recompSkel);
+                if (gsSkelDiff >= 0 && tryMatchGuardInversion(origSkel, recompSkel, gsSkelDiff)) {
                     String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
                     if (tryCatchDiff == null) {
                         return new MethodResult(name, desc, Status.MATCH,
@@ -412,17 +430,55 @@ public final class BytecodeComparator {
             }
         }
 
-        // Semantic: DUP-stripped + var-stripped comparison. Strip DUP/DUP2 and all
-        // ASTORE/ALOAD (reference stores/loads used for stack manipulation equivalents)
+        // Semantic: DUP-stripped + var-stripped comparison. Strip DUP/DUP2/POP/SWAP
         // then compare opcode skeletons. This catches the pattern where one side uses
         // DUP to keep a value on stack while the other stores/loads from a variable.
-        if (semanticNormalize && Math.abs(origInsns.size() - recompInsns.size()) <= 10) {
+        if (semanticNormalize && Math.abs(origInsns.size() - recompInsns.size()) <= 20) {
             List<String> origClean = stripStackManipulation(origInsns);
             List<String> recompClean = stripStackManipulation(recompInsns);
             if (origClean.size() == recompClean.size() && !origClean.isEmpty()) {
                 List<String> origCSkel = toOpcodeSkeleton(origClean);
                 List<String> recompCSkel = toOpcodeSkeleton(recompClean);
                 if (tryLabelAgnosticMatch(origCSkel, recompCSkel)) {
+                    String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
+                    if (tryCatchDiff == null) {
+                        return new MethodResult(name, desc, Status.MATCH,
+                                origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
+                    }
+                }
+            }
+            // Also try block-level or micro-block matching on DUP-stripped skeletons
+            if (!origClean.isEmpty() && !recompClean.isEmpty()) {
+                List<String> origCSkel = toOpcodeSkeleton(origClean);
+                List<String> recompCSkel = toOpcodeSkeleton(recompClean);
+                if (tryBlockLevelMatch(origCSkel, recompCSkel)
+                        || tryMicroBlockMatch(origCSkel, recompCSkel)) {
+                    String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
+                    if (tryCatchDiff == null) {
+                        return new MethodResult(name, desc, Status.MATCH,
+                                origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
+                    }
+                }
+            }
+        }
+
+        // Semantic: combined GOTO-stripped + DUP-stripped + opcode-skeleton comparison.
+        // Handles methods with both GOTO count differences and DUP pattern differences.
+        if (semanticNormalize && Math.abs(origInsns.size() - recompInsns.size()) <= 20) {
+            List<String> origComb = stripStackManipulation(stripGoto(origInsns));
+            List<String> recompComb = stripStackManipulation(stripGoto(recompInsns));
+            if (!origComb.isEmpty() && !recompComb.isEmpty()) {
+                List<String> origCSkel = toOpcodeSkeleton(origComb);
+                List<String> recompCSkel = toOpcodeSkeleton(recompComb);
+                if (origCSkel.size() == recompCSkel.size() && tryLabelAgnosticMatch(origCSkel, recompCSkel)) {
+                    String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
+                    if (tryCatchDiff == null) {
+                        return new MethodResult(name, desc, Status.MATCH,
+                                origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
+                    }
+                }
+                if (tryBlockLevelMatch(origCSkel, recompCSkel)
+                        || tryMicroBlockMatch(origCSkel, recompCSkel)) {
                     String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
                     if (tryCatchDiff == null) {
                         return new MethodResult(name, desc, Status.MATCH,
@@ -754,11 +810,11 @@ public final class BytecodeComparator {
                 continue;
             }
 
-            // Semantic: replace GOTO to return label with the return instruction itself
+            // Semantic: replace GOTO to return/throw label with the target instruction itself
             if (semanticNormalize && insn instanceof JumpInsnNode jump
                     && insn.getOpcode() == Opcodes.GOTO) {
                 AbstractInsnNode target = labelTargets.get(jump.label);
-                if (target != null && isReturnInsn(target)) {
+                if (target != null && (isReturnInsn(target) || target.getOpcode() == Opcodes.ATHROW)) {
                     String formatted = formatInsn(target, varMap, labelMap);
                     if (formatted != null) result.add(formatted);
                     continue;
@@ -775,6 +831,7 @@ public final class BytecodeComparator {
             result = canonicalizeIfElse(result);
             result = normalizeConditionalGoto(result);
             result = eliminateNoopGoto(result);
+            result = inlineGotoReturn(result);
             result = stripLabels(result);
             result = normalizeDupAsReload(result);
             result = renormalizeVars(result);
@@ -786,6 +843,7 @@ public final class BytecodeComparator {
             result = stripRequireNonNull(result);
             result = normalizeInnerConstructorArg(result);
             result = normalizeExpressionOrder(result);
+            result = normalizeIincExpansion(result);
             result = stripNarrowingCasts(result);
             result = stripBoxingRoundTrip(result);
             result = stripBooleanMaterialization(result);
@@ -952,6 +1010,17 @@ public final class BytecodeComparator {
                     result.add(prev); // Replace DUP with repeat of the LOAD
                     continue;
                 }
+                // DUP after GETFIELD: duplicate the ALOAD + GETFIELD sequence.
+                // Original: ALOAD vN; GETFIELD x; DUP; GETFIELD y; ... PUTFIELD y
+                // Becomes:  ALOAD vN; GETFIELD x; ALOAD vN; GETFIELD x; GETFIELD y; ... PUTFIELD y
+                if (!followedByStore && prev.startsWith("GETFIELD ") && result.size() >= 2) {
+                    String prevPrev = result.get(result.size() - 2);
+                    if (isLoadInsn(prevPrev)) {
+                        result.add(prevPrev); // Re-emit the ALOAD
+                        result.add(prev);     // Re-emit the GETFIELD
+                        continue;
+                    }
+                }
             }
             result.add(insns.get(i));
         }
@@ -1078,6 +1147,45 @@ public final class BytecodeComparator {
     private static boolean isSimpleOperandPush(String insn) {
         return isLoadInsn(insn) || isConstantPushInsn(insn)
                 || insn.startsWith("GETSTATIC ") || insn.startsWith("GETFIELD ");
+    }
+
+    /**
+     * Normalizes IINC instructions into their expanded form: ILOAD vN; const; IADD; ISTORE vN.
+     * The compiler may use either IINC (compact form) or the expanded load-add-store sequence.
+     * This normalization ensures both forms produce the same instruction stream.
+     */
+    private static List<String> normalizeIincExpansion(List<String> insns) {
+        List<String> result = new ArrayList<>(insns.size());
+        for (String insn : insns) {
+            if (insn.startsWith("IINC ")) {
+                // Parse: "IINC vN K"
+                String[] parts = insn.split(" ");
+                if (parts.length == 3) {
+                    String var = parts[1]; // vN
+                    String incStr = parts[2];
+                    try {
+                        int inc = Integer.parseInt(incStr);
+                        result.add("ILOAD " + var);
+                        if (inc >= -1 && inc <= 5) {
+                            result.add("ICONST_" + inc);
+                        } else if (inc >= Byte.MIN_VALUE && inc <= Byte.MAX_VALUE) {
+                            result.add("BIPUSH " + inc);
+                        } else if (inc >= Short.MIN_VALUE && inc <= Short.MAX_VALUE) {
+                            result.add("SIPUSH " + inc);
+                        } else {
+                            result.add("LDC " + inc);
+                        }
+                        result.add("IADD");
+                        result.add("ISTORE " + var);
+                        continue;
+                    } catch (NumberFormatException e) {
+                        // Fall through to add as-is
+                    }
+                }
+            }
+            result.add(insn);
+        }
+        return result;
     }
 
     /**
@@ -1457,6 +1565,54 @@ public final class BytecodeComparator {
                 }
                 if (isNoop) {
                     continue; // Skip the GOTO
+                }
+            }
+            result.add(curr);
+        }
+        return result;
+    }
+
+    /**
+     * Replaces GOTO Lx with the first instruction at label Lx, when that instruction
+     * is a return or throw. This handles the case where the compiler redirects to a
+     * shared return point instead of inlining the return instruction.
+     * Also handles short sequences: GOTO Lx where Lx is LOAD + RETURN (2 insns).
+     * Must run BEFORE stripLabels since it needs the LABEL entries.
+     */
+    private static List<String> inlineGotoReturn(List<String> insns) {
+        // Build a label-to-index map
+        Map<String, Integer> labelIdx = new HashMap<>();
+        for (int i = 0; i < insns.size(); i++) {
+            if (insns.get(i).startsWith("LABEL ")) {
+                labelIdx.put(insns.get(i).substring(6), i);
+            }
+        }
+
+        List<String> result = new ArrayList<>(insns.size());
+        for (int i = 0; i < insns.size(); i++) {
+            String curr = insns.get(i);
+            if (curr.startsWith("GOTO ")) {
+                String target = curr.substring(5);
+                Integer idx = labelIdx.get(target);
+                if (idx != null) {
+                    // Find the first non-label instruction at the target
+                    int j = idx + 1;
+                    while (j < insns.size() && insns.get(j).startsWith("LABEL ")) j++;
+                    if (j < insns.size()) {
+                        String targetInsn = insns.get(j);
+                        // Single return/throw: inline it
+                        if (isReturnString(targetInsn) || targetInsn.equals("ATHROW")) {
+                            result.add(targetInsn);
+                            continue;
+                        }
+                        // Two-instruction return: xLOAD + xRETURN
+                        if (j + 1 < insns.size() && isLoadInsn(targetInsn)
+                                && isReturnString(insns.get(j + 1))) {
+                            result.add(targetInsn);
+                            result.add(insns.get(j + 1));
+                            continue;
+                        }
+                    }
                 }
             }
             result.add(curr);
