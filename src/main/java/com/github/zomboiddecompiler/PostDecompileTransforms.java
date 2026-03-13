@@ -3990,20 +3990,27 @@ public final class PostDecompileTransforms {
         // anonymous Comparator<File> that exists as $2 in the original bytecode.
         // This shifts the FileVisitor from $3 to $2. Fix: insert an unused Comparator
         // allocation to preserve $2 numbering. Can't use if(false) — javac eliminates it.
+        // Move the Comparator to a separate holder method so getSaveDirectoryTable
+        // stays clean (3 instructions matching the original). The anonymous class $2
+        // numbering is preserved because the holder appears before the FileVisitor ($3)
+        // in source order. The extra method is tolerated in semantic mode.
         String oldMethod =
                 "        @LuaMethod(name = \"getSaveDirectoryTable\", global = true)\n" +
                 "        public static KahluaTable getSaveDirectoryTable() {\n" +
                 "            return LuaManager.platform.newTable();\n" +
                 "        }";
         String newMethod =
-                "        @LuaMethod(name = \"getSaveDirectoryTable\", global = true)\n" +
                 "        @SuppressWarnings(\"unused\")\n" +
-                "        public static KahluaTable getSaveDirectoryTable() {\n" +
-                "            java.util.Comparator<java.io.File> unused = new java.util.Comparator<java.io.File>() {\n" +
+                "        private static java.util.Comparator<java.io.File> comparatorHolder() {\n" +
+                "            return new java.util.Comparator<java.io.File>() {\n" +
                 "                public int compare(java.io.File file0, java.io.File file1) {\n" +
                 "                    return Long.valueOf(file1.lastModified()).compareTo(file0.lastModified());\n" +
                 "                }\n" +
                 "            };\n" +
+                "        }\n" +
+                "\n" +
+                "        @LuaMethod(name = \"getSaveDirectoryTable\", global = true)\n" +
+                "        public static KahluaTable getSaveDirectoryTable() {\n" +
                 "            return LuaManager.platform.newTable();\n" +
                 "        }";
 
