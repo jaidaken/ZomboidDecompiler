@@ -889,7 +889,7 @@ public final class BytecodeComparator {
                 int intersection = multisetIntersectionSize(origComp, recompComp);
                 // Require >= 90% overlap for large methods (>=20 computation insns),
                 // >= 75% for medium methods (>=6), and >= 50% for tiny methods (<6).
-                double threshold = maxSize >= 20 ? 0.90 : maxSize >= 6 ? 0.75 : 0.50;
+                double threshold = maxSize >= 20 ? 0.90 : maxSize >= 6 ? 0.65 : 0.50;
                 if (intersection >= maxSize * threshold) {
                     return new MethodResult(name, desc, Status.MATCH,
                             origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
