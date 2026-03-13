@@ -73,6 +73,7 @@ public final class PostDecompileTransforms {
             content = fixSpecificFileErrors(content);
             content = fixMissingLuaManagerComparator(content);
             content = fixMissingCharacterSoundEmitterSwitchMap(content);
+            content = fixAnimStateMissingLambda(content);
             content = fixItemContainerTryFinallyReturn(content);
             content = fixZomboidHashMapEntryKeyReread(content);
             content = fixIsoFireRandNextFolding(content);
@@ -2826,8 +2827,7 @@ public final class PostDecompileTransforms {
             content = content.replace("result += food.getCurrentUses()", "result += drainableFood.getCurrentUses()");
         }
 
-        // Note: BaseCraftingLogic bestMatch redeclaration is in switch-case scope
-        // and requires hoisting — left as a known remaining error.
+        // BaseCraftingLogic bestMatch redeclaration is fixed in fixB42FileSpecificErrors.
 
         // AddCoopPlayer: cellx and chunkMap redeclared in update()
         if (content.contains("class AddCoopPlayer")) {
@@ -2861,8 +2861,7 @@ public final class PostDecompileTransforms {
                     2);
         }
 
-        // Note: VehicleScript shape redeclaration in LoadPhysicsShape() is in
-        // switch-case scope — left as a known remaining error.
+        // VehicleScript shape redeclaration is fixed in fixB42FileSpecificErrors.
 
         return content;
     }
@@ -2897,10 +2896,9 @@ public final class PostDecompileTransforms {
                 "int spriteGridIndex = spriteGrid.getSpriteIndex(sprite);",
                 "spriteGridIndex = spriteGrid.getSpriteIndex(sprite);",
                 2);
-        content = fixB42RemoveRedeclType(content,
+        content = content.replace(
                 "Matrix4f transform = sceneModel.getGlobalTransform(allocMatrix4f());",
-                "transform = sceneModel.getGlobalTransform(allocMatrix4f());",
-                2);
+                "transform = sceneModel.getGlobalTransform(allocMatrix4f());");
         content = fixB42RemoveRedeclType(content,
                 "Quaternionf rotation = transform.getUnnormalizedRotation(allocQuaternionf());",
                 "rotation = transform.getUnnormalizedRotation(allocQuaternionf());",
@@ -3516,6 +3514,167 @@ public final class PostDecompileTransforms {
         }
 
         // PZArrayUtil enum generic cast is handled by the general fixB42EnumGenericsCast regex
+
+        // ================================================================
+        // UI3DScene: many "variable already defined" errors across fromLua methods
+        // ================================================================
+        if (content.contains("class UI3DScene ")) {
+            // fromLua0: ArrayList<String> names redeclared in "getObjectNames" case
+            // First is in "getGeometryNames", second in "getObjectNames" — same switch scope
+            content = fixB42RemoveRedeclType(content,
+                    "ArrayList<String> names = new ArrayList<>();",
+                    "names = new ArrayList<>();",
+                    2);
+
+            // fromLua2: int i = 0; at line 992, then for (int i = 0; ...) at line 1085
+            // The for-loop redeclares 'i' — remove the type from the for-loop
+            content = content.replace(
+                    "for (int i = 0; i < keyframes.length; i++)",
+                    "for (i = 0; i < keyframes.length; i++)");
+
+            // fromLua2: sceneCharacter instanceof pattern at line 1353 conflicts with
+            // earlier SceneCharacter sceneCharacter declaration at line 1064.
+            // Rename the instanceof pattern variable to _sceneCharacter.
+            content = fixB42RenameInstanceofPatternVar(content,
+                    "sceneObject instanceof UI3DScene.SceneCharacter sceneCharacter",
+                    "sceneCharacter", "_sceneCharacter", 1);
+
+            // fromLua2: modID, tileName, sprite, spriteGrid, spriteGridIndex redeclared
+            // in "subtractSpriteGridPixels" case — first declarations are in "copyGeometryFromSpriteGrid"
+            content = fixB42RemoveRedeclType(content,
+                    "String modID = (String)arg0;",
+                    "modID = (String)arg0;",
+                    2);
+            content = fixB42RemoveRedeclType(content,
+                    "String tileName = (String)arg1;",
+                    "tileName = (String)arg1;",
+                    2);
+            content = fixB42RemoveRedeclType(content,
+                    "IsoSprite sprite = IsoSpriteManager.instance.getSprite(tileName);",
+                    "sprite = IsoSpriteManager.instance.getSprite(tileName);",
+                    2);
+            content = fixB42RemoveRedeclType(content,
+                    "IsoSpriteGrid spriteGrid = sprite.getSpriteGrid();",
+                    "spriteGrid = sprite.getSpriteGrid();",
+                    2);
+            content = fixB42RemoveRedeclType(content,
+                    "int spriteGridIndex = spriteGrid.getSpriteIndex(sprite);",
+                    "spriteGridIndex = spriteGrid.getSpriteIndex(sprite);",
+                    2);
+
+            // fromLua3: Matrix4f transform redeclared in "setAttachmentToOrigin" case
+            content = fixB42RemoveRedeclType(content,
+                    "Matrix4f transform = sceneModel.getGlobalTransform(allocMatrix4f());",
+                    "transform = sceneModel.getGlobalTransform(allocMatrix4f());",
+                    2);
+            // fromLua3: Quaternionf rotation redeclared
+            content = fixB42RemoveRedeclType(content,
+                    "Quaternionf rotation = transform.getUnnormalizedRotation(allocQuaternionf());",
+                    "rotation = transform.getUnnormalizedRotation(allocQuaternionf());",
+                    2);
+
+            // fromLua3: sceneModel instanceof pattern at line 1655 conflicts with
+            // SceneModel sceneModel declaration at line 1611.
+            // Convert instanceof pattern to instanceof + cast to avoid field name
+            // collision (this.originBone.sceneModel shares the name).
+            content = content.replace(
+                    "if (sceneObject instanceof UI3DScene.SceneModel sceneModel) {\n"
+                            + "                            this.gizmoParent = sceneModel;\n"
+                            + "                            this.originBone.character = null;\n"
+                            + "                            this.originBone.sceneModel = sceneModel;\n"
+                            + "                            this.originBone.boneName = (String)arg2;\n"
+                            + "                            this.gizmoOrigin = this.originBone;\n"
+                            + "                            this.gizmoChild = null;\n"
+                            + "                        }",
+                    "if (sceneObject instanceof UI3DScene.SceneModel) {\n"
+                            + "                            UI3DScene.SceneModel sceneModel2 = (UI3DScene.SceneModel)sceneObject;\n"
+                            + "                            this.gizmoParent = sceneModel2;\n"
+                            + "                            this.originBone.character = null;\n"
+                            + "                            this.originBone.sceneModel = sceneModel2;\n"
+                            + "                            this.originBone.boneName = (String)arg2;\n"
+                            + "                            this.gizmoOrigin = this.originBone;\n"
+                            + "                            this.gizmoChild = null;\n"
+                            + "                        }");
+
+            // fromLua6: byte col = -1 conflicts with int col earlier in same switch
+            // Only one occurrence of "byte col = -1;" — replace directly
+            content = content.replace("byte col = -1;", "col = -1;");
+        }
+
+        // ================================================================
+        // ModelLoader: 6 for-loop redeclarations of 'n' in loadTxt()
+        // The first 'n' is declared as standalone "int n = 0;" (VertexBuffer case),
+        // then 6 for-loops in subsequent switch cases all redeclare 'int n'.
+        // Replace ALL "for (int n = " with "for (n = " in this file since every
+        // for-loop 'n' conflicts with the standalone declaration.
+        // ================================================================
+        if (content.contains("class ModelLoader")) {
+            content = content.replace("for (int n = 0; n < numElements; n++)",
+                    "for (n = 0; n < numElements; n++)");
+            content = content.replace("for (int n = 0; n < numBones; n++)",
+                    "for (n = 0; n < numBones; n++)");
+            content = content.replace("for (int n = 0; n < nFrames; n++)",
+                    "for (n = 0; n < nFrames; n++)");
+        }
+
+        // ================================================================
+        // IsoMannequin: String i conflicts with for (int i) in syncModel()
+        // ================================================================
+        if (content.contains("class IsoMannequin")) {
+            // Rename "String i = this.modelScriptName;" to avoid conflict with loop var i
+            content = content.replace(
+                    "String i = this.modelScriptName;\n        switch (i)",
+                    "String modelScriptSwitch = this.modelScriptName;\n        switch (modelScriptSwitch)");
+        }
+
+        // ================================================================
+        // SpriteModel: byte modelAttachment conflicts with ModelAttachment modelAttachment
+        // in both parseStandardDoor() and parsePairDoor()
+        // ================================================================
+        if (content.contains("class SpriteModel")) {
+            // Rename the byte switch variable to edgeIndex in both methods.
+            // The byte variable is used for edge direction (n=1, w=0) then
+            // conflicts with ModelAttachment modelAttachment later.
+            content = content.replace("byte modelAttachment = -1;", "byte edgeIndex = -1;");
+            content = content.replace("modelAttachment = 1;", "edgeIndex = 1;");
+            content = content.replace("modelAttachment = 0;", "edgeIndex = 0;");
+            content = content.replace(
+                    "String meshName = switch (modelAttachment)",
+                    "String meshName = switch (edgeIndex)");
+        }
+
+        // ================================================================
+        // VehicleScript: String shape conflicts with PhysicsShape shape in LoadPhysicsShape()
+        // ================================================================
+        if (content.contains("class VehicleScript ")) {
+            // String shape is only used in declaration and switch expression
+            content = content.replace(
+                    "String shape = block.id;\n        int type;\n        switch (shape)",
+                    "String shapeName = block.id;\n        int type;\n        switch (shapeName)");
+        }
+
+        // ================================================================
+        // BaseCraftingLogic: bestMatch redeclared in switch case OutputName
+        // (3rd overall occurrence; first is in Tags block, 2nd in InputName, 3rd in OutputName)
+        // InputName and OutputName are in the same switch scope so 3rd conflicts with 2nd.
+        // ================================================================
+        if (content.contains("class BaseCraftingLogic")) {
+            content = fixB42RemoveRedeclType(content,
+                    "BaseCraftingLogic.FilterStringMatchType bestMatch = BaseCraftingLogic.FilterStringMatchType.NONE;",
+                    "bestMatch = BaseCraftingLogic.FilterStringMatchType.NONE;",
+                    3);
+        }
+
+        // ================================================================
+        // ClothingWetness: clothing instanceof pattern variable escapes scope
+        // 'clothing' is declared in "if (item instanceof Clothing clothing)" but
+        // used outside that if-block. Replace escaped usage with cast on 'item'.
+        // ================================================================
+        if (content.contains("class ClothingWetness ")) {
+            content = content.replace(
+                    "clothing.setWetness(clothing.getWetness() + delta);",
+                    "((Clothing)item).setWetness(((Clothing)item).getWetness() + delta);");
+        }
 
         return content;
     }
@@ -4152,5 +4311,39 @@ public final class PostDecompileTransforms {
                 "new DialogButton((UIEventHandler)this, 80, 225"
         );
         return content;
+    }
+
+    // ========================================================================
+    // Fix 35: Missing AnimState lambda$getAnimNodes$0 (dead lambda body)
+    // ========================================================================
+    // The original bytecode has a synthetic lambda$getAnimNodes$0 method that
+    // formats AnimNode info using String.format("%s: %s", m_Name, getConditionsString()).
+    // javac kept the lambda method body but eliminated the invokedynamic call site
+    // because it was guarded by `static final boolean = false`. Vineflower
+    // correctly omits both the call site and the lambda body. Add the method
+    // explicitly to match the original class structure.
+
+    private static String fixAnimStateMissingLambda(String content) {
+        if (!content.contains("class AnimState")) return content;
+
+        // Inject the dead lambda method before the closing brace of the class.
+        // The method has no call site — it exists as dead code in the original.
+        String marker = "    protected void clear() {\n" +
+                "        this.m_Nodes.clear();\n" +
+                "        this.m_Set = null;\n" +
+                "    }\n" +
+                "}";
+        String replacement = "    protected void clear() {\n" +
+                "        this.m_Nodes.clear();\n" +
+                "        this.m_Set = null;\n" +
+                "    }\n" +
+                "\n" +
+                "    @SuppressWarnings(\"unused\")\n" +
+                "    private static String lambda$getAnimNodes$0(AnimNode animNode) {\n" +
+                "        return String.format(\"%s: %s\", animNode.m_Name, animNode.getConditionsString());\n" +
+                "    }\n" +
+                "}";
+
+        return content.replace(marker, replacement);
     }
 }
