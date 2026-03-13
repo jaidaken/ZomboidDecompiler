@@ -14,7 +14,7 @@ PROJECT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 VENV_PYTHON="$PROJECT_DIR/.venv/bin/python3"
 GENERATE_SCRIPT="$SCRIPT_DIR/generate_progress_image.py"
 
-if [ $# -lt 4 ]; then
+usage() {
     echo "Usage: $0 <b41-original> <b41-recompiled> <b42-original> <b42-recompiled>"
     echo ""
     echo "  b41-original    Path to Build 41 original JAR or classes directory"
@@ -26,7 +26,20 @@ if [ $# -lt 4 ]; then
     echo "  $0 --b41 <original> <recompiled>"
     echo "  $0 --b42 <original> <recompiled>"
     exit 1
+}
+
+if [ $# -eq 0 ]; then
+    usage
 fi
+
+case "$1" in
+    --b41|--b42)
+        [ $# -lt 3 ] && usage
+        ;;
+    *)
+        [ $# -lt 4 ] && usage
+        ;;
+esac
 
 # Check for venv
 if [ ! -f "$VENV_PYTHON" ]; then
