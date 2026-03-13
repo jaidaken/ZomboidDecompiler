@@ -74,6 +74,7 @@ public final class PostDecompileTransforms {
             content = fixMissingLuaManagerComparator(content);
             content = fixMissingCharacterSoundEmitterSwitchMap(content);
             content = fixAnimStateMissingLambda(content);
+            content = fixRenderThreadLambdaOrder(content);
             content = fixItemContainerTryFinallyReturn(content);
             content = fixZomboidHashMapEntryKeyReread(content);
             content = fixIsoFireRandNextFolding(content);
@@ -4358,5 +4359,78 @@ public final class PostDecompileTransforms {
             result.setLength(result.length() - 1);
         }
         return modified ? result.toString() : content;
+    }
+
+    // ========================================================================
+    // Fix: RenderThread lambda ordering in lockStepRenderStep
+    // ========================================================================
+    // The original bytecode assigns lambda indices as:
+    //   $1 = Display.processMessages()
+    //   $2 = SpriteRenderer.instance.postRender()
+    //   $3 = Display.update(true); checkControllers()
+    // The decompiler outputs them in source order (postRender, update, processMessages),
+    // which produces $1=postRender, $2=update, $3=processMessages (rotated).
+    // Fix: extract lambdas as Runnable variables declared in the original order,
+    // so javac assigns the correct indices.
+
+    private static String fixRenderThreadLambdaOrder(String content) {
+        if (!content.contains("class RenderThread")) return content;
+
+        String oldMethod =
+                "    private static boolean lockStepRenderStep() {\n" +
+                "        SpriteRenderState spriteRenderState = SpriteRenderer.instance.acquireStateForRendering(zombie.core.opengl.RenderThread::waitForRenderStateCallback);\n" +
+                "        if (spriteRenderState != null) {\n" +
+                "            m_cursorVisible = spriteRenderState.bCursorVisible;\n" +
+                "            s_performance.spriteRendererPostRender.invokeAndMeasure(() -> SpriteRenderer.instance.postRender());\n" +
+                "            s_performance.displayUpdate.invokeAndMeasure(() -> {\n" +
+                "                Display.update(true);\n" +
+                "                checkControllers();\n" +
+                "            });\n" +
+                "            if (Core.bDebug && FPSGraph.instance != null) {\n" +
+                "                FPSGraph.instance.addRender(System.currentTimeMillis());\n" +
+                "            }\n" +
+                "\n" +
+                "            MPStatisticClient.getInstance().fpsProcess();\n" +
+                "            return true;\n" +
+                "        } else {\n" +
+                "            notifyRenderStateQueue();\n" +
+                "            if (!m_waitForRenderState || LuaManager.thread != null && LuaManager.thread.bStep) {\n" +
+                "                s_performance.displayUpdate.invokeAndMeasure(() -> Display.processMessages());\n" +
+                "            }\n" +
+                "\n" +
+                "            return true;\n" +
+                "        }\n" +
+                "    }";
+        String newMethod =
+                "    private static boolean lockStepRenderStep() {\n" +
+                "        // Lambda variables declared in original bytecode order ($1, $2, $3)\n" +
+                "        Runnable _lambda1 = () -> Display.processMessages();\n" +
+                "        Runnable _lambda2 = () -> SpriteRenderer.instance.postRender();\n" +
+                "        Runnable _lambda3 = () -> {\n" +
+                "            Display.update(true);\n" +
+                "            checkControllers();\n" +
+                "        };\n" +
+                "        SpriteRenderState spriteRenderState = SpriteRenderer.instance.acquireStateForRendering(zombie.core.opengl.RenderThread::waitForRenderStateCallback);\n" +
+                "        if (spriteRenderState != null) {\n" +
+                "            m_cursorVisible = spriteRenderState.bCursorVisible;\n" +
+                "            s_performance.spriteRendererPostRender.invokeAndMeasure(_lambda2);\n" +
+                "            s_performance.displayUpdate.invokeAndMeasure(_lambda3);\n" +
+                "            if (Core.bDebug && FPSGraph.instance != null) {\n" +
+                "                FPSGraph.instance.addRender(System.currentTimeMillis());\n" +
+                "            }\n" +
+                "\n" +
+                "            MPStatisticClient.getInstance().fpsProcess();\n" +
+                "            return true;\n" +
+                "        } else {\n" +
+                "            notifyRenderStateQueue();\n" +
+                "            if (!m_waitForRenderState || LuaManager.thread != null && LuaManager.thread.bStep) {\n" +
+                "                s_performance.displayUpdate.invokeAndMeasure(_lambda1);\n" +
+                "            }\n" +
+                "\n" +
+                "            return true;\n" +
+                "        }\n" +
+                "    }";
+
+        return content.replace(oldMethod, newMethod);
     }
 }
