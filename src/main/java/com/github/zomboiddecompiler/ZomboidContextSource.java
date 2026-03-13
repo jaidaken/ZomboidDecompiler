@@ -17,17 +17,20 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class ZomboidContextSource implements IContextSource, AutoCloseable {
-    private final Path jar;
+    private final Path sourcePath;
     private static final String CLASS_SUFFIX = ".class";
 
     private final boolean invertPatterns;
+    /// Null when operating on a loose class directory.
     private final FileSystem jarFilesystem;
+    /// Root path for scanning. For JARs this comes from the JAR filesystem; for directories it's the directory itself.
+    private final Path rootPath;
 
     private final ClassPatterns patterns;
 
     @Override
     public String getName() {
-        return "Project Zomboid (inverted: " + this.invertPatterns + "): " + this.jar.toString();
+        return "Project Zomboid (inverted: " + this.invertPatterns + "): " + this.sourcePath.toString();
     }
 
     @Override
@@ -35,27 +38,38 @@ public class ZomboidContextSource implements IContextSource, AutoCloseable {
         List<Entry> classes = new ArrayList<>();
         List<String> directories = new ArrayList<>();
 
-        for (Path root : jarFilesystem.getRootDirectories()) {
-            scanDirectory(root, classes, directories);
+        if (jarFilesystem != null) {
+            for (Path root : jarFilesystem.getRootDirectories()) {
+                scanDirectory(root, classes, directories);
+            }
+        } else {
+            scanDirectory(rootPath, classes, directories);
         }
 
         return new Entries(classes, directories, new ArrayList<>(), new ArrayList<>());
     }
 
     void scanDirectory(final Path current, final List<Entry> classes, final List<String> directories) {
-        String relativePath = current.toString().replace(File.separatorChar, '/');
-        // need to remove leading "/" or it writes to root of disk lol
-        relativePath = relativePath.substring(1);
+        String relativePath;
+        if (jarFilesystem != null) {
+            relativePath = current.toString().replace(File.separatorChar, '/');
+            // need to remove leading "/" or it writes to root of disk lol
+            relativePath = relativePath.substring(1);
+        } else {
+            relativePath = rootPath.relativize(current).toString().replace(File.separatorChar, '/');
+        }
         directories.add(relativePath);
         try (Stream<Path> files = Files.list(current)) {
             for (Path file : files.toList()) {
+                // For pattern matching, use a path relative to the class root
+                Path matchPath = (jarFilesystem != null) ? file : rootPath.relativize(file);
                 if (Files.isDirectory(file)) {
-                    if (this.invertPatterns != this.patterns.partialMatch(file)) {
+                    if (this.invertPatterns != this.patterns.partialMatch(matchPath)) {
                         scanDirectory(file, classes, directories);
                     }
                 } else if (
                         file.getFileName().toString().endsWith(CLASS_SUFFIX)
-                        && this.invertPatterns != this.patterns.fullMatch(file)
+                        && this.invertPatterns != this.patterns.fullMatch(matchPath)
                 ) {
                     String fileName = file.getFileName().toString();
                     classes.add(Entry.atBase(
@@ -69,7 +83,11 @@ public class ZomboidContextSource implements IContextSource, AutoCloseable {
 
     @Override
     public InputStream getInputStream(String className) throws IOException {
-        return Files.newInputStream(this.jarFilesystem.getPath(className));
+        if (jarFilesystem != null) {
+            return Files.newInputStream(this.jarFilesystem.getPath(className));
+        } else {
+            return Files.newInputStream(this.rootPath.resolve(className));
+        }
     }
 
     @Override
@@ -78,7 +96,7 @@ public class ZomboidContextSource implements IContextSource, AutoCloseable {
             @Override
             public void begin() {
                 if (!(saver instanceof ConsoleDecompiler)) {
-                    saver.createArchive(jar.toAbsolutePath().toString(), "", null);
+                    saver.createArchive(sourcePath.toAbsolutePath().toString(), "", null);
                 }
                 saver.saveFolder("");
             }
@@ -102,22 +120,32 @@ public class ZomboidContextSource implements IContextSource, AutoCloseable {
 
             @Override
             public void close() throws IOException {
-                saver.closeArchive("", jar.getFileName().toString());
+                saver.closeArchive("", sourcePath.getFileName().toString());
             }
         };
     }
 
     @Override
     public void close() throws IOException {
-        this.jarFilesystem.close();
+        if (this.jarFilesystem != null) {
+            this.jarFilesystem.close();
+        }
     }
 
-    public ZomboidContextSource(Path jar, String patterns, boolean invertPatterns) throws IOException {
-        assert Files.isRegularFile(jar);
-        this.jar = jar;
-        this.jarFilesystem = FileSystems.newFileSystem(jar);
+    /// Creates a context source from a JAR file or a directory of loose class files.
+    public ZomboidContextSource(Path path, String patterns, boolean invertPatterns) throws IOException {
+        this.sourcePath = path;
         this.invertPatterns = invertPatterns;
         this.patterns = ClassPatterns.fromString(patterns);
+
+        if (Files.isDirectory(path)) {
+            this.jarFilesystem = null;
+            this.rootPath = path;
+        } else {
+            assert Files.isRegularFile(path);
+            this.jarFilesystem = FileSystems.newFileSystem(path);
+            this.rootPath = null;
+        }
     }
 
     public static class ClassPatterns {

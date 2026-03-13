@@ -82,15 +82,24 @@ public class ZomboidDecompiler {
             }
         }
 
-        Path gameJar = gamePath.resolve("projectzomboid.jar");
-        if (!Files.isRegularFile(gameJar)) {
-            log.log("projectzomboid.jar not found, aborting");
-            return;
+        // Look for loose .class files first (Linux / Build 41), then fall back to projectzomboid.jar
+        Path gameClassesPath;
+        boolean looseClassFiles = Files.isDirectory(gamePath.resolve("zombie"));
+        if (looseClassFiles) {
+            log.log("Found loose class files in game directory");
+            gameClassesPath = gamePath;
+        } else {
+            gameClassesPath = gamePath.resolve("projectzomboid.jar");
+            if (!Files.isRegularFile(gameClassesPath)) {
+                log.log("No class files or projectzomboid.jar found, aborting");
+                return;
+            }
+            log.log("Using projectzomboid.jar");
         }
 
-        if (jarGame) {
+        if (jarGame && !looseClassFiles) {
             try {
-                FileUtils.copyFileOrDirectory(gameJar, outputPath.resolve("projectzomboid.jar"));
+                FileUtils.copyFileOrDirectory(gameClassesPath, outputPath.resolve("projectzomboid.jar"));
             } catch (IOException e) {
                 log.log(e);
             }
@@ -101,8 +110,8 @@ public class ZomboidDecompiler {
         ZomboidContextSource gameSource;
         ZomboidContextSource dependencySource;
         try {
-            gameSource = new ZomboidContextSource(gameJar, this.classPatterns, false);
-            dependencySource = new ZomboidContextSource(gameJar, this.classPatterns, true);
+            gameSource = new ZomboidContextSource(gameClassesPath, this.classPatterns, false);
+            dependencySource = new ZomboidContextSource(gameClassesPath, this.classPatterns, true);
         } catch (IOException e) {
             log.log(e);
             log.log("Aborting decompilation due to exception while opening context source");
