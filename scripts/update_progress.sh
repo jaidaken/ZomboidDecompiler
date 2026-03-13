@@ -48,15 +48,41 @@ if [ ! -f "$VENV_PYTHON" ]; then
     "$VENV_PYTHON" -m pip install --quiet matplotlib squarify
 fi
 
+# Build if needed
+INSTALL_DIR="$PROJECT_DIR/build/install/ZomboidDecompiler"
+if [ ! -d "$INSTALL_DIR/lib" ]; then
+    echo "Building ZomboidDecompiler..."
+    "$PROJECT_DIR/gradlew" -p "$PROJECT_DIR" installDist --quiet
+fi
+
+# Use the Zulu JDK from tools if available, otherwise fall back to system java
+JAVA_BIN="java"
+ZULU_JAVA="$PROJECT_DIR/../tools/zulu-jdk-17.0.1/bin/java"
+if [ -x "$ZULU_JAVA" ]; then
+    JAVA_BIN="$ZULU_JAVA"
+fi
+
+# Build module path from installed libs
+MODULE_PATH="$(printf '%s:' "$INSTALL_DIR"/lib/*.jar)"
+MODULE_PATH="${MODULE_PATH%:}"
+
 run_verify() {
     local original="$1"
     local recompiled="$2"
     local report_path="$3"
 
     echo "Running bytecode verification..."
-    "$PROJECT_DIR/build/install/ZomboidDecompiler/bin/ZomboidDecompiler" verify \
+    # Exit code 2 = mismatches found (expected, not an error)
+    local rc=0
+    "$JAVA_BIN" \
+        --module-path "$MODULE_PATH" \
+        --module com.github.zomboiddecompiler/com.github.zomboiddecompiler.commands.Verify \
         "$original" "$recompiled" \
-        --semantic --summary-only --json-report "$report_path" || true
+        --semantic --summary-only --json-report "$report_path" || rc=$?
+    if [ "$rc" -ne 0 ] && [ "$rc" -ne 2 ]; then
+        echo "Verification failed with exit code $rc"
+        exit "$rc"
+    fi
 }
 
 generate_image() {
