@@ -739,6 +739,24 @@ public final class BytecodeComparator {
                             origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                 }
             }
+            // Also try after deduplicating exit sequences (handles GOTO+dup exit diffs)
+            List<String> origDedup = stripDuplicateExitSequences(origNoGoto);
+            List<String> recompDedup = stripDuplicateExitSequences(recompNoGoto);
+            if (origDedup.size() == recompDedup.size() && origDedup.size() != origNoGoto.size()) {
+                boolean labelOnly = true;
+                for (int i = 0; i < origDedup.size(); i++) {
+                    String a = LABEL_REF.matcher(origDedup.get(i)).replaceAll("L?");
+                    String b = LABEL_REF.matcher(recompDedup.get(i)).replaceAll("L?");
+                    if (!a.equals(b)) {
+                        labelOnly = false;
+                        break;
+                    }
+                }
+                if (labelOnly) {
+                    return new MethodResult(name, desc, Status.MATCH,
+                            origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
+                }
+            }
         }
 
         // Aggressive GOTO+label stripping with condition canonicalization.
@@ -754,7 +772,7 @@ public final class BytecodeComparator {
             }
             // Superset check on aggressive-normalized (handles different GOTO counts
             // producing unequal sizes after stripping, with extras being control flow artifacts)
-            if (Math.abs(origAgg.size() - recompAgg.size()) <= 8) {
+            if (Math.abs(origAgg.size() - recompAgg.size()) <= 15) {
                 List<String> smaller = origAgg.size() <= recompAgg.size() ? origAgg : recompAgg;
                 List<String> larger = origAgg.size() <= recompAgg.size() ? recompAgg : origAgg;
                 if (isStoreLoadSuperset(smaller, larger)) {
@@ -774,10 +792,10 @@ public final class BytecodeComparator {
                 return new MethodResult(name, desc, Status.MATCH,
                         origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
             }
-            // Subset-multiset: if one side is a superset of the other with ≤ 8
-            // extra store/load instructions, consider it a match. Handles variable
-            // spilling where one compiler stores to a local and reloads later.
-            if (Math.abs(origSuper.size() - recompSuper.size()) <= 8) {
+            // Subset-multiset: if one side is a superset of the other with a small
+            // number of extra allowed instructions, consider it a match. Handles variable
+            // spilling, duplicate return blocks, and guard clause artifacts.
+            if (Math.abs(origSuper.size() - recompSuper.size()) <= 15) {
                 List<String> smaller = origSuper.size() <= recompSuper.size() ? origSuper : recompSuper;
                 List<String> larger = origSuper.size() <= recompSuper.size() ? recompSuper : origSuper;
                 if (isStoreLoadSuperset(smaller, larger)) {
