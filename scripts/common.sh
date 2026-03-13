@@ -160,7 +160,8 @@ progress_bar() {
     tput cnorm 2>/dev/null || true
 }
 
-# Count .class files in a directory or JAR matching the zombie.* pattern.
+# Count top-level .class files in a directory or JAR matching the zombie.* pattern.
+# Excludes inner classes (containing $) so the count matches expected .java files.
 # For directories, counts loose .class files plus classes inside any JARs.
 # Usage: count_classes <path> [pattern_prefix]
 count_classes() {
@@ -169,17 +170,17 @@ count_classes() {
     local count=0
 
     if [ -f "$path" ] && [[ "$path" == *.jar ]]; then
-        count=$(jar tf "$path" 2>/dev/null | grep '\.class$' | grep -c "^$prefix" || true)
+        count=$(jar tf "$path" 2>/dev/null | grep '\.class$' | grep "^$prefix" | grep -cv '\$' || true)
     elif [ -d "$path" ]; then
-        # Count loose .class files under the prefix directory
+        # Count loose .class files under the prefix directory (exclude inner classes)
         if [ -d "$path/$prefix" ]; then
-            count=$(command find "$path/$prefix" -name "*.class" 2>/dev/null | wc -l)
+            count=$(command find "$path/$prefix" -name "*.class" ! -name '*$*' 2>/dev/null | wc -l)
         fi
         # Also count matching classes inside any JARs in the directory
         for jar in "$path"/*.jar; do
             [ -f "$jar" ] || continue
             local jar_count
-            jar_count=$(jar tf "$jar" 2>/dev/null | grep '\.class$' | grep -c "^$prefix" || true)
+            jar_count=$(jar tf "$jar" 2>/dev/null | grep '\.class$' | grep "^$prefix" | grep -cv '\$' || true)
             count=$(( count + jar_count ))
         done
     fi
@@ -346,7 +347,7 @@ run_verify() {
 
     wait "$java_pid" || rc=$?
     if [ "$rc" -ne 0 ] && [ "$rc" -ne 2 ]; then
-        echo "Verification failed with exit code $rc). Log: $log_file"
+        echo "Verification failed (exit code $rc). Log: $log_file"
         return "$rc"
     fi
     rm -f "$log_file"
