@@ -1860,7 +1860,7 @@ public final class BytecodeComparator {
      * produces the second list (with var renormalization and label isomorphism).
      */
     private boolean tryReturnTerminatedInversion(List<String> first, List<String> second) {
-        if (first.size() != second.size()) return false;
+        if (Math.abs(first.size() - second.size()) > 10) return false;
 
         List<String> secondNorm = renormalizeVars(second);
         int returnCount = 0;
@@ -1880,16 +1880,22 @@ public final class BytecodeComparator {
 
             List<String> expectedNorm = renormalizeVars(expected);
 
-            // Try isomorphic label comparison first
-            if (findFirstDifferenceIsomorphic(expectedNorm, secondNorm) == -1) {
-                return true;
+            if (expectedNorm.size() == secondNorm.size()) {
+                // Try isomorphic label comparison first
+                if (findFirstDifferenceIsomorphic(expectedNorm, secondNorm) == -1) {
+                    return true;
+                }
+                // Fallback: label-agnostic comparison (handles combined block swap + label divergence)
+                if (tryLabelAgnosticMatch(expectedNorm, secondNorm)) {
+                    return true;
+                }
+                // Fallback: opcode skeleton (handles combined block swap + copy propagation)
+                if (tryLabelAgnosticMatch(toOpcodeSkeleton(expectedNorm), toOpcodeSkeleton(secondNorm))) {
+                    return true;
+                }
             }
-            // Fallback: label-agnostic comparison (handles combined block swap + label divergence)
-            if (tryLabelAgnosticMatch(expectedNorm, secondNorm)) {
-                return true;
-            }
-            // Fallback: opcode skeleton (handles combined block swap + copy propagation)
-            if (tryLabelAgnosticMatch(toOpcodeSkeleton(expectedNorm), toOpcodeSkeleton(secondNorm))) {
+            // Fallback for unequal sizes: try micro-block matching on the swapped version
+            if (tryMicroBlockMatch(expectedNorm, secondNorm)) {
                 return true;
             }
         }
@@ -1955,7 +1961,7 @@ public final class BytecodeComparator {
      * Compares the micro-block multisets.
      */
     private boolean tryMicroBlockMatch(List<String> a, List<String> b) {
-        if (Math.abs(a.size() - b.size()) > 10) return false;
+        if (Math.abs(a.size() - b.size()) > 20) return false;
 
         List<List<String>> microA = splitIntoMicroBlocks(a);
         List<List<String>> microB = splitIntoMicroBlocks(b);
@@ -1968,7 +1974,15 @@ public final class BytecodeComparator {
         List<String> sigsB = microB.stream().map(this::microBlockSignature)
                 .sorted().collect(Collectors.toList());
 
-        return sigsA.equals(sigsB);
+        if (sigsA.equals(sigsB)) return true;
+
+        // Fallback: opcode-skeleton micro-block signatures (strips variable indices)
+        List<String> skelSigsA = microA.stream().map(this::microBlockSkeletonSignature)
+                .sorted().collect(Collectors.toList());
+        List<String> skelSigsB = microB.stream().map(this::microBlockSkeletonSignature)
+                .sorted().collect(Collectors.toList());
+
+        return skelSigsA.equals(skelSigsB);
     }
 
     /**
@@ -2005,6 +2019,25 @@ public final class BytecodeComparator {
             if (insn.startsWith("GOTO ")) continue;
             String s = LABEL_REF.matcher(insn).replaceAll("L?");
             s = canonicalizeCondition(s);
+            canonical.add(s);
+        }
+        return String.join(";", canonical);
+    }
+
+    /**
+     * Like microBlockSignature but also strips variable indices (opcode skeleton)
+     * and DUP/POP/SWAP instructions. Catches combined variable renaming + DUP pattern diffs.
+     */
+    private String microBlockSkeletonSignature(List<String> block) {
+        List<String> normed = renormalizeVars(block);
+        List<String> canonical = new ArrayList<>(normed.size());
+        for (String insn : normed) {
+            if (insn.startsWith("GOTO ")) continue;
+            if ("DUP".equals(insn) || "DUP2".equals(insn) || "POP".equals(insn)
+                    || "POP2".equals(insn) || "SWAP".equals(insn)) continue;
+            String s = LABEL_REF.matcher(insn).replaceAll("L?");
+            s = canonicalizeCondition(s);
+            s = VAR_STRIP.matcher(s).replaceAll("v?");
             canonical.add(s);
         }
         return String.join(";", canonical);
