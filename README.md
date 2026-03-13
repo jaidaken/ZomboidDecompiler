@@ -66,6 +66,8 @@ Downloads for the latest version supporting certain game versions are listed her
 | 42.13.0–latest  | [latest](https://github.com/demiurgeQuantified/ZomboidDecompiler/releases/latest)     |
 | unknown–42.12.3 | [v0.2.3](https://github.com/demiurgeQuantified/ZomboidDecompiler/releases/tag/v0.2.3) |
 
+This fork has been used specifically for decompiling **Build 41**. The post-decompilation transforms and bytecode verification were developed against Build 41 bytecode.
+
 ## Command Line Interface
 Launch with ``-h`` or ``--help`` for information about command line parameters.
 
