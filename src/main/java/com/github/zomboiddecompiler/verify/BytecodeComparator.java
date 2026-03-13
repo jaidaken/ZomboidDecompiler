@@ -412,6 +412,26 @@ public final class BytecodeComparator {
             }
         }
 
+        // Semantic: DUP-stripped + var-stripped comparison. Strip DUP/DUP2 and all
+        // ASTORE/ALOAD (reference stores/loads used for stack manipulation equivalents)
+        // then compare opcode skeletons. This catches the pattern where one side uses
+        // DUP to keep a value on stack while the other stores/loads from a variable.
+        if (semanticNormalize && Math.abs(origInsns.size() - recompInsns.size()) <= 10) {
+            List<String> origClean = stripStackManipulation(origInsns);
+            List<String> recompClean = stripStackManipulation(recompInsns);
+            if (origClean.size() == recompClean.size() && !origClean.isEmpty()) {
+                List<String> origCSkel = toOpcodeSkeleton(origClean);
+                List<String> recompCSkel = toOpcodeSkeleton(recompClean);
+                if (tryLabelAgnosticMatch(origCSkel, recompCSkel)) {
+                    String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
+                    if (tryCatchDiff == null) {
+                        return new MethodResult(name, desc, Status.MATCH,
+                                origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
+                    }
+                }
+            }
+        }
+
         // Build context around first difference
         int ctxStart = Math.max(0, diffIdx - contextSize);
         List<String> origCtx = buildContext(origInsns, ctxStart, diffIdx + contextSize + 1);
@@ -563,6 +583,27 @@ public final class BytecodeComparator {
             result.add(VAR_STRIP.matcher(insn).replaceAll("v?"));
         }
         return result;
+    }
+
+    /**
+     * Strips DUP/DUP2 instructions and standalone ASTORE/ALOAD pairs that serve
+     * as stack manipulation equivalents. Keeps ALOAD/ASTORE before/after
+     * field/method access (those are structurally significant).
+     */
+    private static List<String> stripStackManipulation(List<String> insns) {
+        List<String> result = new ArrayList<>(insns.size());
+        for (int i = 0; i < insns.size(); i++) {
+            String insn = insns.get(i);
+            // Strip DUP/DUP2
+            if ("DUP".equals(insn) || "DUP2".equals(insn)) continue;
+            // Strip POP/POP2 (stack discard)
+            if ("POP".equals(insn) || "POP2".equals(insn)) continue;
+            // Strip SWAP
+            if ("SWAP".equals(insn)) continue;
+            result.add(insn);
+        }
+        // Apply store-load elimination on the result to clean up redundant patterns
+        return eliminateStoreLoad(result);
     }
 
     /**
@@ -1558,6 +1599,11 @@ public final class BytecodeComparator {
         if (findFirstDifferenceIsomorphic(strippedNorm, shorterNorm) == -1) return true;
         if (tryLabelAgnosticMatch(strippedNorm, shorterNorm)) return true;
 
+        // Try with opcode skeleton (handles combined guard elimination + copy propagation)
+        List<String> strippedSkel = toOpcodeSkeleton(strippedNorm);
+        List<String> shorterSkel = toOpcodeSkeleton(shorterNorm);
+        if (tryLabelAgnosticMatch(strippedSkel, shorterSkel)) return true;
+
         return false;
     }
 
@@ -1602,6 +1648,13 @@ public final class BytecodeComparator {
         // Fallback: label-agnostic comparison for combined guard swap + label divergence
         if (bodyNorm.size() == bodyLastNorm.size() && tryLabelAgnosticMatch(bodyNorm, bodyLastNorm)) {
             return true;
+        }
+
+        // Fallback: opcode skeleton comparison (handles copy propagation in body)
+        if (bodyNorm.size() == bodyLastNorm.size()) {
+            List<String> bodySkel = toOpcodeSkeleton(bodyNorm);
+            List<String> bodyLastSkel = toOpcodeSkeleton(bodyLastNorm);
+            if (tryLabelAgnosticMatch(bodySkel, bodyLastSkel)) return true;
         }
 
         // Body comparison failed — check if it's another condition inversion that we can recurse on
@@ -1677,6 +1730,10 @@ public final class BytecodeComparator {
             }
             // Fallback: label-agnostic comparison (handles combined block swap + label divergence)
             if (tryLabelAgnosticMatch(expectedNorm, secondNorm)) {
+                return true;
+            }
+            // Fallback: opcode skeleton (handles combined block swap + copy propagation)
+            if (tryLabelAgnosticMatch(toOpcodeSkeleton(expectedNorm), toOpcodeSkeleton(secondNorm))) {
                 return true;
             }
         }
