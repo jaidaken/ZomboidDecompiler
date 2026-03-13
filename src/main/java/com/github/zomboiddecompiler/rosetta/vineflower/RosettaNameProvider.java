@@ -51,22 +51,29 @@ public class RosettaNameProvider extends AbstractRosettaNameProvider {
         }
 
         Map<VarVersionPair, VarType> unknownVariables = new LinkedHashMap<>();
+        Map<VarVersionPair, String> parameterNames = new LinkedHashMap<>();
         Set<String> takenNames = new HashSet<>();
 
         for (var entry : variables.entrySet()) {
             VarVersionPair pair = entry.getKey();
             int index = getTrueVariableIndex(pair.var);
 
-            // don't rename parameters, renameParameter already got them
-            if (index >= executable.getParameters().size()) {
-                // FIXME: i really don't know why this is null now and it probably breaks stuff with obfuscated code
+            if (index >= 0 && index < executable.getParameters().size()) {
+                // Parameter: add Rosetta name so body references match the signature
+                String paramName = executable.getParameters().get(index).getName();
+                paramName = VineflowerUtils.renameParameterIfNeeded(vineflowerClass, paramName);
+                parameterNames.put(pair, paramName);
+                takenNames.add(paramName);
+            } else {
                 if (entry.getValue().a != null) {
                     unknownVariables.put(pair, entry.getValue().a);
                 }
             }
         }
 
-        return assignUnknownVariableNames(unknownVariables, takenNames);
+        Map<VarVersionPair, String> result = assignUnknownVariableNames(unknownVariables, takenNames);
+        result.putAll(parameterNames);
+        return result;
     }
 
     @Override
