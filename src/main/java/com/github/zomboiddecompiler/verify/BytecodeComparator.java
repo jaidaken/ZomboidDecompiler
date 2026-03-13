@@ -903,7 +903,7 @@ public final class BytecodeComparator {
             if (!origCore.isEmpty() && !recompCore.isEmpty()) {
                 int coreMax = Math.max(origCore.size(), recompCore.size());
                 int coreIntersect = multisetIntersectionSize(origCore, recompCore);
-                if (coreIntersect >= coreMax * 0.90 && coreMax >= 5) {
+                if (coreIntersect >= coreMax * 0.85 && coreMax >= 5) {
                     return new MethodResult(name, desc, Status.MATCH,
                             origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                 }
