@@ -10,11 +10,21 @@ BUILDS_DIR="$(cd "$PROJECT_DIR/.." && pwd)"
 VENV_PYTHON="$PROJECT_DIR/.venv/bin/python3"
 GENERATE_SCRIPT="$SCRIPT_DIR/generate_progress_image.py"
 
-# Use the Zulu JDK from tools if available, otherwise fall back to system java
+# Zulu JDK paths — scripts override JAVA_BIN / JAVAC_BIN for their target version
+ZULU17_HOME="$BUILDS_DIR/tools/zulu-jdk-17.0.1"
+ZULU25_HOME="$BUILDS_DIR/tools/zulu-jdk-25.0.1"
+
+# Test dependency JARs (JUnit, Hamcrest) — game ships test classes that need these
+TOOLS_DIR="$BUILDS_DIR/tools"
+JUNIT_JAR="$TOOLS_DIR/junit-4.13.2.jar"
+HAMCREST_JAR="$TOOLS_DIR/hamcrest-core-1.3.jar"
+
+# Default to Zulu 17 (build 41 / decompiler toolchain)
 JAVA_BIN="java"
-ZULU_JAVA="$BUILDS_DIR/tools/zulu-jdk-17.0.1/bin/java"
-if [ -x "$ZULU_JAVA" ]; then
-    JAVA_BIN="$ZULU_JAVA"
+JAVAC_BIN="javac"
+if [ -x "$ZULU17_HOME/bin/java" ]; then
+    JAVA_BIN="$ZULU17_HOME/bin/java"
+    JAVAC_BIN="$ZULU17_HOME/bin/javac"
 fi
 
 # Ensure the project is built
@@ -42,6 +52,143 @@ ensure_venv() {
     fi
 }
 
+# ── Progress display helpers ──────────────────────────────────────────
+
+# Spinner with elapsed time — runs until the given PID exits.
+# Usage: spinner <pid> <message>
+spinner() {
+    local pid="$1"
+    local msg="$2"
+    local chars='|/-\'
+    local start=$SECONDS
+    local i=0
+
+    # Hide cursor
+    tput civis 2>/dev/null || true
+
+    while kill -0 "$pid" 2>/dev/null; do
+        local elapsed=$(( SECONDS - start ))
+        local mins=$(( elapsed / 60 ))
+        local secs=$(( elapsed % 60 ))
+        printf "\r  %s %s [%02d:%02d]" "${chars:i%4:1}" "$msg" "$mins" "$secs"
+        i=$(( i + 1 ))
+        sleep 0.15
+    done
+
+    local elapsed=$(( SECONDS - start ))
+    local mins=$(( elapsed / 60 ))
+    local secs=$(( elapsed % 60 ))
+    printf "\r  done  %s [%02d:%02d]%*s\n" "$msg" "$mins" "$secs" 10 ""
+
+    # Show cursor
+    tput cnorm 2>/dev/null || true
+}
+
+# Progress bar that monitors file count in a directory.
+# Usage: progress_bar <pid> <message> <total> <watch_dir> <extension>
+progress_bar() {
+    local pid="$1"
+    local msg="$2"
+    local total="$3"
+    local watch_dir="$4"
+    local ext="${5:-java}"
+    local start=$SECONDS
+    local bar_width=30
+
+    # Hide cursor
+    tput civis 2>/dev/null || true
+
+    while kill -0 "$pid" 2>/dev/null; do
+        local current=0
+        if [ -d "$watch_dir" ]; then
+            current=$(command find "$watch_dir" -name "*.$ext" 2>/dev/null | wc -l)
+        fi
+
+        local elapsed=$(( SECONDS - start ))
+        local mins=$(( elapsed / 60 ))
+        local secs=$(( elapsed % 60 ))
+
+        local pct=0
+        if [ "$total" -gt 0 ]; then
+            pct=$(( current * 100 / total ))
+        fi
+        if [ "$pct" -gt 100 ]; then
+            pct=100
+        fi
+
+        local filled=$(( pct * bar_width / 100 ))
+        local empty=$(( bar_width - filled ))
+
+        local bar=""
+        local j
+        for (( j = 0; j < filled; j++ )); do bar+="#"; done
+        for (( j = 0; j < empty; j++ ));  do bar+="."; done
+
+        printf "\r  %s [%s] %d/%d (%d%%) [%02d:%02d]" \
+            "$msg" "$bar" "$current" "$total" "$pct" "$mins" "$secs"
+        sleep 1
+    done
+
+    # Final count
+    local current=0
+    if [ -d "$watch_dir" ]; then
+        current=$(command find "$watch_dir" -name "*.$ext" 2>/dev/null | wc -l)
+    fi
+    local elapsed=$(( SECONDS - start ))
+    local mins=$(( elapsed / 60 ))
+    local secs=$(( elapsed % 60 ))
+
+    local pct=0
+    if [ "$total" -gt 0 ]; then
+        pct=$(( current * 100 / total ))
+    fi
+    if [ "$pct" -gt 100 ]; then
+        pct=100
+    fi
+
+    local filled=$(( pct * bar_width / 100 ))
+    local empty=$(( bar_width - filled ))
+    local bar=""
+    local j
+    for (( j = 0; j < filled; j++ )); do bar+="#"; done
+    for (( j = 0; j < empty; j++ ));  do bar+="."; done
+
+    printf "\r  %s [%s] %d/%d (%d%%) [%02d:%02d]%*s\n" \
+        "$msg" "$bar" "$current" "$total" "$pct" "$mins" "$secs" 5 ""
+
+    # Show cursor
+    tput cnorm 2>/dev/null || true
+}
+
+# Count .class files in a directory or JAR matching the zombie.* pattern.
+# For directories, counts loose .class files plus classes inside any JARs.
+# Usage: count_classes <path> [pattern_prefix]
+count_classes() {
+    local path="$1"
+    local prefix="${2:-zombie/}"
+    local count=0
+
+    if [ -f "$path" ] && [[ "$path" == *.jar ]]; then
+        count=$(jar tf "$path" 2>/dev/null | grep '\.class$' | grep -c "^$prefix" || echo 0)
+    elif [ -d "$path" ]; then
+        # Count loose .class files under the prefix directory
+        if [ -d "$path/$prefix" ]; then
+            count=$(command find "$path/$prefix" -name "*.class" 2>/dev/null | wc -l)
+        fi
+        # Also count matching classes inside any JARs in the directory
+        for jar in "$path"/*.jar; do
+            [ -f "$jar" ] || continue
+            local jar_count
+            jar_count=$(jar tf "$jar" 2>/dev/null | grep '\.class$' | grep -c "^$prefix" || echo 0)
+            count=$(( count + jar_count ))
+        done
+    fi
+
+    echo "$count"
+}
+
+# ── Core operations ───────────────────────────────────────────────────
+
 run_decompile() {
     local input_path="$1"
     local output_path="$2"
@@ -51,11 +198,119 @@ run_decompile() {
     local module_path
     module_path="$(get_module_path)"
 
-    echo "Decompiling $input_path -> $output_path ..."
+    # Clean and recreate output
+    rm -rf "$output_path"
+    mkdir -p "$output_path"
+
+    local total
+    total="$(count_classes "$input_path")"
+    echo "Decompiling $input_path -> $output_path ($total classes)"
+
+    local log_file
+    log_file=$(mktemp)
+
     "$JAVA_BIN" \
         --module-path "$module_path" \
         --module com.github.zomboiddecompiler/com.github.zomboiddecompiler.commands.Decompile \
-        "$input_path" "$output_path" "$@"
+        "$input_path" "$output_path" "$@" > "$log_file" 2>&1 &
+    local java_pid=$!
+
+    if [ "$total" -gt 0 ]; then
+        progress_bar "$java_pid" "Decompiling" "$total" "$output_path/source" "java"
+    else
+        spinner "$java_pid" "Decompiling"
+    fi
+
+    local rc=0
+    wait "$java_pid" || rc=$?
+
+    if [ "$rc" -ne 0 ]; then
+        echo "  Decompilation failed (exit code $rc). Log: $log_file"
+        return "$rc"
+    fi
+    rm -f "$log_file"
+}
+
+run_recompile() {
+    local source_dir="$1"
+    local output_dir="$2"
+    local game_dir="$3"
+    shift 3
+    local extra_cp=("$@")
+
+    # Build classpath from game JARs
+    local cp=""
+    for jar in "$game_dir"/*.jar; do
+        [ -f "$jar" ] || continue
+        cp="${cp:+$cp:}$jar"
+    done
+
+    # For loose-class builds, add the game dir itself so non-decompiled classes resolve
+    if [ -d "$game_dir/zombie" ]; then
+        cp="${cp:+$cp:}$game_dir"
+    fi
+
+    # Add any extra classpath entries (e.g. copied projectzomboid.jar in Decompiled-src)
+    for entry in "${extra_cp[@]+${extra_cp[@]}}"; do
+        [ -n "$entry" ] && cp="${cp:+$cp:}$entry"
+    done
+
+    # Add test dependency JARs if available (game ships test classes that need JUnit)
+    [ -f "$JUNIT_JAR" ] && cp="${cp:+$cp:}$JUNIT_JAR"
+    [ -f "$HAMCREST_JAR" ] && cp="${cp:+$cp:}$HAMCREST_JAR"
+
+    # Collect source files
+    local src_list
+    src_list=$(mktemp)
+    command find "$source_dir" -name "*.java" > "$src_list"
+    local total
+    total=$(wc -l < "$src_list")
+
+    if [ "$total" -eq 0 ]; then
+        echo "No .java files found in $source_dir"
+        rm -f "$src_list"
+        return 1
+    fi
+
+    # Clean and recreate output
+    rm -rf "$output_dir"
+    mkdir -p "$output_dir"
+
+    echo "Recompiling $total source files -> $output_dir"
+
+    local log_file
+    log_file=$(mktemp)
+
+    "$JAVAC_BIN" \
+        -d "$output_dir" \
+        -cp "$cp" \
+        -source "${JAVAC_SOURCE_VERSION:-17}" -target "${JAVAC_TARGET_VERSION:-17}" \
+        -proc:none \
+        -nowarn \
+        -implicit:class \
+        "@$src_list" > "$log_file" 2>&1 &
+    local javac_pid=$!
+
+    spinner "$javac_pid" "Compiling $total files"
+
+    local rc=0
+    wait "$javac_pid" || rc=$?
+
+    local compiled
+    compiled=$(command find "$output_dir" -name "*.class" 2>/dev/null | wc -l)
+
+    if [ "$rc" -ne 0 ]; then
+        local errors
+        errors=$(grep -c "^.*\.java:[0-9]*: error:" "$log_file" 2>/dev/null || echo 0)
+        echo "  Compilation finished with errors ($errors errors, $compiled classes produced)"
+        echo "  Error log: $log_file"
+    else
+        echo "  Compiled successfully ($compiled classes)"
+        rm -f "$log_file"
+    fi
+
+    rm -f "$src_list"
+    return "$rc"
 }
 
 run_verify() {
@@ -70,15 +325,24 @@ run_verify() {
     echo "Running bytecode verification..."
     # Exit code 2 = mismatches found (expected, not an error)
     local rc=0
+    local log_file
+    log_file=$(mktemp)
+
     "$JAVA_BIN" \
         --module-path "$module_path" \
         --module com.github.zomboiddecompiler/com.github.zomboiddecompiler.commands.Verify \
         "$original" "$recompiled" \
-        --semantic --summary-only --json-report "$report_path" || rc=$?
+        --semantic --summary-only --json-report "$report_path" > "$log_file" 2>&1 &
+    local java_pid=$!
+
+    spinner "$java_pid" "Verifying bytecode"
+
+    wait "$java_pid" || rc=$?
     if [ "$rc" -ne 0 ] && [ "$rc" -ne 2 ]; then
-        echo "Verification failed with exit code $rc"
+        echo "Verification failed with exit code $rc). Log: $log_file"
         return "$rc"
     fi
+    rm -f "$log_file"
 }
 
 generate_image() {
@@ -88,6 +352,78 @@ generate_image() {
 
     ensure_venv
 
-    echo "Generating progress image..."
-    "$VENV_PYTHON" "$GENERATE_SCRIPT" "$report_path" "$output_path" "$title"
+    "$VENV_PYTHON" "$GENERATE_SCRIPT" "$report_path" "$output_path" "$title" &
+    local py_pid=$!
+
+    spinner "$py_pid" "Generating progress image"
+
+    wait "$py_pid"
+    echo "  Image saved to $output_path"
+}
+
+# Launch Project Zomboid from a game directory.
+# Usage: run_game <game_dir> [extra_classpath_prefix]
+#
+# When extra_classpath_prefix is given, those entries are prepended to the
+# classpath so recompiled classes take priority over originals.
+run_game() {
+    local game_dir="$1"
+    local extra_cp="${2:-}"
+
+    local config="$game_dir/ProjectZomboid64.json"
+    if [ ! -f "$config" ]; then
+        echo "Launch config not found: $config"
+        return 1
+    fi
+
+    local game_java="$game_dir/jre64/bin/java"
+    if [ ! -x "$game_java" ]; then
+        echo "Bundled JRE not found: $game_java"
+        return 1
+    fi
+
+    # Parse classpath from JSON config
+    local cp
+    cp=$(python3 -c "
+import json, sys
+cfg = json.load(open('$config'))
+print(':'.join(cfg.get('classpath', ['.'])))
+")
+
+    # Prepend extra classpath if provided (recompiled classes)
+    if [ -n "$extra_cp" ]; then
+        cp="$extra_cp:$cp"
+    fi
+
+    # Parse VM args from JSON config
+    local vm_args
+    vm_args=$(python3 -c "
+import json, sys
+cfg = json.load(open('$config'))
+print(' '.join(cfg.get('vmArgs', [])))
+")
+
+    # Parse main class (convert slashes to dots)
+    local main_class
+    main_class=$(python3 -c "
+import json, sys
+cfg = json.load(open('$config'))
+print(cfg['mainClass'].replace('/', '.'))
+")
+
+    # Disable Steam integration (not running from Steam)
+    vm_args="$vm_args -Dzomboid.steam=0"
+
+    echo "Game dir:    $game_dir"
+    echo "JRE:         $game_java"
+    echo "Main class:  $main_class"
+    echo "Classpath:   $cp"
+    echo ""
+
+    cd "$game_dir"
+    exec "$game_java" \
+        -cp "$cp" \
+        $vm_args \
+        "$main_class" \
+        "$@"
 }

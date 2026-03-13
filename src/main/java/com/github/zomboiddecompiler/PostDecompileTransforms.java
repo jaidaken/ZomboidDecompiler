@@ -23,6 +23,7 @@ public final class PostDecompileTransforms {
         // Original postprocess.py fixes
         content = fixInstanceofPatternScope(content);
         content = fixAssertionsDisabled(content);
+        content = fixAssertKeywordToExplicit(content);
         content = fixDuplicateInstanceofPatternVars(content);
         content = fixByteCounterVars(content);
         content = fixBooleanCanonicalization(content);
@@ -60,6 +61,7 @@ public final class PostDecompileTransforms {
         content = fixSpecificFileErrors(content);
         content = fixWrongStringCastOnGet(content);
         content = fixTableNameNullGuardPattern(content);
+        content = fixSandboxFromToTable(content);
         content = fixShortBufferPutMissingCast(content);
         // Binary compatibility: warn about public method return types
         content = addBinaryCompatWarnings(content);
@@ -69,6 +71,9 @@ public final class PostDecompileTransforms {
         // Bytecode-matching transforms
         content = fixItemContainerTryFinallyReturn(content);
         content = fixZomboidHashMapEntryKeyReread(content);
+        content = fixIsoFireRandNextFolding(content);
+        content = fixUIServerToolboxFloatCast(content);
+        content = fixMPStatisticRawsetOverload(content);
         return content;
     }
 
@@ -242,6 +247,41 @@ public final class PostDecompileTransforms {
         content = content.substring(0, insertPos) + field + content.substring(insertPos);
         content = content.replace("$assertionsDisabled", "_assertionsDisabled");
         return content;
+    }
+
+    // ========================================================================
+    // Fix 2b: Convert assert keyword to explicit _assertionsDisabled checks
+    // ========================================================================
+    // When a file has both an explicit _assertionsDisabled field AND assert
+    // keywords, javac synthesizes a SECOND $assertionsDisabled field for the
+    // assert statements. This causes duplicate initialization in <clinit>.
+    // Fix: convert "assert X;" to explicit "if (!_assertionsDisabled && !(X))
+    // { throw new AssertionError(); }" so javac doesn't synthesize the duplicate.
+
+    private static final Pattern ASSERT_STMT = Pattern.compile(
+            "^(\\s*)assert (.+);\\s*$"
+    );
+
+    private static String fixAssertKeywordToExplicit(String content) {
+        // Only applies to files that have an explicit _assertionsDisabled field
+        // AND assert statements (otherwise no duplication)
+        if (!content.contains("_assertionsDisabled")) return content;
+        if (!content.contains("\nassert ") && !content.contains(" assert ")) return content;
+
+        String[] lines = content.split("\n", -1);
+        boolean modified = false;
+
+        for (int i = 0; i < lines.length; i++) {
+            Matcher m = ASSERT_STMT.matcher(lines[i]);
+            if (m.matches()) {
+                String indent = m.group(1);
+                String condition = m.group(2);
+                lines[i] = indent + "if (!_assertionsDisabled && !(" + condition + ")) { throw new AssertionError(); }";
+                modified = true;
+            }
+        }
+
+        return modified ? String.join("\n", lines) : content;
     }
 
     // ========================================================================
@@ -2892,6 +2932,82 @@ public final class PostDecompileTransforms {
     }
 
     // ========================================================================
+    // Fix: SandboxOptions fromTable/toTable bytecode-matching rewrites
+    // ========================================================================
+    // Vineflower decompiles fromTable with a double rawget call and no early return:
+    //   if (this.tableName != null && tablex.rawget(this.tableName) instanceof KahluaTable) {
+    //       tablex = (KahluaTable)tablex.rawget(this.tableName);
+    //   }
+    // The original bytecode stores rawget to a local, checks instanceof, and returns
+    // early if it's not a KahluaTable. The double rawget also produces extra invoke bytecodes.
+    //
+    // toTable is even worse — the guard is inverted (!(... instanceof KahluaTable))
+    // then immediately casts to KahluaTable, which would ClassCastException. The
+    // original creates a new sub-table when one doesn't exist, or reuses the existing one.
+
+    private static String fixSandboxFromToTable(String content) {
+        if (!content.contains("class SandboxOptions")) return content;
+
+        // fromTable: 5 identical occurrences across inner classes
+        String oldFromTable =
+                "        public void fromTable(KahluaTable tablex) {\n" +
+                "            if (this.tableName != null && tablex.rawget(this.tableName) instanceof KahluaTable) {\n" +
+                "                tablex = (KahluaTable)tablex.rawget(this.tableName);\n" +
+                "            }\n" +
+                "            var object = tablex.rawget(this.getShortName());\n" +
+                "            if (object != null) {\n" +
+                "                this.setValueFromObject(object);\n" +
+                "            }\n" +
+                "        }";
+        String newFromTable =
+                "        public void fromTable(KahluaTable tablex) {\n" +
+                "            if (this.tableName != null) {\n" +
+                "                Object var2 = tablex.rawget(this.tableName);\n" +
+                "                if (var2 instanceof KahluaTable) {\n" +
+                "                    tablex = (KahluaTable)var2;\n" +
+                "                } else {\n" +
+                "                    return;\n" +
+                "                }\n" +
+                "            }\n" +
+                "            Object object = tablex.rawget(this.getShortName());\n" +
+                "            if (object != null) {\n" +
+                "                this.setValueFromObject(object);\n" +
+                "            }\n" +
+                "        }";
+        content = content.replace(oldFromTable, newFromTable);
+
+        // toTable: 5 identical occurrences across inner classes
+        String oldToTable =
+                "        public void toTable(KahluaTable table0x) {\n" +
+                "            if (this.tableName != null && !(table0x.rawget(this.tableName) instanceof KahluaTable)) {\n" +
+                "                KahluaTable _table0x = (KahluaTable)table0x.rawget(this.tableName);\n" +
+                "                KahluaTable table1 = LuaManager.platform.newTable();\n" +
+                "                _table0x.rawset(this.tableName, table1);\n" +
+                "                _table0x = table1;\n" +
+                "            }\n" +
+                "\n" +
+                "            table0x.rawset(this.getShortName(), this.getValueAsObject());\n" +
+                "        }";
+        String newToTable =
+                "        public void toTable(KahluaTable table0x) {\n" +
+                "            if (this.tableName != null) {\n" +
+                "                Object var2 = table0x.rawget(this.tableName);\n" +
+                "                if (var2 instanceof KahluaTable) {\n" +
+                "                    table0x = (KahluaTable)var2;\n" +
+                "                } else {\n" +
+                "                    KahluaTable table1 = LuaManager.platform.newTable();\n" +
+                "                    table0x.rawset(this.tableName, table1);\n" +
+                "                    table0x = table1;\n" +
+                "                }\n" +
+                "            }\n" +
+                "            table0x.rawset(this.getShortName(), this.getValueAsObject());\n" +
+                "        }";
+        content = content.replace(oldToTable, newToTable);
+
+        return content;
+    }
+
+    // ========================================================================
     // Binary compatibility: annotate public methods with collection return types
     // ========================================================================
 
@@ -3143,5 +3259,74 @@ public final class PostDecompileTransforms {
         }
         matcher.appendTail(sb);
         return sb.toString();
+    }
+
+    // ========================================================================
+    // Fix: IsoFire Rand.Next constant folding
+    // ========================================================================
+    // Vineflower decompiles "-16 + -16 + Rand.Next(32)" which javac constant-folds
+    // the first two constants into -32. The original bytecode has separate BIPUSH -16
+    // instructions because -16 + Rand.Next(32) is a sub-expression. Fix by adding
+    // parentheses to force the correct evaluation order.
+
+    private static String fixIsoFireRandNextFolding(String content) {
+        if (!content.contains("class IsoFire")) return content;
+
+        content = content.replace(
+                "-16 + -16 + Rand.Next(32)",
+                "-16 + (-16 + Rand.Next(32))"
+        );
+        content = content.replace(
+                "-85 + -16 + Rand.Next(32)",
+                "-85 + (-16 + Rand.Next(32))"
+        );
+        return content;
+    }
+
+    // ========================================================================
+    // Fix: UIServerToolbox DialogButton float→int cast
+    // ========================================================================
+    // Vineflower decompiles integer constants as (float)30, (float)225 etc., but
+    // the original bytecode uses BIPUSH 30, SIPUSH 225 (int push). The float
+    // overload of DialogButton is called instead of the int overload.
+    // Fix: cast `this` to UIEventHandler and remove float casts.
+
+    // ========================================================================
+    // Fix: MPStatistic rawset overload — (Object)int cast forces wrong overload
+    // ========================================================================
+    // KahluaTable has rawset(int, Object) and rawset(Object, Object).
+    // Vineflower decompiles as rawset((Object)int2, ...) which autoboxes the int
+    // and calls rawset(Object, Object). Original bytecode calls rawset(int, Object).
+    // Fix: remove the (Object) cast so the int overload is selected.
+
+    private static String fixMPStatisticRawsetOverload(String content) {
+        if (!content.contains("class MPStatistic")) return content;
+        content = content.replace(
+                "table4.rawset((Object)int2, (double)udpConnection.statistic.FPSHistogramm[int2])",
+                "table4.rawset(int2, (Object)(double)udpConnection.statistic.FPSHistogramm[int2])"
+        );
+        return content;
+    }
+
+    // ========================================================================
+    // Fix: UIServerToolbox DialogButton float→int cast
+    // ========================================================================
+    // Vineflower decompiles integer constants as (float)30, (float)225 etc., but
+    // the original bytecode uses BIPUSH 30, SIPUSH 225 (int push). The float
+    // overload of DialogButton is called instead of the int overload.
+    // Fix: cast `this` to UIEventHandler and remove float casts.
+
+    private static String fixUIServerToolboxFloatCast(String content) {
+        if (!content.contains("class UIServerToolbox")) return content;
+
+        content = content.replace(
+                "new DialogButton(this, (float)30, (float)225",
+                "new DialogButton((UIEventHandler)this, 30, 225"
+        );
+        content = content.replace(
+                "new DialogButton(this, (float)80, (float)225",
+                "new DialogButton((UIEventHandler)this, 80, 225"
+        );
+        return content;
     }
 }

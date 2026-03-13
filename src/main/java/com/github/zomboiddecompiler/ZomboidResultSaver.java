@@ -37,6 +37,12 @@ public final class ZomboidResultSaver implements IResultSaver {
     public void saveClassEntry(String path, String archiveName, String qualifiedName, String entryName, String content) {
         Path entryPath = this.root.resolve(entryName);
 
+        try {
+            Files.createDirectories(entryPath.getParent());
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to create parent directory for " + entryPath, e);
+        }
+
         try (BufferedWriter writer = Files.newBufferedWriter(entryPath)) {
             if (content != null) {
                 content = PostDecompileTransforms.apply(content);
@@ -84,6 +90,12 @@ public final class ZomboidResultSaver implements IResultSaver {
     @Override
     public void saveClassFile(String path, String qualifiedName, String entryName, String content, int[] mapping) {
         Path entryPath = this.root.resolve(path).resolve(entryName);
+
+        try {
+            Files.createDirectories(entryPath.getParent());
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to create parent directory for " + entryPath, e);
+        }
 
         try (BufferedWriter writer = Files.newBufferedWriter(entryPath)) {
             if (content != null) {

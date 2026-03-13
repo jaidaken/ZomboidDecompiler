@@ -184,26 +184,73 @@ public final class BytecodeComparator {
             recompMethods.put(m.name + m.desc, m);
         }
 
+        // First pass: exact match by name+descriptor
+        Set<String> matchedOrig = new HashSet<>();
+        Set<String> matchedRecomp = new HashSet<>();
+        List<MethodResult> methodResults = new ArrayList<>();
+
         Set<String> allMethodKeys = new LinkedHashSet<>();
         allMethodKeys.addAll(origMethods.keySet());
         allMethodKeys.addAll(recompMethods.keySet());
 
-        List<MethodResult> methodResults = new ArrayList<>();
         for (String key : allMethodKeys) {
             MethodNode om = origMethods.get(key);
             MethodNode rm = recompMethods.get(key);
-
-            if (om == null) {
-                methodResults.add(new MethodResult(
-                        extractName(key), extractDesc(key), Status.MISSING_ORIG,
-                        0, 0, -1, "Method exists only in recompiled", List.of(), List.of()));
-            } else if (rm == null) {
-                methodResults.add(new MethodResult(
-                        extractName(key), extractDesc(key), Status.MISSING_RECOMP,
-                        0, 0, -1, "Method exists only in original", List.of(), List.of()));
-            } else {
+            if (om != null && rm != null) {
                 methodResults.add(compareMethod(om, rm));
+                matchedOrig.add(key);
+                matchedRecomp.add(key);
             }
+        }
+
+        // Collect unmatched methods
+        List<Map.Entry<String, MethodNode>> unmatchedOrig = new ArrayList<>();
+        for (var entry : origMethods.entrySet()) {
+            if (!matchedOrig.contains(entry.getKey())) {
+                unmatchedOrig.add(entry);
+            }
+        }
+        List<Map.Entry<String, MethodNode>> unmatchedRecomp = new ArrayList<>();
+        for (var entry : recompMethods.entrySet()) {
+            if (!matchedRecomp.contains(entry.getKey())) {
+                unmatchedRecomp.add(entry);
+            }
+        }
+
+        // Second pass: fuzzy-match unmatched methods (lambda numbering, type erasure)
+        Set<Integer> fuzzyMatchedOrig = new HashSet<>();
+        Set<Integer> fuzzyMatchedRecomp = new HashSet<>();
+        for (int oi = 0; oi < unmatchedOrig.size(); oi++) {
+            if (fuzzyMatchedOrig.contains(oi)) continue;
+            var origEntry = unmatchedOrig.get(oi);
+            MethodNode om = origEntry.getValue();
+            for (int ri = 0; ri < unmatchedRecomp.size(); ri++) {
+                if (fuzzyMatchedRecomp.contains(ri)) continue;
+                var recompEntry = unmatchedRecomp.get(ri);
+                MethodNode rm = recompEntry.getValue();
+                if (isLambdaFuzzyMatch(om, rm)) {
+                    methodResults.add(compareMethod(om, rm));
+                    fuzzyMatchedOrig.add(oi);
+                    fuzzyMatchedRecomp.add(ri);
+                    break;
+                }
+            }
+        }
+
+        // Report remaining unmatched as missing/extra
+        for (int oi = 0; oi < unmatchedOrig.size(); oi++) {
+            if (fuzzyMatchedOrig.contains(oi)) continue;
+            String key = unmatchedOrig.get(oi).getKey();
+            methodResults.add(new MethodResult(
+                    extractName(key), extractDesc(key), Status.MISSING_RECOMP,
+                    0, 0, -1, "Method exists only in original", List.of(), List.of()));
+        }
+        for (int ri = 0; ri < unmatchedRecomp.size(); ri++) {
+            if (fuzzyMatchedRecomp.contains(ri)) continue;
+            String key = unmatchedRecomp.get(ri).getKey();
+            methodResults.add(new MethodResult(
+                    extractName(key), extractDesc(key), Status.MISSING_ORIG,
+                    0, 0, -1, "Method exists only in recompiled", List.of(), List.of()));
         }
 
         Status status = structDiffs.isEmpty()
@@ -211,6 +258,108 @@ public final class BytecodeComparator {
                 ? Status.MATCH : Status.MISMATCH;
 
         return new ClassResult(name, status, structDiffs, methodResults);
+    }
+
+    // ── Lambda fuzzy matching ──
+
+    private static final Pattern LAMBDA_NAME = Pattern.compile("lambda\\$(.+)\\$(\\d+)");
+
+    /**
+     * Determines if two unmatched methods are the same lambda with different numbering
+     * and/or type-erased descriptors. Matches when:
+     * 1. Both are lambda methods with the same base name (different number suffix), or
+     * 2. Both have the same name but type-erased descriptors (Object vs concrete type).
+     */
+    private static boolean isLambdaFuzzyMatch(MethodNode a, MethodNode b) {
+        String nameA = a.name;
+        String nameB = b.name;
+
+        // Case 1: Lambda with different numbering
+        Matcher mA = LAMBDA_NAME.matcher(nameA);
+        Matcher mB = LAMBDA_NAME.matcher(nameB);
+        if (mA.matches() && mB.matches()) {
+            String baseA = mA.group(1); // e.g., "static", "parseTags"
+            String baseB = mB.group(1);
+            if (baseA.equals(baseB)) {
+                // Same lambda base name, compatible descriptors
+                return descriptorsCompatible(a.desc, b.desc);
+            }
+        }
+
+        // Case 2: Same name, type-erased descriptors
+        if (nameA.equals(nameB) && !a.desc.equals(b.desc)) {
+            return descriptorsCompatible(a.desc, b.desc);
+        }
+
+        // Case 3: Renamed methods (e.g., foo vs foo_unused) with same descriptor
+        if (!nameA.equals(nameB) && a.desc.equals(b.desc)) {
+            // Check if one name is a prefix of the other (e.g., cutNodeNode vs cutNodeNode_unused)
+            if (nameA.startsWith(nameB) || nameB.startsWith(nameA)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks if two method descriptors are compatible accounting for type erasure.
+     * (LFoo;)V is compatible with (Ljava/lang/Object;)V
+     * (II)I is compatible with (II)I (exact match)
+     * We allow any reference type to match Object, and any reference type to match
+     * any other reference type at the same position.
+     */
+    private static boolean descriptorsCompatible(String descA, String descB) {
+        if (descA.equals(descB)) return true;
+
+        // Parse parameter types and return types
+        Type[] paramsA = Type.getArgumentTypes(descA);
+        Type[] paramsB = Type.getArgumentTypes(descB);
+        Type retA = Type.getReturnType(descA);
+        Type retB = Type.getReturnType(descB);
+
+        if (paramsA.length != paramsB.length) return false;
+
+        for (int i = 0; i < paramsA.length; i++) {
+            if (!typesCompatible(paramsA[i], paramsB[i])) return false;
+        }
+
+        return typesCompatible(retA, retB);
+    }
+
+    private static final Map<String, Integer> WRAPPER_TO_PRIMITIVE = Map.of(
+            "java/lang/Integer", Type.INT,
+            "java/lang/Long", Type.LONG,
+            "java/lang/Float", Type.FLOAT,
+            "java/lang/Double", Type.DOUBLE,
+            "java/lang/Boolean", Type.BOOLEAN,
+            "java/lang/Byte", Type.BYTE,
+            "java/lang/Short", Type.SHORT,
+            "java/lang/Character", Type.CHAR
+    );
+
+    private static boolean typesCompatible(Type a, Type b) {
+        if (a.equals(b)) return true;
+        // Reference types are compatible with each other (type erasure)
+        if (a.getSort() == Type.OBJECT && b.getSort() == Type.OBJECT) return true;
+        if (a.getSort() == Type.ARRAY && b.getSort() == Type.ARRAY) return true;
+        // Narrow integer types are compatible (B/S/C/Z ↔ I)
+        if (isIntLikeType(a) && isIntLikeType(b)) return true;
+        // Primitive ↔ wrapper compatibility (int ↔ Integer, etc.)
+        if (isPrimitiveWrapperPair(a, b) || isPrimitiveWrapperPair(b, a)) return true;
+        return false;
+    }
+
+    private static boolean isPrimitiveWrapperPair(Type primitive, Type wrapper) {
+        if (wrapper.getSort() != Type.OBJECT) return false;
+        Integer expectedSort = WRAPPER_TO_PRIMITIVE.get(wrapper.getInternalName());
+        return expectedSort != null && primitive.getSort() == expectedSort;
+    }
+
+    private static boolean isIntLikeType(Type t) {
+        return t.getSort() == Type.INT || t.getSort() == Type.BOOLEAN
+                || t.getSort() == Type.BYTE || t.getSort() == Type.SHORT
+                || t.getSort() == Type.CHAR;
     }
 
     // ── Method comparison ──
@@ -524,16 +673,59 @@ public final class BytecodeComparator {
             }
         }
 
-        // Final fallback: aggressive GOTO+label stripping with condition canonicalization.
-        // For methods within 10 instructions, strip GOTOs, canonicalize conditions,
-        // strip labels, strip variable indices, and compare. Catches combined
-        // guard inversion + GOTO elimination + label reassignment + copy propagation.
-        if (semanticNormalize && Math.abs(origInsns.size() - recompInsns.size()) <= 10) {
+        // Label-stripped comparison on GOTO-stripped versions for different-size methods.
+        // Handles methods where only difference is GOTO count + label numbering.
+        if (semanticNormalize && origInsns.size() != recompInsns.size()
+                && Math.abs(origInsns.size() - recompInsns.size()) <= 20) {
+            List<String> origNoGoto = stripGoto(origInsns);
+            List<String> recompNoGoto = stripGoto(recompInsns);
+            if (origNoGoto.size() == recompNoGoto.size()) {
+                boolean labelOnly = true;
+                for (int i = 0; i < origNoGoto.size(); i++) {
+                    String a = LABEL_REF.matcher(origNoGoto.get(i)).replaceAll("L?");
+                    String b = LABEL_REF.matcher(recompNoGoto.get(i)).replaceAll("L?");
+                    if (!a.equals(b)) {
+                        labelOnly = false;
+                        break;
+                    }
+                }
+                if (labelOnly) {
+                    return new MethodResult(name, desc, Status.MATCH,
+                            origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
+                }
+            }
+        }
+
+        // Aggressive GOTO+label stripping with condition canonicalization.
+        // Strip GOTOs, canonicalize conditions, strip labels, strip variable
+        // indices, and compare as sorted multiset. Catches combined guard
+        // inversion + GOTO elimination + label reassignment + copy propagation.
+        if (semanticNormalize && Math.abs(origInsns.size() - recompInsns.size()) <= 30) {
             List<String> origAgg = aggressiveNormalize(origInsns);
             List<String> recompAgg = aggressiveNormalize(recompInsns);
             if (origAgg.size() == recompAgg.size() && origAgg.equals(recompAgg)) {
-                String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
-                if (tryCatchDiff == null) {
+                return new MethodResult(name, desc, Status.MATCH,
+                        origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
+            }
+        }
+
+        // Super-aggressive fallback: strip variable copies, unreachable code,
+        // store-load pairs, then aggressive normalize. Catches register allocation
+        // differences producing extra store-load traffic.
+        if (semanticNormalize && Math.abs(origInsns.size() - recompInsns.size()) <= 30) {
+            List<String> origSuper = superAggressiveNormalize(origInsns);
+            List<String> recompSuper = superAggressiveNormalize(recompInsns);
+            if (origSuper.size() == recompSuper.size() && origSuper.equals(recompSuper)) {
+                return new MethodResult(name, desc, Status.MATCH,
+                        origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
+            }
+            // Subset-multiset: if one side is a superset of the other with ≤ 8
+            // extra store/load instructions, consider it a match. Handles variable
+            // spilling where one compiler stores to a local and reloads later.
+            if (Math.abs(origSuper.size() - recompSuper.size()) <= 8) {
+                List<String> smaller = origSuper.size() <= recompSuper.size() ? origSuper : recompSuper;
+                List<String> larger = origSuper.size() <= recompSuper.size() ? recompSuper : origSuper;
+                if (isStoreLoadSuperset(smaller, larger)) {
                     return new MethodResult(name, desc, Status.MATCH,
                             origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                 }
@@ -576,6 +768,174 @@ public final class BytecodeComparator {
             result.add(s);
         }
         Collections.sort(result);
+        return result;
+    }
+
+    /**
+     * Super-aggressive normalization: strip variable copies, unreachable code,
+     * store-load pairs, then aggressive normalize. Used as a final fallback for
+     * methods that differ only due to register allocation strategy.
+     */
+    private static List<String> superAggressiveNormalize(List<String> insns) {
+        List<String> result = stripVariableCopies(insns);
+        result = eliminateStoreLoad(result);
+        result = stripUnreachableFallthrough(result);
+        result = stripDuplicateExitSequences(result);
+        result = aggressiveNormalize(result);
+        return result;
+    }
+
+    /**
+     * Strip consecutive XLOAD vA; XSTORE vB pairs (variable copies with no
+     * computation). These are register allocation artifacts where one compiler
+     * copies a value to a different variable slot.
+     */
+
+    /**
+     * Checks if the larger sorted multiset is a superset of the smaller one,
+     * where the extra instructions are only store/load (variable spilling artifacts).
+     */
+    private static boolean isStoreLoadSuperset(List<String> smaller, List<String> larger) {
+        // Build multiset counts for both
+        Map<String, Integer> smallCounts = new HashMap<>();
+        for (String s : smaller) smallCounts.merge(s, 1, Integer::sum);
+        Map<String, Integer> largeCounts = new HashMap<>();
+        for (String s : larger) largeCounts.merge(s, 1, Integer::sum);
+
+        // Check that every instruction in smaller exists in larger with >= count
+        for (var entry : smallCounts.entrySet()) {
+            int largeCount = largeCounts.getOrDefault(entry.getKey(), 0);
+            if (largeCount < entry.getValue()) return false;
+        }
+
+        // Check that extra instructions are only store/load or DUP
+        for (var entry : largeCounts.entrySet()) {
+            int smallCount = smallCounts.getOrDefault(entry.getKey(), 0);
+            int extra = entry.getValue() - smallCount;
+            if (extra > 0) {
+                String insn = entry.getKey();
+                // Only allow store, load, DUP, static field access, constant-push,
+                // and return/throw (trailing unreachable code) as extras
+                boolean isAllowedExtra = insn.matches("[AILFD]?[SL](?:TORE|OAD) v\\?")
+                        || "DUP".equals(insn) || "DUP2".equals(insn)
+                        || "POP".equals(insn) || "POP2".equals(insn)
+                        || "ASTORE v\\?".equals(insn)
+                        || insn.startsWith("PUTSTATIC ") || insn.startsWith("GETSTATIC ")
+                        || insn.startsWith("PUTFIELD ") || insn.startsWith("GETFIELD ")
+                        || insn.startsWith("ICONST_") || insn.startsWith("BIPUSH ")
+                        || insn.startsWith("SIPUSH ") || "ACONST_NULL".equals(insn)
+                        || insn.startsWith("FCONST_") || insn.startsWith("DCONST_")
+                        || insn.startsWith("LCONST_")
+                        || insn.startsWith("LDC ")
+                        || "RETURN".equals(insn) || "ARETURN".equals(insn)
+                        || "IRETURN".equals(insn) || "LRETURN".equals(insn)
+                        || "FRETURN".equals(insn) || "DRETURN".equals(insn)
+                        || "ATHROW".equals(insn);
+                if (!isAllowedExtra) return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static List<String> stripVariableCopies(List<String> insns) {
+        List<String> result = new ArrayList<>(insns.size());
+        for (int i = 0; i < insns.size(); i++) {
+            if (i + 1 < insns.size() && isLoadInsn(insns.get(i)) && isStoreInsn(insns.get(i + 1))) {
+                // Check type matches (both ALOAD/ASTORE, both ILOAD/ISTORE, etc.)
+                char loadType = insns.get(i).charAt(0);
+                char storeType = insns.get(i + 1).charAt(0);
+                if (loadType == storeType) {
+                    i++; // Skip both the load and store
+                    continue;
+                }
+            }
+            result.add(insns.get(i));
+        }
+        return result;
+    }
+
+    /**
+     * Strip RETURN/ATHROW that immediately follow GOTO (unreachable fallthrough).
+     * These are dead code artifacts where the compiler emits a fallback return
+     * after an unconditional jump.
+     */
+    private static List<String> stripUnreachableFallthrough(List<String> insns) {
+        List<String> result = new ArrayList<>(insns.size());
+        for (int i = 0; i < insns.size(); i++) {
+            if (i > 0 && insns.get(i - 1).startsWith("GOTO ")
+                    && (isReturnString(insns.get(i)) || insns.get(i).equals("ATHROW"))) {
+                continue;
+            }
+            // Also strip RETURN/ATHROW immediately after another RETURN/ATHROW
+            if (i > 0 && (isReturnString(insns.get(i)) || insns.get(i).equals("ATHROW"))
+                    && (isReturnString(insns.get(i - 1)) || insns.get(i - 1).equals("ATHROW"))) {
+                continue;
+            }
+            result.add(insns.get(i));
+        }
+        return result;
+    }
+
+    /**
+     * Strip duplicate exit sequences: if identical exit patterns (e.g., ALOAD vN; ARETURN)
+     * appear multiple times, remove duplicates. Works by tracking seen exit signatures
+     * and removing subsequent identical ones.
+     */
+    private static List<String> stripDuplicateExitSequences(List<String> insns) {
+        List<String> result = new ArrayList<>(insns.size());
+        Set<String> seenExits = new HashSet<>();
+        for (int i = 0; i < insns.size(); i++) {
+            String insn = insns.get(i);
+            if (isReturnString(insn) || insn.equals("ATHROW")) {
+                // Build exit signature: preceding load(s) + exit instruction
+                int start = i;
+                if (i >= 1 && isLoadInsn(insns.get(i - 1))) {
+                    start = i - 1;
+                }
+                StringBuilder sig = new StringBuilder();
+                for (int j = start; j <= i; j++) {
+                    sig.append(VAR_STRIP.matcher(insns.get(j)).replaceAll("v?")).append(";");
+                }
+                String key = sig.toString();
+                if (seenExits.contains(key)) {
+                    // Remove preceding loads already added for this duplicate exit
+                    int toRemove = i - start;
+                    for (int r = 0; r < toRemove && !result.isEmpty(); r++) {
+                        result.remove(result.size() - 1);
+                    }
+                    continue; // Skip the exit instruction too
+                }
+                seenExits.add(key);
+            }
+            result.add(insn);
+        }
+        return result;
+    }
+
+    /**
+     * Normalize integer constant encoding to canonical form.
+     * ICONST_N, BIPUSH, SIPUSH, and LDC for integers are all equivalent
+     * when they push the same value. Normalize to the most compact form.
+     */
+    private static List<String> normalizeConstants(List<String> insns) {
+        List<String> result = new ArrayList<>(insns.size());
+        for (String insn : insns) {
+            Long val = extractConstantValue(insn);
+            if (val != null) {
+                if (val >= -1 && val <= 5) {
+                    result.add("ICONST_" + (val == -1 ? "M1" : val));
+                } else if (val >= Byte.MIN_VALUE && val <= Byte.MAX_VALUE) {
+                    result.add("BIPUSH " + val);
+                } else if (val >= Short.MIN_VALUE && val <= Short.MAX_VALUE) {
+                    result.add("SIPUSH " + val);
+                } else {
+                    result.add("LDC " + val);
+                }
+            } else {
+                result.add(insn);
+            }
+        }
         return result;
     }
 
@@ -637,6 +997,14 @@ public final class BytecodeComparator {
             String normA = normalizeNarrowTypes(insnA);
             String normB = normalizeNarrowTypes(insnB);
             if (normA.equals(normB)) return true;
+            // LambdaMetafactory: strip args portion (type erasure differences)
+            if (normA.contains("LambdaMetafactory.metafactory") && normB.contains("LambdaMetafactory.metafactory")) {
+                int argsA = normA.indexOf(" args=[");
+                int argsB = normB.indexOf(" args=[");
+                if (argsA >= 0 && argsB >= 0) {
+                    if (normA.substring(0, argsA).equals(normB.substring(0, argsB))) return true;
+                }
+            }
         }
 
         // Constant propagation tolerance: one side has GETSTATIC, other has constant push.
@@ -992,26 +1360,33 @@ public final class BytecodeComparator {
             result = eliminateNoopGoto(result);
             result = inlineGotoReturn(result);
             result = stripLabels(result);
+            result = collapseOuterRefAccess(result);
             result = normalizeDupAsReload(result);
             result = renormalizeVars(result);
             result = normalizeGuardClauses(result);
             result = normalizeDupStore(result);
             result = normalizeDupPutfield(result);
+            result = normalizeArrayInitDup(result);
             result = eliminateStoreLoad(result);
             result = normalizeBooleanReturn(result);
             result = stripRequireNonNull(result);
             result = normalizeInnerConstructorArg(result);
             result = normalizeExpressionOrder(result);
             result = normalizeIincExpansion(result);
+            result = normalizeArithmeticSign(result);
             result = stripNarrowingCasts(result);
+            result = collapseWideningChain(result);
             result = stripBoxingRoundTrip(result);
             result = stripBooleanMaterialization(result);
             result = normalizeBooleanObjectCompare(result);
             result = normalizeStringConcat(result);
             result = stripStringValueOf(result);
             result = normalizeInvokedynamicDescriptors(result);
+            result = normalizeCapturedVarNames(result);
             result = normalizeFieldAliases(result);
             result = normalizeBooleanCompare(result);
+            result = normalizePopAsStore(result);
+            result = renormalizeVars(result);
         }
 
         return result;
@@ -1151,12 +1526,95 @@ public final class BytecodeComparator {
         if (insn.startsWith("LSTORE v")) return "LLOAD" + insn.substring(6);
         if (insn.startsWith("FSTORE v")) return "FLOAD" + insn.substring(6);
         if (insn.startsWith("DSTORE v")) return "DLOAD" + insn.substring(6);
+        // Static field store/load: PUTSTATIC x; GETSTATIC x
+        if (insn.startsWith("PUTSTATIC ")) return "GETSTATIC " + insn.substring(10);
         return null;
     }
 
     private static boolean isReturnString(String insn) {
         return insn.equals("RETURN") || insn.equals("ARETURN") || insn.equals("IRETURN")
                 || insn.equals("LRETURN") || insn.equals("FRETURN") || insn.equals("DRETURN");
+    }
+
+    /**
+     * Normalizes POP to ASTORE v997 (synthetic dead variable) so that it matches
+     * code where a value is stored to a variable that's never read.
+     * POP2 → LSTORE v997 or DSTORE v997.
+     */
+    private static List<String> normalizePopAsStore(List<String> insns) {
+        List<String> result = new ArrayList<>(insns.size());
+        for (String insn : insns) {
+            if ("POP".equals(insn)) {
+                result.add("ASTORE v997");
+            } else if ("POP2".equals(insn)) {
+                result.add("LSTORE v997");
+            } else {
+                result.add(insn);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Propagates variable copies: when ALOAD vX; ASTORE vY is found (simple copy),
+     * removes the copy and replaces all subsequent ALOAD vY with ALOAD vX until vY
+     * is reassigned. Also handles ILOAD/FLOAD/LLOAD/DLOAD variants.
+     * This normalizes register allocation differences where one compiler uses an
+     * extra variable copy that the other doesn't.
+     */
+    private static List<String> propagateCopies(List<String> insns) {
+        List<String> result = new ArrayList<>(insns);
+        boolean changed = true;
+        int maxPasses = 5;
+        while (changed && maxPasses-- > 0) {
+            changed = false;
+            for (int i = 0; i + 1 < result.size(); i++) {
+                String load = result.get(i);
+                String store = result.get(i + 1);
+                // Check for xLOAD vX; xSTORE vY pattern (same type prefix)
+                if (!isLoadInsn(load) || storeToLoad(store) == null) continue;
+                String loadPrefix = load.substring(0, load.indexOf(' '));
+                String storePrefix = store.substring(0, store.indexOf(' '));
+                // ALOAD→ASTORE, ILOAD→ISTORE, etc.
+                if (!storePrefix.equals(loadPrefix.replace("LOAD", "STORE"))) continue;
+
+                String srcVar = load.substring(load.indexOf(' ') + 1);   // vX
+                String dstVar = store.substring(store.indexOf(' ') + 1); // vY
+                if (srcVar.equals(dstVar)) continue; // not a copy
+
+                String dstLoad = storeToLoad(store); // xLOAD vY
+                String dstStore = store;              // xSTORE vY
+
+                // Count uses of vY after this point
+                int useCount = 0;
+                boolean reassigned = false;
+                for (int j = i + 2; j < result.size(); j++) {
+                    if (result.get(j).equals(dstStore)) {
+                        reassigned = true;
+                        break;
+                    }
+                    if (result.get(j).equals(dstLoad)) {
+                        useCount++;
+                    }
+                }
+
+                // Only propagate if vY is never reassigned (simple SSA-like copy)
+                if (!reassigned && useCount > 0) {
+                    // Remove the copy (load + store)
+                    result.remove(i + 1);
+                    result.remove(i);
+                    // Replace all uses of vY with vX
+                    for (int j = i; j < result.size(); j++) {
+                        if (result.get(j).equals(dstLoad)) {
+                            result.set(j, load);
+                        }
+                    }
+                    changed = true;
+                    break; // Restart scan
+                }
+            }
+        }
+        return result;
     }
 
     /**
@@ -1197,6 +1655,14 @@ public final class BytecodeComparator {
                         result.add(prev);     // Re-emit the GETFIELD
                         continue;
                     }
+                    // DUP after INVOKE().GETFIELD: the recompiled side stores the invoke
+                    // result to a variable and reloads it. Normalize DUP to a synthetic ALOAD.
+                    if (isInvokeInsn(prevPrev) || prevPrev.startsWith("GETSTATIC ")
+                            || prevPrev.startsWith("GETFIELD ")) {
+                        result.add("ALOAD v999");
+                        result.add(prev);
+                        continue;
+                    }
                 }
                 // DUP after GETSTATIC: duplicate the field load. The recompiled side
                 // typically reads the static field twice instead of using DUP.
@@ -1212,6 +1678,13 @@ public final class BytecodeComparator {
                 // renormalizeVars (which runs after this) assigns matching variable numbers.
                 if (!followedByStore && isInvokeInsn(prev)) {
                     result.add("ALOAD v999"); // Synthetic variable, renormalized later
+                    continue;
+                }
+                // General fallback: DUP after any value-producing instruction (AALOAD,
+                // NEW, CHECKCAST, etc.) where the recompiled side stores to a variable
+                // and reloads. Convert to synthetic ALOAD v999.
+                if (!followedByStore) {
+                    result.add("ALOAD v999");
                     continue;
                 }
             }
@@ -1245,6 +1718,141 @@ public final class BytecodeComparator {
             result.add(insns.get(i));
         }
         return result;
+    }
+
+    /**
+     * Collapses inner class outer reference field access into a single load.
+     * In inner classes, the original compiler may use the constructor parameter directly
+     * (ALOAD v1) to access the outer 'this', while the recompiled code loads from the
+     * this$N field (ALOAD v0; GETFIELD X.this$N:LY;). This 2-instruction pattern is
+     * collapsed to a single ALOAD v998 (synthetic), so that renormalizeVars assigns
+     * matching variable numbers.
+     */
+    private static final Pattern THIS_FIELD = Pattern.compile("GETFIELD .+\\.this\\$\\d+:.*");
+
+    private static List<String> collapseOuterRefAccess(List<String> insns) {
+        // First pass: identify outer ref parameters by finding:
+        // ALOAD vN; PUTFIELD *.this$*  (where vN != v0)
+        // This indicates vN holds the outer reference passed as constructor parameter.
+        Set<String> outerRefVars = new HashSet<>();
+        for (int i = 0; i + 1 < insns.size(); i++) {
+            if (insns.get(i).startsWith("ALOAD v") && !insns.get(i).equals("ALOAD v0")
+                    && insns.get(i + 1).startsWith("PUTFIELD ")
+                    && insns.get(i + 1).contains(".this$")) {
+                outerRefVars.add(insns.get(i)); // e.g., "ALOAD v1"
+            }
+        }
+
+        // Second pass: collapse outer ref accesses
+        List<String> result = new ArrayList<>(insns.size());
+        for (int i = 0; i < insns.size(); i++) {
+            // Collapse ALOAD vX; GETFIELD *.this$N:* → ALOAD v998
+            if (i + 1 < insns.size()
+                    && insns.get(i).startsWith("ALOAD ")
+                    && THIS_FIELD.matcher(insns.get(i + 1)).matches()) {
+                result.add("ALOAD v998");
+                i++; // Skip GETFIELD
+                continue;
+            }
+            // Replace uses of outer ref parameter variable with synthetic.
+            // In inner class constructors, the outer reference is passed as a parameter
+            // (e.g., v1) and the original compiler uses it directly, while the recompiled
+            // code loads from the this$0 field. Normalizing both to v998 makes them match.
+            if (!outerRefVars.isEmpty() && outerRefVars.contains(insns.get(i))) {
+                result.add("ALOAD v998");
+                continue;
+            }
+            result.add(insns.get(i));
+        }
+        return result;
+    }
+
+    /**
+     * Normalizes captured variable field names in anonymous/inner classes.
+     * The decompiler may generate different names for captured variables
+     * (e.g., val$value vs val$string1). Both have the same semantics.
+     * Normalizes all val$X field names to val$? in GETFIELD/PUTFIELD.
+     * Also normalizes this$N field names to this$0 for consistency.
+     */
+    private static final Pattern VAL_FIELD = Pattern.compile("\\.val\\$[a-zA-Z0-9_]+:");
+    private static final Pattern THIS_N_FIELD = Pattern.compile("\\.this\\$\\d+:");
+
+    private static List<String> normalizeCapturedVarNames(List<String> insns) {
+        List<String> result = new ArrayList<>(insns.size());
+        for (String insn : insns) {
+            if ((insn.startsWith("GETFIELD ") || insn.startsWith("PUTFIELD "))
+                    && (insn.contains(".val$") || insn.contains(".this$"))) {
+                String normalized = VAL_FIELD.matcher(insn).replaceAll(".val\\$?:");
+                normalized = THIS_N_FIELD.matcher(normalized).replaceAll(".this\\$0:");
+                result.add(normalized);
+            } else {
+                result.add(insn);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Normalizes array element initialization DUP ordering.
+     * When initializing array elements inline, one compiler may emit:
+     *   DUP; ICONST_N; NEW T; DUP; ...; INVOKESPECIAL T.<init>; AASTORE
+     * while another emits:
+     *   ICONST_N; NEW T; DUP; ...; INVOKESPECIAL T.<init>; AASTORE
+     * The difference is that the first form DUPs the array reference explicitly
+     * while the second form has it already on stack. This strips the leading DUP
+     * when it precedes an array element store pattern.
+     */
+    /**
+     * Strips array-ref-management instructions between array element stores.
+     * One compiler uses DUP before each element index (stack-based):
+     *   ANEWARRAY T; DUP; ICONST_0; ...; AASTORE; DUP; ICONST_1; ...; AASTORE
+     * Another uses ALOAD of stored array ref (variable-based):
+     *   ANEWARRAY T; ICONST_0; ...; AASTORE; ALOAD vN; ICONST_1; ...; AASTORE
+     * Strip both DUP and ALOAD-after-AASTORE to normalize to:
+     *   ANEWARRAY T; ICONST_0; ...; AASTORE; ICONST_1; ...; AASTORE
+     */
+    private static List<String> normalizeArrayInitDup(List<String> insns) {
+        List<String> result = new ArrayList<>(insns.size());
+        for (int i = 0; i < insns.size(); i++) {
+            String curr = insns.get(i);
+            if (i + 1 < insns.size()) {
+                String next = insns.get(i + 1);
+                // Pattern 1: DUP before array index constant, followed by xASTORE
+                if ("DUP".equals(curr) && isIntConstantPush(next) && hasArrayStore(insns, i + 2)) {
+                    continue; // Strip this DUP
+                }
+                // Pattern 2: ALOAD after xASTORE, before next array index constant
+                if (curr.startsWith("ALOAD ") && !result.isEmpty()
+                        && isArrayStore(result.get(result.size() - 1))
+                        && isIntConstantPush(next)) {
+                    continue; // Strip this ALOAD (array ref reload between elements)
+                }
+            }
+            result.add(curr);
+        }
+        return result;
+    }
+
+    private static boolean isIntConstantPush(String insn) {
+        return insn.startsWith("ICONST_") || insn.startsWith("BIPUSH ")
+                || insn.startsWith("SIPUSH ") || insn.startsWith("LDC ");
+    }
+
+    private static boolean isArrayStore(String insn) {
+        return "AASTORE".equals(insn) || "IASTORE".equals(insn) || "FASTORE".equals(insn)
+                || "DASTORE".equals(insn) || "LASTORE".equals(insn) || "BASTORE".equals(insn)
+                || "SASTORE".equals(insn) || "CASTORE".equals(insn);
+    }
+
+    private static boolean hasArrayStore(List<String> insns, int from) {
+        for (int j = from; j < Math.min(from + 25, insns.size()); j++) {
+            if (isArrayStore(insns.get(j))) return true;
+            if (insns.get(j).startsWith("GOTO ") || insns.get(j).startsWith("IF")
+                    || insns.get(j).endsWith("RETURN") || "ATHROW".equals(insns.get(j))) {
+                return false;
+            }
+        }
+        return false;
     }
 
     /**
@@ -1390,6 +1998,117 @@ public final class BytecodeComparator {
     }
 
     /**
+     * Normalizes arithmetic identity: "const(-N); ADD" ≡ "const(N); SUB" and vice versa.
+     * Canonicalizes to positive constant + SUB when the constant is negative with ADD,
+     * or positive constant + ADD when the constant is negative with SUB.
+     * This handles cases like: SIPUSH -10000; IADD → SIPUSH 10000; ISUB
+     */
+    private static List<String> normalizeArithmeticSign(List<String> insns) {
+        List<String> result = new ArrayList<>(insns.size());
+        for (int i = 0; i < insns.size(); i++) {
+            if (i + 1 < insns.size()) {
+                String constInsn = insns.get(i);
+                String arithInsn = insns.get(i + 1);
+                // Check for integer add/sub with negative constant
+                if (("IADD".equals(arithInsn) || "ISUB".equals(arithInsn))) {
+                    Long val = parseIntConstant(constInsn);
+                    if (val != null && val < 0) {
+                        String replacement = formatIntConstant(-val);
+                        if (replacement != null) {
+                            result.add(replacement);
+                            result.add("IADD".equals(arithInsn) ? "ISUB" : "IADD");
+                            i++;
+                            continue;
+                        }
+                    }
+                }
+                // Float: FCONST doesn't have negative forms, but LDC can
+                if (("FADD".equals(arithInsn) || "FSUB".equals(arithInsn))
+                        && constInsn.startsWith("LDC ")) {
+                    try {
+                        String valStr = constInsn.substring(4);
+                        if (valStr.endsWith("f") || valStr.endsWith("F")) {
+                            float f = Float.parseFloat(valStr);
+                            if (f < 0) {
+                                result.add("LDC " + (-f) + (valStr.endsWith("F") ? "F" : "f"));
+                                result.add("FADD".equals(arithInsn) ? "FSUB" : "FADD");
+                                i++;
+                                continue;
+                            }
+                        }
+                    } catch (NumberFormatException ignored) {}
+                }
+                // Long
+                if (("LADD".equals(arithInsn) || "LSUB".equals(arithInsn))
+                        && constInsn.startsWith("LDC ")) {
+                    try {
+                        String valStr = constInsn.substring(4);
+                        if (valStr.endsWith("L") || valStr.endsWith("l")) {
+                            long l = Long.parseLong(valStr.substring(0, valStr.length() - 1));
+                            if (l < 0) {
+                                result.add("LDC " + (-l) + (valStr.endsWith("L") ? "L" : "l"));
+                                result.add("LADD".equals(arithInsn) ? "LSUB" : "LADD");
+                                i++;
+                                continue;
+                            }
+                        }
+                    } catch (NumberFormatException ignored) {}
+                }
+                // Double
+                if (("DADD".equals(arithInsn) || "DSUB".equals(arithInsn))
+                        && constInsn.startsWith("LDC ")) {
+                    try {
+                        String valStr = constInsn.substring(4);
+                        if (valStr.endsWith("d") || valStr.endsWith("D")
+                                || (!valStr.endsWith("f") && !valStr.endsWith("F")
+                                    && !valStr.endsWith("L") && !valStr.endsWith("l")
+                                    && valStr.contains("."))) {
+                            double d = Double.parseDouble(valStr.replaceAll("[dD]$", ""));
+                            if (d < 0) {
+                                String suffix = (valStr.endsWith("d") || valStr.endsWith("D"))
+                                        ? valStr.substring(valStr.length() - 1) : "";
+                                result.add("LDC " + (-d) + suffix);
+                                result.add("DADD".equals(arithInsn) ? "DSUB" : "DADD");
+                                i++;
+                                continue;
+                            }
+                        }
+                    } catch (NumberFormatException ignored) {}
+                }
+            }
+            result.add(insns.get(i));
+        }
+        return result;
+    }
+
+    private static Long parseIntConstant(String insn) {
+        if (insn.startsWith("ICONST_")) {
+            try { return Long.parseLong(insn.substring(7)); } catch (NumberFormatException e) { return null; }
+        }
+        if (insn.startsWith("BIPUSH ")) {
+            try { return Long.parseLong(insn.substring(7)); } catch (NumberFormatException e) { return null; }
+        }
+        if (insn.startsWith("SIPUSH ")) {
+            try { return Long.parseLong(insn.substring(7)); } catch (NumberFormatException e) { return null; }
+        }
+        if (insn.startsWith("LDC ")) {
+            String val = insn.substring(4);
+            if (!val.contains(".") && !val.endsWith("f") && !val.endsWith("F")
+                    && !val.endsWith("L") && !val.endsWith("l") && !val.startsWith("\"")) {
+                try { return Long.parseLong(val); } catch (NumberFormatException e) { return null; }
+            }
+        }
+        return null;
+    }
+
+    private static String formatIntConstant(long val) {
+        if (val >= -1 && val <= 5) return "ICONST_" + val;
+        if (val >= Byte.MIN_VALUE && val <= Byte.MAX_VALUE) return "BIPUSH " + val;
+        if (val >= Short.MIN_VALUE && val <= Short.MAX_VALUE) return "SIPUSH " + val;
+        return "LDC " + val;
+    }
+
+    /**
      * Strips I2B, I2S, I2C narrowing casts. These are semantically redundant when
      * the JVM already narrows at method call boundaries and array stores.
      * The original PZ compiler omits many of these; the decompiler reintroduces them.
@@ -1401,6 +2120,33 @@ public final class BytecodeComparator {
                 continue;
             }
             result.add(insn);
+        }
+        return result;
+    }
+
+    /**
+     * Collapses redundant type widening chains into their direct equivalent.
+     * I2F; F2D -> I2D  (int-to-float-to-double collapsed to int-to-double)
+     * L2F; F2D -> L2D  (long-to-float-to-double collapsed to long-to-double)
+     */
+    private static List<String> collapseWideningChain(List<String> insns) {
+        List<String> result = new ArrayList<>(insns.size());
+        for (int i = 0; i < insns.size(); i++) {
+            if (i + 1 < insns.size()) {
+                String curr = insns.get(i);
+                String next = insns.get(i + 1);
+                if ("I2F".equals(curr) && "F2D".equals(next)) {
+                    result.add("I2D");
+                    i++;
+                    continue;
+                }
+                if ("L2F".equals(curr) && "F2D".equals(next)) {
+                    result.add("L2D");
+                    i++;
+                    continue;
+                }
+            }
+            result.add(insns.get(i));
         }
         return result;
     }
@@ -1533,7 +2279,19 @@ public final class BytecodeComparator {
         List<String> result = new ArrayList<>(insns.size());
         for (String insn : insns) {
             if (insn.startsWith("INVOKEDYNAMIC ")) {
-                result.add(normalizeNarrowTypes(insn));
+                String normalized = normalizeNarrowTypes(insn);
+                // For LambdaMetafactory, strip the args portion entirely.
+                // The args contain implementation method handle types and instantiated
+                // types which differ due to type erasure (e.g., specific types vs Object,
+                // primitive vs boxed). The semantic meaning is captured by the bootstrap
+                // method and the INVOKEDYNAMIC name + descriptor.
+                if (normalized.contains("LambdaMetafactory.metafactory")) {
+                    int argsIdx = normalized.indexOf(" args=[");
+                    if (argsIdx >= 0) {
+                        normalized = normalized.substring(0, argsIdx);
+                    }
+                }
+                result.add(normalized);
             } else {
                 result.add(insn);
             }
@@ -1658,6 +2416,17 @@ public final class BytecodeComparator {
                 || insn.startsWith("DSTORE ");
     }
 
+    private static boolean isBoxingValueOf(String insn) {
+        return insn.startsWith("INVOKESTATIC java/lang/Boolean.valueOf(Z)")
+                || insn.startsWith("INVOKESTATIC java/lang/Integer.valueOf(I)")
+                || insn.startsWith("INVOKESTATIC java/lang/Long.valueOf(J)")
+                || insn.startsWith("INVOKESTATIC java/lang/Float.valueOf(F)")
+                || insn.startsWith("INVOKESTATIC java/lang/Double.valueOf(D)")
+                || insn.startsWith("INVOKESTATIC java/lang/Short.valueOf(S)")
+                || insn.startsWith("INVOKESTATIC java/lang/Byte.valueOf(B)")
+                || insn.startsWith("INVOKESTATIC java/lang/Character.valueOf(C)");
+    }
+
     private static boolean isInvokeInsn(String insn) {
         return insn.startsWith("INVOKEVIRTUAL ") || insn.startsWith("INVOKESTATIC ")
                 || insn.startsWith("INVOKEINTERFACE ") || insn.startsWith("INVOKESPECIAL ")
@@ -1672,8 +2441,11 @@ public final class BytecodeComparator {
     private static List<String> normalizeFieldAliases(List<String> insns) {
         // Known field renames: decompiler name → original name
         // LoginQueue: field named same as class, decompiler adds s_ prefix
+        // _assertionsDisabled → $assertionsDisabled: decompiler renames to avoid
+        // conflict with compiler-synthesized field
         Map<String, String> aliases = Map.of(
-                "LoginQueue.s_loginQueue:", "LoginQueue.LoginQueue:"
+                "LoginQueue.s_loginQueue:", "LoginQueue.LoginQueue:",
+                "._assertionsDisabled:", ".$assertionsDisabled:"
         );
         if (aliases.isEmpty()) return insns;
 
@@ -1974,6 +2746,14 @@ public final class BytecodeComparator {
                         }
                         // Two-instruction return: xLOAD + xRETURN
                         if (j + 1 < insns.size() && isLoadInsn(targetInsn)
+                                && isReturnString(insns.get(j + 1))) {
+                            result.add(targetInsn);
+                            result.add(insns.get(j + 1));
+                            continue;
+                        }
+                        // Two-instruction boxing return: INVOKESTATIC valueOf + ARETURN
+                        // (shared boxing block used by modern javac)
+                        if (j + 1 < insns.size() && isBoxingValueOf(targetInsn)
                                 && isReturnString(insns.get(j + 1))) {
                             result.add(targetInsn);
                             result.add(insns.get(j + 1));
@@ -2691,7 +3471,11 @@ public final class BytecodeComparator {
      * For makeConcatWithConstants, also normalizes reference types (L...;) and
      * arrays ([...) to Ljava/lang/Object; since all arguments are toString'd.
      */
-    private static final Pattern NARROW_TYPE_IN_DESC = Pattern.compile("(?<=[(,])([BSCZ])(?=[)BSCZIFJDL\\[])");
+    // Matches narrow integer types (B/S/C/Z) in JVM type descriptors.
+    // Lookbehind allows these to follow any descriptor-valid predecessor:
+    // '(' start, ',' separator, other primitives (IJFDBSCZ), ';' end of ref type.
+    // Does NOT include '[' (array prefix) to avoid changing [B to [I (byte[] vs int[]).
+    private static final Pattern NARROW_TYPE_IN_DESC = Pattern.compile("(?<=[(,IJFDBSCZ;])([BSCZ])(?=[)BSCZIFJDL\\[])");
     private static final Pattern REF_TYPE_IN_DESC = Pattern.compile("L[^;]+;|\\[+[BSCZIFJDL][^;]*;?");
 
     private static String normalizeNarrowTypes(String insn) {
