@@ -34,4 +34,5 @@ bin/
 /.gradle/
 /src/main/resources/rosetta/
 /.venv/
+gradle.properties
 /progress/*/report.json

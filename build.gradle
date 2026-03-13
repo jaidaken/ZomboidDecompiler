@@ -18,6 +18,12 @@ dependencies {
     implementation "org.snakeyaml:snakeyaml-engine:2.10"
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
 extraJavaModuleInfo {
     module("org.vineflower:vineflower", "vineflower") {
         exportAllPackages()
