@@ -159,14 +159,15 @@ public final class BytecodeComparator {
             recompFields.put(f.name + ":" + f.desc, f);
         }
 
+        // In semantic mode, collect missing/extra fields and check for renames
+        List<String> missingFields = new ArrayList<>();
+        List<String> extraFields = new ArrayList<>();
         for (var entry : origFields.entrySet()) {
             FieldNode rf = recompFields.get(entry.getKey());
             if (rf == null) {
-                // Ignore compiler-generated fields in semantic mode
                 if (semanticNormalize && isCompilerArtifactField(entry.getKey())) continue;
-                structDiffs.add("missing field: " + entry.getKey());
+                missingFields.add(entry.getKey());
             } else {
-                // Ignore access flag differences for synthetic/compiler-generated fields
                 int accessMask = ~(Opcodes.ACC_SYNTHETIC | Opcodes.ACC_FINAL);
                 if (semanticNormalize && (entry.getValue().access & accessMask) != (rf.access & accessMask)) {
                     structDiffs.add("field access differs: " + entry.getKey()
@@ -180,7 +181,41 @@ public final class BytecodeComparator {
         for (String key : recompFields.keySet()) {
             if (!origFields.containsKey(key)) {
                 if (semanticNormalize && isCompilerArtifactField(key)) continue;
-                structDiffs.add("extra field: " + key);
+                extraFields.add(key);
+            }
+        }
+        if (semanticNormalize) {
+            // Match missing/extra fields by descriptor (decompiler may rename fields)
+            Set<String> renamedMissing = new HashSet<>();
+            Set<String> renamedExtra = new HashSet<>();
+            for (String missing : missingFields) {
+                String missingDesc = missing.contains(":") ? missing.substring(missing.indexOf(':') + 1) : "";
+                for (String extra : extraFields) {
+                    if (renamedExtra.contains(extra)) continue;
+                    String extraDesc = extra.contains(":") ? extra.substring(extra.indexOf(':') + 1) : "";
+                    if (missingDesc.equals(extraDesc)) {
+                        renamedMissing.add(missing);
+                        renamedExtra.add(extra);
+                        break;
+                    }
+                }
+            }
+            for (String missing : missingFields) {
+                if (!renamedMissing.contains(missing)) {
+                    structDiffs.add("missing field: " + missing);
+                }
+            }
+            for (String extra : extraFields) {
+                if (!renamedExtra.contains(extra)) {
+                    structDiffs.add("extra field: " + extra);
+                }
+            }
+        } else {
+            for (String missing : missingFields) {
+                structDiffs.add("missing field: " + missing);
+            }
+            for (String extra : extraFields) {
+                structDiffs.add("extra field: " + extra);
             }
         }
 
@@ -4021,6 +4056,7 @@ public final class BytecodeComparator {
     private static boolean isCompilerArtifactField(String fieldKey) {
         String fieldName = fieldKey.contains(":") ? fieldKey.substring(0, fieldKey.indexOf(':')) : fieldKey;
         return fieldName.equals("$assertionsDisabled")
+                || fieldName.equals("_assertionsDisabled")
                 || fieldName.startsWith("$SwitchMap$")
                 || fieldName.startsWith("this$")
                 || fieldName.startsWith("val$")
