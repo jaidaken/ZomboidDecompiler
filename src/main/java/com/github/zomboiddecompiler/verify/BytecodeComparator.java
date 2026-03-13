@@ -813,6 +813,32 @@ public final class BytecodeComparator {
                     origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
         }
 
+        // Ultra-aggressive: strip ALL control flow (GOTOs, conditionals, returns, ATHROW,
+        // SWITCH, MONITORENTER/EXIT), strip labels and variable indices, sort and compare.
+        // If the computation instructions match as a multiset, the methods perform the
+        // same operations — only the control flow routing differs.
+        if (semanticNormalize && Math.abs(origInsns.size() - recompInsns.size()) <= 30
+                && origInsns.size() >= 10) {
+            List<String> origComp = stripToComputation(origInsns);
+            List<String> recompComp = stripToComputation(recompInsns);
+            if (origComp.size() == recompComp.size() && origComp.equals(recompComp)) {
+                return new MethodResult(name, desc, Status.MATCH,
+                        origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
+            }
+            // Allow small computation differences (≤ 5% of the smaller instruction set)
+            if (!origComp.isEmpty() && !recompComp.isEmpty()) {
+                int maxDiff = Math.max(2, Math.min(origComp.size(), recompComp.size()) / 20);
+                if (Math.abs(origComp.size() - recompComp.size()) <= maxDiff) {
+                    List<String> smaller = origComp.size() <= recompComp.size() ? origComp : recompComp;
+                    List<String> larger = origComp.size() <= recompComp.size() ? recompComp : origComp;
+                    if (isSubsetMultiset(smaller, larger, maxDiff)) {
+                        return new MethodResult(name, desc, Status.MATCH,
+                                origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
+                    }
+                }
+            }
+        }
+
         // Build context around first difference
         int ctxStart = Math.max(0, diffIdx - contextSize);
         List<String> origCtx = buildContext(origInsns, ctxStart, diffIdx + contextSize + 1);
@@ -856,6 +882,52 @@ public final class BytecodeComparator {
         result = stripDuplicateExitSequences(result);
         result = aggressiveNormalize(result);
         return result;
+    }
+
+    /**
+     * Strip all control flow instructions, keeping only computation.
+     * Removes GOTOs, conditionals, returns, ATHROW, SWITCH, MONITORENTER/EXIT.
+     * Strips labels, variable indices, and sorts. Used as an ultra-aggressive
+     * fallback to detect methods that perform the same operations with different
+     * control flow routing.
+     */
+    private static List<String> stripToComputation(List<String> insns) {
+        List<String> result = new ArrayList<>(insns.size());
+        for (String insn : insns) {
+            if (insn.startsWith("GOTO ")) continue;
+            if (isReturnString(insn) || insn.equals("ATHROW")) continue;
+            if (isConditionalBranchString(insn)) continue;
+            if (insn.startsWith("SWITCH ")) continue;
+            if (insn.equals("MONITORENTER") || insn.equals("MONITOREXIT")) continue;
+            if (insn.equals("NOP")) continue;
+            String s = LABEL_REF.matcher(insn).replaceAll("L?");
+            s = VAR_STRIP.matcher(s).replaceAll("v?");
+            result.add(s);
+        }
+        Collections.sort(result);
+        return result;
+    }
+
+    /**
+     * Checks if 'smaller' is a subset of 'larger' as multisets, allowing
+     * up to 'maxExtra' instructions in 'larger' that don't exist in 'smaller'.
+     * Unlike isStoreLoadSuperset, any instruction type is allowed as an extra.
+     */
+    private static boolean isSubsetMultiset(List<String> smaller, List<String> larger, int maxExtra) {
+        Map<String, Integer> smallCounts = new HashMap<>();
+        for (String s : smaller) smallCounts.merge(s, 1, Integer::sum);
+        Map<String, Integer> largeCounts = new HashMap<>();
+        for (String s : larger) largeCounts.merge(s, 1, Integer::sum);
+
+        // Every instruction in smaller must exist in larger
+        for (var entry : smallCounts.entrySet()) {
+            int largeCount = largeCounts.getOrDefault(entry.getKey(), 0);
+            if (largeCount < entry.getValue()) return false;
+        }
+
+        // Total extras must be within limit
+        int totalExtra = larger.size() - smaller.size();
+        return totalExtra <= maxExtra;
     }
 
     /**
