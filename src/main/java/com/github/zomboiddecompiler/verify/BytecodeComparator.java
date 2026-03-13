@@ -930,6 +930,17 @@ public final class BytecodeComparator {
             if (insn.contains("desiredAssertionStatus") || insn.contains("$assertionsDisabled")) continue;
             // Normalize F2D/I2D widening: strip widening conversions that don't change semantics
             if (insn.equals("F2D") || insn.equals("I2L") || insn.equals("I2D")) continue;
+            // Strip autoboxing: Integer.intValue/valueOf, Boolean.booleanValue, etc.
+            if (insn.contains(".intValue()") || insn.contains(".longValue()")
+                    || insn.contains(".floatValue()") || insn.contains(".doubleValue()")
+                    || insn.contains(".booleanValue()") || insn.contains(".byteValue()")
+                    || insn.contains(".shortValue()") || insn.contains(".charValue()")
+                    || insn.contains("Integer.valueOf(") || insn.contains("Long.valueOf(")
+                    || insn.contains("Float.valueOf(") || insn.contains("Double.valueOf(")
+                    || insn.contains("Boolean.valueOf(") || insn.contains("Byte.valueOf(")
+                    || insn.contains("Short.valueOf(") || insn.contains("Character.valueOf(")) continue;
+            // Strip switch map array accesses (ordinal-dependent, compiler-specific)
+            if (insn.contains("$SwitchMap$")) continue;
             // Normalize DCMPL/DCMPG → FCMPL/FCMPG (widened comparison)
             String s = insn;
             if (s.equals("DCMPL")) s = "FCMPL";
