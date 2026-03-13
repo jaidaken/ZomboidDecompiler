@@ -23,10 +23,17 @@ public final class ZomboidResultSaver implements IResultSaver {
     private boolean remapLineNumbers = false;
     /// Root directory of the game (ProjectZomboid/).
     private final Path gameRoot;
+    /// Build version for version-specific post-decompile transforms (e.g. "b41", "b42").
+    private final String buildVersion;
 
-    public ZomboidResultSaver(Path root, Path gameRoot) {
+    public ZomboidResultSaver(Path root, Path gameRoot, String buildVersion) {
         this.root = root;
         this.gameRoot = gameRoot;
+        this.buildVersion = buildVersion;
+    }
+
+    public ZomboidResultSaver(Path root, Path gameRoot) {
+        this(root, gameRoot, null);
     }
 
     public void setRemapLineNumbers(boolean remapLineNumbers) {
@@ -45,7 +52,7 @@ public final class ZomboidResultSaver implements IResultSaver {
 
         try (BufferedWriter writer = Files.newBufferedWriter(entryPath)) {
             if (content != null) {
-                content = PostDecompileTransforms.apply(content);
+                content = PostDecompileTransforms.apply(content, buildVersion);
                 writer.write(content);
             }
         } catch (IOException e) {
@@ -99,7 +106,7 @@ public final class ZomboidResultSaver implements IResultSaver {
 
         try (BufferedWriter writer = Files.newBufferedWriter(entryPath)) {
             if (content != null) {
-                content = PostDecompileTransforms.apply(content);
+                content = PostDecompileTransforms.apply(content, buildVersion);
                 writer.write(content);
             }
         } catch (IOException e) {

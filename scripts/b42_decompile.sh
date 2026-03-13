@@ -14,5 +14,5 @@ GAME_DIR="$BUILDS_DIR/build-42/vanilla-game-42/projectzomboid"
 DECOMPILED_DIR="$BUILDS_DIR/build-42/Decompiled-src"
 
 echo "=== Build 42: Decompile (Java 25) ==="
-run_decompile "$GAME_DIR" "$DECOMPILED_DIR" --jar-game
+run_decompile "$GAME_DIR" "$DECOMPILED_DIR" --jar-game --build-version b42
 echo "Done!"

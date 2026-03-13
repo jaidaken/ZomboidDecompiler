@@ -51,6 +51,9 @@ public class Decompile implements Callable<Integer> {
     )
     private String classPatterns = "zombie.*";
 
+    @Option(names = {"--build-version"}, description = "Build version identifier (e.g. b41, b42) for version-specific post-decompile transforms.")
+    private String buildVersion = null;
+
     @Option(names = "-vf", arity = "2", description = "Argument name and value to pass through to Vineflower. " +
             "Can be specified multiple times to pass multiple arguments. " +
             "Leading dashes should not be included in the argument name.")
@@ -197,6 +200,7 @@ public class Decompile implements Callable<Integer> {
         decompiler.setAddDocstrings(addDocstrings);
         decompiler.setRemapLineNumbers(remapLineNumbers);
         decompiler.setClassPatterns(classPatterns);
+        decompiler.setBuildVersion(buildVersion);
 
         decompiler.decompile(inputPath, outputPath, argsList);
 

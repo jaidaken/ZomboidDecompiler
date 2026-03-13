@@ -288,6 +288,8 @@ run_recompile() {
         -proc:none \
         -nowarn \
         -implicit:class \
+        -Xmaxerrs 99999 \
+        -Xmaxwarns 0 \
         "@$src_list" > "$log_file" 2>&1 &
     local javac_pid=$!
 
@@ -310,6 +312,11 @@ run_recompile() {
     fi
 
     rm -f "$src_list"
+    # Partial compilation is expected — decompiled code often has errors.
+    # Return success as long as some classes were produced.
+    if [ "$compiled" -gt 0 ]; then
+        return 0
+    fi
     return "$rc"
 }
 

@@ -13,21 +13,26 @@ public final class PostDecompileTransforms {
 
     private PostDecompileTransforms() {}
 
+    /** Build version constants. */
+    public static final String BUILD_41 = "b41";
+    public static final String BUILD_42 = "b42";
+
     /**
      * Apply all transforms to the given Java source content.
+     * @param content the decompiled source
+     * @param buildVersion build version (e.g. "b41", "b42") for version-specific fixes, or null for all
      */
-    public static String apply(String content) {
+    public static String apply(String content, String buildVersion) {
         if (content == null || content.isEmpty()) {
             return content;
         }
-        // Original postprocess.py fixes
+        // Shared transforms (apply to all versions)
         content = fixInstanceofPatternScope(content);
         content = fixAssertionsDisabled(content);
         content = fixAssertKeywordToExplicit(content);
         content = fixDuplicateInstanceofPatternVars(content);
         content = fixByteCounterVars(content);
         content = fixBooleanCanonicalization(content);
-        // compile-fix.py ports
         content = fixRawCollectionTypes(content);
         content = fixLoggerNullAmbiguity(content);
         content = fixRawgetAsBoolean(content);
@@ -42,7 +47,6 @@ public final class PostDecompileTransforms {
         content = fixAnnotationTypeCasts(content);
         content = fixDirectoryStreamForEach(content);
         content = fixSwitchOnObject(content);
-        // Additional transforms
         content = fixMistypedJavaIoFile(content);
         content = fixMistypedStringVar(content);
         content = fixObjectToVar(content);
@@ -53,28 +57,41 @@ public final class PostDecompileTransforms {
         content = fixExternalShadowedFieldRefs(content);
         content = fixEmptySwitchExpressionCase(content);
         content = fixUncaughtExceptionInTry(content);
-        // Round 2: remaining type errors
         content = fixRawToArrayCast(content);
         content = fixRawForEachCast(content);
         content = fixRawMethodReturnCast(content);
         content = fixGenericClassInternals(content);
-        content = fixSpecificFileErrors(content);
         content = fixWrongStringCastOnGet(content);
         content = fixTableNameNullGuardPattern(content);
         content = fixSandboxFromToTable(content);
         content = fixShortBufferPutMissingCast(content);
-        // Binary compatibility: warn about public method return types
         content = addBinaryCompatWarnings(content);
-        // Missing class fixes: preserve anonymous class numbering
-        content = fixMissingLuaManagerComparator(content);
-        content = fixMissingCharacterSoundEmitterSwitchMap(content);
-        // Bytecode-matching transforms
-        content = fixItemContainerTryFinallyReturn(content);
-        content = fixZomboidHashMapEntryKeyReread(content);
-        content = fixIsoFireRandNextFolding(content);
-        content = fixUIServerToolboxFloatCast(content);
-        content = fixMPStatisticRawsetOverload(content);
+
+        // Version-specific transforms
+        if (!BUILD_42.equals(buildVersion)) {
+            // b41-specific (or shared legacy fixes that don't apply to b42)
+            content = fixSpecificFileErrors(content);
+            content = fixMissingLuaManagerComparator(content);
+            content = fixMissingCharacterSoundEmitterSwitchMap(content);
+            content = fixItemContainerTryFinallyReturn(content);
+            content = fixZomboidHashMapEntryKeyReread(content);
+            content = fixIsoFireRandNextFolding(content);
+            content = fixUIServerToolboxFloatCast(content);
+            content = fixMPStatisticRawsetOverload(content);
+            content = fixClimbStateFloatIncrement(content);
+        }
+        if (BUILD_42.equals(buildVersion)) {
+            content = fixB42SpecificErrors(content);
+        }
+
         return content;
+    }
+
+    /**
+     * Apply all transforms with no build version (backwards compatible).
+     */
+    public static String apply(String content) {
+        return apply(content, null);
     }
 
     // ========================================================================
@@ -2720,6 +2737,789 @@ public final class PostDecompileTransforms {
             "^(\\s*)String (\\w+) = (.+);$"
     );
 
+    // ========================================================================
+    // Build 42-specific fixes
+    // ========================================================================
+
+    private static String fixB42SpecificErrors(String content) {
+        // MainScreenState: Core.getInstance(.getVersion()) — stray dot before getVersion()
+        if (content.contains("class MainScreenState")) {
+            content = content.replace(
+                    "Core.getInstance(.getVersion())",
+                    "Core.getInstance().getVersion()"
+            );
+        }
+
+        // ================================================================
+        // 1. ICallback generics — unchecked cast needed in Invokers, Stacks,
+        //    Consumers, Predicates, Comparators
+        // ================================================================
+        content = fixB42ICallbackGenerics(content);
+
+        // ================================================================
+        // 2. "variable already defined" — redeclared variables in same scope
+        // ================================================================
+        content = fixB42VariableAlreadyDefined(content);
+
+        // ================================================================
+        // 3. Enum generics — (Enum[]) needs cast to (E[]) in for-each
+        // ================================================================
+        content = fixB42EnumGenericsCast(content);
+
+        // ================================================================
+        // 4. byte/int to boolean confusion
+        // ================================================================
+        content = fixB42IntBooleanFields(content);
+
+        // ================================================================
+        // 5. File-specific fixes for remaining errors
+        // ================================================================
+        content = fixB42FileSpecificErrors(content);
+
+        return content;
+    }
+
+    // ========================================================================
+    // B42 Helper: ICallback generics — add unchecked cast on assignment
+    // ========================================================================
+    // In Invokers, Stacks, Consumers, Predicates, Comparators the pattern is:
+    //   item.fieldName = paramName;
+    // where item is Pool<...<Object,...>> and paramName has generic type params.
+    // Fix: item.fieldName = (ICallback)paramName; (raw cast suppresses generics)
+
+    private static String fixB42ICallbackGenerics(String content) {
+        if (!content.contains("class Invokers")
+                && !content.contains("class Stacks")
+                && !content.contains("class Consumers")
+                && !content.contains("class Predicates")
+                && !content.contains("class Comparators")) {
+            return content;
+        }
+
+        // Pattern: item.invoker = consumer;  ->  item.invoker = (ICallback)consumer;
+        // Pattern: item.callback = callback;  ->  item.callback = (ICallback)callback;
+        // Pattern: item.consumer = consumer;  ->  item.consumer = (ICallback)consumer;
+        // Pattern: item.predicate = predicate;  ->  item.predicate = (ICallback)predicate;
+        // Pattern: item.comparator = comparator;  ->  item.comparator = (ICallback)comparator;
+        content = content.replaceAll(
+                "(\\s*item\\.(invoker|callback|consumer|predicate|comparator)) = (\\w+);",
+                "$1 = (ICallback)$3;"
+        );
+
+        return content;
+    }
+
+    // ========================================================================
+    // B42 Helper: Fix "variable already defined" errors
+    // ========================================================================
+    // When Vineflower decompiles switch-case or large methods, it redeclares
+    // variables. Fix by removing the type from subsequent declarations.
+
+    private static String fixB42VariableAlreadyDefined(String content) {
+        // IsoFeedingTrough: instanceof pattern var 'food' conflicts with earlier 'food'
+        if (content.contains("class IsoFeedingTrough")) {
+            // Rename pattern var and its use within the same line's block
+            content = content.replace(
+                    "item instanceof DrainableComboItem food)",
+                    "item instanceof DrainableComboItem drainableFood)"
+            );
+            content = content.replace("result += food.getCurrentUses()", "result += drainableFood.getCurrentUses()");
+        }
+
+        // Note: BaseCraftingLogic bestMatch redeclaration is in switch-case scope
+        // and requires hoisting — left as a known remaining error.
+
+        // AddCoopPlayer: cellx and chunkMap redeclared in update()
+        if (content.contains("class AddCoopPlayer")) {
+            content = fixB42RemoveRedeclType(content,
+                    "IsoCell cellx = IsoWorld.instance.currentCell;",
+                    "cellx = IsoWorld.instance.currentCell;",
+                    2);
+            content = fixB42RemoveRedeclType(content,
+                    "IsoChunkMap chunkMap = cellx.chunkMap[this.player.playerIndex];",
+                    "chunkMap = cellx.chunkMap[this.player.playerIndex];",
+                    1);
+        }
+
+        // ChecksumPacket: bbw redeclared in parseServer() — 2nd and 3rd occurrences
+        if (content.contains("class ChecksumPacket")) {
+            content = fixB42RemoveRedeclType(content,
+                    "ByteBufferWriter bbw = connection.startPacket();",
+                    "bbw = connection.startPacket();",
+                    2);
+            content = fixB42RemoveRedeclType(content,
+                    "ByteBufferWriter bbw = connection.startPacket();",
+                    "bbw = connection.startPacket();",
+                    2);
+        }
+
+        // CombatManager: lower redeclared in getBodyPart()
+        if (content.contains("class CombatManager")) {
+            content = fixB42RemoveRedeclType(content,
+                    "boolean lower = Rand.Next(2) == 0;",
+                    "lower = Rand.Next(2) == 0;",
+                    2);
+        }
+
+        // Note: VehicleScript shape redeclaration in LoadPhysicsShape() is in
+        // switch-case scope — left as a known remaining error.
+
+        return content;
+    }
+
+    /**
+     * For UI3DScene, fix many redeclared variables in fromLua methods.
+     * Strategy: find each redeclared variable and remove the type from the 2nd+ declaration.
+     */
+    private static String fixB42UI3DSceneVars(String content) {
+        // These are all the specific redeclarations in UI3DScene
+        content = fixB42RemoveRedeclType(content,
+                "ArrayList<String> names = new ArrayList<>();",
+                "names = new ArrayList<>();",
+                2);
+        content = fixB42RemoveRedeclType(content,
+                "String modID = (String)arg0;",
+                "modID = (String)arg0;",
+                2);
+        content = fixB42RemoveRedeclType(content,
+                "String tileName = (String)arg1;",
+                "tileName = (String)arg1;",
+                2);
+        content = fixB42RemoveRedeclType(content,
+                "IsoSprite sprite = IsoSpriteManager.instance.getSprite(tileName);",
+                "sprite = IsoSpriteManager.instance.getSprite(tileName);",
+                2);
+        content = fixB42RemoveRedeclType(content,
+                "IsoSpriteGrid spriteGrid = sprite.getSpriteGrid();",
+                "spriteGrid = sprite.getSpriteGrid();",
+                2);
+        content = fixB42RemoveRedeclType(content,
+                "int spriteGridIndex = spriteGrid.getSpriteIndex(sprite);",
+                "spriteGridIndex = spriteGrid.getSpriteIndex(sprite);",
+                2);
+        content = fixB42RemoveRedeclType(content,
+                "Matrix4f transform = sceneModel.getGlobalTransform(allocMatrix4f());",
+                "transform = sceneModel.getGlobalTransform(allocMatrix4f());",
+                2);
+        content = fixB42RemoveRedeclType(content,
+                "Quaternionf rotation = transform.getUnnormalizedRotation(allocQuaternionf());",
+                "rotation = transform.getUnnormalizedRotation(allocQuaternionf());",
+                2);
+        content = fixB42RemoveRedeclType(content,
+                "byte col = -1;",
+                "col = -1;",
+                2);
+
+        // instanceof pattern var: sceneModel redeclared
+        // if (sceneObject instanceof UI3DScene.SceneModel sceneModel)
+        // Second occurrence must use a different name
+        content = fixB42RenameInstanceofPatternVar(content,
+                "sceneObject instanceof UI3DScene.SceneModel sceneModel",
+                "sceneModel", "_sceneModel", 2);
+        // Same for sceneCharacter
+        content = fixB42RenameInstanceofPatternVar(content,
+                "sceneObject instanceof UI3DScene.SceneCharacter sceneCharacter",
+                "sceneCharacter", "_sceneCharacter", 2);
+
+        // Fix redeclared for-loop variable i in fromLua2
+        content = fixB42RedeclaredForLoopVars(content, "fromLua2");
+
+        return content;
+    }
+
+    /**
+     * Remove the type from the Nth occurrence of a variable declaration.
+     * @param content source
+     * @param fullDecl the full declaration to find (e.g. "int x = 5;")
+     * @param assignment the assignment without type (e.g. "x = 5;")
+     * @param occurrence which occurrence to fix (1-based; 2 = second occurrence)
+     */
+    private static String fixB42RemoveRedeclType(String content, String fullDecl, String assignment, int occurrence) {
+        int count = 0;
+        int idx = 0;
+        while ((idx = content.indexOf(fullDecl, idx)) >= 0) {
+            count++;
+            if (count == occurrence) {
+                content = content.substring(0, idx)
+                        + assignment
+                        + content.substring(idx + fullDecl.length());
+                break;
+            }
+            idx += fullDecl.length();
+        }
+        return content;
+    }
+
+    /**
+     * Rename the Nth occurrence of an instanceof pattern variable and all uses
+     * within its if-block scope.
+     */
+    private static String fixB42RenameInstanceofPatternVar(String content,
+            String instanceofExpr, String oldVar, String newVar, int occurrence) {
+        int count = 0;
+        int idx = 0;
+        while ((idx = content.indexOf(instanceofExpr, idx)) >= 0) {
+            count++;
+            if (count == occurrence) {
+                // Replace the pattern variable in the instanceof expression
+                String newExpr = instanceofExpr.replace(" " + oldVar, " " + newVar);
+                content = content.substring(0, idx) + newExpr + content.substring(idx + instanceofExpr.length());
+
+                // Find the scope (the if-block following this instanceof)
+                int braceStart = content.indexOf("{", idx + newExpr.length());
+                if (braceStart >= 0) {
+                    int braceDepth = 1;
+                    int scopeEnd = braceStart + 1;
+                    while (scopeEnd < content.length() && braceDepth > 0) {
+                        char c = content.charAt(scopeEnd);
+                        if (c == '{') braceDepth++;
+                        else if (c == '}') braceDepth--;
+                        scopeEnd++;
+                    }
+                    // Replace all occurrences of oldVar within this scope
+                    String scopeContent = content.substring(braceStart, scopeEnd);
+                    scopeContent = scopeContent.replaceAll("\\b" + Pattern.quote(oldVar) + "\\b", newVar);
+                    content = content.substring(0, braceStart) + scopeContent + content.substring(scopeEnd);
+                }
+                break;
+            }
+            idx += instanceofExpr.length();
+        }
+        return content;
+    }
+
+    /**
+     * Rename an instanceof pattern variable and its uses within the immediately
+     * following scope. Used when a pattern var like 'food' conflicts with an
+     * earlier variable of the same name.
+     */
+    private static String fixB42RenamePatternVarInScope(String content,
+            String afterExpr, String newVar, String usageToReplace) {
+        int idx = content.indexOf(afterExpr);
+        if (idx < 0) return content;
+
+        // Find the scope block
+        int blockStart = content.indexOf("{", idx);
+        if (blockStart < 0) return content;
+
+        // The next line after the instanceof check uses the new variable
+        int blockEnd = blockStart + 1;
+        int depth = 1;
+        while (blockEnd < content.length() && depth > 0) {
+            char c = content.charAt(blockEnd);
+            if (c == '{') depth++;
+            else if (c == '}') depth--;
+            blockEnd++;
+        }
+
+        // Within this scope, replace the original usageToReplace with newVar
+        // but ONLY standalone word boundaries
+        String scope = content.substring(blockStart, blockEnd);
+        // The pattern var is already renamed. We need to fix any reference to old name
+        // Actually in this case the uses after the pattern match already use the old name
+        // 'food' -- we need to replace them with 'food2'
+        scope = scope.replaceAll("\\b" + Pattern.quote(usageToReplace) + "\\b", newVar);
+        content = content.substring(0, blockStart) + scope + content.substring(blockEnd);
+
+        return content;
+    }
+
+    /**
+     * Fix for-loop variable redeclarations in a method.
+     * When a for(int x = ...) appears multiple times in the same method,
+     * subsequent ones need the type removed.
+     */
+    private static String fixB42RedeclaredForLoopVars(String content, String methodName) {
+        String[] lines = content.split("\n", -1);
+        boolean inMethod = false;
+        Set<String> declaredForVars = new HashSet<>();
+        boolean modified = false;
+
+        for (int i = 0; i < lines.length; i++) {
+            String trimmed = lines[i].trim();
+
+            // Detect method start (simplified)
+            if (trimmed.contains(methodName + "(")) {
+                inMethod = true;
+                declaredForVars.clear();
+                continue;
+            }
+
+            if (!inMethod) continue;
+
+            // Detect method end at depth 0 (simplified: track brace depth)
+            // For simplicity, just process for-loop patterns
+            Matcher forM = Pattern.compile("for \\(int (\\w+) = ").matcher(trimmed);
+            if (forM.find()) {
+                String varName = forM.group(1);
+                if (declaredForVars.contains(varName)) {
+                    // Remove the type declaration: "for (int x = " -> "for (x = "
+                    lines[i] = lines[i].replace("for (int " + varName + " = ", "for (" + varName + " = ");
+                    modified = true;
+                } else {
+                    declaredForVars.add(varName);
+                }
+            }
+        }
+
+        return modified ? String.join("\n", lines) : content;
+    }
+
+    /**
+     * Fix block-scoped variable redeclarations (like ModelAttachment modelAttachment).
+     * When the same variable is declared multiple times in the same method,
+     * remove the type from subsequent declarations.
+     */
+    private static String fixB42RedeclaredBlockVars(String content, String declPrefix) {
+        // Find all occurrences and remove the type from 2nd+ in the same method
+        String[] parts = content.split("\n", -1);
+        Map<String, Integer> methodDeclCounts = new HashMap<>();
+        String currentMethod = "";
+        boolean modified = false;
+
+        for (int i = 0; i < parts.length; i++) {
+            String trimmed = parts[i].trim();
+            // Detect method declarations
+            Matcher methodM = Pattern.compile("^(?:public|private|protected|static|final|synchronized|\\s)*\\s+\\w+\\s+(\\w+)\\s*\\(").matcher(trimmed);
+            if (methodM.find() && trimmed.contains("(") && !trimmed.startsWith("new ") && !trimmed.startsWith("return ")) {
+                currentMethod = methodM.group(1);
+                methodDeclCounts.clear();
+            }
+
+            if (trimmed.startsWith(declPrefix)) {
+                String key = currentMethod + ":" + declPrefix;
+                int count = methodDeclCounts.getOrDefault(key, 0) + 1;
+                methodDeclCounts.put(key, count);
+                if (count > 1) {
+                    // Remove the type: "ModelAttachment modelAttachment = ..." -> "modelAttachment = ..."
+                    String varName = declPrefix.substring(declPrefix.lastIndexOf(' ') + 1);
+                    int typeStart = parts[i].indexOf(declPrefix);
+                    int varStart = typeStart + declPrefix.length() - varName.length();
+                    parts[i] = parts[i].substring(0, typeStart) + parts[i].substring(varStart);
+                    modified = true;
+                }
+            }
+        }
+
+        return modified ? String.join("\n", parts) : content;
+    }
+
+    // ========================================================================
+    // B42 Helper: Fix Enum generics cast — (Enum[]) to (E[]) with unchecked
+    // ========================================================================
+
+    private static String fixB42EnumGenericsCast(String content) {
+        // Pattern: for (E e : (Enum[])this.elementType.getEnumConstants())
+        // Fix: cast to E[] instead: for (E e : (E[])this.elementType.getEnumConstants())
+        // This pattern appears in EnumBitStore, AttributeType, PZArrayUtil
+
+        // General pattern: (Enum[])expr.getEnumConstants() -> (E[])expr.getEnumConstants()
+        // where E is the for-each loop variable type
+        // More specifically: for (SomeType var : (Enum[])... -> for (SomeType var : (SomeType[])...
+        // and: for (SomeType var : (java.lang.Enum[])... -> for (SomeType var : (SomeType[])...
+        content = content.replaceAll(
+                "for \\((\\w+) (\\w+) : \\((?:java\\.lang\\.)?Enum\\[\\]\\)",
+                "for ($1 $2 : ($1[])"
+        );
+
+        // EnumBitStore inner class: EnumBitStoreIterator has its own E that shadows outer E
+        // Fix the inner class to not redeclare E
+        if (content.contains("class EnumBitStore")) {
+            // Fix: private class EnumBitStoreIterator<E extends Enum<E> & IOEnum>
+            // -> private class EnumBitStoreIterator (remove the type parameter)
+            content = content.replace(
+                    "private class EnumBitStoreIterator<E extends Enum<E> & IOEnum> implements Iterator<E>",
+                    "private class EnumBitStoreIterator implements Iterator<E>"
+            );
+
+            // Fix: EnumBitStore<E>.EnumBitStoreIterator<E> -> EnumBitStoreIterator
+            content = content.replaceAll(
+                    "EnumBitStore<E>\\.EnumBitStoreIterator<E>",
+                    "EnumBitStoreIterator"
+            );
+            // Fix: new EnumBitStore.EnumBitStoreIterator<>() -> new EnumBitStoreIterator()
+            content = content.replace(
+                    "new EnumBitStore.EnumBitStoreIterator<>()",
+                    "new EnumBitStoreIterator()"
+            );
+        }
+
+        // EnumStringObj: "!(o instanceof EnumStringObj<E> other)" uses reifiable generic
+        // Fix: remove the generic parameter from the instanceof
+        if (content.contains("class EnumStringObj")) {
+            content = content.replace(
+                    "!(o instanceof EnumStringObj<E> other)",
+                    "!(o instanceof EnumStringObj<?> other)"
+            );
+        }
+
+        return content;
+    }
+
+    // ========================================================================
+    // B42 Helper: Fix int/byte assigned to boolean fields
+    // ========================================================================
+
+    private static String fixB42IntBooleanFields(String content) {
+        // IsoObject: isOutlineHighlight, isOutlineHlAttached, isOutlineHlBlink are byte fields
+        // but used in boolean return contexts. The methods return boolean but field is byte.
+        // Fix: add != 0 comparison
+        if (content.contains("class IsoObject ")) {
+            // return this.isOutlineHighlight;  ->  return this.isOutlineHighlight != 0;
+            content = content.replaceAll(
+                    "return this\\.(isOutlineHighlight|isOutlineHlAttached|isOutlineHlBlink);",
+                    "return this.$1 != 0;"
+            );
+            // if (this.isOutlineHighlight) {  ->  if (this.isOutlineHighlight != 0) {
+            content = content.replaceAll(
+                    "if \\(this\\.(isOutlineHighlight|isOutlineHlAttached|isOutlineHlBlink)\\)",
+                    "if (this.$1 != 0)"
+            );
+        }
+
+        // VisibilityGraph: f.n = 1; should be f.n = true; (ClusterOutline fields are boolean)
+        if (content.contains("class VisibilityGraph")) {
+            content = content.replace("f.n = 1;", "f.n = true;");
+        }
+
+        // ClusterOutlineGrid: f1.w = 1; should be f1.w = true;
+        if (content.contains("class ClusterOutlineGrid")) {
+            content = content.replace("f1.w = 1;", "f1.w = true;");
+        }
+
+        // FileSystemImpl: priority = (boolean)(16 - this.inProgress.size());
+        // should be priority = 16 - this.inProgress.size(); with int type
+        if (content.contains("class FileSystemImpl")) {
+            content = content.replace(
+                    "priority = (boolean)(16 - this.inProgress.size());",
+                    "priority = 16 - this.inProgress.size();"
+            );
+            // Also fix the declaration: boolean priority -> int priority
+            content = content.replaceAll(
+                    "(\\s*)boolean priority(\\s*[;=])",
+                    "$1int priority$2"
+            );
+            // Fix boolean literal initial value
+            content = content.replace("int priority = true;", "int priority = 1;");
+            content = content.replace("int priority = false;", "int priority = 0;");
+        }
+
+        // IsoWorld: isPlayerAlive = (boolean)PZMath.fastfloor(...)
+        //           bLoadCharacter = (boolean)PZMath.fastfloor(...)
+        // These should be int assignments. The variables are declared as boolean
+        // but actually hold int values (floor coordinates).
+        if (content.contains("class IsoWorld ")) {
+            content = content.replace(
+                    "isPlayerAlive = (boolean)PZMath.fastfloor(IsoPlayer.getInstance().getX());",
+                    "isPlayerAlive = PZMath.fastfloor(IsoPlayer.getInstance().getX());"
+            );
+            content = content.replace(
+                    "bLoadCharacter = (boolean)PZMath.fastfloor(IsoPlayer.getInstance().getY());",
+                    "bLoadCharacter = PZMath.fastfloor(IsoPlayer.getInstance().getY());"
+            );
+            // Fix the variable types from boolean to int
+            content = content.replaceAll(
+                    "(\\s*)boolean isPlayerAlive(\\s*[;=])",
+                    "$1int isPlayerAlive$2"
+            );
+            content = content.replaceAll(
+                    "(\\s*)boolean bLoadCharacter(\\s*[;=])",
+                    "$1int bLoadCharacter$2"
+            );
+            // Fix boolean literal assignments that should now be int
+            content = content.replace("int isPlayerAlive = false;", "int isPlayerAlive = 0;");
+            content = content.replace("isPlayerAlive = true;", "isPlayerAlive = 1;");
+            // PlayerDBHelper.isPlayerAlive returns boolean, need ternary to convert to int
+            content = content.replace(
+                    "isPlayerAlive = PlayerDBHelper.isPlayerAlive(ZomboidFileSystem.instance.getCurrentSaveDir(), 1);",
+                    "isPlayerAlive = PlayerDBHelper.isPlayerAlive(ZomboidFileSystem.instance.getCurrentSaveDir(), 1) ? 1 : 0;"
+            );
+            content = content.replace("int bLoadCharacter = false;", "int bLoadCharacter = 0;");
+            content = content.replace("bLoadCharacter = true;", "bLoadCharacter = 1;");
+            content = content.replace("bLoadCharacter = false;", "bLoadCharacter = 0;");
+            // Fix boolean usage in if conditions
+            content = content.replace("if (isPlayerAlive)", "if (isPlayerAlive != 0)");
+            content = content.replace("if (bLoadCharacter ", "if (bLoadCharacter != 0 ");
+        }
+
+        return content;
+    }
+
+    // ========================================================================
+    // B42 Helper: File-specific fixes for remaining errors
+    // ========================================================================
+
+    private static String fixB42FileSpecificErrors(String content) {
+        // UIElement: rawget("Type") returns Object, needs (String) cast
+        if (content.contains("class UIElement ")) {
+            content = content.replace(
+                    "String type = this.table.rawget(\"Type\");",
+                    "String type = (String)this.table.rawget(\"Type\");"
+            );
+        }
+
+        // ImagePyramid: Comparator.comparingInt with raw lambda cast to Object
+        // ((Object)o).requestNumber -> ((ImagePyramid.PyramidTexture)o).requestNumber
+        if (content.contains("class ImagePyramid")) {
+            content = content.replace(
+                    "((Object)o).requestNumber",
+                    "((ImagePyramid.PyramidTexture)o).requestNumber"
+            );
+        }
+
+        // ShaderBufferData: same pattern with offset field
+        if (content.contains("class ShaderBufferData")) {
+            content = content.replace(
+                    "((Object)a).offset",
+                    "((ShaderParameter)a).offset"
+            );
+        }
+
+        // FBORenderCell: raw lambda comparators accessing fields on Object
+        if (content.contains("class FBORenderCell")) {
+            // World inventory objects sort: o1.xoff, o1.yoff on IsoWorldInventoryObject
+            content = content.replaceAll(
+                    "(o[12])\\.xoff",
+                    "((IsoWorldInventoryObject)$1).xoff"
+            );
+            content = content.replaceAll(
+                    "(o[12])\\.yoff",
+                    "((IsoWorldInventoryObject)$1).yoff"
+            );
+            // lightingUpdateCounter sort
+            content = content.replace(
+                    "((Object)a).lightingUpdateCounter",
+                    "((IsoChunk)a).lightingUpdateCounter"
+            );
+            // Grid square sort: o1.x, o1.y, o2.x, o2.y on IsoGridSquare
+            // Need to be careful: only match in the sort lambda context
+            content = content.replaceAll(
+                    "(int i[12] = )(o[12])\\.x \\+ (o[12])\\.y",
+                    "$1((IsoGridSquare)$2).x + ((IsoGridSquare)$3).y"
+            );
+        }
+
+        // FBORenderObjectPicker: raw lambda comparator accessing .square on ClickObject
+        if (content.contains("class FBORenderObjectPicker")) {
+            content = content.replaceAll(
+                    "(o[12])\\.square\\.z",
+                    "((IsoObjectPicker.ClickObject)$1).square.z"
+            );
+            content = content.replace(
+                    "compareRenderLayer(o1, o2)",
+                    "compareRenderLayer((IsoObjectPicker.ClickObject)o1, (IsoObjectPicker.ClickObject)o2)"
+            );
+            content = content.replace(
+                    "compareSquare(o1, o2)",
+                    "compareSquare((IsoObjectPicker.ClickObject)o1, (IsoObjectPicker.ClickObject)o2)"
+            );
+        }
+
+        // AnimalZone, IsoMannequin (MannequinZone), VehicleZone:
+        // (String)s.rawget("...") — variable 's' not in scope, should be 'properties'
+        if (content.contains("class AnimalZone")) {
+            content = content.replace(
+                    "(String)s.rawget(\"AnimalType\")",
+                    "(String)properties.rawget(\"AnimalType\")"
+            );
+        }
+
+        if (content.contains("class IsoMannequin")) {
+            content = content.replace("(String)s.rawget(\"Direction\")", "(String)properties.rawget(\"Direction\")");
+            content = content.replace("(String)s.rawget(\"Outfit\")", "(String)properties.rawget(\"Outfit\")");
+            content = content.replace("(String)s.rawget(\"Script\")", "(String)properties.rawget(\"Script\")");
+            content = content.replace("(String)s.rawget(\"Skin\")", "(String)properties.rawget(\"Skin\")");
+            content = content.replace("(String)s.rawget(\"Pose\")", "(String)properties.rawget(\"Pose\")");
+        }
+
+        if (content.contains("class VehicleZone")) {
+            content = content.replace(
+                    "(String)s.rawget(\"Direction\")",
+                    "(String)properties.rawget(\"Direction\")"
+            );
+        }
+
+        // StateMachine: lambda parameter subState inferred as Object, needs cast
+        if (content.contains("class StateMachine")) {
+            content = content.replace(
+                    "(subState, lOwner, lLayer, lTrack, lEvent) -> {\n            if (!subState.isEmpty()) {\n                subState.state.animEvent",
+                    "(subState, lOwner, lLayer, lTrack, lEvent) -> {\n            if (!((StateMachine.SubstateSlot)subState).isEmpty()) {\n                ((StateMachine.SubstateSlot)subState).state.animEvent"
+            );
+        }
+
+        // Pool: Pool<PO> cannot be converted to Pool<IPooledObject>
+        // Fix: add raw cast
+        if (content.contains("class Pool ") || content.contains("class Pool<")) {
+            content = content.replace(
+                    "newObj.setPool(new Pool.PoolReference(this, poolStacks));",
+                    "newObj.setPool(new Pool.PoolReference((Pool)this, poolStacks));"
+            );
+        }
+
+        // ClothingWetness and ClothingWetnessSync: 'clothing' instanceof pattern var
+        // escapes its scope (used after while loop). These are handled by the shared
+        // fixInstanceofPatternScope transform. No additional b42-specific fix needed
+        // as the pattern is too complex for simple string replacement.
+
+        // HandWeapon: text is String but later cast to (Double)text
+        // The rawget returns Object, not String. Fix the specific lines.
+        if (content.contains("class HandWeapon ")) {
+            content = content.replace(
+                    "f = (float)((Double)text).doubleValue();",
+                    "f = (float)((Double)(Object)text).doubleValue();"
+            );
+        }
+
+        // IsoAnimal: @Override on methods that don't override parent
+        if (content.contains("class IsoAnimal ")) {
+            content = content.replace(
+                    "@Override\n    public void updateStress()",
+                    "public void updateStress()"
+            );
+            content = content.replace(
+                    "@Override\n    public void initializeStates()",
+                    "public void initializeStates()"
+            );
+        }
+
+        // TileGeometryFile: (String)block.getValue("points") — Value not String
+        if (content.contains("class TileGeometryFile")) {
+            content = content.replace(
+                    "value = (String)block.getValue(\"points\");",
+                    "value = block.getValue(\"points\");"
+            );
+        }
+
+        // LoadingQueueUI: 0.4F passed where Double expected in DrawTextureScaledColor
+        if (content.contains("class LoadingQueueUI")) {
+            content = content.replace("0.4F, 0.4F, 0.4F, 1.0);", "(double)0.4F, (double)0.4F, (double)0.4F, 1.0);");
+        }
+
+        // RecipeCodeOnCreate: getConsumedItems/getInputItems/getCreatedItems return List<InventoryItem>
+        // but assigned to subtype. Need casts.
+        if (content.contains("class RecipeCodeOnCreate")) {
+            content = content.replace(
+                    "Food head = getConsumedItems(data, ItemTag.ANIMAL_HEAD).getFirst();",
+                    "Food head = (Food)getConsumedItems(data, ItemTag.ANIMAL_HEAD).getFirst();"
+            );
+            content = content.replace(
+                    "Clothing item = getConsumedItems(data, ItemTag.PICK_ARAMID_THREAD).getFirst();",
+                    "Clothing item = (Clothing)getConsumedItems(data, ItemTag.PICK_ARAMID_THREAD).getFirst();"
+            );
+            content = content.replace(
+                    "Key sourceKey = getInputItems(data, ItemTag.BUILDING_KEY).getFirst();",
+                    "Key sourceKey = (Key)getInputItems(data, ItemTag.BUILDING_KEY).getFirst();"
+            );
+            content = content.replace(
+                    "Food macaroni = getCreatedItems(data, ItemTag.PASTA).getFirst();",
+                    "Food macaroni = (Food)getCreatedItems(data, ItemTag.PASTA).getFirst();"
+            );
+            // Multi-line getConsumedItems with ItemKey params returning DrainableComboItem
+            content = content.replace(
+                    "DrainableComboItem lantern = getConsumedItems(",
+                    "DrainableComboItem lantern = (DrainableComboItem)getConsumedItems("
+            );
+        }
+
+        // EditVehicleState: Collectors.joining returns Object instead of String
+        // .collect(Collectors.joining(", ")) returns Object because stream is raw
+        if (content.contains("class EditVehicleState")) {
+            content = content.replace(
+                    "String collect = var10000.<CharSequence>map(xva$0 -> \"%s\".formatted(xva$0)).collect(Collectors.joining(\", \"));",
+                    "String collect = (String)var10000.<CharSequence>map(xva$0 -> \"%s\".formatted(xva$0)).collect(Collectors.joining(\", \"));"
+            );
+        }
+
+        // PrimitiveFloatList: forEach ambiguity — method ref action::accept is ambiguous
+        if (content.contains("class PrimitiveFloatList")) {
+            content = content.replace(
+                    "this.forEach(action::accept);",
+                    "this.forEach((FloatConsumer)action::accept);"
+            );
+        }
+
+        // ZombieDeleteOnClientPacket: raw ArrayList cast needs type in for-each
+        if (content.contains("class ZombieDeleteOnClientPacket")) {
+            content = content.replace(
+                    "for (NetworkZombiePacker.DeletedZombie dz : (ArrayList)values[1])",
+                    "for (NetworkZombiePacker.DeletedZombie dz : (ArrayList<NetworkZombiePacker.DeletedZombie>)values[1])"
+            );
+        }
+
+        // ClothingWetnessPacket: raw List cast needs type in for-each
+        if (content.contains("class ClothingWetnessPacket")) {
+            content = content.replace(
+                    "for (InventoryItem item : (List)values[1])",
+                    "for (InventoryItem item : (List<InventoryItem>)values[1])"
+            );
+        }
+
+        // RemoveInventoryItemFromContainerPacket: raw ArrayList cast
+        if (content.contains("class RemoveInventoryItemFromContainerPacket")) {
+            content = content.replace(
+                    "for (InventoryItem item : (ArrayList)values[1])",
+                    "for (InventoryItem item : (ArrayList<InventoryItem>)values[1])"
+            );
+        }
+
+        // GameServer: (String)ServerOptions.instance.isPublic.getValue() — getValue returns Boolean
+        if (content.contains("class GameServer ")) {
+            content = content.replace(
+                    "String tags = (String)ServerOptions.instance.isPublic.getValue() ? \"\" : \"hidden\";",
+                    "String tags = ServerOptions.instance.isPublic.getValue() ? \"\" : \"hidden\";"
+            );
+        }
+
+        // IsoLot: ambiguous get() call — remove Integer.valueOf wrapper
+        if (content.contains("class IsoLot ")) {
+            content = content.replace(
+                    "return get(mapFiles, cX, cY, wX, Integer.valueOf(wY), ch);",
+                    "return get(mapFiles, Integer.valueOf(cX), Integer.valueOf(cY), Integer.valueOf(wX), Integer.valueOf(wY), ch);"
+            );
+        }
+
+        // Select: QuickSelect<?> wildcard causes T[] incompatibility
+        if (content.contains("class Select ")) {
+            content = content.replace(
+                    "private QuickSelect<?> quickSelect;",
+                    "private QuickSelect quickSelect;"
+            );
+        }
+
+        // XuiScript: (XuiScript.XuiVar<T, C>) uses undefined T, C
+        if (content.contains("class XuiScript")) {
+            content = content.replace(
+                    "(XuiScript.XuiVar<T, C>)style.getVar(",
+                    "(XuiScript.XuiVar)style.getVar("
+            );
+            content = content.replace(
+                    "(XuiScript.XuiVar<T, C>)defaultStyle.getVar(",
+                    "(XuiScript.XuiVar)defaultStyle.getVar("
+            );
+        }
+
+        // FirearmPanel: stream collect inference — toCollection(ArrayList::new) can't infer
+        // generic types because the stream element is Object. Cast the map result.
+        if (content.contains("class FirearmPanel")) {
+            content = content.replace(
+                    ".map(i -> InventoryItemFactory.CreateItem(i.getFullName()))",
+                    ".<WeaponPart>map(i -> (WeaponPart)InventoryItemFactory.CreateItem(i.getFullName()))"
+            );
+        }
+
+        // AnimalZones: subState.getClass() on inaccessible type
+        if (content.contains("class AnimalZones")) {
+            content = content.replace(
+                    "subState.getClass().getSimpleName()",
+                    "((Object)subState).getClass().getSimpleName()"
+            );
+        }
+
+        // PZArrayUtil enum generic cast is handled by the general fixB42EnumGenericsCast regex
+
+        return content;
+    }
+
     private static String fixWrongStringCastOnGet(String content) {
         String[] lines = content.split("\n", -1);
         boolean modified = false;
@@ -3284,14 +4084,6 @@ public final class PostDecompileTransforms {
     }
 
     // ========================================================================
-    // Fix: UIServerToolbox DialogButton float→int cast
-    // ========================================================================
-    // Vineflower decompiles integer constants as (float)30, (float)225 etc., but
-    // the original bytecode uses BIPUSH 30, SIPUSH 225 (int push). The float
-    // overload of DialogButton is called instead of the int overload.
-    // Fix: cast `this` to UIEventHandler and remove float casts.
-
-    // ========================================================================
     // Fix: MPStatistic rawset overload — (Object)int cast forces wrong overload
     // ========================================================================
     // KahluaTable has rawset(int, Object) and rawset(Object, Object).
@@ -3304,6 +4096,38 @@ public final class PostDecompileTransforms {
         content = content.replace(
                 "table4.rawset((Object)int2, (double)udpConnection.statistic.FPSHistogramm[int2])",
                 "table4.rawset(int2, (Object)(double)udpConnection.statistic.FPSHistogramm[int2])"
+        );
+        return content;
+    }
+
+    // ========================================================================
+    // Fix: ClimbOverFenceState / ClimbThroughWindowState float++ → += 1.1F
+    // ========================================================================
+    // Vineflower decompiles `fload v; ldc 1.1f; fadd; fstore v` as `float++`
+    // which is `float += 1.0f`. The original constant is 1.1f, not 1.0f.
+    // The -= 0.1F cases are correct; only the S and E switch cases are wrong.
+
+    private static String fixClimbStateFloatIncrement(String content) {
+        if (!content.contains("ClimbOverFenceState") && !content.contains("ClimbThroughWindowState")) {
+            return content;
+        }
+        // ClimbOverFenceState: float2++ and float1++ in switch(directions)
+        content = content.replace(
+                "case S:\n                    float2++;\n                    break;",
+                "case S:\n                    float2 += 1.1F;\n                    break;"
+        );
+        content = content.replace(
+                "case E:\n                    float1++;",
+                "case E:\n                    float1 += 1.1F;"
+        );
+        // ClimbThroughWindowState: float5++ and float4++ in switch(directions)
+        content = content.replace(
+                "case S:\n                        float5++;\n                        break;",
+                "case S:\n                        float5 += 1.1F;\n                        break;"
+        );
+        content = content.replace(
+                "case E:\n                        float4++;",
+                "case E:\n                        float4 += 1.1F;"
         );
         return content;
     }

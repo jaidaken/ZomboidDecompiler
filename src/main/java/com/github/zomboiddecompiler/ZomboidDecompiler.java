@@ -36,9 +36,14 @@ public class ZomboidDecompiler {
     private boolean remapLineNumbers = false;
 
     private String classPatterns = "";
+    private String buildVersion = null;
 
     public void setClassPatterns(String classPatterns) {
         this.classPatterns = classPatterns;
+    }
+
+    public void setBuildVersion(String buildVersion) {
+        this.buildVersion = buildVersion;
     }
 
     public void setJarGame(boolean jarGame) {
@@ -105,7 +110,7 @@ public class ZomboidDecompiler {
             }
         }
 
-        ZomboidResultSaver resultSaver = new ZomboidResultSaver(outputPath.resolve("source"), gamePath);
+        ZomboidResultSaver resultSaver = new ZomboidResultSaver(outputPath.resolve("source"), gamePath, buildVersion);
 
         ZomboidContextSource gameSource;
         ZomboidContextSource dependencySource;
