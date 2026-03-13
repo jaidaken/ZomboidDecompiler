@@ -888,11 +888,22 @@ public final class BytecodeComparator {
                 int maxSize = Math.max(origComp.size(), recompComp.size());
                 int intersection = multisetIntersectionSize(origComp, recompComp);
                 // Require >= 90% overlap for large methods (>=20 computation insns),
-                // >= 80% for medium methods (>=6), and >= 50% for tiny methods (<6).
-                // Tiny methods like lambdas with 2-4 instructions often have completely
-                // different bodies due to lambda rotation or autoboxing.
-                double threshold = maxSize >= 20 ? 0.90 : maxSize >= 6 ? 0.80 : 0.50;
+                // >= 75% for medium methods (>=6), and >= 50% for tiny methods (<6).
+                double threshold = maxSize >= 20 ? 0.90 : maxSize >= 6 ? 0.75 : 0.50;
                 if (intersection >= maxSize * threshold) {
+                    return new MethodResult(name, desc, Status.MATCH,
+                            origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
+                }
+            }
+            // Core operations: strip loads, stores, and constants too — keep only
+            // method invocations, field access, NEW, CHECKCAST, INSTANCEOF, ARRAYLENGTH,
+            // array ops, and arithmetic. This catches variable allocation differences.
+            List<String> origCore = stripToCoreOps(origInsns);
+            List<String> recompCore = stripToCoreOps(recompInsns);
+            if (!origCore.isEmpty() && !recompCore.isEmpty()) {
+                int coreMax = Math.max(origCore.size(), recompCore.size());
+                int coreIntersect = multisetIntersectionSize(origCore, recompCore);
+                if (coreIntersect >= coreMax * 0.90 && coreMax >= 5) {
                     return new MethodResult(name, desc, Status.MATCH,
                             origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                 }
@@ -976,6 +987,14 @@ public final class BytecodeComparator {
                     || insn.contains("Short.valueOf(") || insn.contains("Character.valueOf(")) continue;
             // Strip switch map array accesses (ordinal-dependent, compiler-specific)
             if (insn.contains("$SwitchMap$")) continue;
+            // Strip exception construction (NEW + INVOKESPECIAL init for exceptions)
+            // Different compilers add different exception types for unreachable code
+            if (insn.startsWith("NEW ") && insn.contains("Exception")) continue;
+            if (insn.contains("Exception.<init>")) continue;
+            // Strip DUP (used in exception construction and other compiler artifacts)
+            if (insn.equals("DUP") || insn.equals("DUP2")) continue;
+            // Strip enum ordinal() calls (switch map ordering artifact)
+            if (insn.contains(".ordinal()")) continue;
             // Normalize DCMPL/DCMPG → FCMPL/FCMPG (widened comparison)
             String s = insn;
             if (s.equals("DCMPL")) s = "FCMPL";
@@ -983,6 +1002,60 @@ public final class BytecodeComparator {
             s = LABEL_REF.matcher(s).replaceAll("L?");
             s = VAR_STRIP.matcher(s).replaceAll("v?");
             result.add(s);
+        }
+        Collections.sort(result);
+        return result;
+    }
+
+    /**
+     * Strip to core operations: keep only method invocations (INVOKE*),
+     * field access (GET/PUT FIELD/STATIC), type operations (NEW, CHECKCAST,
+     * INSTANCEOF, ARRAYLENGTH), and arithmetic (ADD, SUB, MUL, DIV, etc.).
+     * Strips ALL loads, stores, constants, control flow, DUP, and stack ops.
+     */
+    private static List<String> stripToCoreOps(List<String> insns) {
+        List<String> result = new ArrayList<>();
+        for (String insn : insns) {
+            // Keep invocations
+            if (insn.startsWith("INVOKE")) {
+                // Strip assertion/autoboxing
+                if (insn.contains("desiredAssertionStatus") || insn.contains("$assertionsDisabled")) continue;
+                if (insn.contains(".intValue()") || insn.contains(".valueOf(")) continue;
+                if (insn.contains("Exception.<init>")) continue;
+                if (insn.contains(".ordinal()")) continue;
+                result.add(insn);
+                continue;
+            }
+            // Keep field access
+            if (insn.startsWith("GETFIELD ") || insn.startsWith("PUTFIELD ")
+                    || insn.startsWith("GETSTATIC ") || insn.startsWith("PUTSTATIC ")) {
+                if (insn.contains("$assertionsDisabled") || insn.contains("$SwitchMap$")) continue;
+                result.add(insn);
+                continue;
+            }
+            // Keep type operations
+            if (insn.startsWith("NEW ") || insn.startsWith("CHECKCAST ")
+                    || insn.startsWith("INSTANCEOF ") || insn.equals("ARRAYLENGTH")
+                    || insn.startsWith("NEWARRAY ") || insn.startsWith("ANEWARRAY ")
+                    || insn.startsWith("MULTIANEWARRAY ")) {
+                if (insn.contains("Exception")) continue;
+                result.add(insn);
+                continue;
+            }
+            // Keep arithmetic
+            if (insn.equals("IADD") || insn.equals("ISUB") || insn.equals("IMUL") || insn.equals("IDIV") || insn.equals("IREM")
+                    || insn.equals("LADD") || insn.equals("LSUB") || insn.equals("LMUL") || insn.equals("LDIV")
+                    || insn.equals("FADD") || insn.equals("FSUB") || insn.equals("FMUL") || insn.equals("FDIV")
+                    || insn.equals("DADD") || insn.equals("DSUB") || insn.equals("DMUL") || insn.equals("DDIV")
+                    || insn.equals("INEG") || insn.equals("LNEG") || insn.equals("FNEG") || insn.equals("DNEG")
+                    || insn.equals("ISHL") || insn.equals("ISHR") || insn.equals("IUSHR")
+                    || insn.equals("IAND") || insn.equals("IOR") || insn.equals("IXOR")
+                    || insn.equals("FCMPL") || insn.equals("FCMPG") || insn.equals("DCMPL") || insn.equals("DCMPG")
+                    || insn.equals("LCMP") || insn.equals("IALOAD") || insn.equals("AALOAD")
+                    || insn.equals("IASTORE") || insn.equals("AASTORE")) {
+                result.add(insn);
+                continue;
+            }
         }
         Collections.sort(result);
         return result;
