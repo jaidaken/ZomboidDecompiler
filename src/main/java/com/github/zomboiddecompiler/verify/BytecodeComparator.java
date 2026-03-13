@@ -415,6 +415,31 @@ public final class BytecodeComparator {
             insnsMatched = true;
         }
 
+        // Semantic: trailing dead code — one side is a prefix of the other, and the
+        // extra trailing instructions form a simple return block after a terminator.
+        // This happens when old javac keeps shared return blocks as dead code at method end.
+        if (semanticNormalize && origInsns.size() != recompInsns.size()) {
+            int shorter = Math.min(origInsns.size(), recompInsns.size());
+            int longer = Math.max(origInsns.size(), recompInsns.size());
+            if (diffIdx == shorter && longer - shorter <= 3 && shorter > 0) {
+                String lastOfShorter = (origInsns.size() <= recompInsns.size()
+                        ? origInsns : recompInsns).get(shorter - 1);
+                if (isReturnString(lastOfShorter) || lastOfShorter.equals("ATHROW")) {
+                    List<String> longerList = origInsns.size() > recompInsns.size()
+                            ? origInsns : recompInsns;
+                    List<String> trailing = longerList.subList(shorter, longer);
+                    if (isSimpleReturnBlock(trailing)) {
+                        String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
+                        if (tryCatchDiff == null) {
+                            return new MethodResult(name, desc, Status.MATCH,
+                                    origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
+                        }
+                        insnsMatched = true;
+                    }
+                }
+            }
+        }
+
         // Semantic: guard clause elimination — one side has the guard body (early exit)
         // that doesn't exist on the other side, causing a length difference.
         if (semanticNormalize && origInsns.size() != recompInsns.size()
@@ -2404,6 +2429,25 @@ public final class BytecodeComparator {
         return result;
     }
 
+    /**
+     * Returns true if the given instruction list is a simple return block:
+     * 0-1 value-producing instructions followed by a return instruction.
+     * E.g., [IRETURN], [ICONST_1, IRETURN], [ACONST_NULL, ARETURN], [LLOAD v5, LRETURN].
+     */
+    private static boolean isSimpleReturnBlock(List<String> insns) {
+        if (insns.isEmpty() || insns.size() > 3) return false;
+        String last = insns.get(insns.size() - 1);
+        if (!isReturnString(last) && !last.equals("ATHROW")) return false;
+        // All preceding instructions must be value-producing (loads, constants)
+        for (int i = 0; i < insns.size() - 1; i++) {
+            String s = insns.get(i);
+            if (!isLoadInsn(s) && !isConstantPushInsn(s) && !s.startsWith("GETSTATIC ")) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private static boolean isLoadInsn(String insn) {
         return insn.startsWith("ALOAD ") || insn.startsWith("ILOAD ")
                 || insn.startsWith("LLOAD ") || insn.startsWith("FLOAD ")
@@ -2746,6 +2790,13 @@ public final class BytecodeComparator {
                         }
                         // Two-instruction return: xLOAD + xRETURN
                         if (j + 1 < insns.size() && isLoadInsn(targetInsn)
+                                && isReturnString(insns.get(j + 1))) {
+                            result.add(targetInsn);
+                            result.add(insns.get(j + 1));
+                            continue;
+                        }
+                        // Two-instruction constant-return: ICONST/FCONST/etc + xRETURN
+                        if (j + 1 < insns.size() && isConstantPushInsn(targetInsn)
                                 && isReturnString(insns.get(j + 1))) {
                             result.add(targetInsn);
                             result.add(insns.get(j + 1));
@@ -3094,6 +3145,7 @@ public final class BytecodeComparator {
             if (tryMicroBlockMatch(expectedNoGoto, secondNoGoto)) {
                 return true;
             }
+
         }
         return false;
     }

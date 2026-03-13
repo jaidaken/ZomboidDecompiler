@@ -2867,65 +2867,6 @@ public final class PostDecompileTransforms {
     }
 
     /**
-     * For UI3DScene, fix many redeclared variables in fromLua methods.
-     * Strategy: find each redeclared variable and remove the type from the 2nd+ declaration.
-     */
-    private static String fixB42UI3DSceneVars(String content) {
-        // These are all the specific redeclarations in UI3DScene
-        content = fixB42RemoveRedeclType(content,
-                "ArrayList<String> names = new ArrayList<>();",
-                "names = new ArrayList<>();",
-                2);
-        content = fixB42RemoveRedeclType(content,
-                "String modID = (String)arg0;",
-                "modID = (String)arg0;",
-                2);
-        content = fixB42RemoveRedeclType(content,
-                "String tileName = (String)arg1;",
-                "tileName = (String)arg1;",
-                2);
-        content = fixB42RemoveRedeclType(content,
-                "IsoSprite sprite = IsoSpriteManager.instance.getSprite(tileName);",
-                "sprite = IsoSpriteManager.instance.getSprite(tileName);",
-                2);
-        content = fixB42RemoveRedeclType(content,
-                "IsoSpriteGrid spriteGrid = sprite.getSpriteGrid();",
-                "spriteGrid = sprite.getSpriteGrid();",
-                2);
-        content = fixB42RemoveRedeclType(content,
-                "int spriteGridIndex = spriteGrid.getSpriteIndex(sprite);",
-                "spriteGridIndex = spriteGrid.getSpriteIndex(sprite);",
-                2);
-        content = content.replace(
-                "Matrix4f transform = sceneModel.getGlobalTransform(allocMatrix4f());",
-                "transform = sceneModel.getGlobalTransform(allocMatrix4f());");
-        content = fixB42RemoveRedeclType(content,
-                "Quaternionf rotation = transform.getUnnormalizedRotation(allocQuaternionf());",
-                "rotation = transform.getUnnormalizedRotation(allocQuaternionf());",
-                2);
-        content = fixB42RemoveRedeclType(content,
-                "byte col = -1;",
-                "col = -1;",
-                2);
-
-        // instanceof pattern var: sceneModel redeclared
-        // if (sceneObject instanceof UI3DScene.SceneModel sceneModel)
-        // Second occurrence must use a different name
-        content = fixB42RenameInstanceofPatternVar(content,
-                "sceneObject instanceof UI3DScene.SceneModel sceneModel",
-                "sceneModel", "_sceneModel", 2);
-        // Same for sceneCharacter
-        content = fixB42RenameInstanceofPatternVar(content,
-                "sceneObject instanceof UI3DScene.SceneCharacter sceneCharacter",
-                "sceneCharacter", "_sceneCharacter", 2);
-
-        // Fix redeclared for-loop variable i in fromLua2
-        content = fixB42RedeclaredForLoopVars(content, "fromLua2");
-
-        return content;
-    }
-
-    /**
      * Remove the type from the Nth occurrence of a variable declaration.
      * @param content source
      * @param fullDecl the full declaration to find (e.g. "int x = 5;")
@@ -3563,15 +3504,11 @@ public final class PostDecompileTransforms {
                     2);
 
             // fromLua3: Matrix4f transform redeclared in "setAttachmentToOrigin" case
+            // String is unique in the file — occurrence=1 targets the only match
             content = fixB42RemoveRedeclType(content,
                     "Matrix4f transform = sceneModel.getGlobalTransform(allocMatrix4f());",
                     "transform = sceneModel.getGlobalTransform(allocMatrix4f());",
-                    2);
-            // fromLua3: Quaternionf rotation redeclared
-            content = fixB42RemoveRedeclType(content,
-                    "Quaternionf rotation = transform.getUnnormalizedRotation(allocQuaternionf());",
-                    "rotation = transform.getUnnormalizedRotation(allocQuaternionf());",
-                    2);
+                    1);
 
             // fromLua3: sceneModel instanceof pattern at line 1655 conflicts with
             // SceneModel sceneModel declaration at line 1611.

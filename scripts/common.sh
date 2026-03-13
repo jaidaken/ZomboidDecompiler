@@ -169,7 +169,7 @@ count_classes() {
     local count=0
 
     if [ -f "$path" ] && [[ "$path" == *.jar ]]; then
-        count=$(jar tf "$path" 2>/dev/null | grep '\.class$' | grep -c "^$prefix" || echo 0)
+        count=$(jar tf "$path" 2>/dev/null | grep '\.class$' | grep -c "^$prefix" || true)
     elif [ -d "$path" ]; then
         # Count loose .class files under the prefix directory
         if [ -d "$path/$prefix" ]; then
@@ -179,7 +179,7 @@ count_classes() {
         for jar in "$path"/*.jar; do
             [ -f "$jar" ] || continue
             local jar_count
-            jar_count=$(jar tf "$jar" 2>/dev/null | grep '\.class$' | grep -c "^$prefix" || echo 0)
+            jar_count=$(jar tf "$jar" 2>/dev/null | grep '\.class$' | grep -c "^$prefix" || true)
             count=$(( count + jar_count ))
         done
     fi
