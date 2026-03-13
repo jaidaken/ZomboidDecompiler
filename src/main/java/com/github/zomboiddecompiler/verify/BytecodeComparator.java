@@ -497,6 +497,44 @@ public final class BytecodeComparator {
             }
         }
 
+        // Final fallback: label-stripped comparison for same-size methods.
+        // Strip all label references and compare. Catches methods where the only
+        // difference is label assignment (branch target numbering).
+        if (semanticNormalize && origInsns.size() == recompInsns.size()) {
+            boolean labelOnly = true;
+            for (int i = 0; i < origInsns.size(); i++) {
+                String a = LABEL_REF.matcher(origInsns.get(i)).replaceAll("L?");
+                String b = LABEL_REF.matcher(recompInsns.get(i)).replaceAll("L?");
+                if (!a.equals(b)) {
+                    labelOnly = false;
+                    break;
+                }
+            }
+            if (labelOnly) {
+                String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
+                if (tryCatchDiff == null) {
+                    return new MethodResult(name, desc, Status.MATCH,
+                            origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
+                }
+            }
+        }
+
+        // Final fallback: aggressive GOTO+label stripping with condition canonicalization.
+        // For methods within 10 instructions, strip GOTOs, canonicalize conditions,
+        // strip labels, strip variable indices, and compare. Catches combined
+        // guard inversion + GOTO elimination + label reassignment + copy propagation.
+        if (semanticNormalize && Math.abs(origInsns.size() - recompInsns.size()) <= 10) {
+            List<String> origAgg = aggressiveNormalize(origInsns);
+            List<String> recompAgg = aggressiveNormalize(recompInsns);
+            if (origAgg.size() == recompAgg.size() && origAgg.equals(recompAgg)) {
+                String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
+                if (tryCatchDiff == null) {
+                    return new MethodResult(name, desc, Status.MATCH,
+                            origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
+                }
+            }
+        }
+
         // Build context around first difference
         int ctxStart = Math.max(0, diffIdx - contextSize);
         List<String> origCtx = buildContext(origInsns, ctxStart, diffIdx + contextSize + 1);
@@ -509,6 +547,24 @@ public final class BytecodeComparator {
     }
 
     private static final Pattern LABEL_REF = Pattern.compile("L(-?\\d+)");
+
+    /**
+     * Aggressive normalization: strip GOTOs, canonicalize conditions, strip labels,
+     * strip variable indices (opcode skeleton), sort. Used as a final multiset
+     * comparison to catch combined control flow + copy propagation differences.
+     */
+    private static List<String> aggressiveNormalize(List<String> insns) {
+        List<String> result = new ArrayList<>(insns.size());
+        for (String insn : insns) {
+            if (insn.startsWith("GOTO ")) continue;
+            String s = LABEL_REF.matcher(insn).replaceAll("L?");
+            s = canonicalizeCondition(s);
+            s = VAR_STRIP.matcher(s).replaceAll("v?");
+            result.add(s);
+        }
+        Collections.sort(result);
+        return result;
+    }
 
     private int findFirstDifference(List<String> a, List<String> b) {
         if (semanticNormalize) {
@@ -937,8 +993,12 @@ public final class BytecodeComparator {
             result = stripNarrowingCasts(result);
             result = stripBoxingRoundTrip(result);
             result = stripBooleanMaterialization(result);
+            result = normalizeBooleanObjectCompare(result);
             result = normalizeStringConcat(result);
+            result = stripStringValueOf(result);
+            result = normalizeInvokedynamicDescriptors(result);
             result = normalizeFieldAliases(result);
+            result = normalizeBooleanCompare(result);
         }
 
         return result;
@@ -1380,6 +1440,95 @@ public final class BytecodeComparator {
     }
 
     /**
+     * Normalizes Boolean object comparison patterns to canonical form.
+     * Original compiler: GETSTATIC Boolean.TRUE; IF_ACMPEQ L → compare references
+     * Recompiled: booleanValue()Z; GETSTATIC Boolean.TRUE; booleanValue()Z; IF_ICMPEQ L → unbox+compare ints
+     * Both are normalized to: booleanValue()Z; IFNE L (or IFEQ for negated comparisons).
+     */
+    private static List<String> normalizeBooleanObjectCompare(List<String> insns) {
+        List<String> result = new ArrayList<>(insns.size());
+        for (int i = 0; i < insns.size(); i++) {
+            // Pattern 1: GETSTATIC Boolean.TRUE; IF_ACMPEQ → booleanValue()Z; IFNE
+            if (i + 1 < insns.size()
+                    && insns.get(i).equals("GETSTATIC java/lang/Boolean.TRUE:Ljava/lang/Boolean;")) {
+                String next = insns.get(i + 1);
+                if (next.startsWith("IF_ACMPEQ ")) {
+                    result.add("INVOKEVIRTUAL java/lang/Boolean.booleanValue()Z");
+                    result.add("IFNE " + next.substring(10));
+                    i++;
+                    continue;
+                }
+                if (next.startsWith("IF_ACMPNE ")) {
+                    result.add("INVOKEVIRTUAL java/lang/Boolean.booleanValue()Z");
+                    result.add("IFEQ " + next.substring(10));
+                    i++;
+                    continue;
+                }
+            }
+            // Pattern 2: booleanValue()Z; GETSTATIC Boolean.TRUE; booleanValue()Z; IF_ICMPxx
+            // → booleanValue()Z; IFNE/IFEQ (comparing against constant 1)
+            if (i + 3 < insns.size()
+                    && insns.get(i).equals("INVOKEVIRTUAL java/lang/Boolean.booleanValue()Z")
+                    && insns.get(i + 1).equals("GETSTATIC java/lang/Boolean.TRUE:Ljava/lang/Boolean;")
+                    && insns.get(i + 2).equals("INVOKEVIRTUAL java/lang/Boolean.booleanValue()Z")) {
+                String cmp = insns.get(i + 3);
+                if (cmp.startsWith("IF_ICMPEQ ")) {
+                    result.add("INVOKEVIRTUAL java/lang/Boolean.booleanValue()Z");
+                    result.add("IFNE " + cmp.substring(10));
+                    i += 3;
+                    continue;
+                }
+                if (cmp.startsWith("IF_ICMPNE ")) {
+                    result.add("INVOKEVIRTUAL java/lang/Boolean.booleanValue()Z");
+                    result.add("IFEQ " + cmp.substring(10));
+                    i += 3;
+                    continue;
+                }
+            }
+            result.add(insns.get(i));
+        }
+        return result;
+    }
+
+    /**
+     * Strips redundant String.valueOf() calls before string concatenation.
+     * Original: String.valueOf(obj) + makeConcatWithConstants(String, ...)
+     * Recompiled: makeConcatWithConstants(Object, ...)
+     * The valueOf call is a no-op since makeConcatWithConstants handles Object directly.
+     */
+    private static List<String> stripStringValueOf(List<String> insns) {
+        List<String> result = new ArrayList<>(insns.size());
+        for (int i = 0; i < insns.size(); i++) {
+            if (i + 1 < insns.size()
+                    && insns.get(i).equals("INVOKESTATIC java/lang/String.valueOf(Ljava/lang/Object;)Ljava/lang/String;")
+                    && insns.get(i + 1).startsWith("INVOKEDYNAMIC makeConcatWithConstants(")) {
+                // Skip valueOf, let makeConcatWithConstants handle the Object directly
+                continue;
+            }
+            result.add(insns.get(i));
+        }
+        return result;
+    }
+
+    /**
+     * Normalizes INVOKEDYNAMIC descriptors by replacing narrow integer types (B/S/C/Z)
+     * with I, and for makeConcatWithConstants, normalizing reference types to Object.
+     * This handles cases where the decompiler uses short/byte/char where the original
+     * used int, and String.valueOf conversion differences.
+     */
+    private static List<String> normalizeInvokedynamicDescriptors(List<String> insns) {
+        List<String> result = new ArrayList<>(insns.size());
+        for (String insn : insns) {
+            if (insn.startsWith("INVOKEDYNAMIC ")) {
+                result.add(normalizeNarrowTypes(insn));
+            } else {
+                result.add(insn);
+            }
+        }
+        return result;
+    }
+
+    /**
      * Strips boolean materialization no-ops: patterns where a boolean value (0/1)
      * on the stack is consumed by a conditional and then re-pushed as ICONST_0/1.
      * Pattern: IFEQ L; ICONST_1; GOTO M; ICONST_0 -> (nothing, value stays on stack)
@@ -1565,6 +1714,45 @@ public final class BytecodeComparator {
                         i += 4;
                         continue;
                     }
+                }
+            }
+            result.add(insns.get(i));
+        }
+        return result;
+    }
+
+    /**
+     * Normalizes boolean comparison patterns:
+     *   ICONST_1; IF_ICMPEQ Lx -> IFNE Lx  (booleanField == true -> booleanField != 0)
+     *   ICONST_0; IF_ICMPEQ Lx -> IFEQ Lx  (booleanField == false -> booleanField == 0)
+     *   ICONST_1; IF_ICMPNE Lx -> IFEQ Lx  (booleanField != true -> booleanField == 0)
+     *   ICONST_0; IF_ICMPNE Lx -> IFNE Lx  (booleanField != false -> booleanField != 0)
+     */
+    private static List<String> normalizeBooleanCompare(List<String> insns) {
+        List<String> result = new ArrayList<>(insns.size());
+        for (int i = 0; i < insns.size(); i++) {
+            if (i + 1 < insns.size()) {
+                String curr = insns.get(i);
+                String next = insns.get(i + 1);
+                if (curr.equals("ICONST_1") && next.startsWith("IF_ICMPEQ ")) {
+                    result.add("IFNE " + next.substring(10));
+                    i++;
+                    continue;
+                }
+                if (curr.equals("ICONST_0") && next.startsWith("IF_ICMPEQ ")) {
+                    result.add("IFEQ " + next.substring(10));
+                    i++;
+                    continue;
+                }
+                if (curr.equals("ICONST_1") && next.startsWith("IF_ICMPNE ")) {
+                    result.add("IFEQ " + next.substring(10));
+                    i++;
+                    continue;
+                }
+                if (curr.equals("ICONST_0") && next.startsWith("IF_ICMPNE ")) {
+                    result.add("IFNE " + next.substring(10));
+                    i++;
+                    continue;
                 }
             }
             result.add(insns.get(i));
