@@ -4,6 +4,14 @@ import com.github.zomboiddecompiler.verify.BytecodeComparator;
 import com.github.zomboiddecompiler.verify.BytecodeComparator.ClassResult;
 import com.github.zomboiddecompiler.verify.BytecodeComparator.MethodResult;
 import com.github.zomboiddecompiler.verify.BytecodeComparator.Status;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.objectweb.asm.tree.AbstractInsnNode;
+import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.FrameNode;
+import org.objectweb.asm.tree.LabelNode;
+import org.objectweb.asm.tree.LineNumberNode;
+import org.objectweb.asm.tree.MethodNode;
 import picocli.CommandLine;
 import picocli.CommandLine.*;
 
@@ -50,6 +58,11 @@ public class Verify implements Callable<Integer> {
     @Option(names = "--semantic", description = "Enable semantic normalization (DUP/store-load-return/GOTO-to-return)")
     private boolean semantic;
 
+    @Option(names = "--json-report", description = "Write a JSON report to this path (for progress image generation)")
+    private Path jsonReportPath;
+
+    private Map<String, ClassNode> origClasses;
+
     // ANSI color codes
     private String red(String s) { return noColor ? s : "\u001b[31m" + s + "\u001b[0m"; }
     private String green(String s) { return noColor ? s : "\u001b[32m" + s + "\u001b[0m"; }
@@ -92,6 +105,11 @@ public class Verify implements Callable<Integer> {
         // Print report
         printReport(results);
 
+        // Write JSON report if requested
+        if (jsonReportPath != null) {
+            writeJsonReport(results);
+        }
+
         // Return non-zero if any mismatches
         boolean hasMismatches = results.values().stream()
                 .anyMatch(r -> r.status() != Status.MATCH);
@@ -101,12 +119,11 @@ public class Verify implements Callable<Integer> {
     private Map<String, ClassResult> loadAndCompare(BytecodeComparator comparator,
                                                      Predicate<String> filter) throws IOException {
         System.out.print("Loading original classes...");
-        Map<String, org.objectweb.asm.tree.ClassNode> origClasses =
-                BytecodeComparator.loadClasses(originalPath, filter);
+        this.origClasses = BytecodeComparator.loadClasses(originalPath, filter);
         System.out.println(" " + origClasses.size() + " classes");
 
         System.out.print("Loading recompiled classes...");
-        Map<String, org.objectweb.asm.tree.ClassNode> recompClasses =
+        Map<String, ClassNode> recompClasses =
                 BytecodeComparator.loadClasses(recompiledPath, filter);
         System.out.println(" " + recompClasses.size() + " classes");
         System.out.println();
@@ -289,6 +306,143 @@ public class Verify implements Callable<Integer> {
                 }
             }
         }
+    }
+
+    private void writeJsonReport(Map<String, ClassResult> results) {
+        JSONArray units = new JSONArray();
+
+        long totalInstructions = 0;
+        long matchedInstructions = 0;
+        long totalMethods = 0;
+        long matchedMethods = 0;
+        long totalClasses = 0;
+        long matchedClasses = 0;
+
+        for (var entry : results.entrySet()) {
+            String className = entry.getKey();
+            ClassResult cr = entry.getValue();
+
+            // Skip classes that only exist in recompiled (not part of original)
+            if (cr.status() == Status.MISSING_ORIG) {
+                continue;
+            }
+
+            totalClasses++;
+
+            JSONObject unit = new JSONObject();
+            unit.put("name", className);
+            unit.put("status", cr.status().name());
+
+            if (cr.status() == Status.MISSING_RECOMP) {
+                // Not yet decompiled — count instructions from original ClassNode
+                int classInsns = countClassInstructions(origClasses.get(className));
+                int classMethods = countClassMethods(origClasses.get(className));
+                unit.put("total_instructions", classInsns);
+                unit.put("matched_instructions", 0);
+                unit.put("total_methods", classMethods);
+                unit.put("matched_methods", 0);
+                unit.put("matched_code_percent", 0.0);
+                totalInstructions += classInsns;
+                totalMethods += classMethods;
+            } else {
+                // Compared class — use MethodResult data
+                int classTotal = 0;
+                int classMatched = 0;
+                int methodTotal = 0;
+                int methodMatched = 0;
+
+                for (MethodResult mr : cr.methods()) {
+                    int insns = mr.origInsnCount();
+                    classTotal += insns;
+                    methodTotal++;
+                    if (mr.status() == Status.MATCH) {
+                        classMatched += insns;
+                        methodMatched++;
+                    }
+                }
+
+                // For classes with methods not in recompiled, also count from ClassNode
+                ClassNode origNode = origClasses.get(className);
+                if (origNode != null) {
+                    int origTotal = countClassInstructions(origNode);
+                    int origMethods = countClassMethods(origNode);
+                    // Use original counts if they're larger (captures methods missed by comparison)
+                    if (origTotal > classTotal) {
+                        classTotal = origTotal;
+                    }
+                    if (origMethods > methodTotal) {
+                        methodTotal = origMethods;
+                    }
+                }
+
+                double pct = classTotal > 0 ? 100.0 * classMatched / classTotal : 100.0;
+                unit.put("total_instructions", classTotal);
+                unit.put("matched_instructions", classMatched);
+                unit.put("total_methods", methodTotal);
+                unit.put("matched_methods", methodMatched);
+                unit.put("matched_code_percent", pct);
+
+                totalInstructions += classTotal;
+                matchedInstructions += classMatched;
+                totalMethods += methodTotal;
+                matchedMethods += methodMatched;
+                if (cr.status() == Status.MATCH) {
+                    matchedClasses++;
+                }
+            }
+
+            units.put(unit);
+        }
+
+        double matchedCodePct = totalInstructions > 0
+                ? 100.0 * matchedInstructions / totalInstructions : 0;
+        double matchedFuncPct = totalMethods > 0
+                ? 100.0 * matchedMethods / totalMethods : 0;
+
+        JSONObject measures = new JSONObject();
+        measures.put("total_classes", totalClasses);
+        measures.put("matched_classes", matchedClasses);
+        measures.put("total_methods", totalMethods);
+        measures.put("matched_methods", matchedMethods);
+        measures.put("total_instructions", totalInstructions);
+        measures.put("matched_instructions", matchedInstructions);
+        measures.put("matched_code_percent", matchedCodePct);
+        measures.put("matched_function_percent", matchedFuncPct);
+
+        JSONObject report = new JSONObject();
+        report.put("measures", measures);
+        report.put("units", units);
+
+        try {
+            Path parent = jsonReportPath.getParent();
+            if (parent != null) {
+                Files.createDirectories(parent);
+            }
+            Files.writeString(jsonReportPath, report.toString(2));
+            System.out.println("JSON report written to " + jsonReportPath);
+        } catch (IOException e) {
+            System.err.println("Failed to write JSON report: " + e.getMessage());
+        }
+    }
+
+    private static int countClassInstructions(ClassNode cn) {
+        if (cn == null) return 0;
+        int total = 0;
+        for (MethodNode mn : cn.methods) {
+            if (mn.instructions == null) continue;
+            for (AbstractInsnNode insn = mn.instructions.getFirst(); insn != null; insn = insn.getNext()) {
+                if (!(insn instanceof LabelNode) && !(insn instanceof FrameNode)
+                        && !(insn instanceof LineNumberNode)) {
+                    total++;
+                }
+            }
+        }
+        return total;
+    }
+
+    private static int countClassMethods(ClassNode cn) {
+        if (cn == null) return 0;
+        return cn.methods.size();
     }
 
     public static void main(String[] args) {

@@ -1,5 +1,14 @@
 # Zomboid Decompiler
 Simplified decompilation tool for Project Zomboid powered by [Vineflower](https://github.com/Vineflower/vineflower).
+
+## Decompilation Progress
+
+### Build 41
+![Build 41 Decompilation Progress](progress/b41/progress.png)
+
+### Build 42
+![Build 42 Decompilation Progress](progress/b42/progress.png)
+
 ## Usage
 ### Windows
 1) Install [Java 17](https://www.oracle.com/fr/java/technologies/downloads/) or above.
@@ -51,6 +60,7 @@ ZomboidDecompiler verify original.jar recompiled/ --semantic --verbose --context
 | `--no-color` | Disable ANSI color output |
 | `--summary-only` | Only show summary statistics |
 | `--semantic` | Enable semantic normalization (DUP/store-load-return/GOTO) |
+| `--json-report PATH` | Write a JSON report for progress image generation |
 
 The `verifyBytecode` Gradle task is also available: `gradlew verifyBytecode`. Exit code 2 indicates mismatches were found.
 
