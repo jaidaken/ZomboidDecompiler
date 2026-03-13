@@ -15,4 +15,6 @@ module com.github.zomboiddecompiler {
 
     opens com.github.zomboiddecompiler.commands to
             info.picocli;
+
+    exports com.github.zomboiddecompiler;
 }

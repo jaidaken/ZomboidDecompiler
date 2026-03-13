@@ -39,6 +39,7 @@ public final class ZomboidResultSaver implements IResultSaver {
 
         try (BufferedWriter writer = Files.newBufferedWriter(entryPath)) {
             if (content != null) {
+                content = PostDecompileTransforms.apply(content);
                 writer.write(content);
             }
         } catch (IOException e) {
@@ -86,6 +87,7 @@ public final class ZomboidResultSaver implements IResultSaver {
 
         try (BufferedWriter writer = Files.newBufferedWriter(entryPath)) {
             if (content != null) {
+                content = PostDecompileTransforms.apply(content);
                 writer.write(content);
             }
         } catch (IOException e) {
