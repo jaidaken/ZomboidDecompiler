@@ -4,6 +4,7 @@ import com.github.zomboiddecompiler.verify.BytecodeComparator;
 import com.github.zomboiddecompiler.verify.BytecodeComparator.ClassResult;
 import com.github.zomboiddecompiler.verify.BytecodeComparator.MethodResult;
 import com.github.zomboiddecompiler.verify.BytecodeComparator.Status;
+import com.github.zomboiddecompiler.verify.MismatchCategorizer;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.objectweb.asm.tree.AbstractInsnNode;
@@ -60,6 +61,9 @@ public class Verify implements Callable<Integer> {
 
     @Option(names = "--json-report", description = "Write a JSON report to this path (for progress image generation)")
     private Path jsonReportPath;
+
+    @Option(names = "--categorize", description = "Show breakdown of mismatch categories")
+    private boolean categorize;
 
     private Map<String, ClassNode> origClasses;
 
@@ -196,6 +200,11 @@ public class Verify implements Callable<Integer> {
         System.out.println();
         System.out.println();
 
+        // Categorization breakdown
+        if (categorize) {
+            printCategorization(results);
+        }
+
         if (summaryOnly) {
             return;
         }
@@ -216,6 +225,53 @@ public class Verify implements Callable<Integer> {
         for (ClassResult cr : mismatches) {
             printClassResult(cr);
         }
+    }
+
+    private void printCategorization(Map<String, ClassResult> results) {
+        Map<MismatchCategorizer.Category, List<MismatchCategorizer.CategorizedMethod>> byCategory = new LinkedHashMap<>();
+        for (var cat : MismatchCategorizer.Category.values()) {
+            byCategory.put(cat, new ArrayList<>());
+        }
+
+        for (var entry : results.entrySet()) {
+            ClassResult cr = entry.getValue();
+            if (cr.status() != Status.MISMATCH) continue;
+            for (MethodResult mr : cr.methods()) {
+                if (mr.status() != Status.MISMATCH) continue;
+                var cat = MismatchCategorizer.categorize(mr);
+                byCategory.get(cat).add(new MismatchCategorizer.CategorizedMethod(cat, mr, entry.getKey()));
+            }
+        }
+
+        long totalMismatches = byCategory.values().stream().mapToLong(List::size).sum();
+
+        System.out.println(bold("=== MISMATCH CATEGORIES ==="));
+        System.out.printf("Total mismatched methods: %d%n%n", totalMismatches);
+
+        for (var catEntry : byCategory.entrySet()) {
+            var cat = catEntry.getKey();
+            var methods = catEntry.getValue();
+            if (methods.isEmpty()) continue;
+
+            double pct = 100.0 * methods.size() / totalMismatches;
+            System.out.printf("  %-30s %s (%s)%n",
+                    cat.label(),
+                    yellow(String.valueOf(methods.size())),
+                    yellow(String.format("%.1f%%", pct)));
+
+            // Show top 3 examples
+            int shown = 0;
+            for (var cm : methods) {
+                if (shown >= 3) break;
+                String className = cm.className().replace('/', '.');
+                System.out.printf("    %s %s%s%n",
+                        dim("e.g."),
+                        dim(className + "."),
+                        dim(cm.result().name() + cm.result().descriptor()));
+                shown++;
+            }
+        }
+        System.out.println();
     }
 
     private void printClassResult(ClassResult cr) {
