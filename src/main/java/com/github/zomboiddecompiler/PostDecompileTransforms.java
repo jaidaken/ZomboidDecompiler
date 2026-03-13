@@ -2783,26 +2783,16 @@ public final class PostDecompileTransforms {
                 "$1            default -> throw new IllegalStateException();\n$2");
 
         // Vineflower bug: yield before if makes code unreachable in switch expressions.
-        // Pattern: yield X; if (cond) { yield Y; } — should be if (cond) { yield Y; } yield X;
-        // Appears in TileSeamModifier and CutawayAttachedModifier for door frame checks.
-        content = content.replace(
-                "yield TileDepthMapManager.TileDepthPreset.NWall;\n" +
-                "                if (sprite.getProperties().has(IsoFlagType.DoorWallN) && !sprite.getProperties().has(IsoFlagType.doorN)) {\n" +
-                "                    yield TileDepthMapManager.TileDepthPreset.NDoorFrame;\n" +
-                "                }",
-                "if (sprite.getProperties().has(IsoFlagType.DoorWallN) && !sprite.getProperties().has(IsoFlagType.doorN)) {\n" +
-                "                    yield TileDepthMapManager.TileDepthPreset.NDoorFrame;\n" +
-                "                }\n" +
-                "                yield TileDepthMapManager.TileDepthPreset.NWall;");
-        content = content.replace(
-                "yield TileDepthMapManager.TileDepthPreset.WWall;\n" +
-                "                if (sprite.getProperties().has(IsoFlagType.DoorWallW) && !sprite.getProperties().has(IsoFlagType.doorW)) {\n" +
-                "                    yield TileDepthMapManager.TileDepthPreset.WDoorFrame;\n" +
-                "                }",
-                "if (sprite.getProperties().has(IsoFlagType.DoorWallW) && !sprite.getProperties().has(IsoFlagType.doorW)) {\n" +
-                "                    yield TileDepthMapManager.TileDepthPreset.WDoorFrame;\n" +
-                "                }\n" +
-                "                yield TileDepthMapManager.TileDepthPreset.WWall;");
+        // Pattern: yield X;\n  if (...) { ... } — the yield should be the fallback AFTER the if block.
+        // General fix: find "yield EXPR;\n<ws>if (" and move the yield after the closing }.
+        content = fixYieldBeforeIf(content);
+
+        // AnimalZoneState: ZoneState is private but referenced by public STATE field
+        if (content.contains("class AnimalZoneState")) {
+            content = content.replace(
+                    "private abstract static class ZoneState",
+                    "public abstract static class ZoneState");
+        }
 
         // Unreachable catch: CloneNotSupportedException never thrown by super.clone()
         // when the class implements Cloneable. Widen to Exception.
@@ -4320,5 +4310,53 @@ public final class PostDecompileTransforms {
                 "}";
 
         return content.replace(marker, replacement);
+    }
+
+    /**
+     * Fix Vineflower bug where yield appears before an if-block in switch expressions,
+     * making the if-block unreachable. Moves the yield to after the if-block as the
+     * default fallback.
+     */
+    private static String fixYieldBeforeIf(String content) {
+        String[] lines = content.split("\n", -1);
+        StringBuilder result = new StringBuilder();
+        int i = 0;
+        boolean modified = false;
+
+        while (i < lines.length) {
+            String trimmed = lines[i].trim();
+            if (trimmed.startsWith("yield ") && trimmed.endsWith(";")
+                    && i + 1 < lines.length && lines[i + 1].trim().startsWith("if (")) {
+                String yieldLine = lines[i];
+                String yieldIndent = yieldLine.substring(0, yieldLine.indexOf("yield"));
+                int ifStart = i + 1;
+                int depth = 0;
+                int ifEnd = ifStart;
+                for (int j = ifStart; j < lines.length; j++) {
+                    for (char c : lines[j].toCharArray()) {
+                        if (c == '{') depth++;
+                        else if (c == '}') depth--;
+                    }
+                    if (depth <= 0) {
+                        ifEnd = j;
+                        break;
+                    }
+                }
+                for (int j = ifStart; j <= ifEnd; j++) {
+                    result.append(lines[j]).append('\n');
+                }
+                result.append(yieldIndent).append(trimmed).append('\n');
+                i = ifEnd + 1;
+                modified = true;
+            } else {
+                result.append(lines[i]).append('\n');
+                i++;
+            }
+        }
+
+        if (modified && result.length() > 0 && result.charAt(result.length() - 1) == '\n') {
+            result.setLength(result.length() - 1);
+        }
+        return modified ? result.toString() : content;
     }
 }
