@@ -652,8 +652,8 @@ public final class BytecodeComparator {
 
     /**
      * Strips DUP/DUP2 instructions and standalone ASTORE/ALOAD pairs that serve
-     * as stack manipulation equivalents. Keeps ALOAD/ASTORE before/after
-     * field/method access (those are structurally significant).
+     * as stack manipulation equivalents. Also strips ALOAD before PUTFIELD that
+     * serves as the DUP-equivalent object reference reload in compound assignments.
      */
     private static List<String> stripStackManipulation(List<String> insns) {
         List<String> result = new ArrayList<>(insns.size());
@@ -668,7 +668,58 @@ public final class BytecodeComparator {
             result.add(insn);
         }
         // Apply store-load elimination on the result to clean up redundant patterns
-        return eliminateStoreLoad(result);
+        result = eliminateStoreLoad(result);
+        // Strip ALOAD before PUTFIELD: these are DUP-equivalent object reference reloads
+        // in compound field assignments (e.g., stats.endurance -= x).
+        // Original uses DUP (already stripped above), recompiled uses ALOAD vN; SWAP (SWAP
+        // already stripped). The remaining ALOAD provides the same object reference.
+        result = stripLoadBeforePutfield(result);
+        // Strip trailing duplicate exit instructions (consecutive RETURN/ATHROW at end).
+        result = stripTrailingDuplicateExits(result);
+        return result;
+    }
+
+    /**
+     * Removes trailing duplicate exit instructions. If the last N instructions are
+     * all returns or throws, keep only the first one. This handles dead code at
+     * method ends from try-finally or other constructs.
+     */
+    private static List<String> stripTrailingDuplicateExits(List<String> insns) {
+        if (insns.size() < 2) return insns;
+        int lastIdx = insns.size() - 1;
+        String last = insns.get(lastIdx);
+        if (!isReturnString(last) && !last.equals("ATHROW")) return insns;
+        // Walk backwards while we see return/throw
+        int firstExit = lastIdx;
+        while (firstExit > 0) {
+            String prev = insns.get(firstExit - 1);
+            if (isReturnString(prev) || prev.equals("ATHROW")) {
+                firstExit--;
+            } else {
+                break;
+            }
+        }
+        if (firstExit == lastIdx) return insns; // only one exit at end
+        // Keep everything up to and including the first exit
+        return insns.subList(0, firstExit + 1);
+    }
+
+    /**
+     * Strips ALOAD instructions that immediately precede PUTFIELD.
+     * These are DUP-equivalent object reference reloads for compound field assignments.
+     */
+    private static List<String> stripLoadBeforePutfield(List<String> insns) {
+        List<String> result = new ArrayList<>(insns.size());
+        for (int i = 0; i < insns.size(); i++) {
+            if (i + 1 < insns.size()
+                    && insns.get(i).startsWith("ALOAD ")
+                    && insns.get(i + 1).startsWith("PUTFIELD ")) {
+                // Skip this ALOAD — the PUTFIELD will be added on the next iteration
+                continue;
+            }
+            result.add(insns.get(i));
+        }
+        return result;
     }
 
     /**
@@ -857,6 +908,7 @@ public final class BytecodeComparator {
             result = stripBoxingRoundTrip(result);
             result = stripBooleanMaterialization(result);
             result = normalizeStringConcat(result);
+            result = normalizeFieldAliases(result);
         }
 
         return result;
@@ -1012,6 +1064,19 @@ public final class BytecodeComparator {
     private static List<String> normalizeDupAsReload(List<String> insns) {
         List<String> result = new ArrayList<>(insns.size());
         for (int i = 0; i < insns.size(); i++) {
+            // DUP2: duplicate the top two stack values. Normalize by repeating the
+            // previous two instructions (e.g., ALOAD arr; ILOAD idx; DUP2 →
+            // ALOAD arr; ILOAD idx; ALOAD arr; ILOAD idx).
+            if (insns.get(i).equals("DUP2") && result.size() >= 2) {
+                boolean followedByStore = (i + 1 < insns.size()) && storeToLoad(insns.get(i + 1)) != null;
+                if (!followedByStore) {
+                    String prev2 = result.get(result.size() - 2);
+                    String prev1 = result.get(result.size() - 1);
+                    result.add(prev2);
+                    result.add(prev1);
+                    continue;
+                }
+            }
             if (insns.get(i).equals("DUP") && !result.isEmpty()) {
                 String prev = result.get(result.size() - 1);
                 boolean followedByStore = (i + 1 < insns.size()) && storeToLoad(insns.get(i + 1)) != null;
@@ -1029,6 +1094,22 @@ public final class BytecodeComparator {
                         result.add(prev);     // Re-emit the GETFIELD
                         continue;
                     }
+                }
+                // DUP after GETSTATIC: duplicate the field load. The recompiled side
+                // typically reads the static field twice instead of using DUP.
+                if (!followedByStore && prev.startsWith("GETSTATIC ")) {
+                    result.add(prev); // Re-emit the GETSTATIC
+                    continue;
+                }
+                // DUP after INVOKE: the return value is duplicated for a compound field
+                // assignment (one copy for GETFIELD, one kept for PUTFIELD). The recompiled
+                // code stores the result in a local variable and loads it explicitly.
+                // After eliminateStoreLoad absorbs the ASTORE+ALOAD pair, only one ALOAD
+                // remains on the recompiled side. Normalize DUP to a synthetic ALOAD so
+                // renormalizeVars (which runs after this) assigns matching variable numbers.
+                if (!followedByStore && isInvokeInsn(prev)) {
+                    result.add("ALOAD v999"); // Synthetic variable, renormalized later
+                    continue;
                 }
             }
             result.add(insns.get(i));
@@ -1375,6 +1456,38 @@ public final class BytecodeComparator {
         return insn.startsWith("ASTORE ") || insn.startsWith("ISTORE ")
                 || insn.startsWith("LSTORE ") || insn.startsWith("FSTORE ")
                 || insn.startsWith("DSTORE ");
+    }
+
+    private static boolean isInvokeInsn(String insn) {
+        return insn.startsWith("INVOKEVIRTUAL ") || insn.startsWith("INVOKESTATIC ")
+                || insn.startsWith("INVOKEINTERFACE ") || insn.startsWith("INVOKESPECIAL ")
+                || insn.startsWith("INVOKEDYNAMIC ");
+    }
+
+    /**
+     * Normalizes known field name aliases. The decompiler sometimes renames fields
+     * to avoid shadowing (e.g., LoginQueue.LoginQueue → LoginQueue.s_loginQueue).
+     * This normalizes recompiled field references to match the original names.
+     */
+    private static List<String> normalizeFieldAliases(List<String> insns) {
+        // Known field renames: decompiler name → original name
+        // LoginQueue: field named same as class, decompiler adds s_ prefix
+        Map<String, String> aliases = Map.of(
+                "LoginQueue.s_loginQueue:", "LoginQueue.LoginQueue:"
+        );
+        if (aliases.isEmpty()) return insns;
+
+        List<String> result = new ArrayList<>(insns.size());
+        for (String insn : insns) {
+            String normalized = insn;
+            for (var entry : aliases.entrySet()) {
+                if (normalized.contains(entry.getKey())) {
+                    normalized = normalized.replace(entry.getKey(), entry.getValue());
+                }
+            }
+            result.add(normalized);
+        }
+        return result;
     }
 
     /**

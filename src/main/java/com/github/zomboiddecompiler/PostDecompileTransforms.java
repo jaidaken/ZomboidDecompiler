@@ -66,6 +66,8 @@ public final class PostDecompileTransforms {
         // Missing class fixes: preserve anonymous class numbering
         content = fixMissingLuaManagerComparator(content);
         content = fixMissingCharacterSoundEmitterSwitchMap(content);
+        // Bytecode-matching transforms
+        content = fixItemContainerTryFinallyReturn(content);
         return content;
     }
 
@@ -2995,5 +2997,116 @@ public final class PostDecompileTransforms {
                 "    CharacterSoundEmitter.footstep getFootstepToPlay() {";
 
         return content.replace(oldSig, newSig);
+    }
+
+    // ========================================================================
+    // Bytecode-matching: ItemContainer try-finally return pattern
+    // ========================================================================
+    // The decompiler produces:
+    //   InventoryItem var;
+    //   try { var = this.getBest(...); } finally { ... }
+    //   return var;
+    // The original bytecode has:
+    //   try { return this.getBest(...); } finally { ... }
+    // This affects 10 methods in ItemContainer.
+
+    private static final String[] ITEM_CONTAINER_TRY_FINALLY_METHODS = {
+            "getBestType",
+            "getBestTypeRecurse",
+            "getBestEval",
+            "getBestEvalRecurse",
+            "getBestEvalArg",
+            "getBestEvalArgRecurse",
+            "getBestTypeEval",
+            "getBestTypeEvalRecurse",
+            "getBestTypeEvalArg",
+            "getBestTypeEvalArgRecurse",
+    };
+
+    private static String fixItemContainerTryFinallyReturn(String content) {
+        if (!content.contains("class ItemContainer")) {
+            return content;
+        }
+
+        for (String methodName : ITEM_CONTAINER_TRY_FINALLY_METHODS) {
+            content = fixOneTryFinallyReturn(content, methodName);
+        }
+        return content;
+    }
+
+    private static String fixOneTryFinallyReturn(String content, String methodName) {
+        // Find the method
+        String methodSig = "public InventoryItem " + methodName + "(";
+        int methodStart = content.indexOf(methodSig);
+        if (methodStart < 0) {
+            return content;
+        }
+
+        // Find the method body end by brace counting
+        int braceStart = content.indexOf('{', methodStart);
+        if (braceStart < 0) {
+            return content;
+        }
+        int depth = 0;
+        int methodEnd = -1;
+        for (int i = braceStart; i < content.length(); i++) {
+            char ch = content.charAt(i);
+            if (ch == '{') {
+                depth++;
+            } else if (ch == '}') {
+                depth--;
+                if (depth == 0) {
+                    methodEnd = i + 1;
+                    break;
+                }
+            }
+        }
+        if (methodEnd < 0) {
+            return content;
+        }
+
+        String methodBody = content.substring(methodStart, methodEnd);
+
+        // Match the pattern:
+        //   InventoryItem <var>;
+        //   try {
+        //       <var> = this.getBest...(args);
+        //   } finally {
+        //       ...release lines...
+        //   }
+        //
+        //   return <var>;
+        java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(
+                "([ \\t]+)InventoryItem (\\w+);\\n" +
+                "\\1try \\{\\n" +
+                "\\1    \\2 = (this\\.getBest\\w*\\([^)]*\\));\\n" +
+                "\\1\\} finally \\{\\n" +
+                "((?:\\1    [^\\n]+\\n)+)" +
+                "\\1\\}\\n" +
+                "\\n" +
+                "\\1return \\2;\\n"
+        );
+
+        java.util.regex.Matcher matcher = pattern.matcher(methodBody);
+        if (!matcher.find()) {
+            return content;
+        }
+
+        String indent = matcher.group(1);
+        String callExpr = matcher.group(3);
+        String finallyBody = matcher.group(4);
+
+        String replacement =
+                indent + "try {\n" +
+                indent + "    return " + callExpr + ";\n" +
+                indent + "} finally {\n" +
+                finallyBody +
+                indent + "}\n";
+
+        String newMethodBody = methodBody.substring(0, matcher.start())
+                + replacement
+                + methodBody.substring(matcher.end());
+
+        return content.substring(0, methodStart) + newMethodBody + content.substring(methodEnd);
     }
 }
