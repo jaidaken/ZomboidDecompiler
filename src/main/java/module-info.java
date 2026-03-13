@@ -7,6 +7,8 @@ module com.github.zomboiddecompiler {
     requires info.picocli;
     requires java.compiler;
     requires org.objectweb.asm;
+    requires org.objectweb.asm.tree;
+    requires org.objectweb.asm.util;
     requires jdk.jdi;
     requires org.snakeyaml.engine.v2;
 

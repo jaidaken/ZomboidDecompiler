@@ -13,6 +13,8 @@ dependencies {
     implementation "info.picocli:picocli:4.7.6"
     implementation "org.jetbrains:annotations:26.0.2"
     implementation "org.ow2.asm:asm:9.8"
+    implementation "org.ow2.asm:asm-tree:9.8"
+    implementation "org.ow2.asm:asm-util:9.8"
     implementation "org.snakeyaml:snakeyaml-engine:2.10"
 }
 
@@ -26,4 +28,14 @@ extraJavaModuleInfo {
 application {
     mainModule = "com.github.zomboiddecompiler"
     mainClass = "com.github.zomboiddecompiler.commands.Decompile"
+}
+
+tasks.register('verifyBytecode', JavaExec) {
+    description = "Compare original bytecode against recompiled classes"
+    group = "verification"
+    classpath = sourceSets.main.runtimeClasspath
+    mainModule = "com.github.zomboiddecompiler"
+    mainClass = "com.github.zomboiddecompiler.commands.Verify"
+    // Exit code 2 = mismatches found (not a build failure)
+    ignoreExitValue = true
 }
