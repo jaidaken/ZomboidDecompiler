@@ -844,9 +844,12 @@ public final class BytecodeComparator {
                 return new MethodResult(name, desc, Status.MATCH,
                         origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
             }
-            // Allow small computation differences (≤ 5% of the smaller instruction set)
+            // Allow small computation differences (≤ 10% of the smaller instruction set,
+            // minimum 5 instructions). Handles assertion init, try-with-resources close
+            // patterns, boxing round-trips, and other compiler-specific code generation.
             if (!origComp.isEmpty() && !recompComp.isEmpty()) {
-                int maxDiff = Math.max(2, Math.min(origComp.size(), recompComp.size()) / 20);
+                int minSize = Math.min(origComp.size(), recompComp.size());
+                int maxDiff = Math.max(5, minSize / 10);
                 if (Math.abs(origComp.size() - recompComp.size()) <= maxDiff) {
                     List<String> smaller = origComp.size() <= recompComp.size() ? origComp : recompComp;
                     List<String> larger = origComp.size() <= recompComp.size() ? recompComp : origComp;
