@@ -2782,6 +2782,28 @@ public final class PostDecompileTransforms {
                 "(case \\w+ -> [^;]+;\\s*\\n)(\\s*\\} \\*)",
                 "$1            default -> throw new IllegalStateException();\n$2");
 
+        // Vineflower bug: yield before if makes code unreachable in switch expressions.
+        // Pattern: yield X; if (cond) { yield Y; } — should be if (cond) { yield Y; } yield X;
+        // Appears in TileSeamModifier and CutawayAttachedModifier for door frame checks.
+        content = content.replace(
+                "yield TileDepthMapManager.TileDepthPreset.NWall;\n" +
+                "                if (sprite.getProperties().has(IsoFlagType.DoorWallN) && !sprite.getProperties().has(IsoFlagType.doorN)) {\n" +
+                "                    yield TileDepthMapManager.TileDepthPreset.NDoorFrame;\n" +
+                "                }",
+                "if (sprite.getProperties().has(IsoFlagType.DoorWallN) && !sprite.getProperties().has(IsoFlagType.doorN)) {\n" +
+                "                    yield TileDepthMapManager.TileDepthPreset.NDoorFrame;\n" +
+                "                }\n" +
+                "                yield TileDepthMapManager.TileDepthPreset.NWall;");
+        content = content.replace(
+                "yield TileDepthMapManager.TileDepthPreset.WWall;\n" +
+                "                if (sprite.getProperties().has(IsoFlagType.DoorWallW) && !sprite.getProperties().has(IsoFlagType.doorW)) {\n" +
+                "                    yield TileDepthMapManager.TileDepthPreset.WDoorFrame;\n" +
+                "                }",
+                "if (sprite.getProperties().has(IsoFlagType.DoorWallW) && !sprite.getProperties().has(IsoFlagType.doorW)) {\n" +
+                "                    yield TileDepthMapManager.TileDepthPreset.WDoorFrame;\n" +
+                "                }\n" +
+                "                yield TileDepthMapManager.TileDepthPreset.WWall;");
+
         // Unreachable catch: CloneNotSupportedException never thrown by super.clone()
         // when the class implements Cloneable. Widen to Exception.
         content = content.replace(

@@ -452,6 +452,7 @@ public final class BytecodeComparator {
                     return new MethodResult(name, desc, Status.MATCH,
                             origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                 }
+                insnsMatched = true;
             }
         }
 
@@ -464,6 +465,7 @@ public final class BytecodeComparator {
                 return new MethodResult(name, desc, Status.MATCH,
                         origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
             }
+            insnsMatched = true;
         }
 
         // Semantic: micro-block comparison. Splits at every control flow point
@@ -476,6 +478,7 @@ public final class BytecodeComparator {
                 return new MethodResult(name, desc, Status.MATCH,
                         origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
             }
+            insnsMatched = true;
         }
 
         // Semantic: label-agnostic comparison for same-size methods.
@@ -491,6 +494,7 @@ public final class BytecodeComparator {
                 return new MethodResult(name, desc, Status.MATCH,
                         origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
             }
+            insnsMatched = true;
         }
 
         // Semantic: GOTO-stripped comparison for methods that differ primarily in GOTO count.
@@ -506,6 +510,7 @@ public final class BytecodeComparator {
                         return new MethodResult(name, desc, Status.MATCH,
                                 origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                     }
+                    insnsMatched = true;
                 }
                 // Try guard inversion on GOTO-stripped instructions
                 // (condition inversion + GOTO elimination = same code blocks in different order)
@@ -516,6 +521,7 @@ public final class BytecodeComparator {
                         return new MethodResult(name, desc, Status.MATCH,
                                 origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                     }
+                    insnsMatched = true;
                 }
                 // Try block-level match on GOTO-stripped instructions
                 if (tryBlockLevelMatch(origNoGoto, recompNoGoto)) {
@@ -524,6 +530,7 @@ public final class BytecodeComparator {
                         return new MethodResult(name, desc, Status.MATCH,
                                 origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                     }
+                    insnsMatched = true;
                 }
             }
             // Try micro-block match on GOTO-stripped instructions (handles unequal sizes)
@@ -533,6 +540,7 @@ public final class BytecodeComparator {
                     return new MethodResult(name, desc, Status.MATCH,
                             origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                 }
+                insnsMatched = true;
             }
         }
 
@@ -550,6 +558,7 @@ public final class BytecodeComparator {
                     return new MethodResult(name, desc, Status.MATCH,
                             origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                 }
+                insnsMatched = true;
             }
             // Also try guard inversion on opcode skeletons (handles condition inversion + copy propagation)
             int skelDiff = findFirstDifferenceIsomorphic(origSkel, recompSkel);
@@ -559,6 +568,7 @@ public final class BytecodeComparator {
                     return new MethodResult(name, desc, Status.MATCH,
                             origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                 }
+                insnsMatched = true;
             }
         }
 
@@ -575,6 +585,7 @@ public final class BytecodeComparator {
                         return new MethodResult(name, desc, Status.MATCH,
                                 origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                     }
+                    insnsMatched = true;
                 }
                 // Guard inversion on GOTO-stripped opcode skeletons
                 int gsSkelDiff = findFirstDifferenceIsomorphic(origSkel, recompSkel);
@@ -584,6 +595,7 @@ public final class BytecodeComparator {
                         return new MethodResult(name, desc, Status.MATCH,
                                 origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                     }
+                    insnsMatched = true;
                 }
             }
         }
@@ -599,6 +611,7 @@ public final class BytecodeComparator {
                     return new MethodResult(name, desc, Status.MATCH,
                             origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                 }
+                insnsMatched = true;
             }
             if (tryMicroBlockMatch(origSkel, recompSkel)) {
                 String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
@@ -606,6 +619,7 @@ public final class BytecodeComparator {
                     return new MethodResult(name, desc, Status.MATCH,
                             origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                 }
+                insnsMatched = true;
             }
         }
 
@@ -624,6 +638,7 @@ public final class BytecodeComparator {
                         return new MethodResult(name, desc, Status.MATCH,
                                 origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                     }
+                    insnsMatched = true;
                 }
             }
             // Also try block-level or micro-block matching on DUP-stripped skeletons
@@ -637,6 +652,7 @@ public final class BytecodeComparator {
                         return new MethodResult(name, desc, Status.MATCH,
                                 origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                     }
+                    insnsMatched = true;
                 }
             }
         }
@@ -655,6 +671,7 @@ public final class BytecodeComparator {
                         return new MethodResult(name, desc, Status.MATCH,
                                 origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                     }
+                    insnsMatched = true;
                 }
                 if (tryBlockLevelMatch(origCSkel, recompCSkel)
                         || tryMicroBlockMatch(origCSkel, recompCSkel)) {
@@ -663,6 +680,7 @@ public final class BytecodeComparator {
                         return new MethodResult(name, desc, Status.MATCH,
                                 origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                     }
+                    insnsMatched = true;
                 }
                 // Guard inversion on combined GOTO+DUP stripped skeletons
                 int combDiff = findFirstDifferenceIsomorphic(origCSkel, recompCSkel);
@@ -672,6 +690,7 @@ public final class BytecodeComparator {
                         return new MethodResult(name, desc, Status.MATCH,
                                 origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                     }
+                    insnsMatched = true;
                 }
             }
         }
@@ -695,6 +714,7 @@ public final class BytecodeComparator {
                     return new MethodResult(name, desc, Status.MATCH,
                             origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                 }
+                insnsMatched = true;
             }
         }
 
@@ -855,7 +875,10 @@ public final class BytecodeComparator {
                         || "RETURN".equals(insn) || "ARETURN".equals(insn)
                         || "IRETURN".equals(insn) || "LRETURN".equals(insn)
                         || "FRETURN".equals(insn) || "DRETURN".equals(insn)
-                        || "ATHROW".equals(insn);
+                        || "ATHROW".equals(insn)
+                        // Guard clause inversions can produce extra conditional branches
+                        || insn.startsWith("IF_")
+                        || "CHECKCAST v?".equals(insn) || insn.startsWith("CHECKCAST ");
                 if (!isAllowedExtra) return false;
             }
         }
@@ -913,18 +936,26 @@ public final class BytecodeComparator {
         for (int i = 0; i < insns.size(); i++) {
             String insn = insns.get(i);
             if (isReturnString(insn) || insn.equals("ATHROW")) {
-                // Build exit signature: preceding load(s) + exit instruction
+                // Build exit signature: preceding value-producing instructions + exit
                 int start = i;
-                if (i >= 1 && isLoadInsn(insns.get(i - 1))) {
-                    start = i - 1;
+                while (start > 0) {
+                    String prev = insns.get(start - 1);
+                    if (isLoadInsn(prev) || isConstantPushInsn(prev)
+                            || "ACONST_NULL".equals(prev) || prev.startsWith("GETSTATIC ")) {
+                        start--;
+                    } else {
+                        break;
+                    }
                 }
+                // Limit lookback to 3 preceding instructions
+                if (i - start > 3) start = i - 3;
                 StringBuilder sig = new StringBuilder();
                 for (int j = start; j <= i; j++) {
                     sig.append(VAR_STRIP.matcher(insns.get(j)).replaceAll("v?")).append(";");
                 }
                 String key = sig.toString();
                 if (seenExits.contains(key)) {
-                    // Remove preceding loads already added for this duplicate exit
+                    // Remove preceding instructions already added for this duplicate exit
                     int toRemove = i - start;
                     for (int r = 0; r < toRemove && !result.isEmpty(); r++) {
                         result.remove(result.size() - 1);
