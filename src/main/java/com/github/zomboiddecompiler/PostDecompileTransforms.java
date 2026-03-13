@@ -60,6 +60,7 @@ public final class PostDecompileTransforms {
         content = fixSpecificFileErrors(content);
         content = fixWrongStringCastOnGet(content);
         content = fixTableNameNullGuardPattern(content);
+        content = fixShortBufferPutMissingCast(content);
         // Binary compatibility: warn about public method return types
         content = addBinaryCompatWarnings(content);
         return content;
@@ -2892,6 +2893,21 @@ public final class PostDecompileTransforms {
         "^(\\s*)public\\s+(ArrayList|HashMap|HashSet|LinkedList|ConcurrentHashMap|CopyOnWriteArrayList)" +
         "(\\s*<[^>]*>)?\\s+(\\w+)\\s*\\("
     );
+
+    // ========================================================================
+    // Fix: ShortBuffer.put() missing (short) cast
+    // Vineflower decompiles short variables as int, then emits
+    // shortBuffer.put(intVar) which won't compile without a cast.
+    // ========================================================================
+
+    private static final Pattern SHORT_BUFFER_PUT_NO_CAST = Pattern.compile(
+            "(\\bshortBuffer\\w*\\.put\\()([a-zA-Z_]\\w*)(\\);)"
+    );
+
+    private static String fixShortBufferPutMissingCast(String content) {
+        return SHORT_BUFFER_PUT_NO_CAST.matcher(content)
+                .replaceAll("$1(short)$2$3");
+    }
 
     /**
      * Adds a warning comment above public methods that return concrete collection types.
