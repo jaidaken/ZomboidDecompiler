@@ -63,6 +63,9 @@ public final class PostDecompileTransforms {
         content = fixShortBufferPutMissingCast(content);
         // Binary compatibility: warn about public method return types
         content = addBinaryCompatWarnings(content);
+        // Missing class fixes: preserve anonymous class numbering
+        content = fixMissingLuaManagerComparator(content);
+        content = fixMissingCharacterSoundEmitterSwitchMap(content);
         return content;
     }
 
@@ -2930,5 +2933,67 @@ public final class PostDecompileTransforms {
         }
 
         return modified ? String.join("\n", lines) : content;
+    }
+
+    // ========================================================================
+    // Fix 33: Missing LuaManager$GlobalObject$2 (dead-code anonymous Comparator)
+    // ========================================================================
+
+    private static String fixMissingLuaManagerComparator(String content) {
+        if (!content.contains("class GlobalObject")) return content;
+
+        // The decompiler collapses getSaveDirectoryTable() to a stub, omitting the
+        // anonymous Comparator<File> that exists as $2 in the original bytecode.
+        // This shifts the FileVisitor from $3 to $2. Fix: insert an unused Comparator
+        // allocation to preserve $2 numbering. Can't use if(false) — javac eliminates it.
+        String oldMethod =
+                "        @LuaMethod(name = \"getSaveDirectoryTable\", global = true)\n" +
+                "        public static KahluaTable getSaveDirectoryTable() {\n" +
+                "            return LuaManager.platform.newTable();\n" +
+                "        }";
+        String newMethod =
+                "        @LuaMethod(name = \"getSaveDirectoryTable\", global = true)\n" +
+                "        @SuppressWarnings(\"unused\")\n" +
+                "        public static KahluaTable getSaveDirectoryTable() {\n" +
+                "            java.util.Comparator<java.io.File> unused = new java.util.Comparator<java.io.File>() {\n" +
+                "                public int compare(java.io.File file0, java.io.File file1) {\n" +
+                "                    return Long.valueOf(file1.lastModified()).compareTo(file0.lastModified());\n" +
+                "                }\n" +
+                "            };\n" +
+                "            return LuaManager.platform.newTable();\n" +
+                "        }";
+
+        return content.replace(oldMethod, newMethod);
+    }
+
+    // ========================================================================
+    // Fix 34: Missing CharacterSoundEmitter$1 (synthetic switch-map class)
+    // ========================================================================
+
+    private static String fixMissingCharacterSoundEmitterSwitchMap(String content) {
+        if (!content.contains("class CharacterSoundEmitter")) return content;
+
+        // The original bytecode has a synthetic $1 switch-map class for the footstep
+        // enum, but the decompiler correctly used if-else chains. Add a private method
+        // with a switch statement to force javac to generate the synthetic $1 class.
+        // Can't use if(false) — javac eliminates it.
+        String oldSig = "    CharacterSoundEmitter.footstep getFootstepToPlay() {";
+        String newSig =
+                "    @SuppressWarnings(\"unused\")\n" +
+                "    private static int switchMapHolder(CharacterSoundEmitter.footstep f) {\n" +
+                "        switch (f) {\n" +
+                "            case upstairs: return 1;\n" +
+                "            case grass: return 2;\n" +
+                "            case wood: return 3;\n" +
+                "            case concrete: return 4;\n" +
+                "            case gravel: return 5;\n" +
+                "            case snow: return 6;\n" +
+                "            default: return 0;\n" +
+                "        }\n" +
+                "    }\n" +
+                "\n" +
+                "    CharacterSoundEmitter.footstep getFootstepToPlay() {";
+
+        return content.replace(oldSig, newSig);
     }
 }

@@ -407,6 +407,7 @@ public class Verify implements Callable<Integer> {
                 int methodTotal = 0;
                 int methodMatched = 0;
 
+                JSONArray methodsArray = new JSONArray();
                 for (MethodResult mr : cr.methods()) {
                     int insns = mr.origInsnCount();
                     classTotal += insns;
@@ -414,6 +415,22 @@ public class Verify implements Callable<Integer> {
                     if (mr.status() == Status.MATCH) {
                         classMatched += insns;
                         methodMatched++;
+                    }
+
+                    // Include method-level detail for mismatched methods
+                    if (mr.status() == Status.MISMATCH) {
+                        JSONObject method = new JSONObject();
+                        method.put("name", mr.name());
+                        method.put("descriptor", mr.descriptor());
+                        method.put("status", mr.status().name());
+                        method.put("category", MismatchCategorizer.categorize(mr).name());
+                        method.put("diffDescription", mr.diffDescription());
+                        method.put("origInsnCount", mr.origInsnCount());
+                        method.put("recompInsnCount", mr.recompInsnCount());
+                        method.put("firstDiffIndex", mr.firstDiffIndex());
+                        method.put("origContext", new JSONArray(mr.origContext()));
+                        method.put("recompContext", new JSONArray(mr.recompContext()));
+                        methodsArray.put(method);
                     }
                 }
 
@@ -437,6 +454,9 @@ public class Verify implements Callable<Integer> {
                 unit.put("total_methods", methodTotal);
                 unit.put("matched_methods", methodMatched);
                 unit.put("matched_code_percent", pct);
+                if (!methodsArray.isEmpty()) {
+                    unit.put("methods", methodsArray);
+                }
 
                 totalInstructions += classTotal;
                 matchedInstructions += classMatched;

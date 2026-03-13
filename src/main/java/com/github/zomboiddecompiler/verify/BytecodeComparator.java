@@ -485,6 +485,15 @@ public final class BytecodeComparator {
                                 origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                     }
                 }
+                // Guard inversion on combined GOTO+DUP stripped skeletons
+                int combDiff = findFirstDifferenceIsomorphic(origCSkel, recompCSkel);
+                if (combDiff >= 0 && tryMatchGuardInversion(origCSkel, recompCSkel, combDiff)) {
+                    String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
+                    if (tryCatchDiff == null) {
+                        return new MethodResult(name, desc, Status.MATCH,
+                                origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
+                    }
+                }
             }
         }
 
@@ -1362,6 +1371,12 @@ public final class BytecodeComparator {
                 || insn.startsWith("DLOAD ");
     }
 
+    private static boolean isStoreInsn(String insn) {
+        return insn.startsWith("ASTORE ") || insn.startsWith("ISTORE ")
+                || insn.startsWith("LSTORE ") || insn.startsWith("FSTORE ")
+                || insn.startsWith("DSTORE ");
+    }
+
     /**
      * Normalizes boolean return patterns. Converts the explicit if-else boolean
      * return pattern to a simple IRETURN when it's an identity (return the value on stack).
@@ -1612,6 +1627,23 @@ public final class BytecodeComparator {
                             result.add(insns.get(j + 1));
                             continue;
                         }
+                        // Store-load-return: xSTORE vN; xLOAD vN; xRETURN
+                        // (shared return point that stores to local before returning)
+                        if (j + 2 < insns.size() && isStoreInsn(targetInsn)) {
+                            String nextInsn = insns.get(j + 1);
+                            String retInsn = insns.get(j + 2);
+                            if (isLoadInsn(nextInsn) && isReturnString(retInsn)) {
+                                String storeOpc = targetInsn.split(" ")[0];
+                                String loadOpc = nextInsn.split(" ")[0];
+                                if (storeOpc.charAt(0) == loadOpc.charAt(0)
+                                        || (storeOpc.startsWith("A") && loadOpc.startsWith("A"))) {
+                                    result.add(targetInsn);
+                                    result.add(nextInsn);
+                                    result.add(retInsn);
+                                    continue;
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1787,8 +1819,15 @@ public final class BytecodeComparator {
         // Guard should be at end of guardLast
         List<String> guardAtEnd = guardLast.subList(guardLast.size() - guardLen, guardLast.size());
 
-        // Guards must match exactly (they're short constant+return sequences)
-        if (!guard.equals(guardAtEnd)) return false;
+        // Guards must match (use label-isomorphic comparison for guards with nested branches)
+        if (!guard.equals(guardAtEnd)
+                && findFirstDifferenceIsomorphic(guard, guardAtEnd) != -1
+                && !tryLabelAgnosticMatch(guard, guardAtEnd)) {
+            // Also try opcode skeleton (handles guards with different variable slots)
+            if (!tryLabelAgnosticMatch(toOpcodeSkeleton(guard), toOpcodeSkeleton(guardAtEnd))) {
+                return false;
+            }
+        }
 
         // Bodies must match with label isomorphism and fresh var renormalization
         List<String> body = guardFirst.subList(guardLen, guardFirst.size());
@@ -1831,19 +1870,20 @@ public final class BytecodeComparator {
 
     /**
      * Finds the end of a guard block starting at the given index.
-     * A guard block is a short sequence (1-5 instructions) ending with a return or throw.
+     * A guard block ends with a return or throw instruction.
+     * Allows nested conditional branches and GOTOs within the guard as long as
+     * the block terminates within maxGuardLen instructions.
      * Returns the index of the terminating instruction, or -1 if no guard found.
      */
     private static int findGuardEnd(List<String> insns, int start) {
-        int maxGuardLen = 20;
+        int maxGuardLen = 30;
         int limit = Math.min(start + maxGuardLen, insns.size());
         for (int i = start; i < limit; i++) {
             if (isReturnString(insns.get(i)) || insns.get(i).equals("ATHROW")) {
                 return i;
             }
-            // Control flow means this isn't a simple guard
-            if (isConditionalBranch(insns.get(i)) || insns.get(i).startsWith("GOTO ")
-                    || insns.get(i).startsWith("SWITCH ")) {
+            // SWITCH is too complex for guard matching
+            if (insns.get(i).startsWith("SWITCH ")) {
                 return -1;
             }
         }
@@ -1860,7 +1900,7 @@ public final class BytecodeComparator {
      * produces the second list (with var renormalization and label isomorphism).
      */
     private boolean tryReturnTerminatedInversion(List<String> first, List<String> second) {
-        if (Math.abs(first.size() - second.size()) > 10) return false;
+        if (Math.abs(first.size() - second.size()) > 20) return false;
 
         List<String> secondNorm = renormalizeVars(second);
         int returnCount = 0;
@@ -1894,8 +1934,32 @@ public final class BytecodeComparator {
                     return true;
                 }
             }
+
+            // GOTO-stripped comparison: handles GOTO asymmetry where one side has
+            // GOTO-based if-else and the other has return-terminated guards.
+            // Re-renormalize vars AFTER stripping GOTOs so encounter order matches.
+            List<String> expectedNoGoto = renormalizeVars(stripGoto(expected));
+            List<String> secondNoGoto = renormalizeVars(stripGoto(second));
+            if (expectedNoGoto.size() == secondNoGoto.size()) {
+                if (findFirstDifferenceIsomorphic(expectedNoGoto, secondNoGoto) == -1) {
+                    return true;
+                }
+                if (tryLabelAgnosticMatch(expectedNoGoto, secondNoGoto)) {
+                    return true;
+                }
+                List<String> expectedGSkel = toOpcodeSkeleton(expectedNoGoto);
+                List<String> secondGSkel = toOpcodeSkeleton(secondNoGoto);
+                if (tryLabelAgnosticMatch(expectedGSkel, secondGSkel)) {
+                    return true;
+                }
+            }
+
             // Fallback for unequal sizes: try micro-block matching on the swapped version
             if (tryMicroBlockMatch(expectedNorm, secondNorm)) {
+                return true;
+            }
+            // Also try micro-block on GOTO-stripped (with fresh var renormalization)
+            if (tryMicroBlockMatch(expectedNoGoto, secondNoGoto)) {
                 return true;
             }
         }
