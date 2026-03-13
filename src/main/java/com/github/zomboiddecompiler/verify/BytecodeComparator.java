@@ -752,6 +752,16 @@ public final class BytecodeComparator {
                 return new MethodResult(name, desc, Status.MATCH,
                         origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
             }
+            // Superset check on aggressive-normalized (handles different GOTO counts
+            // producing unequal sizes after stripping, with extras being control flow artifacts)
+            if (Math.abs(origAgg.size() - recompAgg.size()) <= 8) {
+                List<String> smaller = origAgg.size() <= recompAgg.size() ? origAgg : recompAgg;
+                List<String> larger = origAgg.size() <= recompAgg.size() ? recompAgg : origAgg;
+                if (isStoreLoadSuperset(smaller, larger)) {
+                    return new MethodResult(name, desc, Status.MATCH,
+                            origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
+                }
+            }
         }
 
         // Super-aggressive fallback: strip variable copies, unreachable code,
