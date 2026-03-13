@@ -27,6 +27,35 @@ The decompiled source code will be written to `output/`, along with the dependen
 - Renaming of function parameters using Rosetta data.
 - Renaming of other variables according to type to enhance readability.
 - Line number remapping for remote debugging.
+- **Post-decompilation source transforms** — automatically applies 25+ fixes to Vineflower output to correct type inference errors, raw generic issues, cast disambiguation, instanceof scope escapes, switch expression problems, and more. The transforms are applied during decompilation so the output is ready to recompile.
+- **Bytecode verification** — compare original bytecode against recompiled classes at the instruction level to validate decompilation accuracy. Supports semantic normalization, guard clause detection, label isomorphism, and block-level matching.
+
+## Bytecode Verification
+The `verify` command compares original bytecode against recompiled classes to detect decompilation errors.
+
+```bash
+# Compare original JAR against recompiled classes directory
+ZomboidDecompiler verify path/to/projectzomboid.jar path/to/recompiled-classes/
+
+# With options
+ZomboidDecompiler verify original.jar recompiled/ --semantic --verbose --context 10
+```
+
+**Options:**
+| Option | Description |
+|--------|-------------|
+| `--class-pattern` | Class name pattern filter (default: `zombie.*`) |
+| `--verbose` | Show all methods including matches |
+| `--strict-vars` | Compare variable indices directly without normalization |
+| `--context N` | Instructions to show around diffs (default: 5) |
+| `--no-color` | Disable ANSI color output |
+| `--summary-only` | Only show summary statistics |
+| `--semantic` | Enable semantic normalization (DUP/store-load-return/GOTO) |
+
+The `verifyBytecode` Gradle task is also available: `gradlew verifyBytecode`. Exit code 2 indicates mismatches were found.
+
+### Standalone Transforms
+The `TransformFiles` utility can apply post-decompilation transforms to an existing directory of decompiled source files without re-running the decompiler.
 
 ## Version compatibility chart
 Sometimes the game changes too much for Zomboid Decompiler to reasonably maintain compatibility with older versions.
