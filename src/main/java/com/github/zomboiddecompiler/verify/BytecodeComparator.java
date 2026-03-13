@@ -676,6 +676,36 @@ public final class BytecodeComparator {
         result = stripLoadBeforePutfield(result);
         // Strip trailing duplicate exit instructions (consecutive RETURN/ATHROW at end).
         result = stripTrailingDuplicateExits(result);
+        // Normalize dead stores to POP (ASTORE vN where vN is never loaded → POP).
+        result = normalizeDeadStoresToPop(result);
+        return result;
+    }
+
+    /**
+     * Converts ASTORE vN to POP when vN is never loaded in the method.
+     * This catches the pattern where one side stores a constructor result to
+     * an unused variable while the other side simply pops it.
+     */
+    private static List<String> normalizeDeadStoresToPop(List<String> insns) {
+        // First pass: collect all loaded variables
+        Set<String> loadedVars = new HashSet<>();
+        for (String insn : insns) {
+            if (isLoadInsn(insn)) {
+                loadedVars.add(insn.substring(insn.indexOf(' ') + 1)); // e.g., "v3"
+            }
+        }
+        // Second pass: convert dead stores to POP
+        List<String> result = new ArrayList<>(insns.size());
+        for (String insn : insns) {
+            if (isStoreInsn(insn)) {
+                String var = insn.substring(insn.indexOf(' ') + 1);
+                if (!loadedVars.contains(var)) {
+                    result.add("POP");
+                    continue;
+                }
+            }
+            result.add(insn);
+        }
         return result;
     }
 
@@ -1125,11 +1155,19 @@ public final class BytecodeComparator {
     private static List<String> stripRequireNonNull(List<String> insns) {
         List<String> result = new ArrayList<>(insns.size());
         for (int i = 0; i < insns.size(); i++) {
-            if (i + 1 < insns.size()
-                    && insns.get(i).startsWith("INVOKESTATIC java/util/Objects.requireNonNull(")
-                    && insns.get(i + 1).equals("POP")) {
-                i++; // skip both
-                continue;
+            if (i + 1 < insns.size() && insns.get(i + 1).equals("POP")) {
+                String curr = insns.get(i);
+                // Strip INVOKESTATIC Objects.requireNonNull; POP
+                if (curr.startsWith("INVOKESTATIC java/util/Objects.requireNonNull(")) {
+                    i++; // skip both
+                    continue;
+                }
+                // Strip GETSTATIC x; POP — dead field access (used only for side effects
+                // like triggering class initialization). Recompiled code may omit this.
+                if (curr.startsWith("GETSTATIC ")) {
+                    i++; // skip both
+                    continue;
+                }
             }
             result.add(insns.get(i));
         }

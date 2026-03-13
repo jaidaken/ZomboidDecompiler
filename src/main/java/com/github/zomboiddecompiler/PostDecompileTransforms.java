@@ -68,6 +68,7 @@ public final class PostDecompileTransforms {
         content = fixMissingCharacterSoundEmitterSwitchMap(content);
         // Bytecode-matching transforms
         content = fixItemContainerTryFinallyReturn(content);
+        content = fixZomboidHashMapEntryKeyReread(content);
         return content;
     }
 
@@ -3108,5 +3109,39 @@ public final class PostDecompileTransforms {
                 + methodBody.substring(matcher.end());
 
         return content.substring(0, methodStart) + newMethodBody + content.substring(methodEnd);
+    }
+
+    // ========================================================================
+    // Bytecode-matching: ZomboidHashMap entry.key re-read elimination
+    // ========================================================================
+    // The decompiler generates:
+    //   var object1 = entry.key;
+    //   if (entry.key == object0 || ...)
+    // The original bytecode caches entry.key in a local and uses it for both
+    // the == check and the equals() call:
+    //   Object object1 = entry.key;
+    //   if (object1 == object0 || ...)
+
+    private static String fixZomboidHashMapEntryKeyReread(String content) {
+        if (!content.contains("class ZomboidHashMap")) {
+            return content;
+        }
+
+        // Pattern: "var objectN = entry.key;\n ... if (entry.key == objectM"
+        // Replace with: "Object objectN = entry.key;\n ... if (objectN == objectM"
+        // Handle both entry variants: entry, entry0, entry1, etc.
+        java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(
+                "(var (\\w+) = (entry\\w*)\\.key;\\n)(\\s*if \\()\\3\\.key( ==)"
+        );
+        java.util.regex.Matcher matcher = pattern.matcher(content);
+        StringBuilder sb = new StringBuilder();
+        while (matcher.find()) {
+            String varName = matcher.group(2);
+            String replacement = "Object " + varName + " = " + matcher.group(3) + ".key;\n"
+                    + matcher.group(4) + varName + matcher.group(5);
+            matcher.appendReplacement(sb, java.util.regex.Matcher.quoteReplacement(replacement));
+        }
+        matcher.appendTail(sb);
+        return sb.toString();
     }
 }
