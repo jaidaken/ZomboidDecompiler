@@ -2777,6 +2777,17 @@ public final class PostDecompileTransforms {
         // ================================================================
         content = fixB42FileSpecificErrors(content);
 
+        // Switch expressions missing default branch
+        content = content.replaceAll(
+                "(case \\w+ -> [^;]+;\\s*\\n)(\\s*\\} \\*)",
+                "$1            default -> throw new IllegalStateException();\n$2");
+
+        // Unreachable catch: CloneNotSupportedException never thrown by super.clone()
+        // when the class implements Cloneable. Widen to Exception.
+        content = content.replace(
+                "catch (CloneNotSupportedException",
+                "catch (Exception");
+
         return content;
     }
 
@@ -3509,6 +3520,11 @@ public final class PostDecompileTransforms {
                     "Matrix4f transform = sceneModel.getGlobalTransform(allocMatrix4f());",
                     "transform = sceneModel.getGlobalTransform(allocMatrix4f());",
                     1);
+            // fromLua3: Quaternionf rotation redeclared — identical string at lines 1585 and 1628
+            content = fixB42RemoveRedeclType(content,
+                    "Quaternionf rotation = transform.getUnnormalizedRotation(allocQuaternionf());",
+                    "rotation = transform.getUnnormalizedRotation(allocQuaternionf());",
+                    2);
 
             // fromLua3: sceneModel instanceof pattern at line 1655 conflicts with
             // SceneModel sceneModel declaration at line 1611.
