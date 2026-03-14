@@ -4759,24 +4759,54 @@ public final class PostDecompileTransforms {
         return content;
     }
 
-    // ── NonBlockingHashMapLong$CHM: restore assertion init in <clinit> ───
+    // ── NonBlocking*$CHM: restore assertion init in <clinit> ───
     // The original inner class CHM has its own $assertionsDisabled field initialized
     // in its <clinit> BEFORE the AtomicFieldUpdater static fields. The decompiler
     // merges this into the outer class field. We add a local _assertionsDisabled
     // field to CHM so it gets its own <clinit> entry matching the original ordering.
+    // Applies to: NonBlockingHashMapLong, NonBlockingHashMap, NonBlockingHashtable,
+    //             NonBlockingIdentityHashMap
     private static String fixCHMAssertionInitOrder(String content) {
-        if (!content.contains("class NonBlockingHashMapLong<")) return content;
-        String marker = "private static final class CHM<TypeV> implements Serializable {";
-        if (!content.contains(marker)) return content;
+        // NonBlockingHashMapLong: CHM<TypeV> implements Serializable, first field is _nbhml
+        content = fixCHMAssertionInitOrderFor(content,
+                "class NonBlockingHashMapLong<",
+                "private static final class CHM<TypeV> implements Serializable {",
+                "final NonBlockingHashMapLong _nbhml;",
+                "NonBlockingHashMapLong");
+        // NonBlockingHashMap: CHM<TypeK, TypeV>, first field is _size
+        content = fixCHMAssertionInitOrderFor(content,
+                "class NonBlockingHashMap<",
+                "private static final class CHM<TypeK, TypeV> {",
+                "private final Counter _size;",
+                "NonBlockingHashMap");
+        // NonBlockingHashtable: CHM<TypeK, TypeV>, first field is _size
+        content = fixCHMAssertionInitOrderFor(content,
+                "class NonBlockingHashtable<",
+                "private static final class CHM<TypeK, TypeV> {",
+                "private final Counter _size;",
+                "NonBlockingHashtable");
+        // NonBlockingIdentityHashMap: CHM<TypeK, TypeV>, first field is _size
+        content = fixCHMAssertionInitOrderFor(content,
+                "class NonBlockingIdentityHashMap<",
+                "private static final class CHM<TypeK, TypeV> {",
+                "private final Counter _size;",
+                "NonBlockingIdentityHashMap");
+        return content;
+    }
+
+    private static String fixCHMAssertionInitOrderFor(String content,
+            String classGuard, String chmMarker, String firstField, String outerClassName) {
+        if (!content.contains(classGuard)) return content;
+        if (!content.contains(chmMarker)) return content;
         // Only apply if CHM does not already have its own _assertionsDisabled field
-        int chmStart = content.indexOf(marker);
+        int chmStart = content.indexOf(chmMarker);
         // Find the next class-level declaration boundary (next "private static final class" or end of file)
-        int nextClass = content.indexOf("private static final class ", chmStart + marker.length());
+        int nextClass = content.indexOf("private static final class ", chmStart + chmMarker.length());
         String chmBody = nextClass > 0 ? content.substring(chmStart, nextClass) : content.substring(chmStart);
         if (chmBody.contains("static final boolean _assertionsDisabled")) return content;
         content = content.replace(
-                marker + "\n        final NonBlockingHashMapLong _nbhml;",
-                marker + "\n       static final boolean _assertionsDisabled = !NonBlockingHashMapLong.class.desiredAssertionStatus();\n\n        final NonBlockingHashMapLong _nbhml;");
+                chmMarker + "\n        " + firstField,
+                chmMarker + "\n       static final boolean _assertionsDisabled = !" + outerClassName + ".class.desiredAssertionStatus();\n\n        " + firstField);
         return content;
     }
 
