@@ -351,6 +351,40 @@ run_verify() {
         return "$rc"
     fi
     rm -f "$log_file"
+
+    # Print mismatch category summary from the JSON report
+    if [ -f "$report_path" ]; then
+        echo "  Report: $report_path"
+        ensure_venv
+        "$VENV_PYTHON" -c "
+import json
+from collections import Counter
+with open('$report_path') as f:
+    data = json.load(f)
+m = data['measures']
+total = m['total_methods']
+tiers = Counter()
+for u in data['units']:
+    for method in u.get('methods', []):
+        tiers[method.get('matchTier', 'EXACT')] += 1
+tiers['EXACT'] = tiers.get('EXACT', 0) + (total - sum(tiers.values()))
+order = ['EXACT', 'STRUCTURAL', 'SORTED_MULTISET', 'FUZZY_COMPUTATION', 'CORE_OPS_ONLY', 'NONE']
+safety = {
+    'EXACT': 'safe',
+    'STRUCTURAL': 'mostly safe',
+    'SORTED_MULTISET': 'risky — order lost',
+    'FUZZY_COMPUTATION': 'risky — control flow stripped',
+    'CORE_OPS_ONLY': 'most risky',
+    'NONE': 'unmatched',
+}
+print(f'  Match tiers ({total} methods):')
+for tier in order:
+    count = tiers.get(tier, 0)
+    if count > 0:
+        pct = 100.0 * count / total
+        print(f'    {count:6,d}  {pct:5.1f}%  {tier:20s}  ({safety.get(tier, \"\")})')
+" 2>/dev/null || true
+    fi
 }
 
 generate_image() {
