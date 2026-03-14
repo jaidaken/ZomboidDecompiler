@@ -5,9 +5,9 @@
     "matched_code_percent": 94.74615705537705,
     "match_tiers": {
       "CORE_OPS_ONLY": 2,
-      "FUZZY_COMPUTATION": 85,
+      "FUZZY_COMPUTATION": 84,
       "EXACT": 51735,
-      "SORTED_MULTISET": 1061,
+      "SORTED_MULTISET": 1062,
       "NONE": 14,
       "STRUCTURAL": 2013
     },
@@ -51832,7 +51832,7 @@
           "name": "findPath",
           "recompInsnCount": 1670,
           "descriptor": "(Lzombie/pathfind/PathFindRequest;Z)Z",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 1674,
           "status": "MATCH"
         },
