@@ -4,11 +4,11 @@
     "total_instructions": 1180433,
     "matched_code_percent": 94.8457049235323,
     "match_tiers": {
-      "FUZZY_COMPUTATION": 48,
-      "EXACT": 31268,
-      "SORTED_MULTISET": 522,
+      "FUZZY_COMPUTATION": 19,
+      "EXACT": 31292,
+      "SORTED_MULTISET": 524,
       "NONE": 2,
-      "STRUCTURAL": 1130
+      "STRUCTURAL": 1133
     },
     "total_methods": 32970,
     "matched_function_percent": 99.9939338792842,
@@ -946,7 +946,7 @@
         },
         {
           "name": "RunLuaInternal",
-          "recompInsnCount": 170,
+          "recompInsnCount": 172,
           "descriptor": "(Ljava/lang/String;Z)Ljava/lang/Object;",
           "matchTier": "FUZZY_COMPUTATION",
           "origInsnCount": 172,
@@ -1018,14 +1018,6 @@
           "descriptor": "()Lse/krka/kahlua/vm/KahluaTable;",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 97,
-          "status": "MATCH"
-        },
-        {
-          "name": "getMapFoldersForMod",
-          "recompInsnCount": 81,
-          "descriptor": "(Ljava/lang/String;)Ljava/util/ArrayList;",
-          "matchTier": "FUZZY_COMPUTATION",
-          "origInsnCount": 81,
           "status": "MATCH"
         },
         {
@@ -1415,14 +1407,6 @@
       "total_instructions": 798,
       "matched_code_percent": 83.95989974937343,
       "methods": [
-        {
-          "name": "addMissingVanillaDirectories",
-          "recompInsnCount": 94,
-          "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
-          "matchTier": "FUZZY_COMPUTATION",
-          "origInsnCount": 96,
-          "status": "MATCH"
-        },
         {
           "name": "getMapDirectoriesInGroup",
           "recompInsnCount": 36,
@@ -1970,14 +1954,6 @@
           "descriptor": "(Lzombie/iso/objects/IsoDeadBody;I)V",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 91,
-          "status": "MATCH"
-        },
-        {
-          "name": "AddBloodToMap",
-          "recompInsnCount": 95,
-          "descriptor": "(ILzombie/iso/IsoChunk;)V",
-          "matchTier": "FUZZY_COMPUTATION",
-          "origInsnCount": 99,
           "status": "MATCH"
         },
         {
@@ -3571,14 +3547,6 @@
     {
       "total_instructions": 69,
       "matched_code_percent": 100,
-      "methods": [{
-        "name": "call",
-        "recompInsnCount": 57,
-        "descriptor": "()Ljava/lang/Object;",
-        "matchTier": "FUZZY_COMPUTATION",
-        "origInsnCount": 54,
-        "status": "MATCH"
-      }],
       "name": "zombie/asset/FileTask_LoadImageData",
       "total_methods": 4,
       "matched_instructions": 69,
@@ -14211,9 +14179,9 @@
       "methods": [
         {
           "name": "loadTxt",
-          "recompInsnCount": 949,
+          "recompInsnCount": 951,
           "descriptor": "(Ljava/lang/String;ZZLzombie/core/skinnedmodel/model/SkinningData;)Lzombie/core/skinnedmodel/model/ModelTxt;",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 951,
           "status": "MATCH"
         },
@@ -15673,18 +15641,10 @@
           "status": "MATCH"
         },
         {
-          "name": "decideTextureFormat",
-          "recompInsnCount": 46,
-          "descriptor": "(Lzombie/core/textures/PNGDecoder$Format;)Lzombie/core/textures/PNGDecoder$Format;",
-          "matchTier": "FUZZY_COMPUTATION",
-          "origInsnCount": 46,
-          "status": "MATCH"
-        },
-        {
           "name": "decode",
           "recompInsnCount": 244,
           "descriptor": "(Ljava/nio/ByteBuffer;ILzombie/core/textures/PNGDecoder$Format;)V",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 245,
           "status": "MATCH"
         },
@@ -15730,14 +15690,6 @@
     {
       "total_instructions": 54,
       "matched_code_percent": 96.29629629629629,
-      "methods": [{
-        "name": "<clinit>",
-        "recompInsnCount": 52,
-        "descriptor": "()V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 52,
-        "status": "MATCH"
-      }],
       "name": "zombie/core/textures/PNGDecoder$1",
       "total_methods": 1,
       "matched_instructions": 52,
@@ -16818,22 +16770,6 @@
           "status": "MATCH"
         },
         {
-          "name": "validateModFolder",
-          "recompInsnCount": 80,
-          "descriptor": "(Ljava/nio/file/Path;)Ljava/lang/String;",
-          "matchTier": "FUZZY_COMPUTATION",
-          "origInsnCount": 80,
-          "status": "MATCH"
-        },
-        {
-          "name": "validateModsFolder",
-          "recompInsnCount": 66,
-          "descriptor": "(Ljava/nio/file/Path;)Ljava/lang/String;",
-          "matchTier": "FUZZY_COMPUTATION",
-          "origInsnCount": 67,
-          "status": "MATCH"
-        },
-        {
           "name": "validatePreviewImage",
           "recompInsnCount": 84,
           "descriptor": "(Ljava/nio/file/Path;)Ljava/lang/String;",
@@ -16843,7 +16779,7 @@
         },
         {
           "name": "validateContents",
-          "recompInsnCount": 155,
+          "recompInsnCount": 156,
           "descriptor": "()Ljava/lang/String;",
           "matchTier": "FUZZY_COMPUTATION",
           "origInsnCount": 156,
@@ -18034,14 +17970,6 @@
           "descriptor": "(I)V",
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 86,
-          "status": "MATCH"
-        },
-        {
-          "name": "runAsync",
-          "recompInsnCount": 43,
-          "descriptor": "(Lzombie/fileSystem/FileSystemImpl$AsyncItem;)I",
-          "matchTier": "FUZZY_COMPUTATION",
-          "origInsnCount": 45,
           "status": "MATCH"
         },
         {
@@ -19311,9 +19239,9 @@
         },
         {
           "name": "areItemsIdentical",
-          "recompInsnCount": 149,
+          "recompInsnCount": 146,
           "descriptor": "(Lzombie/inventory/CompressIdenticalItems$PerThreadData;Lzombie/inventory/InventoryItem;Lzombie/inventory/InventoryItem;)Z",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 146,
           "status": "MATCH"
         }
@@ -20897,14 +20825,6 @@
       "matched_code_percent": 96.99211045364892,
       "methods": [
         {
-          "name": "AddCorpses",
-          "recompInsnCount": 237,
-          "descriptor": "(II)V",
-          "matchTier": "FUZZY_COMPUTATION",
-          "origInsnCount": 241,
-          "status": "MATCH"
-        },
-        {
           "name": "fixVehiclePos",
           "recompInsnCount": 194,
           "descriptor": "(Lzombie/vehicles/BaseVehicle;Lzombie/iso/IsoChunk;)Z",
@@ -20914,9 +20834,9 @@
         },
         {
           "name": "AddVehicles_OnZone",
-          "recompInsnCount": 739,
+          "recompInsnCount": 741,
           "descriptor": "(Lzombie/iso/IsoMetaGrid$VehicleZone;Ljava/lang/String;)V",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 740,
           "status": "MATCH"
         },
@@ -21091,9 +21011,9 @@
       "methods": [
         {
           "name": "processAllLoadGridSquare",
-          "recompInsnCount": 50,
+          "recompInsnCount": 52,
           "descriptor": "()V",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 52,
           "status": "MATCH"
         },
@@ -22116,14 +22036,6 @@
           "status": "MATCH"
         },
         {
-          "name": "compareToY",
-          "recompInsnCount": 53,
-          "descriptor": "(Lzombie/iso/IsoMovingObject;)I",
-          "matchTier": "FUZZY_COMPUTATION",
-          "origInsnCount": 57,
-          "status": "MATCH"
-        },
-        {
           "name": "separate",
           "recompInsnCount": 468,
           "descriptor": "()V",
@@ -22194,14 +22106,6 @@
       "total_instructions": 10631,
       "matched_code_percent": 95.44727683190669,
       "methods": [
-        {
-          "name": "getNew",
-          "recompInsnCount": 19,
-          "descriptor": "()Lzombie/iso/IsoObject;",
-          "matchTier": "FUZZY_COMPUTATION",
-          "origInsnCount": 21,
-          "status": "MATCH"
-        },
         {
           "name": "factoryFromFileInput",
           "recompInsnCount": 31,
@@ -23034,7 +22938,7 @@
       "methods": [
         {
           "name": "LoadTileDefinitions",
-          "recompInsnCount": 2141,
+          "recompInsnCount": 2142,
           "descriptor": "(Lzombie/iso/sprite/IsoSpriteManager;Ljava/lang/String;I)V",
           "matchTier": "FUZZY_COMPUTATION",
           "origInsnCount": 2145,
@@ -23275,24 +23179,14 @@
     {
       "total_instructions": 796,
       "matched_code_percent": 96.10552763819095,
-      "methods": [
-        {
-          "name": "doStage",
-          "recompInsnCount": 270,
-          "descriptor": "(Lzombie/characters/IsoGameCharacter;Lzombie/iso/objects/IsoThumpable;Z)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 270,
-          "status": "MATCH"
-        },
-        {
-          "name": "canBeDone",
-          "recompInsnCount": 27,
-          "descriptor": "(Lzombie/characters/IsoGameCharacter;Lzombie/iso/IsoObject;Z)Z",
-          "matchTier": "FUZZY_COMPUTATION",
-          "origInsnCount": 28,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "name": "doStage",
+        "recompInsnCount": 270,
+        "descriptor": "(Lzombie/characters/IsoGameCharacter;Lzombie/iso/objects/IsoThumpable;Z)V",
+        "matchTier": "STRUCTURAL",
+        "origInsnCount": 270,
+        "status": "MATCH"
+      }],
       "name": "zombie/iso/MultiStageBuilding$Stage",
       "total_methods": 18,
       "matched_instructions": 765,
@@ -26445,14 +26339,6 @@
     {
       "total_instructions": 1384,
       "matched_code_percent": 98.69942196531792,
-      "methods": [{
-        "name": "updateValues",
-        "recompInsnCount": 665,
-        "descriptor": "(DFLzombie/iso/weather/ClimateManager$DayInfo;Lzombie/iso/weather/ClimateManager$DayInfo;)V",
-        "matchTier": "FUZZY_COMPUTATION",
-        "origInsnCount": 697,
-        "status": "MATCH"
-      }],
       "name": "zombie/iso/weather/ClimateValues",
       "total_methods": 42,
       "matched_instructions": 1366,
@@ -26696,24 +26582,14 @@
     {
       "total_instructions": 762,
       "matched_code_percent": 99.08136482939632,
-      "methods": [
-        {
-          "name": "update",
-          "recompInsnCount": 217,
-          "descriptor": "()V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 218,
-          "status": "MATCH"
-        },
-        {
-          "name": "applyFlare",
-          "recompInsnCount": 415,
-          "descriptor": "(Lzombie/core/opengl/RenderSettings$PlayerRenderSettings;ILzombie/characters/IsoPlayer;)V",
-          "matchTier": "FUZZY_COMPUTATION",
-          "origInsnCount": 399,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "name": "update",
+        "recompInsnCount": 217,
+        "descriptor": "()V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 218,
+        "status": "MATCH"
+      }],
       "name": "zombie/iso/weather/WorldFlares$Flare",
       "total_methods": 20,
       "matched_instructions": 755,
@@ -27855,9 +27731,9 @@
         },
         {
           "name": "sendItemStats",
-          "recompInsnCount": 275,
+          "recompInsnCount": 276,
           "descriptor": "(Lzombie/inventory/InventoryItem;)V",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 276,
           "status": "MATCH"
         }
@@ -28369,14 +28245,6 @@
     {
       "total_instructions": 510,
       "matched_code_percent": 96.07843137254902,
-      "methods": [{
-        "name": "send",
-        "recompInsnCount": 265,
-        "descriptor": "(Lzombie/core/network/ByteBufferWriter;)V",
-        "matchTier": "FUZZY_COMPUTATION",
-        "origInsnCount": 260,
-        "status": "MATCH"
-      }],
       "name": "zombie/network/MPStatisticClient",
       "total_methods": 9,
       "matched_instructions": 490,
@@ -29089,14 +28957,6 @@
           "status": "MATCH"
         },
         {
-          "name": "updateCamera",
-          "recompInsnCount": 123,
-          "descriptor": "(Lzombie/characters/IsoPlayer;)V",
-          "matchTier": "FUZZY_COMPUTATION",
-          "origInsnCount": 125,
-          "status": "MATCH"
-        },
-        {
           "name": "RenderTiles",
           "recompInsnCount": 292,
           "descriptor": "()V",
@@ -29155,14 +29015,6 @@
     {
       "total_instructions": 342,
       "matched_code_percent": 92.69005847953217,
-      "methods": [{
-        "name": "shouldWait",
-        "recompInsnCount": 45,
-        "descriptor": "()Z",
-        "matchTier": "FUZZY_COMPUTATION",
-        "origInsnCount": 49,
-        "status": "MATCH"
-      }],
       "name": "zombie/network/ServerLOS$LOSThread",
       "total_methods": 5,
       "matched_instructions": 317,
@@ -29428,24 +29280,6 @@
     {
       "total_instructions": 928,
       "matched_code_percent": 87.93103448275862,
-      "methods": [
-        {
-          "name": "saveRegionsFile",
-          "recompInsnCount": 156,
-          "descriptor": "(Ljava/lang/String;Ljava/util/ArrayList;)Z",
-          "matchTier": "FUZZY_COMPUTATION",
-          "origInsnCount": 155,
-          "status": "MATCH"
-        },
-        {
-          "name": "savePointsFile",
-          "recompInsnCount": 94,
-          "descriptor": "(Ljava/lang/String;Ljava/util/ArrayList;)Z",
-          "matchTier": "FUZZY_COMPUTATION",
-          "origInsnCount": 93,
-          "status": "MATCH"
-        }
-      ],
       "name": "zombie/network/SpawnRegions",
       "total_methods": 15,
       "matched_instructions": 816,
@@ -29578,14 +29412,6 @@
           "descriptor": "(S)V",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 124,
-          "status": "MATCH"
-        },
-        {
-          "name": "processMessageFromPlayerPacket",
-          "recompInsnCount": 45,
-          "descriptor": "(Ljava/nio/ByteBuffer;)V",
-          "matchTier": "FUZZY_COMPUTATION",
-          "origInsnCount": 47,
           "status": "MATCH"
         },
         {
@@ -30994,14 +30820,6 @@
     {
       "total_instructions": 455,
       "matched_code_percent": 91.20879120879121,
-      "methods": [{
-        "name": "loadTranslations",
-        "recompInsnCount": 163,
-        "descriptor": "()Z",
-        "matchTier": "FUZZY_COMPUTATION",
-        "origInsnCount": 163,
-        "status": "MATCH"
-      }],
       "name": "zombie/radio/RadioTranslationData",
       "total_methods": 12,
       "matched_instructions": 415,
@@ -31137,7 +30955,7 @@
         },
         {
           "name": "Load",
-          "recompInsnCount": 159,
+          "recompInsnCount": 155,
           "descriptor": "()Z",
           "matchTier": "FUZZY_COMPUTATION",
           "origInsnCount": 153,
@@ -32882,7 +32700,7 @@
       "methods": [
         {
           "name": "loadPlayer",
-          "recompInsnCount": 58,
+          "recompInsnCount": 56,
           "descriptor": "(ILzombie/characters/IsoPlayer;)Z",
           "matchTier": "FUZZY_COMPUTATION",
           "origInsnCount": 56,
@@ -33651,14 +33469,6 @@
     {
       "total_instructions": 71,
       "matched_code_percent": 92.95774647887323,
-      "methods": [{
-        "name": "get",
-        "recompInsnCount": 22,
-        "descriptor": "()Lzombie/spnetwork/ZomboidNetData;",
-        "matchTier": "FUZZY_COMPUTATION",
-        "origInsnCount": 24,
-        "status": "MATCH"
-      }],
       "name": "zombie/spnetwork/ZomboidNetDataPool",
       "total_methods": 5,
       "matched_instructions": 66,
@@ -34420,24 +34230,14 @@
     {
       "total_instructions": 5427,
       "matched_code_percent": 97.78883360972914,
-      "methods": [
-        {
-          "name": "render",
-          "recompInsnCount": 267,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 267,
-          "status": "MATCH"
-        },
-        {
-          "name": "isKeyConsumed",
-          "recompInsnCount": 21,
-          "descriptor": "(I)Z",
-          "matchTier": "FUZZY_COMPUTATION",
-          "origInsnCount": 22,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "name": "render",
+        "recompInsnCount": 267,
+        "descriptor": "()V",
+        "matchTier": "STRUCTURAL",
+        "origInsnCount": 267,
+        "status": "MATCH"
+      }],
       "name": "zombie/ui/UIElement",
       "total_methods": 145,
       "matched_instructions": 5307,

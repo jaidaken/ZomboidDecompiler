@@ -13,11 +13,12 @@ public final class TransformFiles {
 
     public static void main(String[] args) throws IOException {
         if (args.length < 1) {
-            System.err.println("Usage: TransformFiles <directory>");
+            System.err.println("Usage: TransformFiles <directory> [buildVersion]");
             System.exit(1);
         }
 
         Path dir = Paths.get(args[0]);
+        String buildVersion = args.length >= 2 ? args[1] : null;
         if (!Files.isDirectory(dir)) {
             System.err.println("Not a directory: " + dir);
             System.exit(1);
@@ -29,7 +30,7 @@ public final class TransformFiles {
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                 if (file.toString().endsWith(".java")) {
                     String content = Files.readString(file);
-                    String transformed = PostDecompileTransforms.apply(content);
+                    String transformed = PostDecompileTransforms.apply(content, buildVersion);
                     if (!transformed.equals(content)) {
                         Files.writeString(file, transformed);
                         count[0]++;

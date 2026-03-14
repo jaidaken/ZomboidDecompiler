@@ -87,8 +87,23 @@ public final class PostDecompileTransforms {
             content = fixCHMAssertionInitOrder(content);
             content = fixDiskFileSeekSwitchStructure(content);
             content = fixIsoDeadBodyReanimateSwitch(content);
+            content = fixIsoObjectGetNewSyncReturn(content);
+            content = fixMultiStageBuildingCanBeDoneReturn(content);
+            content = fixServerLOSShouldWaitSyncReturn(content);
+            content = fixSpNetworkPoolGetSyncReturn(content);
+            content = fixLuaManagerRunLuaInternalVarSave(content);
+            content = fixAddBloodToMapSubtract(content);
+            content = fixModelLoaderAnimNameSave(content);
+            content = fixIsoChunkAddCorpsesSubtract(content);
+            content = fixIsoMovingObjectCompareToYWiden(content);
+            content = fixClimateValuesQualifiedStaticCalls(content);
+            content = fixWorldFlaresApplyFlareInline(content);
+            content = fixMPStatisticClientFloatArray(content);
+            content = fixServerGUIUpdateCameraVarSave(content);
+            content = fixBaseVehicleUpdateSoundsCompoundAssign(content);
         }
         if (BUILD_42.equals(buildVersion)) {
+            content = fixB42PolygonalMap2FindPath(content);
             content = fixB42SpecificErrors(content);
         }
 
@@ -4660,6 +4675,277 @@ public final class PostDecompileTransforms {
         "        }\n" +
         "    }";
 
+    // ========================================================================
+    // Fix: B42 PolygonalMap2.findPath semaphore variable finally duplication
+    // ========================================================================
+    // Same Vineflower bug as b41, but b42 uses PZMath.fastfloor(), +32 Z offset,
+    // fixPathZ(), vgNode.release(), DebugOptions smooth check, etc.
+
+    private static String fixB42PolygonalMap2FindPath(String content) {
+        if (!content.contains("class PolygonalMap2")) return content;
+        if (!content.contains("VF: Semaphore variable")) return content;
+
+        String methodSig = "    private boolean findPath(PathFindRequest request, boolean render) {";
+        int methodStart = content.indexOf(methodSig);
+        if (methodStart < 0) return content;
+
+        // Find method body end by brace counting
+        int braceStart = content.indexOf('{', methodStart);
+        if (braceStart < 0) return content;
+        int depth = 0;
+        int methodEnd = -1;
+        for (int i = braceStart; i < content.length(); i++) {
+            char ch = content.charAt(i);
+            if (ch == '{') depth++;
+            else if (ch == '}') {
+                depth--;
+                if (depth == 0) {
+                    methodEnd = i + 1;
+                    break;
+                }
+            }
+        }
+        if (methodEnd < 0) return content;
+
+        String replacement = B42_POLYGONAL_MAP2_FIND_PATH_REWRITE;
+        return content.substring(0, methodStart) + replacement + content.substring(methodEnd);
+    }
+
+    private static final String B42_POLYGONAL_MAP2_FIND_PATH_REWRITE =
+        "    private boolean findPath(PathFindRequest request, boolean render) {\n" +
+        "        float requestStartZ = request.startZ + 32.0F;\n" +
+        "        float requestTargetZ = request.targetZ + 32.0F;\n" +
+        "        int flags = 16;\n" +
+        "        if (!(request.mover instanceof IsoZombie)) {\n" +
+        "            flags |= 4;\n" +
+        "        }\n" +
+        "\n" +
+        "        if (PZMath.fastfloor(requestStartZ) == PZMath.fastfloor(requestTargetZ)\n" +
+        "            && !this.lcc.isNotClear(this, request.startX, request.startY, request.targetX, request.targetY, PZMath.fastfloor(requestStartZ), flags)) {\n" +
+        "            request.path.addNode(request.startX, request.startY, request.startZ);\n" +
+        "            request.path.addNode(request.targetX, request.targetY, request.targetZ);\n" +
+        "            if (render) {\n" +
+        "                for (VisibilityGraph vg : this.graphs) {\n" +
+        "                    vg.render();\n" +
+        "                }\n" +
+        "            }\n" +
+        "\n" +
+        "            return true;\n" +
+        "        } else {\n" +
+        "            this.astar.init(this.graphs, this.squareToNode);\n" +
+        "            this.astar.knownBlockedEdges.clear();\n" +
+        "\n" +
+        "            for (int i = 0; i < request.knownBlockedEdges.size(); i++) {\n" +
+        "                KnownBlockedEdges kbe = request.knownBlockedEdges.get(i);\n" +
+        "                Square square1 = this.getSquare(kbe.x, kbe.y, kbe.z);\n" +
+        "                if (square1 != null) {\n" +
+        "                    this.astar.knownBlockedEdges.put(square1.id, kbe);\n" +
+        "                }\n" +
+        "            }\n" +
+        "\n" +
+        "            VisibilityGraph removeStart = null;\n" +
+        "            VisibilityGraph removeGoal = null;\n" +
+        "            SearchNode startNode = null;\n" +
+        "            SearchNode goalNode = null;\n" +
+        "            boolean adjustStart = false;\n" +
+        "            boolean adjustGoal = false;\n" +
+        "\n" +
+        "            try {\n" +
+        "                int adjusted;\n" +
+        "                Square ix = this.getSquare(\n" +
+        "                    PZMath.fastfloor(request.startX), PZMath.fastfloor(request.startY), PZMath.fastfloor(requestStartZ)\n" +
+        "                );\n" +
+        "                if (ix != null && !ix.isReallySolid()) {\n" +
+        "                    if (ix.has(504)) {\n" +
+        "                        startNode = this.astar.getSearchNode(ix);\n" +
+        "                    } else {\n" +
+        "                        VisibilityGraph vg = this.astar.getVisGraphForSquare(ix);\n" +
+        "                        if (vg != null) {\n" +
+        "                            if (!vg.created) {\n" +
+        "                                vg.create();\n" +
+        "                            }\n" +
+        "\n" +
+        "                            Node vgNode = null;\n" +
+        "                            adjusted = vg.getPointOutsideObstacles(\n" +
+        "                                request.startX, request.startY, requestStartZ, this.adjustStartData\n" +
+        "                            );\n" +
+        "                            if (adjusted == -1) {\n" +
+        "                                return false;\n" +
+        "                            }\n" +
+        "\n" +
+        "                            if (adjusted == 1) {\n" +
+        "                                adjustStart = true;\n" +
+        "                                vgNode = this.adjustStartData.node;\n" +
+        "                                if (this.adjustStartData.isNodeNew) {\n" +
+        "                                    removeStart = vg;\n" +
+        "                                }\n" +
+        "                            }\n" +
+        "\n" +
+        "                            if (vgNode == null) {\n" +
+        "                                vgNode = Node.alloc().init(request.startX, request.startY, PZMath.fastfloor(requestStartZ));\n" +
+        "                                vg.addNode(vgNode);\n" +
+        "                                removeStart = vg;\n" +
+        "                            }\n" +
+        "\n" +
+        "                            startNode = this.astar.getSearchNode(vgNode);\n" +
+        "                        }\n" +
+        "                    }\n" +
+        "\n" +
+        "                    if (startNode == null) {\n" +
+        "                        startNode = this.astar.getSearchNode(ix);\n" +
+        "                    }\n" +
+        "\n" +
+        "                    if (this.getChunkFromSquarePos(PZMath.fastfloor(request.targetX), PZMath.fastfloor(request.targetY)) == null) {\n" +
+        "                        goalNode = this.astar.getSearchNode(PZMath.fastfloor(request.targetX), PZMath.fastfloor(request.targetY));\n" +
+        "                    } else {\n" +
+        "                        ix = this.getSquare(\n" +
+        "                            PZMath.fastfloor(request.targetX), PZMath.fastfloor(request.targetY), PZMath.fastfloor(requestTargetZ)\n" +
+        "                        );\n" +
+        "                        if (ix == null || ix.isReallySolid()) {\n" +
+        "                            return false;\n" +
+        "                        }\n" +
+        "\n" +
+        "                        if ((PZMath.fastfloor(request.startX) != PZMath.fastfloor(request.targetX)\n" +
+        "                                || PZMath.fastfloor(request.startY) != PZMath.fastfloor(request.targetY)\n" +
+        "                                || PZMath.fastfloor(request.startZ) != PZMath.fastfloor(request.targetZ))\n" +
+        "                            && this.isBlockedInAllDirections(\n" +
+        "                                PZMath.fastfloor(request.targetX),\n" +
+        "                                PZMath.fastfloor(request.targetY),\n" +
+        "                                PZMath.fastfloor(requestTargetZ)\n" +
+        "                            )) {\n" +
+        "                            return false;\n" +
+        "                        }\n" +
+        "\n" +
+        "                        if (ix.has(504)) {\n" +
+        "                            goalNode = this.astar.getSearchNode(ix);\n" +
+        "                        } else {\n" +
+        "                            VisibilityGraph vgx = this.astar.getVisGraphForSquare(ix);\n" +
+        "                            if (vgx != null) {\n" +
+        "                                if (!vgx.created) {\n" +
+        "                                    vgx.create();\n" +
+        "                                }\n" +
+        "\n" +
+        "                                Node vgNodex = null;\n" +
+        "                                adjusted = vgx.getPointOutsideObstacles(\n" +
+        "                                    request.targetX, request.targetY, requestTargetZ, this.adjustGoalData\n" +
+        "                                );\n" +
+        "                                if (adjusted == -1) {\n" +
+        "                                    return false;\n" +
+        "                                }\n" +
+        "\n" +
+        "                                if (adjusted == 1) {\n" +
+        "                                    adjustGoal = true;\n" +
+        "                                    vgNodex = this.adjustGoalData.node;\n" +
+        "                                    if (this.adjustGoalData.isNodeNew) {\n" +
+        "                                        removeGoal = vgx;\n" +
+        "                                    }\n" +
+        "                                }\n" +
+        "\n" +
+        "                                if (vgNodex == null) {\n" +
+        "                                    vgNodex = Node.alloc().init(request.targetX, request.targetY, PZMath.fastfloor(requestTargetZ));\n" +
+        "                                    vgx.addNode(vgNodex);\n" +
+        "                                    removeGoal = vgx;\n" +
+        "                                }\n" +
+        "\n" +
+        "                                goalNode = this.astar.getSearchNode(vgNodex);\n" +
+        "                            } else {\n" +
+        "                                for (int ixx = 0; ixx < this.graphs.size(); ixx++) {\n" +
+        "                                    VisibilityGraph graphI = this.graphs.get(ixx);\n" +
+        "                                    if (graphI.contains(ix, 1)) {\n" +
+        "                                        Node outsideNode = this.getPointOutsideObjects(ix, request.targetX, request.targetY);\n" +
+        "                                        graphI.addNode(outsideNode);\n" +
+        "                                        if (outsideNode.x != request.targetX || outsideNode.y != request.targetY) {\n" +
+        "                                            adjustGoal = true;\n" +
+        "                                            this.adjustGoalData.isNodeNew = false;\n" +
+        "                                        }\n" +
+        "\n" +
+        "                                        removeGoal = graphI;\n" +
+        "                                        goalNode = this.astar.getSearchNode(outsideNode);\n" +
+        "                                        break;\n" +
+        "                                    }\n" +
+        "                                }\n" +
+        "                            }\n" +
+        "                        }\n" +
+        "\n" +
+        "                        if (goalNode == null) {\n" +
+        "                            goalNode = this.astar.getSearchNode(ix);\n" +
+        "                        }\n" +
+        "                    }\n" +
+        "\n" +
+        "                    ArrayList<ISearchNode> path = this.astar.shortestPath(request, startNode, goalNode);\n" +
+        "                    if (path != null) {\n" +
+        "                        if (path.size() == 1) {\n" +
+        "                            request.path.addNode(startNode);\n" +
+        "                            if (!adjustGoal\n" +
+        "                                && goalNode.square != null\n" +
+        "                                && goalNode.square.x + 0.5F != request.targetX\n" +
+        "                                && goalNode.square.y + 0.5F != request.targetY) {\n" +
+        "                                request.path.addNode(request.targetX, request.targetY, requestTargetZ, 0);\n" +
+        "                            } else {\n" +
+        "                                request.path.addNode(goalNode);\n" +
+        "                            }\n" +
+        "\n" +
+        "                            this.fixPathZ(request.path);\n" +
+        "                            return true;\n" +
+        "                        }\n" +
+        "\n" +
+        "                        this.cleanPath(path, request, adjustStart, adjustGoal, goalNode);\n" +
+        "                        if (DebugOptions.instance.pathfindSmoothPlayerPath.getValue()\n" +
+        "                            && request.mover instanceof IsoPlayer isoPlayer\n" +
+        "                            && !isoPlayer.isNPC()) {\n" +
+        "                            this.smoothPath(request.path);\n" +
+        "                        }\n" +
+        "\n" +
+        "                        this.fixPathZ(request.path);\n" +
+        "                        return true;\n" +
+        "                    }\n" +
+        "\n" +
+        "                    return false;\n" +
+        "                }\n" +
+        "            } finally {\n" +
+        "                if (render) {\n" +
+        "                    for (VisibilityGraph vg : this.graphs) {\n" +
+        "                        vg.render();\n" +
+        "                    }\n" +
+        "                }\n" +
+        "\n" +
+        "                if (removeStart != null) {\n" +
+        "                    removeStart.removeNode(startNode.vgNode);\n" +
+        "                    startNode.vgNode.release();\n" +
+        "                }\n" +
+        "\n" +
+        "                if (removeGoal != null) {\n" +
+        "                    removeGoal.removeNode(goalNode.vgNode);\n" +
+        "                    goalNode.vgNode.release();\n" +
+        "                }\n" +
+        "\n" +
+        "                for (int ix = 0; ix < this.astar.searchNodes.size(); ix++) {\n" +
+        "                    this.astar.searchNodes.get(ix).release();\n" +
+        "                }\n" +
+        "\n" +
+        "                if (adjustStart && this.adjustStartData.isNodeNew) {\n" +
+        "                    for (int ix = 0; ix < this.adjustStartData.node.edges.size(); ix++) {\n" +
+        "                        Edge edge = this.adjustStartData.node.edges.get(ix);\n" +
+        "                        edge.obstacle.unsplit(this.adjustStartData.node, edge.edgeRing);\n" +
+        "                    }\n" +
+        "\n" +
+        "                    this.adjustStartData.graph.edges.remove(this.adjustStartData.newEdge);\n" +
+        "                }\n" +
+        "\n" +
+        "                if (adjustGoal && this.adjustGoalData.isNodeNew) {\n" +
+        "                    for (int ix = 0; ix < this.adjustGoalData.node.edges.size(); ix++) {\n" +
+        "                        Edge edge = this.adjustGoalData.node.edges.get(ix);\n" +
+        "                        edge.obstacle.unsplit(this.adjustGoalData.node, edge.edgeRing);\n" +
+        "                    }\n" +
+        "\n" +
+        "                    this.adjustGoalData.graph.edges.remove(this.adjustGoalData.newEdge);\n" +
+        "                }\n" +
+        "            }\n" +
+        "\n" +
+        "            return false;\n" +
+        "        }\n" +
+        "    }";
+
     private static String fixRenderThreadLambdaOrder(String content) {
         if (!content.contains("class RenderThread")) return content;
 
@@ -4887,6 +5173,303 @@ public final class PostDecompileTransforms {
                 "                float1 = 336.0F;\n" +
                 "                break;\n" +
                 "        }");
+        return content;
+    }
+
+    // ========================================================================
+    // Fix: IsoObject.getNew() — synchronized ternary return → if/else returns
+    // Old javac emits separate MONITOREXIT+ARETURN per branch; modern javac
+    // merges with GOTO to a single MONITOREXIT+ARETURN.  Using if/else with
+    // explicit returns inside the synchronized block reproduces the original
+    // two-exit pattern.
+    // ========================================================================
+
+    private static String fixIsoObjectGetNewSyncReturn(String content) {
+        if (!content.contains("class IsoObject ")) return content;
+        return content.replace(
+                "    public static IsoObject getNew() {\n" +
+                "        synchronized (CellLoader.isoObjectCache) {\n" +
+                "            return CellLoader.isoObjectCache.isEmpty() ? new IsoObject() : CellLoader.isoObjectCache.pop();\n" +
+                "        }\n" +
+                "    }",
+                "    public static IsoObject getNew() {\n" +
+                "        synchronized (CellLoader.isoObjectCache) {\n" +
+                "            if (CellLoader.isoObjectCache.isEmpty()) {\n" +
+                "                return new IsoObject();\n" +
+                "            }\n" +
+                "            return CellLoader.isoObjectCache.pop();\n" +
+                "        }\n" +
+                "    }");
+    }
+
+    // ========================================================================
+    // Fix: MultiStageBuilding$Stage.canBeDone() — direct boolean return →
+    // if/else return.  Original bytecode uses IFNE/ICONST_0/IRETURN/ICONST_1/
+    // IRETURN instead of a direct ILOAD+IRETURN for the boolean result.
+    // ========================================================================
+
+    private static String fixMultiStageBuildingCanBeDoneReturn(String content) {
+        if (!content.contains("class MultiStageBuilding")) return content;
+        return content.replace(
+                "            return boolean0;\n" +
+                "        }",
+                "            if (!boolean0) {\n" +
+                "                return false;\n" +
+                "            }\n" +
+                "            return true;\n" +
+                "        }");
+    }
+
+    // ========================================================================
+    // Fix: ServerLOS$LOSThread.shouldWait() — synchronized return expr →
+    // if/return inside sync + return outside.  Original bytecode returns false
+    // inside the synchronized block when sizes differ, then returns true
+    // after exiting the monitor for the equal case.
+    // ========================================================================
+
+    private static String fixServerLOSShouldWaitSyncReturn(String content) {
+        if (!content.contains("class ServerLOS ")) return content;
+        return content.replace(
+                "                synchronized (ServerLOS.this.playersMain) {\n" +
+                "                    return ServerLOS.this.playersLOS.size() == ServerLOS.this.playersMain.size();\n" +
+                "                }",
+                "                synchronized (ServerLOS.this.playersMain) {\n" +
+                "                    if (ServerLOS.this.playersLOS.size() != ServerLOS.this.playersMain.size()) {\n" +
+                "                        return false;\n" +
+                "                    }\n" +
+                "                }\n" +
+                "                return true;");
+    }
+
+    // ========================================================================
+    // Fix: spnetwork/ZomboidNetDataPool.get() — synchronized ternary return →
+    // if/else returns.  Same pattern as IsoObject.getNew(): old javac emits
+    // separate MONITOREXIT+ARETURN per branch of the ternary.
+    // ========================================================================
+
+    private static String fixSpNetworkPoolGetSyncReturn(String content) {
+        if (!content.contains("package zombie.spnetwork;")) return content;
+        if (!content.contains("class ZomboidNetDataPool")) return content;
+        return content.replace(
+                "    public ZomboidNetData get() {\n" +
+                "        synchronized (this.Pool) {\n" +
+                "            return this.Pool.isEmpty() ? new ZomboidNetData() : this.Pool.pop();\n" +
+                "        }\n" +
+                "    }",
+                "    public ZomboidNetData get() {\n" +
+                "        synchronized (this.Pool) {\n" +
+                "            if (this.Pool.isEmpty()) {\n" +
+                "                return new ZomboidNetData();\n" +
+                "            }\n" +
+                "            return this.Pool.pop();\n" +
+                "        }\n" +
+                "    }");
+    }
+
+    // --- Evaluation order fixes (bytecode divergence) ---
+
+    // Fix LuaManager.RunLuaInternal: save original string before getString() overwrites it.
+    // Original bytecode saves string to var2 before overwriting with getString().
+    private static String fixLuaManagerRunLuaInternalVarSave(String content) {
+        if (!content.contains("class LuaManager ")) return content;
+        content = content.replace(
+                "FuncState.currentFile = string.substring(string.lastIndexOf(47) + 1);\n" +
+                "            FuncState.currentfullFile = string;\n" +
+                "            string = ZomboidFileSystem.instance.getString(string.replace(\"\\\\\", \"/\"));",
+                "FuncState.currentFile = string.substring(string.lastIndexOf(47) + 1);\n" +
+                "            FuncState.currentfullFile = string;\n" +
+                "            String string1 = string;\n" +
+                "            string = ZomboidFileSystem.instance.getString(string.replace(\"\\\\\", \"/\"));");
+        content = content.replace("loaded.add(string);", "loaded.add(string1);");
+        content = content.replace("loadedReturn.put(string, object);", "loadedReturn.put(string1, object);");
+        content = content.replace("loadedReturn.remove(string);", "loadedReturn.remove(string1);");
+        return content;
+    }
+
+    // Fix VirtualZombieManager.AddBloodToMap: original subtracts 1.5f, not 1.0f (--).
+    // Original bytecode: fload; ldc 1.5f; fsub; fstore before the method call args.
+    private static String fixAddBloodToMapSubtract(String content) {
+        if (!content.contains("class VirtualZombieManager ")) return content;
+        content = content.replace(
+                "chunk.addBloodSplat(\n" +
+                "                        ((IsoGridSquare)object).getX() + --float0, ((IsoGridSquare)object).getY() + --float1, ((IsoGridSquare)object).getZ(), Rand.Next(12) + 8",
+                "float0 -= 1.5F;\n" +
+                "                    float1 -= 1.5F;\n" +
+                "                    chunk.addBloodSplat(\n" +
+                "                        ((IsoGridSquare)object).getX() + float0, ((IsoGridSquare)object).getY() + float1, ((IsoGridSquare)object).getZ(), Rand.Next(12) + 8");
+        return content;
+    }
+
+    // Fix ModelLoader.loadTxt: save animation name before readLine() overwrites string1.
+    // Original bytecode saves string1 to var19 before readLine, uses it for AnimationClip ctor.
+    private static String fixModelLoaderAnimNameSave(String content) {
+        if (!content.contains("class ModelLoader ")) return content;
+        content = content.replace(
+                "ArrayList arrayList0 = new ArrayList();\n" +
+                "                                string1 = bufferedReader.readLine();",
+                "ArrayList arrayList0 = new ArrayList();\n" +
+                "                                String string16 = string1;\n" +
+                "                                string1 = bufferedReader.readLine();");
+        content = content.replace(
+                "AnimationClip animationClip0 = new AnimationClip(float15, arrayList0, string1, false);",
+                "AnimationClip animationClip0 = new AnimationClip(float15, arrayList0, string16, false);");
+        content = content.replace(
+                "modelTxt.clips.put(string1, animationClip0);",
+                "modelTxt.clips.put(string16, animationClip0);");
+        return content;
+    }
+
+    // Fix IsoChunk.AddCorpses: original subtracts 1.5f, not 1.0f (--).
+    // Same pattern as AddBloodToMap.
+    private static String fixIsoChunkAddCorpsesSubtract(String content) {
+        if (!content.contains("class IsoChunk ")) return content;
+        content = content.replace(
+                "this.addBloodSplat(\n" +
+                "                                ((IsoGridSquare)object).getX() + --float1,\n" +
+                "                                ((IsoGridSquare)object).getY() + --float2,",
+                "float1 -= 1.5F;\n" +
+                "                            float2 -= 1.5F;\n" +
+                "                            this.addBloodSplat(\n" +
+                "                                ((IsoGridSquare)object).getX() + float1,\n" +
+                "                                ((IsoGridSquare)object).getY() + float2,");
+        return content;
+    }
+
+    // Fix IsoMovingObject.compareToY: original widens floats to double before comparison.
+    private static String fixIsoMovingObjectCompareToYWiden(String content) {
+        if (!content.contains("class IsoMovingObject ")) return content;
+        content = content.replace(
+                "if (float0 > float1) {\n" +
+                "                return 1;\n" +
+                "            } else {\n" +
+                "                return float0 < float1 ? -1 : 0;",
+                "if ((double)float0 > (double)float1) {\n" +
+                "                return 1;\n" +
+                "            } else {\n" +
+                "                return (double)float0 < (double)float1 ? -1 : 0;");
+        return content;
+    }
+
+    // Fix ClimateValues.updateValues: use compound assignment (+=) and
+    // instance-qualified static method calls (this.clim.lerp etc.)
+    private static String fixClimateValuesQualifiedStaticCalls(String content) {
+        if (!content.contains("class ClimateValues ")) return content;
+        // Fix compound assignments to use += instead of = ... +
+        content = content.replace(
+                "this.dayFogDuration = this.dayFogDuration + 5.0F * this.dayFogStrength;",
+                "this.dayFogDuration += 5.0F * this.dayFogStrength;");
+        content = content.replace(
+                "this.dayFogDuration = this.dayFogDuration + 2.5F * this.dayFogStrength;",
+                "this.dayFogDuration += 2.5F * this.dayFogStrength;");
+        content = content.replace(
+                "this.dayFogDuration = this.dayFogDuration + 1.5F * this.dayFogStrength;",
+                "this.dayFogDuration += 1.5F * this.dayFogStrength;");
+        content = content.replace(
+                "this.dayFogDuration = this.dayFogDuration + 1.0F * this.dayFogStrength;",
+                "this.dayFogDuration += 1.0F * this.dayFogStrength;");
+        // Fix static calls to instance-qualified: lerp, clerp, clamp01, clamp
+        content = content.replace(
+                "float float6 = ClimateManager.lerp(float5,",
+                "float float6 = this.clim.lerp(float5,");
+        content = content.replace(
+                "float float8 = ClimateManager.clerp(float5,",
+                "float float8 = this.clim.clerp(float5,");
+        content = content.replace(
+                "float float9 = ClimateManager.clerp(float5,",
+                "float float9 = this.clim.clerp(float5,");
+        content = content.replace(
+                "!ClimateManager.WINTER_IS_COMING",
+                "!this.clim.WINTER_IS_COMING");
+        content = content.replace(
+                "float13 = ClimateManager.clamp01(1.0F - float13);",
+                "float13 = this.clim.clamp01(1.0F - float13);");
+        content = content.replace(
+                "this.lerpNight = ClimateManager.clamp(0.0F,",
+                "this.lerpNight = this.clim.clamp(0.0F,");
+        content = content.replace(
+                "this.desaturation = ClimateManager.lerp(float5,",
+                "this.desaturation = this.clim.lerp(float5,");
+        content = content.replace(
+                "this.cloudyT = 1.0F - ClimateManager.clamp01(",
+                "this.cloudyT = 1.0F - this.clim.clamp01(");
+        content = content.replace(
+                "this.cloudyT = ClimateManager.clamp01(this.cloudyT",
+                "this.cloudyT = this.clim.clamp01(this.cloudyT");
+        content = content.replace(
+                "this.cloudIntensity = ClimateManager.clamp01(this.windIntensity",
+                "this.cloudIntensity = this.clim.clamp01(this.windIntensity");
+        return content;
+    }
+
+    // Fix WorldFlares$Flare.applyFlare: inline color channel multiplication
+    // without temp variables. Original bytecode evaluates subexpressions inline.
+    private static String fixWorldFlaresApplyFlareInline(String content) {
+        if (!content.contains("class WorldFlares ")) return content;
+        content = content.replace(
+                "Color colorx = playerFlareLightInfo.outColor.getExterior();\n" +
+                "                float float2 = float0 * float1 * playerFlareLightInfo.intensity;\n" +
+                "                colorx.g = playerFlareLightInfo.outColor.getExterior().g * (1.0F - float2 * 0.5F);\n" +
+                "                colorx = playerFlareLightInfo.outColor.getInterior();\n" +
+                "                float2 = float0 * float1 * playerFlareLightInfo.intensity;\n" +
+                "                colorx.g = playerFlareLightInfo.outColor.getInterior().g * (1.0F - float2 * 0.5F);\n" +
+                "                colorx = playerFlareLightInfo.outColor.getExterior();\n" +
+                "                float2 = float0 * float1 * playerFlareLightInfo.intensity;\n" +
+                "                colorx.b = playerFlareLightInfo.outColor.getExterior().b * (1.0F - float2 * 0.8F);\n" +
+                "                colorx = playerFlareLightInfo.outColor.getInterior();\n" +
+                "                float2 = float0 * float1 * playerFlareLightInfo.intensity;\n" +
+                "                colorx.b = playerFlareLightInfo.outColor.getInterior().b * (1.0F - float2 * 0.8F);",
+                "playerFlareLightInfo.outColor.getExterior().g = playerFlareLightInfo.outColor.getExterior().g\n" +
+                "                    * (1.0F - float0 * float1 * playerFlareLightInfo.intensity * 0.5F);\n" +
+                "                playerFlareLightInfo.outColor.getInterior().g = playerFlareLightInfo.outColor.getInterior().g\n" +
+                "                    * (1.0F - float0 * float1 * playerFlareLightInfo.intensity * 0.5F);\n" +
+                "                playerFlareLightInfo.outColor.getExterior().b = playerFlareLightInfo.outColor.getExterior().b\n" +
+                "                    * (1.0F - float0 * float1 * playerFlareLightInfo.intensity * 0.8F);\n" +
+                "                playerFlareLightInfo.outColor.getInterior().b = playerFlareLightInfo.outColor.getInterior().b\n" +
+                "                    * (1.0F - float0 * float1 * playerFlareLightInfo.intensity * 0.8F);");
+        return content;
+    }
+
+    // Fix MPStatisticClient.send: use float[] instead of Object for fpsArray clone.
+    // Original bytecode uses faload; recompiled uses aaload+checkcast+floatValue.
+    private static String fixMPStatisticClientFloatArray(String content) {
+        if (!content.contains("class MPStatisticClient ")) return content;
+        content = content.replace("Object object = null;", "float[] object = null;");
+        content = content.replace("(float)((Object[])object)[", "object[");
+        return content;
+    }
+
+    // Fix ServerGUI.updateCamera: save player param to IsoGameCharacter local var.
+    // Original bytecode saves param to var1 as IsoGameCharacter before other computation.
+    private static String fixServerGUIUpdateCameraVarSave(String content) {
+        if (!content.contains("class ServerGUI ")) return content;
+        content = content.replace(
+                "private static void updateCamera(IsoPlayer player) {\n" +
+                "        int byte0 = 0;\n" +
+                "        PlayerCamera playerCamera = IsoCamera.cameras[byte0];\n" +
+                "        float float0 = IsoUtils.XToScreen(player.x",
+                "private static void updateCamera(IsoPlayer player) {\n" +
+                "        IsoGameCharacter gameCharacter0 = player;\n" +
+                "        int byte0 = 0;\n" +
+                "        PlayerCamera playerCamera = IsoCamera.cameras[byte0];\n" +
+                "        float float0 = IsoUtils.XToScreen(gameCharacter0.x");
+        content = content.replace(
+                "player.x + playerCamera.DeferedX, player.y + playerCamera.DeferedY, player.z, 0);\n" +
+                "        float float1 = IsoUtils.YToScreen(player.x + playerCamera.DeferedX, player.y + playerCamera.DeferedY, player.z, 0);",
+                "gameCharacter0.x + playerCamera.DeferedX, gameCharacter0.y + playerCamera.DeferedY, gameCharacter0.z, 0);\n" +
+                "        float float1 = IsoUtils.YToScreen(gameCharacter0.x + playerCamera.DeferedX, gameCharacter0.y + playerCamera.DeferedY, gameCharacter0.z, 0);");
+        content = content.replace(
+                "float1 -= player.getOffsetY() * 1.5F;",
+                "float1 -= gameCharacter0.getOffsetY() * 1.5F;");
+        return content;
+    }
+
+    // Fix BaseVehicle.updateSounds: use compound assignment -= instead of = ... -
+    // Original bytecode uses dup pattern for this.startTime -= expr.
+    private static String fixBaseVehicleUpdateSoundsCompoundAssign(String content) {
+        if (!content.contains("class BaseVehicle ")) return content;
+        content = content.replace(
+                "this.startTime = this.startTime - GameTime.instance.getMultiplier();",
+                "this.startTime -= GameTime.instance.getMultiplier();");
         return content;
     }
 }
