@@ -4,6 +4,7 @@ import com.github.zomboiddecompiler.verify.BytecodeComparator.MethodResult;
 import com.github.zomboiddecompiler.verify.BytecodeComparator.Status;
 
 import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * Classifies method bytecode mismatches into actionable categories
@@ -44,6 +45,22 @@ public final class MismatchCategorizer {
                 "INVOKEVIRTUAL vs INVOKEINTERFACE or different owner class"),
         CONSTANT_ENCODING("Constant encoding",
                 "Same value loaded with different opcode (ICONST vs BIPUSH vs LDC)"),
+        EXIT_BLOCK_REORDER("Exit block reorder",
+                "GOTO vs return instruction at divergence, or exit blocks reached via different paths"),
+        STATIC_INIT_REORDER("Static initializer reorder",
+                "Static initializer (<clinit>) with field assignment order difference"),
+        LAMBDA_BODY_SWAP("Lambda body swap",
+                "Lambda method body completely different (compiler assigned different lambda index)"),
+        CONSTANT_FOLDING_ERROR("Constant folding error",
+                "FCONST_1/DCONST_1 vs LDC float/double literal in arithmetic context"),
+        VARIABLE_COPY_PROPAGATION("Variable copy propagation",
+                "Load/store instructions with different variable operands (copy propagation difference)"),
+        BOOLEAN_EXPR_RESTRUCTURE("Boolean expression restructure",
+                "IFEQ/IFNE vs ICONST_0/ICONST_1 or IXOR vs branching for boolean logic"),
+        TRY_RESOURCE_RESTRUCTURE("Try-with-resources restructure",
+                "Different try-with-resources or synchronized block cleanup structure"),
+        STRUCTURAL_DIVERGENCE("Structural divergence",
+                "Moderate structural difference not matching a more specific pattern"),
         OTHER("Other / unclassified",
                 "Mismatch does not match a known pattern");
 
@@ -161,6 +178,50 @@ public final class MismatchCategorizer {
         // Invoke dispatch differences
         if (isInvokeDispatchDiff(origDiff, recompDiff)) {
             return Category.INVOKE_DISPATCH;
+        }
+
+        // --- New categories (most specific to least specific) ---
+
+        // Constant folding error: FCONST_1/DCONST_1 vs LDC float/double in arithmetic context
+        if (isConstantFoldingError(orig, recomp)) {
+            return Category.CONSTANT_FOLDING_ERROR;
+        }
+
+        // Lambda body swap: lambda method with completely different body
+        if (isLambdaBodySwap(mr.name(), mr.firstDiffIndex(), origDiff, recompDiff)) {
+            return Category.LAMBDA_BODY_SWAP;
+        }
+
+        // Static initializer reorder: <clinit> with similar instruction counts
+        if (isStaticInitReorder(mr.name(), origCount, recompCount)) {
+            return Category.STATIC_INIT_REORDER;
+        }
+
+        // Boolean expression restructure: IXOR vs branching, or boolean branch pattern asymmetry
+        // Checked before exit block since IXOR is a more specific pattern
+        if (isBooleanExprRestructure(orig, recomp, mr.firstDiffIndex())) {
+            return Category.BOOLEAN_EXPR_RESTRUCTURE;
+        }
+
+        // Exit block reorder: GOTO vs return, or different exit paths
+        if (isExitBlockReorder(origDiff, recompDiff, orig, recomp, mr.firstDiffIndex())) {
+            return Category.EXIT_BLOCK_REORDER;
+        }
+
+        // Try-with-resources restructure: addSuppressed, close(), or MONITOREXIT near divergence
+        if (isTryResourceRestructure(orig, recomp, mr.firstDiffIndex(), origDiff, recompDiff)) {
+            return Category.TRY_RESOURCE_RESTRUCTURE;
+        }
+
+        // Variable copy propagation: load/store with different operands
+        if (isVariableCopyPropagation(origDiff, recompDiff)) {
+            return Category.VARIABLE_COPY_PROPAGATION;
+        }
+
+        // Structural divergence: fallback for moderate structural differences
+        // (instruction count difference > 3 and no other specific category matched)
+        if (Math.abs(origCount - recompCount) > 3) {
+            return Category.STRUCTURAL_DIVERGENCE;
         }
 
         return Category.OTHER;
@@ -317,5 +378,323 @@ public final class MismatchCategorizer {
                 recompInsn.startsWith("INVOKEINTERFACE") ||
                 recompInsn.startsWith("INVOKESPECIAL");
         return origIsInvoke && recompIsInvoke && !origInsn.equals(recompInsn);
+    }
+
+    // --- New category detection methods ---
+
+    private static final Set<String> RETURN_INSNS = Set.of(
+            "IRETURN", "ARETURN", "RETURN", "LRETURN", "FRETURN", "DRETURN");
+
+    private static final Set<String> LOAD_STORE_OPCODES = Set.of(
+            "ALOAD", "ASTORE", "ILOAD", "ISTORE", "FLOAD", "FSTORE",
+            "DLOAD", "DSTORE", "LLOAD", "LSTORE");
+
+    private static final Pattern LAMBDA_PATTERN = Pattern.compile("lambda\\$.*\\$\\d+");
+
+    /**
+     * Get the opcode (first token) from an instruction string.
+     */
+    private static String opcode(String insn) {
+        if (insn == null || insn.isEmpty()) return "";
+        int space = insn.indexOf(' ');
+        return space >= 0 ? insn.substring(0, space) : insn;
+    }
+
+    /**
+     * Parse context lines into (instructionIndex, instructionText) pairs.
+     */
+    private static List<Map.Entry<Integer, String>> parseContext(List<String> context) {
+        List<Map.Entry<Integer, String>> result = new ArrayList<>();
+        if (context == null) return result;
+        for (String line : context) {
+            String stripped = line.strip();
+            if (!stripped.startsWith("#")) continue;
+            int space = stripped.indexOf(' ');
+            if (space < 0) continue;
+            try {
+                int idx = Integer.parseInt(stripped.substring(1, space).strip());
+                String insn = stripped.substring(space).strip();
+                result.add(Map.entry(idx, insn));
+            } catch (NumberFormatException e) {
+                // skip malformed lines
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Check if context lines near a target index contain a given substring.
+     */
+    private static boolean hasTextNear(List<Map.Entry<Integer, String>> parsed, int targetIdx,
+                                       int window, String text) {
+        for (var entry : parsed) {
+            if (Math.abs(entry.getKey() - targetIdx) <= window) {
+                if (entry.getValue().contains(text)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean isLoadStore(String insn) {
+        return LOAD_STORE_OPCODES.contains(opcode(insn));
+    }
+
+    /**
+     * Constant folding error: one side has FCONST_1/DCONST_1, the other has LDC with a
+     * float/double literal, within a context that includes FADD/FSUB/DADD/DSUB.
+     */
+    private static boolean isConstantFoldingError(List<String> orig, List<String> recomp) {
+        String origAll = String.join(" ", orig);
+        String recompAll = String.join(" ", recomp);
+
+        boolean hasArith = origAll.contains("FADD") || origAll.contains("FSUB") ||
+                origAll.contains("DADD") || origAll.contains("DSUB") ||
+                recompAll.contains("FADD") || recompAll.contains("FSUB") ||
+                recompAll.contains("DADD") || recompAll.contains("DSUB");
+        if (!hasArith) return false;
+
+        List<Map.Entry<Integer, String>> origParsed = parseContext(orig);
+        List<Map.Entry<Integer, String>> recompParsed = parseContext(recomp);
+
+        for (var oe : origParsed) {
+            String oOpc = opcode(oe.getValue());
+            for (var re : recompParsed) {
+                String rOpc = opcode(re.getValue());
+                boolean match =
+                        (("FCONST_1".equals(oOpc) || "DCONST_1".equals(oOpc)) && "LDC".equals(rOpc)) ||
+                        (("FCONST_1".equals(rOpc) || "DCONST_1".equals(rOpc)) && "LDC".equals(oOpc));
+                if (match && Math.abs(oe.getKey() - re.getKey()) <= 2) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Lambda body swap: method name matches lambda$...$N and first divergence is at index 0 or 1,
+     * indicating completely different lambda body (compiler assigned different lambda indices).
+     * Excludes cases where both sides are simple load/store (those are variable copy propagation).
+     */
+    private static boolean isLambdaBodySwap(String methodName, int firstDiffIndex,
+                                            String origDiff, String recompDiff) {
+        if (firstDiffIndex > 1) return false;
+        if (!LAMBDA_PATTERN.matcher(methodName).matches()) return false;
+        // Exclude if both sides are load/store (variable renaming, not body swap)
+        if (isLoadStore(origDiff) && isLoadStore(recompDiff)) return false;
+        return true;
+    }
+
+    /**
+     * Static initializer reorder: method is <clinit> and instruction counts are similar
+     * (within 50% ratio), indicating field assignment order differs.
+     */
+    private static boolean isStaticInitReorder(String methodName, int origCount, int recompCount) {
+        if (!"<clinit>".equals(methodName)) return false;
+        if (origCount <= 0 || recompCount <= 0) return false;
+        double ratio = (double) Math.max(origCount, recompCount) / Math.min(origCount, recompCount);
+        return ratio <= 1.5;
+    }
+
+    /**
+     * Boolean expression restructure: one side uses IXOR for boolean negation while the other
+     * uses branching (IFEQ/IFNE), or one side has the IFEQ/IFNE+ICONST_0+GOTO+ICONST_1 pattern
+     * while the other side uses a direct value.
+     */
+    private static boolean isBooleanExprRestructure(List<String> orig, List<String> recomp,
+                                                     int firstDiffIndex) {
+        String origAll = String.join(" ", orig);
+        String recompAll = String.join(" ", recomp);
+
+        List<Map.Entry<Integer, String>> origParsed = parseContext(orig);
+        List<Map.Entry<Integer, String>> recompParsed = parseContext(recomp);
+
+        // IXOR pattern: one side uses IXOR, the other has IFEQ/IFNE
+        if (origAll.contains("IXOR") || recompAll.contains("IXOR")) {
+            Set<String> boolBranches = Set.of("IFEQ", "IFNE");
+            boolean hasBoolBranch = false;
+            for (var e : origParsed) {
+                if (boolBranches.contains(opcode(e.getValue()))) { hasBoolBranch = true; break; }
+            }
+            if (!hasBoolBranch) {
+                for (var e : recompParsed) {
+                    if (boolBranches.contains(opcode(e.getValue()))) { hasBoolBranch = true; break; }
+                }
+            }
+            if (hasBoolBranch) return true;
+        }
+
+        // Boolean branch pattern asymmetry: one side has IF+ICONST+GOTO+ICONST, other doesn't
+        boolean origHasBoolPattern = hasBooleanBranchPattern(origParsed, firstDiffIndex, 5);
+        boolean recompHasBoolPattern = hasBooleanBranchPattern(recompParsed, firstDiffIndex, 5);
+        return origHasBoolPattern != recompHasBoolPattern;
+    }
+
+    /**
+     * Check for the IFNE/IFEQ + ICONST_0/1 + GOTO + ICONST_0/1 boolean branch pattern
+     * within a window around the target index.
+     */
+    private static boolean hasBooleanBranchPattern(List<Map.Entry<Integer, String>> parsed,
+                                                    int targetIdx, int window) {
+        Set<String> ifOps = Set.of("IFEQ", "IFNE");
+        Set<String> constOps = Set.of("ICONST_0", "ICONST_1");
+
+        for (int i = 0; i < parsed.size() - 3; i++) {
+            int idx = parsed.get(i).getKey();
+            if (Math.abs(idx - targetIdx) > window) continue;
+
+            String opc0 = opcode(parsed.get(i).getValue());
+            String opc1 = opcode(parsed.get(i + 1).getValue());
+            String opc2 = opcode(parsed.get(i + 2).getValue());
+            String opc3 = opcode(parsed.get(i + 3).getValue());
+
+            if (ifOps.contains(opc0) && constOps.contains(opc1) &&
+                "GOTO".equals(opc2) && constOps.contains(opc3)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Exit block reorder: one side has GOTO and the other has a return instruction at
+     * the divergence point, or both sides reach the same return type but via different
+     * paths (one inlines the return, the other jumps to a shared exit block).
+     */
+    private static boolean isExitBlockReorder(String origDiff, String recompDiff,
+                                              List<String> orig, List<String> recomp,
+                                              int firstDiffIndex) {
+        String origOpc = opcode(origDiff);
+        String recompOpc = opcode(recompDiff);
+
+        // Direct: GOTO vs return instruction
+        if ("GOTO".equals(origOpc) && RETURN_INSNS.contains(recompOpc)) return true;
+        if ("GOTO".equals(recompOpc) && RETURN_INSNS.contains(origOpc)) return true;
+
+        // One side has a return at divergence, the other doesn't
+        if (RETURN_INSNS.contains(origOpc) && !RETURN_INSNS.contains(recompOpc)) return true;
+        if (RETURN_INSNS.contains(recompOpc) && !RETURN_INSNS.contains(origOpc)) return true;
+
+        List<Map.Entry<Integer, String>> origParsed = parseContext(orig);
+        List<Map.Entry<Integer, String>> recompParsed = parseContext(recomp);
+
+        // GOTO at divergence and a return nearby on the other side (inlined exit)
+        if ("GOTO".equals(origOpc) && hasOpcodeInRange(recompParsed, firstDiffIndex, firstDiffIndex + 3, RETURN_INSNS)) {
+            return true;
+        }
+        if ("GOTO".equals(recompOpc) && hasOpcodeInRange(origParsed, firstDiffIndex, firstDiffIndex + 3, RETURN_INSNS)) {
+            return true;
+        }
+
+        // GOTO at divergence on one side, other side has different block order
+        if ("GOTO".equals(origOpc) && !"GOTO".equals(recompOpc)) return true;
+        if ("GOTO".equals(recompOpc) && !"GOTO".equals(origOpc)) return true;
+
+        // Return within 3 instructions after divergence on one side,
+        // GOTO within 3 on the other (different exit paths for the same block)
+        boolean origNearReturn = hasOpcodeAfter(origParsed, firstDiffIndex, 3, RETURN_INSNS);
+        boolean recompNearReturn = hasOpcodeAfter(recompParsed, firstDiffIndex, 3, RETURN_INSNS);
+        boolean origNearGoto = hasOpcodeAfter(origParsed, firstDiffIndex, 3, Set.of("GOTO"));
+        boolean recompNearGoto = hasOpcodeAfter(recompParsed, firstDiffIndex, 3, Set.of("GOTO"));
+
+        if (origNearReturn && recompNearGoto && !origNearGoto) return true;
+        if (recompNearReturn && origNearGoto && !recompNearGoto) return true;
+
+        // One side has GOTO nearby, other has return nearby (covers reordered exit blocks)
+        if (origNearReturn && recompNearGoto) return true;
+        if (recompNearReturn && origNearGoto) return true;
+
+        return false;
+    }
+
+    /**
+     * Check if any of the given opcodes appear in a specific index range [startIdx, endIdx].
+     */
+    private static boolean hasOpcodeInRange(List<Map.Entry<Integer, String>> parsed,
+                                            int startIdx, int endIdx, Set<String> opcodes) {
+        for (var entry : parsed) {
+            int idx = entry.getKey();
+            if (idx >= startIdx && idx <= endIdx) {
+                if (opcodes.contains(opcode(entry.getValue()))) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Check if any of the given opcodes appear within N instructions after a start index.
+     */
+    private static boolean hasOpcodeAfter(List<Map.Entry<Integer, String>> parsed,
+                                          int startIdx, int window, Set<String> opcodes) {
+        for (var entry : parsed) {
+            int idx = entry.getKey();
+            if (idx > startIdx && idx <= startIdx + window) {
+                if (opcodes.contains(opcode(entry.getValue()))) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Try-with-resources / synchronized block restructure: context lines near the divergence
+     * contain addSuppressed, close(), or MONITOREXIT, indicating structural differences in
+     * resource cleanup code.
+     */
+    private static boolean isTryResourceRestructure(List<String> orig, List<String> recomp,
+                                                     int firstDiffIndex,
+                                                     String origDiff, String recompDiff) {
+        List<Map.Entry<Integer, String>> origParsed = parseContext(orig);
+        List<Map.Entry<Integer, String>> recompParsed = parseContext(recomp);
+
+        // addSuppressed near divergence point is a strong indicator
+        if (hasTextNear(origParsed, firstDiffIndex, 5, "addSuppressed") ||
+            hasTextNear(recompParsed, firstDiffIndex, 5, "addSuppressed")) {
+            return true;
+        }
+
+        // MONITOREXIT near divergence with different opcodes at divergence
+        if (!opcode(origDiff).equals(opcode(recompDiff))) {
+            if (hasTextNear(origParsed, firstDiffIndex, 5, "MONITOREXIT") ||
+                hasTextNear(recompParsed, firstDiffIndex, 5, "MONITOREXIT")) {
+                return true;
+            }
+        }
+
+        // close() with IFNULL guard pattern (auto-close from try-with-resources)
+        boolean hasClose = hasTextNear(origParsed, firstDiffIndex, 5, ".close()") ||
+                hasTextNear(recompParsed, firstDiffIndex, 5, ".close()");
+        boolean hasIfNull = hasTextNear(origParsed, firstDiffIndex, 5, "IFNULL") ||
+                hasTextNear(recompParsed, firstDiffIndex, 5, "IFNULL");
+        if (hasClose && hasIfNull) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Variable copy propagation: both divergent instructions are load/store types but with
+     * different operands (variable renaming), or one side has an extra load+store pair
+     * that the other side eliminated via copy propagation.
+     */
+    private static boolean isVariableCopyPropagation(String origDiff, String recompDiff) {
+        // Both sides are load/store with different operands
+        if (isLoadStore(origDiff) && isLoadStore(recompDiff)) return true;
+        // One side has a load/store while the other has a non-control-flow instruction,
+        // indicating the compiler inserted or eliminated a variable copy
+        if (isLoadStore(origDiff) || isLoadStore(recompDiff)) {
+            String otherOpc = isLoadStore(origDiff) ? opcode(recompDiff) : opcode(origDiff);
+            // Don't match if the other side is control flow (handled by EXIT_BLOCK_REORDER)
+            if (!RETURN_INSNS.contains(otherOpc) && !"GOTO".equals(otherOpc)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
