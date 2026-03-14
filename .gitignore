@@ -35,4 +35,4 @@ bin/
 /src/main/resources/rosetta/
 /.venv/
 gradle.properties
-/progress/*/report.json
+/progress/*/*.py

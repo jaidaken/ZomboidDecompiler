@@ -1,0 +1,79 @@
+name: Update progress images
+
+on:
+  workflow_dispatch:
+    inputs:
+      builds:
+        description: 'Builds to update (comma-separated: b41,b42 or "all")'
+        required: false
+        default: 'all'
+  push:
+    branches: [develop]
+    paths:
+      - 'progress/*/report.json'
+      - 'scripts/generate_progress_image.py'
+
+jobs:
+  update-images:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install matplotlib squarify
+
+      - name: Determine builds to process
+        id: builds
+        run: |
+          INPUT="${{ github.event.inputs.builds || 'all' }}"
+          if [ "$INPUT" = "all" ]; then
+            # Find all builds that have a report.json
+            BUILDS=""
+            for dir in progress/*/; do
+              build=$(basename "$dir")
+              if [ -f "$dir/report.json" ]; then
+                BUILDS="${BUILDS:+$BUILDS,}$build"
+              fi
+            done
+          else
+            BUILDS="$INPUT"
+          fi
+          echo "list=$BUILDS" >> "$GITHUB_OUTPUT"
+          echo "Processing builds: $BUILDS"
+
+      - name: Generate progress images
+        run: |
+          IFS=',' read -ra BUILDS <<< "${{ steps.builds.outputs.list }}"
+          for build in "${BUILDS[@]}"; do
+            build=$(echo "$build" | xargs)  # trim whitespace
+            report="progress/$build/report.json"
+            image="progress/$build/progress.png"
+            if [ ! -f "$report" ]; then
+              echo "Skipping $build — no report.json"
+              continue
+            fi
+            # Title: capitalize build name
+            title="Build ${build#b} — Decompilation Progress"
+            echo "=== Generating $build progress image ==="
+            python scripts/generate_progress_image.py "$report" "$image" "$title"
+          done
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add progress/*/progress.png
+          if git diff --cached --quiet; then
+            echo "No image changes to commit"
+          else
+            git commit -m "chore: Update progress images [skip ci]"
+            git push
+          fi
