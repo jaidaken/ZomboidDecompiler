@@ -42,10 +42,22 @@ public final class BytecodeComparator {
         }
     }
 
+    /** How a method was matched, from strictest to most lenient. */
+    public enum MatchTier {
+        EXACT,                  // Normalized instructions identical + try-catch match
+        STRUCTURAL,             // Guard/block/micro-block/label-agnostic + try-catch match
+        STRUCTURAL_NO_TRYCATCH, // Structural match but try-catch scopes differ
+        SORTED_MULTISET,        // aggressiveNormalize/superAggressive sorted multiset
+        FUZZY_COMPUTATION,      // stripToComputation with intersection threshold
+        CORE_OPS_ONLY,          // stripToCoreOps with intersection threshold
+        NONE                    // Not matched (MISMATCH) or N/A
+    }
+
     public record MethodResult(
             String name,
             String descriptor,
             Status status,
+            MatchTier matchTier,
             int origInsnCount,
             int recompInsnCount,
             int firstDiffIndex,
@@ -287,14 +299,14 @@ public final class BytecodeComparator {
             if (fuzzyMatchedOrig.contains(oi)) continue;
             String key = unmatchedOrig.get(oi).getKey();
             methodResults.add(new MethodResult(
-                    extractName(key), extractDesc(key), Status.MISSING_RECOMP,
+                    extractName(key), extractDesc(key), Status.MISSING_RECOMP, MatchTier.NONE,
                     0, 0, -1, "Method exists only in original", List.of(), List.of()));
         }
         for (int ri = 0; ri < unmatchedRecomp.size(); ri++) {
             if (fuzzyMatchedRecomp.contains(ri)) continue;
             String key = unmatchedRecomp.get(ri).getKey();
             methodResults.add(new MethodResult(
-                    extractName(key), extractDesc(key), Status.MISSING_ORIG,
+                    extractName(key), extractDesc(key), Status.MISSING_ORIG, MatchTier.NONE,
                     0, 0, -1, "Method exists only in recompiled", List.of(), List.of()));
         }
 
@@ -425,14 +437,14 @@ public final class BytecodeComparator {
         // Compare access flags (ignore synthetic/bridge which compilers generate differently)
         int accessMask = ~(Opcodes.ACC_SYNTHETIC | Opcodes.ACC_BRIDGE);
         if ((orig.access & accessMask) != (recomp.access & accessMask)) {
-            return new MethodResult(name, desc, Status.MISMATCH, 0, 0, -1,
+            return new MethodResult(name, desc, Status.MISMATCH, MatchTier.NONE, 0, 0, -1,
                     "Access flags differ: " + formatAccess(orig.access) + " -> " + formatAccess(recomp.access),
                     List.of(), List.of());
         }
 
         // Abstract/native methods have no body
         if ((orig.access & (Opcodes.ACC_ABSTRACT | Opcodes.ACC_NATIVE)) != 0) {
-            return new MethodResult(name, desc, Status.MATCH, 0, 0, -1, null, List.of(), List.of());
+            return new MethodResult(name, desc, Status.MATCH, MatchTier.EXACT, 0, 0, -1, null, List.of(), List.of());
         }
 
         // Normalize instructions
@@ -446,11 +458,11 @@ public final class BytecodeComparator {
             // Instructions match — also check try-catch blocks (non-blocking in semantic mode)
             String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
             if (tryCatchDiff != null && !semanticNormalize) {
-                return new MethodResult(name, desc, Status.MISMATCH,
+                return new MethodResult(name, desc, Status.MISMATCH, MatchTier.NONE,
                         origInsns.size(), recompInsns.size(), -1,
                         tryCatchDiff, List.of(), List.of());
             }
-            return new MethodResult(name, desc, Status.MATCH,
+            return new MethodResult(name, desc, Status.MATCH, MatchTier.EXACT,
                     origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
         }
 
@@ -463,7 +475,7 @@ public final class BytecodeComparator {
         if (semanticNormalize && tryMatchGuardInversion(origInsns, recompInsns, diffIdx)) {
             String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
             if (tryCatchDiff == null) {
-                return new MethodResult(name, desc, Status.MATCH,
+                return new MethodResult(name, desc, Status.MATCH, MatchTier.STRUCTURAL,
                         origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
             }
             insnsMatched = true;
@@ -485,7 +497,7 @@ public final class BytecodeComparator {
                     if (isSimpleReturnBlock(trailing)) {
                         String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
                         if (tryCatchDiff == null) {
-                            return new MethodResult(name, desc, Status.MATCH,
+                            return new MethodResult(name, desc, Status.MATCH, MatchTier.STRUCTURAL,
                                     origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                         }
                         insnsMatched = true;
@@ -503,7 +515,7 @@ public final class BytecodeComparator {
             if (eliminated) {
                 String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
                 if (tryCatchDiff == null) {
-                    return new MethodResult(name, desc, Status.MATCH,
+                    return new MethodResult(name, desc, Status.MATCH, MatchTier.STRUCTURAL,
                             origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                 }
                 insnsMatched = true;
@@ -516,7 +528,7 @@ public final class BytecodeComparator {
         if (semanticNormalize && tryBlockLevelMatch(origInsns, recompInsns)) {
             String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
             if (tryCatchDiff == null) {
-                return new MethodResult(name, desc, Status.MATCH,
+                return new MethodResult(name, desc, Status.MATCH, MatchTier.STRUCTURAL,
                         origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
             }
             insnsMatched = true;
@@ -529,7 +541,7 @@ public final class BytecodeComparator {
         if (semanticNormalize && tryMicroBlockMatch(origInsns, recompInsns)) {
             String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
             if (tryCatchDiff == null) {
-                return new MethodResult(name, desc, Status.MATCH,
+                return new MethodResult(name, desc, Status.MATCH, MatchTier.STRUCTURAL,
                         origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
             }
             insnsMatched = true;
@@ -545,7 +557,7 @@ public final class BytecodeComparator {
                 && tryLabelAgnosticMatch(origInsns, recompInsns)) {
             String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
             if (tryCatchDiff == null) {
-                return new MethodResult(name, desc, Status.MATCH,
+                return new MethodResult(name, desc, Status.MATCH, MatchTier.STRUCTURAL,
                         origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
             }
             insnsMatched = true;
@@ -561,7 +573,7 @@ public final class BytecodeComparator {
                 if (tryLabelAgnosticMatch(origNoGoto, recompNoGoto)) {
                     String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
                     if (tryCatchDiff == null) {
-                        return new MethodResult(name, desc, Status.MATCH,
+                        return new MethodResult(name, desc, Status.MATCH, MatchTier.STRUCTURAL,
                                 origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                     }
                     insnsMatched = true;
@@ -572,7 +584,7 @@ public final class BytecodeComparator {
                 if (gotoStrippedDiff >= 0 && tryMatchGuardInversion(origNoGoto, recompNoGoto, gotoStrippedDiff)) {
                     String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
                     if (tryCatchDiff == null) {
-                        return new MethodResult(name, desc, Status.MATCH,
+                        return new MethodResult(name, desc, Status.MATCH, MatchTier.STRUCTURAL,
                                 origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                     }
                     insnsMatched = true;
@@ -581,7 +593,7 @@ public final class BytecodeComparator {
                 if (tryBlockLevelMatch(origNoGoto, recompNoGoto)) {
                     String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
                     if (tryCatchDiff == null) {
-                        return new MethodResult(name, desc, Status.MATCH,
+                        return new MethodResult(name, desc, Status.MATCH, MatchTier.STRUCTURAL,
                                 origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                     }
                     insnsMatched = true;
@@ -591,7 +603,7 @@ public final class BytecodeComparator {
             if (tryMicroBlockMatch(origNoGoto, recompNoGoto)) {
                 String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
                 if (tryCatchDiff == null) {
-                    return new MethodResult(name, desc, Status.MATCH,
+                    return new MethodResult(name, desc, Status.MATCH, MatchTier.STRUCTURAL,
                             origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                 }
                 insnsMatched = true;
@@ -609,7 +621,7 @@ public final class BytecodeComparator {
             if (tryLabelAgnosticMatch(origSkel, recompSkel)) {
                 String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
                 if (tryCatchDiff == null) {
-                    return new MethodResult(name, desc, Status.MATCH,
+                    return new MethodResult(name, desc, Status.MATCH, MatchTier.STRUCTURAL,
                             origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                 }
                 insnsMatched = true;
@@ -619,7 +631,7 @@ public final class BytecodeComparator {
             if (skelDiff >= 0 && tryMatchGuardInversion(origSkel, recompSkel, skelDiff)) {
                 String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
                 if (tryCatchDiff == null) {
-                    return new MethodResult(name, desc, Status.MATCH,
+                    return new MethodResult(name, desc, Status.MATCH, MatchTier.STRUCTURAL,
                             origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                 }
                 insnsMatched = true;
@@ -636,7 +648,7 @@ public final class BytecodeComparator {
                 if (tryLabelAgnosticMatch(origSkel, recompSkel)) {
                     String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
                     if (tryCatchDiff == null) {
-                        return new MethodResult(name, desc, Status.MATCH,
+                        return new MethodResult(name, desc, Status.MATCH, MatchTier.STRUCTURAL,
                                 origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                     }
                     insnsMatched = true;
@@ -646,7 +658,7 @@ public final class BytecodeComparator {
                 if (gsSkelDiff >= 0 && tryMatchGuardInversion(origSkel, recompSkel, gsSkelDiff)) {
                     String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
                     if (tryCatchDiff == null) {
-                        return new MethodResult(name, desc, Status.MATCH,
+                        return new MethodResult(name, desc, Status.MATCH, MatchTier.STRUCTURAL,
                                 origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                     }
                     insnsMatched = true;
@@ -662,7 +674,7 @@ public final class BytecodeComparator {
             if (tryBlockLevelMatch(origSkel, recompSkel)) {
                 String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
                 if (tryCatchDiff == null) {
-                    return new MethodResult(name, desc, Status.MATCH,
+                    return new MethodResult(name, desc, Status.MATCH, MatchTier.STRUCTURAL,
                             origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                 }
                 insnsMatched = true;
@@ -670,7 +682,7 @@ public final class BytecodeComparator {
             if (tryMicroBlockMatch(origSkel, recompSkel)) {
                 String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
                 if (tryCatchDiff == null) {
-                    return new MethodResult(name, desc, Status.MATCH,
+                    return new MethodResult(name, desc, Status.MATCH, MatchTier.STRUCTURAL,
                             origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                 }
                 insnsMatched = true;
@@ -689,7 +701,7 @@ public final class BytecodeComparator {
                 if (tryLabelAgnosticMatch(origCSkel, recompCSkel)) {
                     String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
                     if (tryCatchDiff == null) {
-                        return new MethodResult(name, desc, Status.MATCH,
+                        return new MethodResult(name, desc, Status.MATCH, MatchTier.STRUCTURAL,
                                 origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                     }
                     insnsMatched = true;
@@ -703,7 +715,7 @@ public final class BytecodeComparator {
                         || tryMicroBlockMatch(origCSkel, recompCSkel)) {
                     String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
                     if (tryCatchDiff == null) {
-                        return new MethodResult(name, desc, Status.MATCH,
+                        return new MethodResult(name, desc, Status.MATCH, MatchTier.STRUCTURAL,
                                 origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                     }
                     insnsMatched = true;
@@ -722,7 +734,7 @@ public final class BytecodeComparator {
                 if (origCSkel.size() == recompCSkel.size() && tryLabelAgnosticMatch(origCSkel, recompCSkel)) {
                     String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
                     if (tryCatchDiff == null) {
-                        return new MethodResult(name, desc, Status.MATCH,
+                        return new MethodResult(name, desc, Status.MATCH, MatchTier.STRUCTURAL,
                                 origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                     }
                     insnsMatched = true;
@@ -731,7 +743,7 @@ public final class BytecodeComparator {
                         || tryMicroBlockMatch(origCSkel, recompCSkel)) {
                     String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
                     if (tryCatchDiff == null) {
-                        return new MethodResult(name, desc, Status.MATCH,
+                        return new MethodResult(name, desc, Status.MATCH, MatchTier.STRUCTURAL,
                                 origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                     }
                     insnsMatched = true;
@@ -741,7 +753,7 @@ public final class BytecodeComparator {
                 if (combDiff >= 0 && tryMatchGuardInversion(origCSkel, recompCSkel, combDiff)) {
                     String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
                     if (tryCatchDiff == null) {
-                        return new MethodResult(name, desc, Status.MATCH,
+                        return new MethodResult(name, desc, Status.MATCH, MatchTier.STRUCTURAL,
                                 origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                     }
                     insnsMatched = true;
@@ -765,7 +777,7 @@ public final class BytecodeComparator {
             if (labelOnly) {
                 String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
                 if (tryCatchDiff == null) {
-                    return new MethodResult(name, desc, Status.MATCH,
+                    return new MethodResult(name, desc, Status.MATCH, MatchTier.STRUCTURAL,
                             origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                 }
                 insnsMatched = true;
@@ -789,7 +801,7 @@ public final class BytecodeComparator {
                     }
                 }
                 if (labelOnly) {
-                    return new MethodResult(name, desc, Status.MATCH,
+                    return new MethodResult(name, desc, Status.MATCH, MatchTier.STRUCTURAL,
                             origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                 }
             }
@@ -807,7 +819,7 @@ public final class BytecodeComparator {
                     }
                 }
                 if (labelOnly) {
-                    return new MethodResult(name, desc, Status.MATCH,
+                    return new MethodResult(name, desc, Status.MATCH, MatchTier.SORTED_MULTISET,
                             origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                 }
             }
@@ -821,7 +833,7 @@ public final class BytecodeComparator {
             List<String> origAgg = aggressiveNormalize(origInsns);
             List<String> recompAgg = aggressiveNormalize(recompInsns);
             if (origAgg.size() == recompAgg.size() && origAgg.equals(recompAgg)) {
-                return new MethodResult(name, desc, Status.MATCH,
+                return new MethodResult(name, desc, Status.MATCH, MatchTier.SORTED_MULTISET,
                         origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
             }
             // Superset check on aggressive-normalized (handles different GOTO counts
@@ -830,7 +842,7 @@ public final class BytecodeComparator {
                 List<String> smaller = origAgg.size() <= recompAgg.size() ? origAgg : recompAgg;
                 List<String> larger = origAgg.size() <= recompAgg.size() ? recompAgg : origAgg;
                 if (isStoreLoadSuperset(smaller, larger)) {
-                    return new MethodResult(name, desc, Status.MATCH,
+                    return new MethodResult(name, desc, Status.MATCH, MatchTier.SORTED_MULTISET,
                             origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                 }
             }
@@ -843,7 +855,7 @@ public final class BytecodeComparator {
             List<String> origSuper = superAggressiveNormalize(origInsns);
             List<String> recompSuper = superAggressiveNormalize(recompInsns);
             if (origSuper.size() == recompSuper.size() && origSuper.equals(recompSuper)) {
-                return new MethodResult(name, desc, Status.MATCH,
+                return new MethodResult(name, desc, Status.MATCH, MatchTier.SORTED_MULTISET,
                         origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
             }
             // Subset-multiset: if one side is a superset of the other with a small
@@ -853,7 +865,7 @@ public final class BytecodeComparator {
                 List<String> smaller = origSuper.size() <= recompSuper.size() ? origSuper : recompSuper;
                 List<String> larger = origSuper.size() <= recompSuper.size() ? recompSuper : origSuper;
                 if (isStoreLoadSuperset(smaller, larger)) {
-                    return new MethodResult(name, desc, Status.MATCH,
+                    return new MethodResult(name, desc, Status.MATCH, MatchTier.SORTED_MULTISET,
                             origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                 }
             }
@@ -863,7 +875,7 @@ public final class BytecodeComparator {
         // scope differences. Try-catch boundaries are metadata that don't affect the
         // instruction flow; scope differences are compiler artifacts.
         if (insnsMatched) {
-            return new MethodResult(name, desc, Status.MATCH,
+            return new MethodResult(name, desc, Status.MATCH, MatchTier.STRUCTURAL_NO_TRYCATCH,
                     origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
         }
 
@@ -876,7 +888,7 @@ public final class BytecodeComparator {
             List<String> origComp = stripToComputation(origInsns);
             List<String> recompComp = stripToComputation(recompInsns);
             if (origComp.size() == recompComp.size() && origComp.equals(recompComp)) {
-                return new MethodResult(name, desc, Status.MATCH,
+                return new MethodResult(name, desc, Status.MATCH, MatchTier.FUZZY_COMPUTATION,
                         origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
             }
             // Fuzzy computation match: compare multiset intersection size.
@@ -891,7 +903,7 @@ public final class BytecodeComparator {
                 // >= 75% for medium methods (>=6), and >= 50% for tiny methods (<6).
                 double threshold = maxSize >= 20 ? 0.90 : maxSize >= 6 ? 0.65 : 0.50;
                 if (intersection >= maxSize * threshold) {
-                    return new MethodResult(name, desc, Status.MATCH,
+                    return new MethodResult(name, desc, Status.MATCH, MatchTier.FUZZY_COMPUTATION,
                             origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                 }
             }
@@ -904,7 +916,7 @@ public final class BytecodeComparator {
                 int coreMax = Math.max(origCore.size(), recompCore.size());
                 int coreIntersect = multisetIntersectionSize(origCore, recompCore);
                 if (coreIntersect >= coreMax * 0.85 && coreMax >= 5) {
-                    return new MethodResult(name, desc, Status.MATCH,
+                    return new MethodResult(name, desc, Status.MATCH, MatchTier.CORE_OPS_ONLY,
                             origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                 }
             }
@@ -915,7 +927,7 @@ public final class BytecodeComparator {
         List<String> origCtx = buildContext(origInsns, ctxStart, diffIdx + contextSize + 1);
         List<String> recompCtx = buildContext(recompInsns, ctxStart, diffIdx + contextSize + 1);
 
-        return new MethodResult(name, desc, Status.MISMATCH,
+        return new MethodResult(name, desc, Status.MISMATCH, MatchTier.NONE,
                 origInsns.size(), recompInsns.size(), diffIdx,
                 "Instructions differ at #" + diffIdx,
                 origCtx, recompCtx);

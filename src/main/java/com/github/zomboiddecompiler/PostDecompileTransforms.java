@@ -84,6 +84,9 @@ public final class PostDecompileTransforms {
             content = fixClimbStateFloatIncrement(content);
             content = fixActionContextTransitionOutCheck(content);
             content = fixVehicleStorySpawnerAngle(content);
+            content = fixCHMAssertionInitOrder(content);
+            content = fixDiskFileSeekSwitchStructure(content);
+            content = fixIsoDeadBodyReanimateSwitch(content);
         }
         if (BUILD_42.equals(buildVersion)) {
             content = fixB42SpecificErrors(content);
@@ -4753,6 +4756,107 @@ public final class PostDecompileTransforms {
         content = content.replace(
                 "vehicleStorySpawner.spawn(floats[0], floats[1], 0.0F, ++float0, this::spawnElement);",
                 "float0 += 1.5707964F;\n            vehicleStorySpawner.spawn(floats[0], floats[1], 0.0F, float0, this::spawnElement);");
+        return content;
+    }
+
+    // ── NonBlockingHashMapLong$CHM: restore assertion init in <clinit> ───
+    // The original inner class CHM has its own $assertionsDisabled field initialized
+    // in its <clinit> BEFORE the AtomicFieldUpdater static fields. The decompiler
+    // merges this into the outer class field. We add a local _assertionsDisabled
+    // field to CHM so it gets its own <clinit> entry matching the original ordering.
+    private static String fixCHMAssertionInitOrder(String content) {
+        if (!content.contains("class NonBlockingHashMapLong<")) return content;
+        String marker = "private static final class CHM<TypeV> implements Serializable {";
+        if (!content.contains(marker)) return content;
+        // Only apply if CHM does not already have its own _assertionsDisabled field
+        int chmStart = content.indexOf(marker);
+        // Find the next class-level declaration boundary (next "private static final class" or end of file)
+        int nextClass = content.indexOf("private static final class ", chmStart + marker.length());
+        String chmBody = nextClass > 0 ? content.substring(chmStart, nextClass) : content.substring(chmStart);
+        if (chmBody.contains("static final boolean _assertionsDisabled")) return content;
+        content = content.replace(
+                marker + "\n        final NonBlockingHashMapLong _nbhml;",
+                marker + "\n       static final boolean _assertionsDisabled = !NonBlockingHashMapLong.class.desiredAssertionStatus();\n\n        final NonBlockingHashMapLong _nbhml;");
+        return content;
+    }
+
+    // ── DiskFileDevice$DiskFile.seek: switch expression → imperative switch ──
+    // The original bytecode uses an imperative switch that modifies long0 in-place,
+    // then calls m_file.seek(long0) after the switch. Case BEGIN falls through
+    // (uses long0 as-is). The decompiler produces a switch expression inside
+    // m_file.seek() which generates different bytecode (lookupswitch with 2 cases
+    // instead of tableswitch with 3, and the seek call is part of the expression).
+    private static String fixDiskFileSeekSwitchStructure(String content) {
+        if (!content.contains("class DiskFileDevice ")) return content;
+        if (!content.contains("this.m_file.seek(switch (fileSeekMode)")) return content;
+        content = content.replace(
+                "                    this.m_file.seek(switch (fileSeekMode) {\n" +
+                "                        case CURRENT -> this.m_file.getFilePointer();\n" +
+                "                        case END -> this.m_file.length();\n" +
+                "                       default -> throw new IllegalStateException();\n" +
+                "                    });\n" +
+                "                    return true;",
+                "                    switch (fileSeekMode) {\n" +
+                "                        case BEGIN:\n" +
+                "                            break;\n" +
+                "                        case CURRENT:\n" +
+                "                            long0 = long0 + this.m_file.getFilePointer();\n" +
+                "                            break;\n" +
+                "                        case END:\n" +
+                "                            long0 = this.m_file.length() + long0;\n" +
+                "                            break;\n" +
+                "                    }\n" +
+                "\n" +
+                "                    this.m_file.seek(long0);\n" +
+                "                    return true;");
+        return content;
+    }
+
+    // ── IsoDeadBody.getReanimateDelay: restore case 1 fallthrough in switch ──
+    // The original bytecode has a tableswitch from 1 to 6 where case 1 falls
+    // through to default (does nothing, float1 stays 0). The decompiler produces
+    // a switch expression from 2 to 6 with default throwing IllegalStateException,
+    // which generates a tableswitch from 2 to 6 only. Restore the imperative switch
+    // with case 1 breaking through and no default throw.
+    private static String fixIsoDeadBodyReanimateSwitch(String content) {
+        if (!content.contains("class IsoDeadBody ")) return content;
+        if (!content.contains("float1 = switch (SandboxOptions.instance.Lore.Reanimate.getValue())")) return content;
+        content = content.replace(
+                "        float1 = switch (SandboxOptions.instance.Lore.Reanimate.getValue()) {\n" +
+                "            case 2 -> 0.008333334F;\n" +
+                "            case 3 -> 0.016666668F;\n" +
+                "            case 4 -> 12.0F;\n" +
+                "            case 5 -> {\n" +
+                "                float0 = 48.0F;\n" +
+                "                yield 72.0F;\n" +
+                "            }\n" +
+                "            case 6 -> {\n" +
+                "                float0 = 168.0F;\n" +
+                "                yield 336.0F;\n" +
+                "            }\n" +
+                "           default -> throw new IllegalStateException();\n" +
+                "        };",
+                "        switch (SandboxOptions.instance.Lore.Reanimate.getValue()) {\n" +
+                "            case 1:\n" +
+                "                break;\n" +
+                "            case 2:\n" +
+                "                float1 = 0.008333334F;\n" +
+                "                break;\n" +
+                "            case 3:\n" +
+                "                float1 = 0.016666668F;\n" +
+                "                break;\n" +
+                "            case 4:\n" +
+                "                float1 = 12.0F;\n" +
+                "                break;\n" +
+                "            case 5:\n" +
+                "                float0 = 48.0F;\n" +
+                "                float1 = 72.0F;\n" +
+                "                break;\n" +
+                "            case 6:\n" +
+                "                float0 = 168.0F;\n" +
+                "                float1 = 336.0F;\n" +
+                "                break;\n" +
+                "        }");
         return content;
     }
 }

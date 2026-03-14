@@ -370,6 +370,7 @@ public class Verify implements Callable<Integer> {
         long totalInstructions = 0;
         long matchedInstructions = 0;
         long totalMethods = 0;
+        Map<String, Integer> tierCounts = new java.util.TreeMap<>();
         long matchedMethods = 0;
         long totalClasses = 0;
         long matchedClasses = 0;
@@ -417,19 +418,29 @@ public class Verify implements Callable<Integer> {
                         methodMatched++;
                     }
 
-                    // Include method-level detail for mismatched methods
-                    if (mr.status() == Status.MISMATCH) {
+                    // Track match tiers for the global summary
+                    if (mr.matchTier() != null) {
+                        tierCounts.merge(mr.matchTier().name(), 1, Integer::sum);
+                    }
+
+                    // Include method-level detail for mismatched and non-EXACT methods
+                    boolean includeDetail = mr.status() == Status.MISMATCH
+                            || (mr.matchTier() != null && mr.matchTier() != BytecodeComparator.MatchTier.EXACT);
+                    if (includeDetail) {
                         JSONObject method = new JSONObject();
                         method.put("name", mr.name());
                         method.put("descriptor", mr.descriptor());
                         method.put("status", mr.status().name());
-                        method.put("category", MismatchCategorizer.categorize(mr).name());
-                        method.put("diffDescription", mr.diffDescription());
+                        method.put("matchTier", mr.matchTier() != null ? mr.matchTier().name() : "NONE");
                         method.put("origInsnCount", mr.origInsnCount());
                         method.put("recompInsnCount", mr.recompInsnCount());
-                        method.put("firstDiffIndex", mr.firstDiffIndex());
-                        method.put("origContext", new JSONArray(mr.origContext()));
-                        method.put("recompContext", new JSONArray(mr.recompContext()));
+                        if (mr.status() == Status.MISMATCH) {
+                            method.put("category", MismatchCategorizer.categorize(mr).name());
+                            method.put("diffDescription", mr.diffDescription());
+                            method.put("firstDiffIndex", mr.firstDiffIndex());
+                            method.put("origContext", new JSONArray(mr.origContext()));
+                            method.put("recompContext", new JSONArray(mr.recompContext()));
+                        }
                         methodsArray.put(method);
                     }
                 }
@@ -484,6 +495,7 @@ public class Verify implements Callable<Integer> {
         measures.put("matched_instructions", matchedInstructions);
         measures.put("matched_code_percent", matchedCodePct);
         measures.put("matched_function_percent", matchedFuncPct);
+        measures.put("match_tiers", new JSONObject(tierCounts));
 
         JSONObject report = new JSONObject();
         report.put("measures", measures);
