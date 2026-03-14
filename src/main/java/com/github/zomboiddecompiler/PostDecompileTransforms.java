@@ -75,12 +75,15 @@ public final class PostDecompileTransforms {
             content = fixMissingCharacterSoundEmitterSwitchMap(content);
             content = fixAnimStateMissingLambda(content);
             content = fixRenderThreadLambdaOrder(content);
+            content = fixPolygonalMap2FindPath(content);
             content = fixItemContainerTryFinallyReturn(content);
             content = fixZomboidHashMapEntryKeyReread(content);
             content = fixIsoFireRandNextFolding(content);
             content = fixUIServerToolboxFloatCast(content);
             content = fixMPStatisticRawsetOverload(content);
             content = fixClimbStateFloatIncrement(content);
+            content = fixActionContextTransitionOutCheck(content);
+            content = fixVehicleStorySpawnerAngle(content);
         }
         if (BUILD_42.equals(buildVersion)) {
             content = fixB42SpecificErrors(content);
@@ -4380,6 +4383,280 @@ public final class PostDecompileTransforms {
     // Fix: extract lambdas as Runnable variables declared in the original order,
     // so javac assigns the correct indices.
 
+    // ========================================================================
+    // Fix: PolygonalMap2.findPath semaphore variable finally duplication
+    // ========================================================================
+    // Vineflower fails to reconstruct try-finally and falls back to a semaphore
+    // variable pattern with 9 copies of the cleanup block. Rewrite with a single
+    // try-finally, replacing break-to-label exits with direct returns.
+
+    private static String fixPolygonalMap2FindPath(String content) {
+        if (!content.contains("class PolygonalMap2")) return content;
+        if (!content.contains("VF: Semaphore variable")) return content;
+
+        String methodSig = "    private boolean findPath(PolygonalMap2.PathFindRequest pathFindRequest, boolean boolean0) {";
+        int methodStart = content.indexOf(methodSig);
+        if (methodStart < 0) return content;
+
+        // Find method body end by brace counting
+        int braceStart = content.indexOf('{', methodStart);
+        if (braceStart < 0) return content;
+        int depth = 0;
+        int methodEnd = -1;
+        for (int i = braceStart; i < content.length(); i++) {
+            char ch = content.charAt(i);
+            if (ch == '{') depth++;
+            else if (ch == '}') {
+                depth--;
+                if (depth == 0) {
+                    methodEnd = i + 1;
+                    break;
+                }
+            }
+        }
+        if (methodEnd < 0) return content;
+
+        String replacement = POLYGONAL_MAP2_FIND_PATH_REWRITE;
+        return content.substring(0, methodStart) + replacement + content.substring(methodEnd);
+    }
+
+    private static final String POLYGONAL_MAP2_FIND_PATH_REWRITE =
+        "    private boolean findPath(PolygonalMap2.PathFindRequest pathFindRequest, boolean boolean0) {\n" +
+        "        byte byte0 = 16;\n" +
+        "        if (!(pathFindRequest.mover instanceof IsoZombie)) {\n" +
+        "            byte0 |= 4;\n" +
+        "        }\n" +
+        "\n" +
+        "        if ((int)pathFindRequest.startZ == (int)pathFindRequest.targetZ\n" +
+        "            && !this.lcc\n" +
+        "                .isNotClear(\n" +
+        "                    this, pathFindRequest.startX, pathFindRequest.startY, pathFindRequest.targetX, pathFindRequest.targetY, (int)pathFindRequest.startZ, byte0\n" +
+        "                )) {\n" +
+        "            pathFindRequest.path.addNode(pathFindRequest.startX, pathFindRequest.startY, pathFindRequest.startZ);\n" +
+        "            pathFindRequest.path.addNode(pathFindRequest.targetX, pathFindRequest.targetY, pathFindRequest.targetZ);\n" +
+        "            if (boolean0) {\n" +
+        "                for (PolygonalMap2.VisibilityGraph visibilityGraph0 : this.graphs) {\n" +
+        "                    visibilityGraph0.render();\n" +
+        "                }\n" +
+        "            }\n" +
+        "\n" +
+        "            return true;\n" +
+        "        } else {\n" +
+        "            this.astar.init(this.graphs, this.squareToNode);\n" +
+        "            this.astar.knownBlockedEdges.clear();\n" +
+        "\n" +
+        "            for (int int0 = 0; int0 < pathFindRequest.knownBlockedEdges.size(); int0++) {\n" +
+        "                KnownBlockedEdges knownBlockedEdges = pathFindRequest.knownBlockedEdges.get(int0);\n" +
+        "                PolygonalMap2.Square square0 = this.getSquare(knownBlockedEdges.x, knownBlockedEdges.y, knownBlockedEdges.z);\n" +
+        "                if (square0 != null) {\n" +
+        "                    this.astar.knownBlockedEdges.put(square0.ID, knownBlockedEdges);\n" +
+        "                }\n" +
+        "            }\n" +
+        "\n" +
+        "            PolygonalMap2.VisibilityGraph visibilityGraph1 = null;\n" +
+        "            PolygonalMap2.VisibilityGraph visibilityGraph2 = null;\n" +
+        "            PolygonalMap2.SearchNode searchNode0 = null;\n" +
+        "            PolygonalMap2.SearchNode searchNode1 = null;\n" +
+        "            boolean boolean1 = false;\n" +
+        "            boolean boolean2 = false;\n" +
+        "\n" +
+        "            try {\n" +
+        "                int int1;\n" +
+        "                PolygonalMap2.Square square1 = this.getSquare(\n" +
+        "                    (int)pathFindRequest.startX, (int)pathFindRequest.startY, (int)pathFindRequest.startZ\n" +
+        "                );\n" +
+        "                if (square1 != null && !square1.isReallySolid()) {\n" +
+        "                    if (square1.has(504)) {\n" +
+        "                        searchNode0 = this.astar.getSearchNode(square1);\n" +
+        "                    } else {\n" +
+        "                        PolygonalMap2.VisibilityGraph visibilityGraph3 = this.astar.getVisGraphForSquare(square1);\n" +
+        "                        if (visibilityGraph3 != null) {\n" +
+        "                            if (!visibilityGraph3.created) {\n" +
+        "                                visibilityGraph3.create();\n" +
+        "                            }\n" +
+        "\n" +
+        "                            PolygonalMap2.Node node0 = null;\n" +
+        "                            int1 = visibilityGraph3.getPointOutsideObstacles(\n" +
+        "                                pathFindRequest.startX, pathFindRequest.startY, pathFindRequest.startZ, this.adjustStartData\n" +
+        "                            );\n" +
+        "                            if (int1 == -1) {\n" +
+        "                                return false;\n" +
+        "                            }\n" +
+        "\n" +
+        "                            if (int1 == 1) {\n" +
+        "                                boolean1 = true;\n" +
+        "                                node0 = this.adjustStartData.node;\n" +
+        "                                if (this.adjustStartData.isNodeNew) {\n" +
+        "                                    visibilityGraph1 = visibilityGraph3;\n" +
+        "                                }\n" +
+        "                            }\n" +
+        "\n" +
+        "                            if (node0 == null) {\n" +
+        "                                node0 = PolygonalMap2.Node.alloc()\n" +
+        "                                    .init(pathFindRequest.startX, pathFindRequest.startY, (int)pathFindRequest.startZ);\n" +
+        "                                visibilityGraph3.addNode(node0);\n" +
+        "                                visibilityGraph1 = visibilityGraph3;\n" +
+        "                            }\n" +
+        "\n" +
+        "                            searchNode0 = this.astar.getSearchNode(node0);\n" +
+        "                        }\n" +
+        "                    }\n" +
+        "\n" +
+        "                    if (searchNode0 == null) {\n" +
+        "                        searchNode0 = this.astar.getSearchNode(square1);\n" +
+        "                    }\n" +
+        "\n" +
+        "                    if (!(pathFindRequest.targetX < 0.0F)\n" +
+        "                        && !(pathFindRequest.targetY < 0.0F)\n" +
+        "                        && this.getChunkFromSquarePos((int)pathFindRequest.targetX, (int)pathFindRequest.targetY) != null) {\n" +
+        "                        square1 = this.getSquare(\n" +
+        "                            (int)pathFindRequest.targetX, (int)pathFindRequest.targetY, (int)pathFindRequest.targetZ\n" +
+        "                        );\n" +
+        "                        if (square1 == null || square1.isReallySolid()) {\n" +
+        "                            return false;\n" +
+        "                        }\n" +
+        "\n" +
+        "                        if ((\n" +
+        "                                (int)pathFindRequest.startX != (int)pathFindRequest.targetX\n" +
+        "                                    || (int)pathFindRequest.startY != (int)pathFindRequest.targetY\n" +
+        "                                    || (int)pathFindRequest.startZ != (int)pathFindRequest.targetZ\n" +
+        "                            )\n" +
+        "                            && this.isBlockedInAllDirections(\n" +
+        "                                (int)pathFindRequest.targetX, (int)pathFindRequest.targetY, (int)pathFindRequest.targetZ\n" +
+        "                            )) {\n" +
+        "                            return false;\n" +
+        "                        }\n" +
+        "\n" +
+        "                        if (square1.has(504)) {\n" +
+        "                            searchNode1 = this.astar.getSearchNode(square1);\n" +
+        "                        } else {\n" +
+        "                            PolygonalMap2.VisibilityGraph visibilityGraph4 = this.astar.getVisGraphForSquare(square1);\n" +
+        "                            if (visibilityGraph4 != null) {\n" +
+        "                                if (!visibilityGraph4.created) {\n" +
+        "                                    visibilityGraph4.create();\n" +
+        "                                }\n" +
+        "\n" +
+        "                                PolygonalMap2.Node node1 = null;\n" +
+        "                                int1 = visibilityGraph4.getPointOutsideObstacles(\n" +
+        "                                    pathFindRequest.targetX, pathFindRequest.targetY, pathFindRequest.targetZ, this.adjustGoalData\n" +
+        "                                );\n" +
+        "                                if (int1 == -1) {\n" +
+        "                                    return false;\n" +
+        "                                }\n" +
+        "\n" +
+        "                                if (int1 == 1) {\n" +
+        "                                    boolean2 = true;\n" +
+        "                                    node1 = this.adjustGoalData.node;\n" +
+        "                                    if (this.adjustGoalData.isNodeNew) {\n" +
+        "                                        visibilityGraph2 = visibilityGraph4;\n" +
+        "                                    }\n" +
+        "                                }\n" +
+        "\n" +
+        "                                if (node1 == null) {\n" +
+        "                                    node1 = PolygonalMap2.Node.alloc()\n" +
+        "                                        .init(pathFindRequest.targetX, pathFindRequest.targetY, (int)pathFindRequest.targetZ);\n" +
+        "                                    visibilityGraph4.addNode(node1);\n" +
+        "                                    visibilityGraph2 = visibilityGraph4;\n" +
+        "                                }\n" +
+        "\n" +
+        "                                searchNode1 = this.astar.getSearchNode(node1);\n" +
+        "                            } else {\n" +
+        "                                for (int int2 = 0; int2 < this.graphs.size(); int2++) {\n" +
+        "                                    PolygonalMap2.VisibilityGraph visibilityGraph5 = this.graphs.get(int2);\n" +
+        "                                    if (visibilityGraph5.contains(square1, 1)) {\n" +
+        "                                        PolygonalMap2.Node node2 = this.getPointOutsideObjects(\n" +
+        "                                            square1, pathFindRequest.targetX, pathFindRequest.targetY\n" +
+        "                                        );\n" +
+        "                                        visibilityGraph5.addNode(node2);\n" +
+        "                                        if (node2.x != pathFindRequest.targetX || node2.y != pathFindRequest.targetY) {\n" +
+        "                                            boolean2 = true;\n" +
+        "                                            this.adjustGoalData.isNodeNew = false;\n" +
+        "                                        }\n" +
+        "\n" +
+        "                                        visibilityGraph2 = visibilityGraph5;\n" +
+        "                                        searchNode1 = this.astar.getSearchNode(node2);\n" +
+        "                                        break;\n" +
+        "                                    }\n" +
+        "                                }\n" +
+        "                            }\n" +
+        "                        }\n" +
+        "\n" +
+        "                        if (searchNode1 == null) {\n" +
+        "                            searchNode1 = this.astar.getSearchNode(square1);\n" +
+        "                        }\n" +
+        "                    } else {\n" +
+        "                        searchNode1 = this.astar.getSearchNode((int)pathFindRequest.targetX, (int)pathFindRequest.targetY);\n" +
+        "                    }\n" +
+        "\n" +
+        "                    ArrayList arrayList = this.astar.shortestPath(pathFindRequest, searchNode0, searchNode1);\n" +
+        "                    if (arrayList != null) {\n" +
+        "                        if (arrayList.size() == 1) {\n" +
+        "                            pathFindRequest.path.addNode(searchNode0);\n" +
+        "                            if (!boolean2\n" +
+        "                                && searchNode1.square != null\n" +
+        "                                && searchNode1.square.x + 0.5F != pathFindRequest.targetX\n" +
+        "                                && searchNode1.square.y + 0.5F != pathFindRequest.targetY) {\n" +
+        "                                pathFindRequest.path\n" +
+        "                                    .addNode(pathFindRequest.targetX, pathFindRequest.targetY, pathFindRequest.targetZ, 0);\n" +
+        "                            } else {\n" +
+        "                                pathFindRequest.path.addNode(searchNode1);\n" +
+        "                            }\n" +
+        "\n" +
+        "                            return true;\n" +
+        "                        }\n" +
+        "\n" +
+        "                        this.cleanPath(arrayList, pathFindRequest, boolean1, boolean2, searchNode1);\n" +
+        "                        if (pathFindRequest.mover instanceof IsoPlayer && !((IsoPlayer)pathFindRequest.mover).isNPC()) {\n" +
+        "                            this.smoothPath(pathFindRequest.path);\n" +
+        "                        }\n" +
+        "\n" +
+        "                        return true;\n" +
+        "                    }\n" +
+        "\n" +
+        "                    return false;\n" +
+        "                }\n" +
+        "\n" +
+        "                return false;\n" +
+        "            } finally {\n" +
+        "                if (boolean0) {\n" +
+        "                    for (PolygonalMap2.VisibilityGraph visibilityGraph6 : this.graphs) {\n" +
+        "                        visibilityGraph6.render();\n" +
+        "                    }\n" +
+        "                }\n" +
+        "\n" +
+        "                if (visibilityGraph1 != null) {\n" +
+        "                    visibilityGraph1.removeNode(searchNode0.vgNode);\n" +
+        "                }\n" +
+        "\n" +
+        "                if (visibilityGraph2 != null) {\n" +
+        "                    visibilityGraph2.removeNode(searchNode1.vgNode);\n" +
+        "                }\n" +
+        "\n" +
+        "                for (int int3 = 0; int3 < this.astar.searchNodes.size(); int3++) {\n" +
+        "                    this.astar.searchNodes.get(int3).release();\n" +
+        "                }\n" +
+        "\n" +
+        "                if (boolean1 && this.adjustStartData.isNodeNew) {\n" +
+        "                    for (int int3 = 0; int3 < this.adjustStartData.node.edges.size(); int3++) {\n" +
+        "                        PolygonalMap2.Edge edge0 = this.adjustStartData.node.edges.get(int3);\n" +
+        "                        edge0.obstacle.unsplit(this.adjustStartData.node, edge0.edgeRing);\n" +
+        "                    }\n" +
+        "\n" +
+        "                    this.adjustStartData.graph.edges.remove(this.adjustStartData.newEdge);\n" +
+        "                }\n" +
+        "\n" +
+        "                if (boolean2 && this.adjustGoalData.isNodeNew) {\n" +
+        "                    for (int int3 = 0; int3 < this.adjustGoalData.node.edges.size(); int3++) {\n" +
+        "                        PolygonalMap2.Edge edge0 = this.adjustGoalData.node.edges.get(int3);\n" +
+        "                        edge0.obstacle.unsplit(this.adjustGoalData.node, edge0.edgeRing);\n" +
+        "                    }\n" +
+        "\n" +
+        "                    this.adjustGoalData.graph.edges.remove(this.adjustGoalData.newEdge);\n" +
+        "                }\n" +
+        "            }\n" +
+        "        }\n" +
+        "    }";
+
     private static String fixRenderThreadLambdaOrder(String content) {
         if (!content.contains("class RenderThread")) return content;
 
@@ -4439,5 +4716,43 @@ public final class PostDecompileTransforms {
                 "    }";
 
         return content.replace(oldMethod, newMethod);
+    }
+
+    // ── ActionContext: remove spurious transitionOut check ────────────────
+    // Vineflower incorrectly duplicates the transitionOut check from
+    // evaluateSubStateTransitions into evaluateCurrentStateTransitions.
+    // The original bytecode for evaluateCurrentStateTransitions does NOT
+    // check transitionOut — it only exists in the substate variant.
+    // This extra check causes transitions with transitionOut=true to
+    // break out of the loop without processing, preventing animation
+    // state transitions (e.g. attack/shove) from firing correctly.
+    private static String fixActionContextTransitionOutCheck(String content) {
+        if (!content.contains("class ActionContext ")) return content;
+        // Remove the transitionOut early-break in evaluateCurrentStateTransitions.
+        // The pattern: after passes() check, the decompiler inserts:
+        //   if (actionTransition.transitionOut) { break; }
+        // which should not be there.
+        content = content.replace(
+                "            if (actionTransition.passes(this, 0)) {\n" +
+                "                if (actionTransition.transitionOut) {\n" +
+                "                    break;\n" +
+                "                }\n" +
+                "\n" +
+                "                if (StringUtils.isNullOrWhitespace(actionTransition.transitionTo))",
+                "            if (actionTransition.passes(this, 0)) {\n" +
+                "                if (StringUtils.isNullOrWhitespace(actionTransition.transitionTo))");
+        return content;
+    }
+
+    // ── RandomizedVehicleStoryBase: fix PI/2 angle constant ──────────────
+    // Vineflower decompiles `LDC 1.5707964f; FADD; FSTORE` as `++float0`
+    // (pre-increment by 1.0f) instead of `float0 += 1.5707964F` (PI/2).
+    // This changes vehicle story spawn angles from ~90° offsets to ~57° offsets.
+    private static String fixVehicleStorySpawnerAngle(String content) {
+        if (!content.contains("class RandomizedVehicleStoryBase ")) return content;
+        content = content.replace(
+                "vehicleStorySpawner.spawn(floats[0], floats[1], 0.0F, ++float0, this::spawnElement);",
+                "float0 += 1.5707964F;\n            vehicleStorySpawner.spawn(floats[0], floats[1], 0.0F, float0, this::spawnElement);");
+        return content;
     }
 }
