@@ -825,6 +825,74 @@ public final class BytecodeComparator {
             }
         }
 
+        // Try-finally normalization: strip GOTOs, dedup exit sequences,
+        // eliminate store-load pairs, strip variable copies, then try
+        // structural matching on opcode skeletons. Handles try-finally with
+        // different numbers of inlined finally copies (e.g., semaphore variable
+        // rewrites where the compiler produces extra load/store pairs).
+        if (semanticNormalize && Math.abs(origInsns.size() - recompInsns.size()) <= 20) {
+            List<String> origTF = stripDuplicateExitSequences(stripGoto(origInsns));
+            List<String> recompTF = stripDuplicateExitSequences(stripGoto(recompInsns));
+            origTF = stripVariableCopies(eliminateStoreLoad(origTF));
+            recompTF = stripVariableCopies(eliminateStoreLoad(recompTF));
+            if (!origTF.isEmpty() && !recompTF.isEmpty()) {
+                List<String> origSkel = toOpcodeSkeleton(origTF);
+                List<String> recompSkel = toOpcodeSkeleton(recompTF);
+                if (name.equals("findPath")) {
+                    // Check: after sorting, are the multisets identical?
+                    List<String> origSorted = new java.util.ArrayList<>(origSkel);
+                    List<String> recompSorted = new java.util.ArrayList<>(recompSkel);
+                    Collections.sort(origSorted);
+                    Collections.sort(recompSorted);
+                    System.err.println("DEBUG findPath skel sizes: " + origSkel.size() + " vs " + recompSkel.size()
+                        + " sortedEqual=" + origSorted.equals(recompSorted));
+                    // Try the return-terminated inversion directly
+                    List<String> restO = origSkel.subList(143, origSkel.size());
+                    List<String> restR = recompSkel.subList(143, recompSkel.size());
+                    // Find first return in restO
+                    for (int k = 0; k < Math.min(restO.size(), 300); k++) {
+                        if (isReturnString(restO.get(k))) {
+                            System.err.println("DEBUG findPath return in orig at restO[" + k + "]: " + restO.get(k));
+                            break;
+                        }
+                    }
+                    for (int k = 0; k < Math.min(restR.size(), 300); k++) {
+                        if (isReturnString(restR.get(k))) {
+                            System.err.println("DEBUG findPath return in recomp at restR[" + k + "]: " + restR.get(k));
+                            break;
+                        }
+                    }
+                }
+                if (origSkel.size() == recompSkel.size() && tryLabelAgnosticMatch(origSkel, recompSkel)) {
+                    String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
+                    if (tryCatchDiff == null) {
+                        return new MethodResult(name, desc, Status.MATCH, MatchTier.STRUCTURAL,
+                                origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
+                    }
+                    insnsMatched = true;
+                }
+                if (tryBlockLevelMatch(origSkel, recompSkel)
+                        || tryMicroBlockMatch(origSkel, recompSkel)) {
+                    String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
+                    if (tryCatchDiff == null) {
+                        return new MethodResult(name, desc, Status.MATCH, MatchTier.STRUCTURAL,
+                                origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
+                    }
+                    insnsMatched = true;
+                }
+                // Guard clause inversion on try-finally normalized skeletons
+                int tfDiff = findFirstDifferenceIsomorphic(origSkel, recompSkel);
+                if (tfDiff >= 0 && tryMatchGuardInversion(origSkel, recompSkel, tfDiff)) {
+                    String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
+                    if (tryCatchDiff == null) {
+                        return new MethodResult(name, desc, Status.MATCH, MatchTier.STRUCTURAL,
+                                origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
+                    }
+                    insnsMatched = true;
+                }
+            }
+        }
+
         // Aggressive GOTO+label stripping with condition canonicalization.
         // Strip GOTOs, canonicalize conditions, strip labels, strip variable
         // indices, and compare as sorted multiset. Catches combined guard

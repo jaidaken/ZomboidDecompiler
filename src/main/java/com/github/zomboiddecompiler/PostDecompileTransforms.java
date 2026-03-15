@@ -2373,25 +2373,23 @@ public final class PostDecompileTransforms {
     private static String fixSpecificFileErrors(String content) {
         boolean modified = false;
 
-        // ClothingWetness: clothing0 is an instanceof pattern variable scoped to the while loop body
-        // but used outside at line 362. The variable escapes scope via label85.
-        // Fix: declare clothing0 before the label85 block and cast manually
+        // ClothingWetness: clothing0 variable declared inside a labeled block scope but used outside.
+        // RTF mode produces label82/label85 depending on version. The variable escapes scope.
+        // Fix: declare clothing0 before the label block and use plain instanceof + cast.
         if (content.contains("class ClothingWetness")) {
-            // The pattern: inside label85 block, "if (item1 instanceof Clothing clothing0)"
-            // then after the while loop: "clothing0.setWetness(clothing0.getWetness() + float1);"
-            // clothing0 is not in scope there.
-            // Fix: Replace "if (item1 instanceof Clothing clothing0)" with plain instanceof + cast
-            // and declare clothing0 before the label block
             String[] lines = content.split("\n", -1);
             for (int i = 0; i < lines.length; i++) {
-                // Find "label85: {" and inject Clothing clothing0 = null; before it
-                if (lines[i].trim().equals("label85: {")) {
-                    // Find indent
-                    String indent = lines[i].substring(0, lines[i].indexOf("label85"));
-                    lines[i] = indent + "Clothing clothing0 = null;\n" + lines[i];
-                    modified = true;
+                // Find any label block (label82, label85, etc.) that contains the clothing0 scope issue
+                Matcher labelMatcher = Pattern.compile("^(\\s*)(label\\d+): \\{\\s*$").matcher(lines[i]);
+                if (labelMatcher.matches() && !modified) {
+                    // Check if this is the clothing0 label block (next lines contain InventoryItem/while)
+                    if (i + 2 < lines.length && lines[i + 1].trim().equals("InventoryItem item1;")) {
+                        String indent = labelMatcher.group(1);
+                        lines[i] = indent + "Clothing clothing0 = null;\n" + lines[i];
+                        modified = true;
+                    }
                 }
-                // Replace "if (item1 instanceof Clothing clothing0) {" with plain check + cast
+                // Replace "if (item1 instanceof Clothing clothing0)" with plain check + cast
                 if (lines[i].contains("if (item1 instanceof Clothing clothing0)")) {
                     lines[i] = lines[i].replace(
                             "if (item1 instanceof Clothing clothing0)",
@@ -2530,13 +2528,9 @@ public final class PostDecompileTransforms {
             modified = true;
         }
 
-        // LuaManager: byte4 variable declared in try-body but used after try-with-resources close.
-        // The value is always 1 — inline it at the return site and remove the dead variable.
-        if (content.contains("class GlobalObject") && content.contains("byte4 = 1;")) {
-            content = content.replace("byte4 = 1;\n", "");
-            content = content.replace("return byte4;", "return 1;");
-            modified = true;
-        }
+        // LuaManager: Vineflower FinallyProcessor bug truncates the return value in
+        // getServerSavedWorldVersion. Fixed in Vineflower TryHelper.inlineTwrReturnVars.
+        // (workaround removed — Vineflower now produces "return 1;" directly)
 
         // ChooseGameInfo: int5 declared inside try block but used outside.
         // Move the declaration before the try block.
@@ -2641,19 +2635,36 @@ public final class PostDecompileTransforms {
             modified = true;
         }
 
-        // ActionContext.evaluateCurrentStateTransitions: Vineflower drops the transitionOut check.
-        // The bytecode doesn't show it explicitly, but the original game requires it —
-        // without it, a transitionOut transition with null target spams warnings and freezes the player.
-        if (content.contains("class ActionContext")) {
-            content = content.replace(
-                    "if (actionTransition.passes(this, 0)) {\n"
-                  + "                if (StringUtils.isNullOrWhitespace(actionTransition.transitionTo)) {",
-                    "if (actionTransition.passes(this, 0)) {\n"
-                  + "                if (actionTransition.transitionOut) {\n"
-                  + "                    break;\n"
-                  + "                }\n"
-                  + "\n"
-                  + "                if (StringUtils.isNullOrWhitespace(actionTransition.transitionTo)) {"
+        // ErosionObjSprites.Sprites: RTF mode puts super() inside a label block, but
+        // super() must be the first statement in a constructor. Move super() and field
+        // initializations before the label block.
+        if (content.contains("class ErosionObjSprites")) {
+            // Fix both Sprites(String) and Sprites(ArrayList<String>) constructors
+            content = content.replaceAll(
+                    "(\\s*)(label\\d+): \\{\n\\s*super\\(\\);\n(\\s*this\\.sprites = new ArrayList<>\\(\\);\n\\s*this\\.index = -1;)",
+                    "$1super();\n$3\n$1$2: {"
+            );
+            modified = true;
+        }
+
+        // ServerChunkLoader: RTF mode places label133 on an if-statement instead of on
+        // the for-loop, making "break label133" invalid. Move the label to the for-loop.
+        if (content.contains("class ServerChunkLoader")) {
+            // Pattern: label on "if (chunk3 == null)" followed by "for (...int19...)"
+            // Fix: move label to the for-loop so "break label133" exits the loop correctly
+            content = content.replaceAll(
+                    "(\\s*)(label\\d+):\n(\\s*)if \\(chunk3 == null\\) \\{\n\\s*continue;\n\\s*\\}\n\n(\\s*)for \\(int int19",
+                    "$1if (chunk3 == null) {\n$3    continue;\n$3}\n\n$4$2:\n$4for (int int19"
+            );
+            modified = true;
+        }
+
+        // CircleLineIntersect.Point: RTF mode puts super() inside a label block, but
+        // super() must be the first statement in a constructor.
+        if (content.contains("class CircleLineIntersect")) {
+            content = content.replaceAll(
+                    "(\\s*)(label\\d+): \\{\n\\s*super\\(\\);\n(\\s*)if \\(!Double\\.isNaN",
+                    "$1super();\n$1$2: {\n$3if (!Double.isNaN"
             );
             modified = true;
         }

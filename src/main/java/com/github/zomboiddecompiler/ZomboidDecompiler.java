@@ -141,6 +141,7 @@ public class ZomboidDecompiler {
                         gamePath.resolve("jre64").toAbsolutePath().toString()
                 )
                 .option(IFernflowerPreferences.INDENT_STRING, "    ")
+                .option(IFernflowerPreferences.ROUNDTRIP_FIDELITY, true)
                 .option(RosettaPlugin.NAMESPACE_PROPERTY_NAME, getResourceNamespaces())
                 .option(RosettaPlugin.TYPE_NAMER_PROPERTY_NAME, new ZomboidTypeNameProvider());
 
