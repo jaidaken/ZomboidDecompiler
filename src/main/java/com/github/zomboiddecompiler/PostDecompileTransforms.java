@@ -43,8 +43,7 @@ public final class PostDecompileTransforms {
         content = fixRawgetAsBoolean(content);
         content = fixIntBooleanConfusion(content);
         
-        // ELIMINATED: no longer fires with current VF RTF output
-        // content = fixMakeConcatWithConstants(content);
+        content = fixMakeConcatWithConstants(content);
         // ELIMINATED: VF FieldExprent/ClassWriter rename shadowed static fields
         // content = fixVariableShadowsClassName(content);
         content = fixRawLambdaAndMethodRef(content);
