@@ -27,11 +27,15 @@ public final class PostDecompileTransforms {
             return content;
         }
         // Shared transforms (apply to all versions)
-        content = fixInstanceofPatternScope(content);
+        
+        // ELIMINATED: VF scope-escape check in IfPatternMatchProcessor
+        // content = fixInstanceofPatternScope(content);
         // ELIMINATED: VF AssertProcessor RTF bypass + FieldExprent/ClassWriter $->_ rename
         // content = fixAssertionsDisabled(content);
         // content = fixAssertKeywordToExplicit(content);
-        content = fixDuplicateInstanceofPatternVars(content);
+        
+        // ELIMINATED: VF self-shadow check in IfPatternMatchProcessor
+        // content = fixDuplicateInstanceofPatternVars(content);
         // TESTING: VF LVT int pinning
         // content = fixByteCounterVars(content);
         content = fixBooleanCanonicalization(content);
@@ -93,7 +97,9 @@ public final class PostDecompileTransforms {
             content = fixClimateValuesQualifiedStaticCalls(content);
             content = fixWorldFlaresApplyFlareInline(content);
             
-            content = fixMPStatisticClientFloatArray(content);
+            
+            // ELIMINATED: VF clone() array type inference
+            // content = fixMPStatisticClientFloatArray(content);
             content = fixServerGUIUpdateCameraVarSave(content);
             content = fixBaseVehicleUpdateSoundsCompoundAssign(content);
         }
