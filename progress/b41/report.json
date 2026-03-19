@@ -4,13 +4,13 @@
     "total_instructions": 1180433,
     "matched_code_percent": 77.77002167848578,
     "match_tiers": {
-      "FUZZY_COMPUTATION": 229,
+      "FUZZY_COMPUTATION": 231,
       "CORE_OPS_ONLY": 76,
-      "EXACT": 29949,
-      "SORTED_MULTISET": 897,
-      "STRUCTURAL_NO_TRYCATCH": 1,
+      "EXACT": 29950,
+      "SORTED_MULTISET": 898,
+      "STRUCTURAL_NO_TRYCATCH": 3,
       "NONE": 824,
-      "STRUCTURAL": 1097
+      "STRUCTURAL": 1091
     },
     "total_methods": 33081,
     "matched_function_percent": 97.48496115595054,
@@ -14974,7 +14974,7 @@
           "name": "add_if_mask",
           "recompInsnCount": 151,
           "descriptor": "(JJILzombie/core/Collections/ConcurrentAutoTable;)J",
-          "matchTier": "STRUCTURAL",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 151,
           "status": "MATCH"
         },
@@ -17086,7 +17086,7 @@
           "name": "waitForReadyStateInternal",
           "recompInsnCount": 32,
           "descriptor": "(Ljava/util/function/BooleanSupplier;)Z",
-          "matchTier": "STRUCTURAL",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 32,
           "status": "MATCH"
         },
@@ -19603,7 +19603,7 @@
           "name": "Receive",
           "recompInsnCount": 21,
           "descriptor": "()Ljava/nio/ByteBuffer;",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "FUZZY_COMPUTATION",
           "origInsnCount": 23,
           "status": "MATCH"
         },
@@ -34661,7 +34661,7 @@
           "name": "checkIntegrity",
           "recompInsnCount": 119,
           "descriptor": "()V",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "FUZZY_COMPUTATION",
           "origInsnCount": 118,
           "status": "MATCH"
         },
@@ -39683,7 +39683,7 @@
           "name": "convertchunks",
           "recompInsnCount": 196,
           "descriptor": "(Ljava/lang/String;II)V",
-          "matchTier": "STRUCTURAL",
+          "matchTier": "STRUCTURAL_NO_TRYCATCH",
           "origInsnCount": 196,
           "status": "MATCH"
         },
@@ -47718,7 +47718,7 @@
           "name": "GameLoadingRequestData",
           "recompInsnCount": 43,
           "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 43,
           "status": "MATCH"
         },
@@ -50399,7 +50399,7 @@
           "name": "init",
           "recompInsnCount": 111,
           "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 112,
           "status": "MATCH"
         },
@@ -50617,7 +50617,7 @@
           "name": "characterIn",
           "recompInsnCount": 117,
           "descriptor": "(III)V",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "FUZZY_COMPUTATION",
           "origInsnCount": 121,
           "status": "MATCH"
         },
@@ -50625,7 +50625,7 @@
           "name": "loadMapChunk",
           "recompInsnCount": 35,
           "descriptor": "(II)V",
-          "matchTier": "STRUCTURAL",
+          "matchTier": "STRUCTURAL_NO_TRYCATCH",
           "origInsnCount": 39,
           "status": "MATCH"
         },
@@ -56189,14 +56189,6 @@
           "descriptor": "(Lzombie/iso/IsoMetaGrid$Zone;Lzombie/iso/IsoChunk;[F)Z",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 231,
-          "status": "MATCH"
-        },
-        {
-          "name": "callVehicleStorySpawner",
-          "recompInsnCount": 48,
-          "descriptor": "(Lzombie/iso/IsoMetaGrid$Zone;Lzombie/iso/IsoChunk;F)Z",
-          "matchTier": "FUZZY_COMPUTATION",
-          "origInsnCount": 48,
           "status": "MATCH"
         },
         {
