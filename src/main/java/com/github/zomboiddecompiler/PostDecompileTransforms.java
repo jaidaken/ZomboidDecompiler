@@ -43,7 +43,8 @@ public final class PostDecompileTransforms {
         content = fixRawgetAsBoolean(content);
         content = fixIntBooleanConfusion(content);
         
-        content = fixMakeConcatWithConstants(content);
+        // ELIMINATED: no longer fires with current VF RTF output
+        // content = fixMakeConcatWithConstants(content);
         // ELIMINATED: VF FieldExprent/ClassWriter rename shadowed static fields
         // content = fixVariableShadowsClassName(content);
         content = fixRawLambdaAndMethodRef(content);
@@ -79,9 +80,11 @@ public final class PostDecompileTransforms {
             content = fixAnimStateMissingLambda(content);
             content = fixRenderThreadLambdaOrder(content);
             
-            content = fixZomboidHashMapEntryKeyReread(content);
+            // ELIMINATED: no longer fires with current VF RTF output
+            // content = fixZomboidHashMapEntryKeyReread(content);
             
-            content = fixIsoFireRandNextFolding(content);
+            // ELIMINATED: no longer fires with current VF RTF output
+            // content = fixIsoFireRandNextFolding(content);
             content = fixUIServerToolboxFloatCast(content);
             content = fixMPStatisticRawsetOverload(content);
             // ELIMINATED: Vineflower hasValueOne() fix uses exact float comparison
