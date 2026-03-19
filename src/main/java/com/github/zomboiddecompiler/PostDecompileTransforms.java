@@ -2454,8 +2454,9 @@ public final class PostDecompileTransforms {
     //   }
     //   ... uses param ...
 
+    // Matches both old format (no pattern var) and new format (with pattern var)
     private static final Pattern FROM_TABLE_BAD_IF = Pattern.compile(
-            "^(\\s*)if \\(this\\.tableName == null \\|\\| (\\w+)\\.rawget\\(this\\.tableName\\) instanceof KahluaTable\\) \\{$"
+            "^(\\s*)if \\(this\\.tableName == null \\|\\| (\\w+)\\.rawget\\(this\\.tableName\\) instanceof KahluaTable(?: (\\w+))?\\) \\{$"
     );
     private static final Pattern FROM_TABLE_BAD_ASSIGN = Pattern.compile(
             "^(\\s*)KahluaTable (\\w+) = \\(KahluaTable\\)(\\w+)\\.rawget\\(this\\.tableName\\);$"
@@ -2473,6 +2474,26 @@ public final class PostDecompileTransforms {
             if (ifM.matches() && i + 1 < lines.length) {
                 String indent = ifM.group(1);
                 String paramName = ifM.group(2);
+                String patternVar = ifM.group(3); // may be null if no pattern variable
+
+                if (patternVar != null) {
+                    // New format: instanceof KahluaTable tablex (pattern variable in condition)
+                    // Fix: remove pattern var, fix condition logic, add cast assignment
+                    lines[i] = indent + "if (this.tableName != null && "
+                            + paramName + ".rawget(this.tableName) instanceof KahluaTable) {";
+                    // Insert cast assignment after the if-line
+                    String assignIndent = indent + "    ";
+                    String assignLine = assignIndent + paramName + " = (KahluaTable)"
+                            + paramName + ".rawget(this.tableName);";
+                    // Insert the assignment line
+                    List<String> linesList = new ArrayList<>(Arrays.asList(lines));
+                    linesList.add(i + 1, assignLine);
+                    lines = linesList.toArray(new String[0]);
+                    modified = true;
+                    i += 2;
+                    continue;
+                }
+
                 Matcher assignM = FROM_TABLE_BAD_ASSIGN.matcher(lines[i + 1]);
                 if (assignM.matches() && assignM.group(3).equals(paramName)) {
                     String localName = assignM.group(2);
