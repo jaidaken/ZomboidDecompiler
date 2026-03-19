@@ -2597,6 +2597,7 @@ public final class PostDecompileTransforms {
                     }
                 }
             }
+
             i++;
         }
 
