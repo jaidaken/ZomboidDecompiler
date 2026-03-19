@@ -39,7 +39,8 @@ public final class PostDecompileTransforms {
         content = fixRawgetAsBoolean(content);
         content = fixIntBooleanConfusion(content);
         content = fixMakeConcatWithConstants(content);
-        content = fixVariableShadowsClassName(content);
+        // ELIMINATED: VF FieldExprent/ClassWriter rename shadowed static fields
+        // content = fixVariableShadowsClassName(content);
         content = fixRawLambdaAndMethodRef(content);
         content = fixObjectToStringCast(content);
         content = fixDialogButtonAmbiguity(content);
@@ -50,7 +51,8 @@ public final class PostDecompileTransforms {
         content = fixRawStreamPath(content);
         content = fixRawLambdaTypeInference(content);
         content = fixStringAssignmentNeedsCast(content);
-        content = fixExternalShadowedFieldRefs(content);
+        // ELIMINATED: VF FieldExprent renames shadowed fields in all references
+        // content = fixExternalShadowedFieldRefs(content);
         // ELIMINATED: Vineflower CatchStatement widens checked exceptions in RTF mode
         // content = fixUncaughtExceptionInTry(content);
         content = fixRawToArrayCast(content);
