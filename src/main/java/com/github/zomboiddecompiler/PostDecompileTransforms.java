@@ -1977,10 +1977,14 @@ public final class PostDecompileTransforms {
         // PZArrayUtil: Object → E in find/contains/indexOf/forEach, Object → V in getOrCreate
         if (content.contains("class PZArrayUtil")) {
             // For-each variables typed as Object but should be E when passed to Predicate<E>.test()
-            // Pattern: predicate.test(object) where object comes from for-each on raw Iterable
+            // Pattern: predicate.test(objectN) where objectN comes from for-each on raw Iterable
             content = content.replace(
                     "predicate.test(object)",
                     "predicate.test((E)object)"
+            );
+            content = content.replace(
+                    "predicate.test(object1)",
+                    "predicate.test((E)object1)"
             );
             // Consumer<E>.accept(object)
             content = content.replace(
@@ -2067,11 +2071,11 @@ public final class PostDecompileTransforms {
         if (content.contains("class ClothingWetness")) {
             String[] lines = content.split("\n", -1);
             for (int i = 0; i < lines.length; i++) {
-                // Find any label block (label82, label85, etc.) that contains the clothing0 scope issue
+                // Find any label block (label82, label85, label87, etc.) that contains the clothing0 scope issue
                 Matcher labelMatcher = Pattern.compile("^(\\s*)(label\\d+): \\{\\s*$").matcher(lines[i]);
                 if (labelMatcher.matches() && !modified) {
-                    // Check if this is the clothing0 label block (next lines contain InventoryItem/while)
-                    if (i + 2 < lines.length && lines[i + 1].trim().equals("InventoryItem item1;")) {
+                    // Check if this is the clothing0 label block (next line contains InventoryItem item1)
+                    if (i + 1 < lines.length && lines[i + 1].trim().startsWith("InventoryItem item1")) {
                         String indent = labelMatcher.group(1);
                         lines[i] = indent + "Clothing clothing0 = null;\n" + lines[i];
                         modified = true;
@@ -2091,6 +2095,15 @@ public final class PostDecompileTransforms {
                     }
                     lines[i] = lines[i] + "\n" + bodyIndent + "clothing0 = (Clothing)item1;";
                     modified = true;
+                }
+                // Handle case where VF emits "if (item1 instanceof Clothing)" but uses clothing0 undeclared
+                if (!modified && lines[i].contains("if (item1 instanceof Clothing)") && content.contains("clothing0 = (Clothing)item1")) {
+                    // clothing0 is already used with explicit cast — just need the declaration (handled above)
+                    // no change needed to this line
+                }
+                if (lines[i].trim().equals("clothing0 = (Clothing)item1;") && !modified) {
+                    // This is a standalone cast line — make sure clothing0 is declared above
+                    // Already handled by the label block insertion above
                 }
             }
             if (modified) content = String.join("\n", lines);
