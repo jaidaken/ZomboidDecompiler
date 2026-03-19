@@ -38,6 +38,7 @@ public final class PostDecompileTransforms {
         content = fixRawCollectionTypes(content);
         content = fixRawgetAsBoolean(content);
         content = fixIntBooleanConfusion(content);
+        
         content = fixMakeConcatWithConstants(content);
         // ELIMINATED: VF FieldExprent/ClassWriter rename shadowed static fields
         // content = fixVariableShadowsClassName(content);
@@ -73,7 +74,9 @@ public final class PostDecompileTransforms {
             content = fixMissingCharacterSoundEmitterSwitchMap(content);
             content = fixAnimStateMissingLambda(content);
             content = fixRenderThreadLambdaOrder(content);
+            
             content = fixZomboidHashMapEntryKeyReread(content);
+            
             content = fixIsoFireRandNextFolding(content);
             content = fixUIServerToolboxFloatCast(content);
             content = fixMPStatisticRawsetOverload(content);
@@ -89,6 +92,7 @@ public final class PostDecompileTransforms {
             // content = fixIsoChunkAddCorpsesSubtract(content);
             content = fixClimateValuesQualifiedStaticCalls(content);
             content = fixWorldFlaresApplyFlareInline(content);
+            
             content = fixMPStatisticClientFloatArray(content);
             content = fixServerGUIUpdateCameraVarSave(content);
             content = fixBaseVehicleUpdateSoundsCompoundAssign(content);
