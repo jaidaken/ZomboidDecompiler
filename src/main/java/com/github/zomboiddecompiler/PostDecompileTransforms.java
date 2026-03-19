@@ -45,7 +45,6 @@ public final class PostDecompileTransforms {
         content = fixAnnotationTypeCasts(content);
         content = fixDirectoryStreamForEach(content);
         content = fixSwitchOnObject(content);
-        content = fixObjectToVar(content);
         content = fixRawStreamPath(content);
         content = fixRawLambdaTypeInference(content);
         content = fixStringAssignmentNeedsCast(content);
@@ -56,6 +55,9 @@ public final class PostDecompileTransforms {
         content = fixRawForEachCast(content);
         content = fixRawMethodReturnCast(content);
         content = fixGenericClassInternals(content);
+        // fixObjectToVar MUST run AFTER fixGenericClassInternals — otherwise
+        // Object→var conversion prevents generic type parameter fixes from matching
+        content = fixObjectToVar(content);
         content = fixTableNameNullGuardPattern(content);
         content = fixSandboxFromToTable(content);
         content = addBinaryCompatWarnings(content);
@@ -2004,21 +2006,27 @@ public final class PostDecompileTransforms {
             modified = true;
         }
 
-        // PZArrayUtil: Object → E in find(), Object → V in getOrCreate()
+        // PZArrayUtil: Object → E in find/contains/indexOf/forEach, Object → V in getOrCreate
         if (content.contains("class PZArrayUtil")) {
-            // predicate.test(object1) where object1 is Object but should be E
-            // The issue is: } while (!predicate.test(object1)); where object1 = iterator.next() (raw)
-            // Fix: cast object1 to (E)
+            // For-each variables typed as Object but should be E when passed to Predicate<E>.test()
+            // Pattern: predicate.test(object) where object comes from for-each on raw Iterable
             content = content.replace(
-                    "} while (!predicate.test(object1));",
-                    "} while (!predicate.test((E)object1));"
+                    "predicate.test(object)",
+                    "predicate.test((E)object)"
+            );
+            // Consumer<E>.accept(object)
+            content = content.replace(
+                    "consumer.accept(object)",
+                    "consumer.accept((E)object)"
             );
             // hashMap.put(object1, object0); where object0 is Object but should be V
-            // The var: Object object0 = hashMap.get(object1); then object0 = supplier.get();
-            // Fix: cast object0 at put call
             content = content.replace(
                     "hashMap.put(object1, object0);",
                     "hashMap.put(object1, (V)object0);"
+            );
+            content = content.replace(
+                    "hashMap.put(object, object0);",
+                    "hashMap.put(object, (V)object0);"
             );
             modified = true;
         }
