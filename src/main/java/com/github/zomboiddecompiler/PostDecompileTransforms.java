@@ -2475,8 +2475,14 @@ public final class PostDecompileTransforms {
             "^(\\s*)KahluaTable (\\w+) = \\(KahluaTable\\)(\\w+)\\.rawget\\(this\\.tableName\\);$"
     );
 
+    // Matches the RTF negated form: if (tableName != null && !(param.rawget(...) instanceof KahluaTable patVar)) { ; } else { ... }
+    private static final Pattern FROM_TABLE_NEGATED_IF = Pattern.compile(
+            "^(\\s*)if \\(this\\.tableName != null && !\\((\\w+)\\.rawget\\(this\\.tableName\\) instanceof KahluaTable (\\w+)\\)\\) \\{$"
+    );
+
     private static String fixTableNameNullGuardPattern(String content) {
-        if (!content.contains("this.tableName == null || ")) return content;
+        if (!content.contains("this.tableName")) return content;
+        if (!content.contains("instanceof KahluaTable")) return content;
 
         String[] lines = content.split("\n", -1);
         boolean modified = false;
@@ -2594,6 +2600,66 @@ public final class PostDecompileTransforms {
                         lines = newLines.toArray(new String[0]);
                         // Don't advance i — re-check in case of adjacent patterns
                         continue;
+                    }
+                }
+            }
+
+            // Handle RTF negated form:
+            //   if (this.tableName != null && !(tablex.rawget(this.tableName) instanceof KahluaTable tablex)) {
+            //       ;
+            //   } else {
+            //       body...
+            //   }
+            // Transform to:
+            //   if (this.tableName != null && tablex.rawget(this.tableName) instanceof KahluaTable) {
+            //       tablex = (KahluaTable)tablex.rawget(this.tableName);
+            //   }
+            //   body...
+            Matcher negM = FROM_TABLE_NEGATED_IF.matcher(lines[i]);
+            if (negM.matches()) {
+                String indent = negM.group(1);
+                String paramName = negM.group(2);
+                // Check for empty body ";" then "} else {"
+                if (i + 2 < lines.length
+                        && lines[i + 1].trim().equals(";")
+                        && lines[i + 2].trim().equals("} else {")) {
+                    // Find the matching close brace for the else block
+                    int depth = 1;
+                    int elseCloseIdx = -1;
+                    for (int k = i + 3; k < lines.length; k++) {
+                        depth += countChar(lines[k], '{') - countChar(lines[k], '}');
+                        if (depth == 0) {
+                            elseCloseIdx = k;
+                            break;
+                        }
+                    }
+                    if (elseCloseIdx > 0) {
+                        List<String> newLines = new ArrayList<>();
+                        // Everything before the if
+                        for (int k = 0; k < i; k++) newLines.add(lines[k]);
+                        // Rewritten if with positive condition + cast assignment + close
+                        newLines.add(indent + "if (this.tableName != null && "
+                                + paramName + ".rawget(this.tableName) instanceof KahluaTable) {");
+                        newLines.add(indent + "    " + paramName + " = (KahluaTable)"
+                                + paramName + ".rawget(this.tableName);");
+                        newLines.add(indent + "}");
+                        // The else body lines (i+3 .. elseCloseIdx-1), dedented one level
+                        String elseIndent = indent + "    ";
+                        for (int k = i + 3; k < elseCloseIdx; k++) {
+                            String line = lines[k];
+                            if (line.startsWith(elseIndent)) {
+                                line = indent + line.substring(elseIndent.length());
+                            }
+                            newLines.add(line);
+                        }
+                        // Skip the else closing brace (elseCloseIdx)
+                        // Everything after
+                        for (int k = elseCloseIdx + 1; k < lines.length; k++) {
+                            newLines.add(lines[k]);
+                        }
+                        lines = newLines.toArray(new String[0]);
+                        modified = true;
+                        continue; // re-check at same position
                     }
                 }
             }
