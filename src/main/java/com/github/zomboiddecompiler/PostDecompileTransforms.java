@@ -56,9 +56,8 @@ public final class PostDecompileTransforms {
         content = fixRawForEachCast(content);
         content = fixRawMethodReturnCast(content);
         content = fixGenericClassInternals(content);
-        // fixObjectToVar MUST run AFTER fixGenericClassInternals — otherwise
-        // Object→var conversion prevents generic type parameter fixes from matching
-        content = fixObjectToVar(content);
+        // ELIMINATED: VF useVar renders Object definitions as 'var' for single-assignment vars
+        // content = fixObjectToVar(content);
         content = fixTableNameNullGuardPattern(content);
         content = fixSandboxFromToTable(content);
         content = addBinaryCompatWarnings(content);
