@@ -32,7 +32,8 @@ public final class PostDecompileTransforms {
         // content = fixAssertionsDisabled(content);
         // content = fixAssertKeywordToExplicit(content);
         content = fixDuplicateInstanceofPatternVars(content);
-        content = fixByteCounterVars(content);
+        // TESTING: VF LVT int pinning
+        // content = fixByteCounterVars(content);
         content = fixBooleanCanonicalization(content);
         content = fixRawCollectionTypes(content);
         content = fixRawgetAsBoolean(content);
@@ -3152,16 +3153,19 @@ public final class PostDecompileTransforms {
                     "import zombie.characters.IsoPlayer;",
                     "import zombie.characters.IsoGameCharacter;\nimport zombie.characters.IsoPlayer;");
         }
-        content = content.replace(
-                "private static void updateCamera(IsoPlayer player) {\n" +
-                "        int byte0 = 0;\n" +
-                "        PlayerCamera playerCamera = IsoCamera.cameras[byte0];\n" +
-                "        float float0 = IsoUtils.XToScreen(player.x",
-                "private static void updateCamera(IsoPlayer player) {\n" +
-                "        IsoGameCharacter gameCharacter0 = player;\n" +
-                "        int byte0 = 0;\n" +
-                "        PlayerCamera playerCamera = IsoCamera.cameras[byte0];\n" +
-                "        float float0 = IsoUtils.XToScreen(gameCharacter0.x");
+        // Match both "byte byte0" (raw VF) and "int byte0" (after fixByteCounterVars)
+        for (String byteType : new String[]{"byte", "int"}) {
+            content = content.replace(
+                    "private static void updateCamera(IsoPlayer player) {\n" +
+                    "        " + byteType + " byte0 = 0;\n" +
+                    "        PlayerCamera playerCamera = IsoCamera.cameras[byte0];\n" +
+                    "        float float0 = IsoUtils.XToScreen(player.x",
+                    "private static void updateCamera(IsoPlayer player) {\n" +
+                    "        IsoGameCharacter gameCharacter0 = player;\n" +
+                    "        " + byteType + " byte0 = 0;\n" +
+                    "        PlayerCamera playerCamera = IsoCamera.cameras[byte0];\n" +
+                    "        float float0 = IsoUtils.XToScreen(gameCharacter0.x");
+        }
         content = content.replace(
                 "player.x + playerCamera.DeferedX, player.y + playerCamera.DeferedY, player.z, 0);\n" +
                 "        float float1 = IsoUtils.YToScreen(player.x + playerCamera.DeferedX, player.y + playerCamera.DeferedY, player.z, 0);",
