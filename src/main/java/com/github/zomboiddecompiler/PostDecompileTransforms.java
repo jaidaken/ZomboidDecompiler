@@ -28,8 +28,9 @@ public final class PostDecompileTransforms {
         }
         // Shared transforms (apply to all versions)
         content = fixInstanceofPatternScope(content);
-        content = fixAssertionsDisabled(content);
-        content = fixAssertKeywordToExplicit(content);
+        // ELIMINATED: VF AssertProcessor RTF bypass + FieldExprent/ClassWriter $->_ rename
+        // content = fixAssertionsDisabled(content);
+        // content = fixAssertKeywordToExplicit(content);
         content = fixDuplicateInstanceofPatternVars(content);
         content = fixByteCounterVars(content);
         content = fixBooleanCanonicalization(content);
