@@ -50,7 +50,8 @@ public final class PostDecompileTransforms {
         content = fixRawLambdaTypeInference(content);
         content = fixStringAssignmentNeedsCast(content);
         content = fixExternalShadowedFieldRefs(content);
-        content = fixUncaughtExceptionInTry(content);
+        // ELIMINATED: Vineflower CatchStatement widens checked exceptions in RTF mode
+        // content = fixUncaughtExceptionInTry(content);
         content = fixRawToArrayCast(content);
         content = fixRawForEachCast(content);
         content = fixRawMethodReturnCast(content);
