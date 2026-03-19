@@ -20,9 +20,12 @@ JUNIT_JAR="$TOOLS_DIR/junit-4.13.2.jar"
 HAMCREST_JAR="$TOOLS_DIR/hamcrest-core-1.3.jar"
 
 # Default to Zulu 17 (build 41 / decompiler toolchain)
+# JAVA_HOME is set so Gradle builds also use the correct JDK
 JAVA_BIN="java"
 JAVAC_BIN="javac"
 if [ -x "$ZULU17_HOME/bin/java" ]; then
+    export JAVA_HOME="$ZULU17_HOME"
+    export PATH="$ZULU17_HOME/bin:$PATH"
     JAVA_BIN="$ZULU17_HOME/bin/java"
     JAVAC_BIN="$ZULU17_HOME/bin/javac"
 fi

@@ -3238,6 +3238,12 @@ public final class PostDecompileTransforms {
     // Original bytecode saves param to var1 as IsoGameCharacter before other computation.
     private static String fixServerGUIUpdateCameraVarSave(String content) {
         if (!content.contains("class ServerGUI ")) return content;
+        // Add import for IsoGameCharacter if not already present
+        if (!content.contains("import zombie.characters.IsoGameCharacter;")) {
+            content = content.replace(
+                    "import zombie.characters.IsoPlayer;",
+                    "import zombie.characters.IsoGameCharacter;\nimport zombie.characters.IsoPlayer;");
+        }
         content = content.replace(
                 "private static void updateCamera(IsoPlayer player) {\n" +
                 "        int byte0 = 0;\n" +
