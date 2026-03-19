@@ -254,63 +254,16 @@ public final class PostDecompileTransforms {
             "(?:public |private |protected )?(?:abstract |final )?class (\\w+)[^{]*\\{"
     );
 
-    private static String fixAssertionsDisabled(String content) {
-        if (!content.contains("$assertionsDisabled")) return content;
-
-        // If the field is already declared by the decompiler, rename it to avoid
-        // conflict with the compiler-synthesized $assertionsDisabled in Java 21+
-        if (content.contains("static final boolean $assertionsDisabled")) {
-            content = content.replace("$assertionsDisabled", "_assertionsDisabled");
-            return content;
-        }
-
-        // Otherwise, add the field declaration (and rename to avoid conflicts)
-        Matcher m = CLASS_PATTERN.matcher(content);
-        if (!m.find()) return content;
-
-        String className = m.group(1);
-        int insertPos = m.end();
-        String field = "\n   static final boolean _assertionsDisabled = !" +
-                className + ".class.desiredAssertionStatus();\n";
-        content = content.substring(0, insertPos) + field + content.substring(insertPos);
-        content = content.replace("$assertionsDisabled", "_assertionsDisabled");
-        return content;
-    }
+    // fixAssertionsDisabled — MOVED TO PostDecompileTransformsArchive.java
+    // Eliminated by VF AssertProcessor RTF bypass + FieldExprent/ClassWriter $->_ rename
 
     // ========================================================================
     // Fix 2b: Convert assert keyword to explicit _assertionsDisabled checks
     // ========================================================================
     // When a file has both an explicit _assertionsDisabled field AND assert
     // keywords, javac synthesizes a SECOND $assertionsDisabled field for the
-    // assert statements. This causes duplicate initialization in <clinit>.
-    // Fix: convert "assert X;" to explicit "if (!_assertionsDisabled && !(X))
-    // { throw new AssertionError(); }" so javac doesn't synthesize the duplicate.
-
-    private static final Pattern ASSERT_STMT = Pattern.compile(
-            "^(\\s*)assert (.+);\\s*$"
-    );
-
-    private static String fixAssertKeywordToExplicit(String content) {
-        // Only applies to files that have an explicit _assertionsDisabled field
-        // AND assert statements (otherwise no duplication)
-        if (!content.contains("_assertionsDisabled")) return content;
-        if (!content.contains("\nassert ") && !content.contains(" assert ")) return content;
-
-        String[] lines = content.split("\n", -1);
-        boolean modified = false;
-
-        for (int i = 0; i < lines.length; i++) {
-            Matcher m = ASSERT_STMT.matcher(lines[i]);
-            if (m.matches()) {
-                String indent = m.group(1);
-                String condition = m.group(2);
-                lines[i] = indent + "if (!_assertionsDisabled && !(" + condition + ")) { throw new AssertionError(); }";
-                modified = true;
-            }
-        }
-
-        return modified ? String.join("\n", lines) : content;
-    }
+    // fixAssertKeywordToExplicit — MOVED TO PostDecompileTransformsArchive.java
+    // Eliminated by VF AssertProcessor RTF bypass
 
     // ========================================================================
     // Fix 3: Duplicate instanceof pattern variables (self-shadowing)

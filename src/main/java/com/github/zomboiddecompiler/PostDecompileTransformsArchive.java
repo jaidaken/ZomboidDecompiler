@@ -1019,4 +1019,51 @@ public final class PostDecompileTransformsArchive {
         }
         return content;
     }
+
+    // ========================================================================
+    // ELIMINATED: Vineflower AssertProcessor RTF bypass + field rename
+    // ========================================================================
+    // In RTF mode, AssertProcessor is skipped (no assert keyword conversion).
+    // FieldExprent and ClassWriter rename $assertionsDisabled to _assertionsDisabled.
+
+    static String fixAssertionsDisabled(String content) {
+        if (!content.contains("$assertionsDisabled")) return content;
+        if (content.contains("static final boolean $assertionsDisabled")) {
+            content = content.replace("$assertionsDisabled", "_assertionsDisabled");
+            return content;
+        }
+        // Add field declaration + rename
+        java.util.regex.Matcher m = java.util.regex.Pattern.compile(
+                "(?:public |private |protected )?(?:abstract |final )?class (\\w+)[^{]*\\{"
+        ).matcher(content);
+        if (!m.find()) return content;
+        String className = m.group(1);
+        int insertPos = m.end();
+        String field = "\n   static final boolean _assertionsDisabled = !" +
+                className + ".class.desiredAssertionStatus();\n";
+        content = content.substring(0, insertPos) + field + content.substring(insertPos);
+        content = content.replace("$assertionsDisabled", "_assertionsDisabled");
+        return content;
+    }
+
+    private static final java.util.regex.Pattern ASSERT_STMT = java.util.regex.Pattern.compile(
+            "^(\\s*)assert (.+);\\s*$"
+    );
+
+    static String fixAssertKeywordToExplicit(String content) {
+        if (!content.contains("_assertionsDisabled")) return content;
+        if (!content.contains("\nassert ") && !content.contains(" assert ")) return content;
+        String[] lines = content.split("\n", -1);
+        boolean modified = false;
+        for (int i = 0; i < lines.length; i++) {
+            java.util.regex.Matcher m = ASSERT_STMT.matcher(lines[i]);
+            if (m.matches()) {
+                String indent = m.group(1);
+                String condition = m.group(2);
+                lines[i] = indent + "if (!_assertionsDisabled && !(" + condition + ")) { throw new AssertionError(); }";
+                modified = true;
+            }
+        }
+        return modified ? String.join("\n", lines) : content;
+    }
 }
