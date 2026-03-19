@@ -71,13 +71,16 @@ public final class PostDecompileTransforms {
             content = fixIsoFireRandNextFolding(content);
             content = fixUIServerToolboxFloatCast(content);
             content = fixMPStatisticRawsetOverload(content);
-            content = fixClimbStateFloatIncrement(content);
-            content = fixVehicleStorySpawnerAngle(content);
+            // ELIMINATED: Vineflower hasValueOne() fix uses exact float comparison
+            // content = fixClimbStateFloatIncrement(content);
+            // content = fixVehicleStorySpawnerAngle(content);
             content = fixCHMAssertionInitOrder(content);
             content = fixLuaManagerRunLuaInternalVarSave(content);
-            content = fixAddBloodToMapSubtract(content);
+            // ELIMINATED: Vineflower hasValueOne() fix uses exact float comparison
+            // content = fixAddBloodToMapSubtract(content);
             content = fixModelLoaderAnimNameSave(content);
-            content = fixIsoChunkAddCorpsesSubtract(content);
+            // ELIMINATED: Vineflower hasValueOne() fix uses exact float comparison
+            // content = fixIsoChunkAddCorpsesSubtract(content);
             content = fixClimateValuesQualifiedStaticCalls(content);
             content = fixWorldFlaresApplyFlareInline(content);
             content = fixMPStatisticClientFloatArray(content);
