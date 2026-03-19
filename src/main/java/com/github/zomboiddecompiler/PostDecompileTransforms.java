@@ -1524,18 +1524,8 @@ public final class PostDecompileTransforms {
     // Fix 27b: CloneNotSupportedException never thrown — widen to Exception
     // ========================================================================
 
-    private static String fixUncaughtExceptionInTry(String content) {
-        // When decompiler emits catch(CloneNotSupportedException) but the try body
-        // doesn't actually throw it, the compiler errors.
-        // Fix: widen to Exception
-        if (content.contains("catch (CloneNotSupportedException")) {
-            content = content.replace(
-                    "catch (CloneNotSupportedException cloneNotSupportedException)",
-                    "catch (Exception cloneNotSupportedException)"
-            );
-        }
-        return content;
-    }
+    // fixUncaughtExceptionInTry — MOVED TO PostDecompileTransformsArchive.java
+    // Eliminated by Vineflower CatchStatement RTF exception widening
 
     // ========================================================================
     // Fix 28: Raw .toArray() returning Object[] — add typed cast
@@ -2861,30 +2851,8 @@ public final class PostDecompileTransforms {
     // which is `float += 1.0f`. The original constant is 1.1f, not 1.0f.
     // The -= 0.1F cases are correct; only the S and E switch cases are wrong.
 
-    private static String fixClimbStateFloatIncrement(String content) {
-        if (!content.contains("ClimbOverFenceState") && !content.contains("ClimbThroughWindowState")) {
-            return content;
-        }
-        // ClimbOverFenceState: float2++ and float1++ in switch(directions)
-        content = content.replace(
-                "case S:\n                    float2++;\n                    break;",
-                "case S:\n                    float2 += 1.1F;\n                    break;"
-        );
-        content = content.replace(
-                "case E:\n                    float1++;",
-                "case E:\n                    float1 += 1.1F;"
-        );
-        // ClimbThroughWindowState: float5++ and float4++ in switch(directions)
-        content = content.replace(
-                "case S:\n                        float5++;\n                        break;",
-                "case S:\n                        float5 += 1.1F;\n                        break;"
-        );
-        content = content.replace(
-                "case E:\n                        float4++;",
-                "case E:\n                        float4 += 1.1F;"
-        );
-        return content;
-    }
+    // fixClimbStateFloatIncrement — MOVED TO PostDecompileTransformsArchive.java
+    // Eliminated by Vineflower ConstExprent.hasValueOne() exact float comparison
 
     // ========================================================================
     // Fix: UIServerToolbox DialogButton float→int cast
@@ -3020,13 +2988,8 @@ public final class PostDecompileTransforms {
     // Vineflower decompiles `LDC 1.5707964f; FADD; FSTORE` as `++float0`
     // (pre-increment by 1.0f) instead of `float0 += 1.5707964F` (PI/2).
     // This changes vehicle story spawn angles from ~90° offsets to ~57° offsets.
-    private static String fixVehicleStorySpawnerAngle(String content) {
-        if (!content.contains("class RandomizedVehicleStoryBase ")) return content;
-        content = content.replace(
-                "vehicleStorySpawner.spawn(floats[0], floats[1], 0.0F, ++float0, this::spawnElement);",
-                "float0 += 1.5707964F;\n            vehicleStorySpawner.spawn(floats[0], floats[1], 0.0F, float0, this::spawnElement);");
-        return content;
-    }
+    // fixVehicleStorySpawnerAngle — MOVED TO PostDecompileTransformsArchive.java
+    // Eliminated by Vineflower ConstExprent.hasValueOne() exact float comparison
 
     // ── NonBlocking*$CHM: restore assertion init in <clinit> ───
     // The original inner class CHM has its own $assertionsDisabled field initialized
@@ -3102,17 +3065,8 @@ public final class PostDecompileTransforms {
 
     // Fix VirtualZombieManager.AddBloodToMap: original subtracts 1.5f, not 1.0f (--).
     // Original bytecode: fload; ldc 1.5f; fsub; fstore before the method call args.
-    private static String fixAddBloodToMapSubtract(String content) {
-        if (!content.contains("class VirtualZombieManager ")) return content;
-        content = content.replace(
-                "chunk.addBloodSplat(\n" +
-                "                        ((IsoGridSquare)object).getX() + --float0, ((IsoGridSquare)object).getY() + --float1, ((IsoGridSquare)object).getZ(), Rand.Next(12) + 8",
-                "float0 -= 1.5F;\n" +
-                "                    float1 -= 1.5F;\n" +
-                "                    chunk.addBloodSplat(\n" +
-                "                        ((IsoGridSquare)object).getX() + float0, ((IsoGridSquare)object).getY() + float1, ((IsoGridSquare)object).getZ(), Rand.Next(12) + 8");
-        return content;
-    }
+    // fixAddBloodToMapSubtract — MOVED TO PostDecompileTransformsArchive.java
+    // Eliminated by Vineflower ConstExprent.hasValueOne() exact float comparison
 
     // Fix ModelLoader.loadTxt: save animation name before readLine() overwrites string1.
     // Original bytecode saves string1 to var19 before readLine, uses it for AnimationClip ctor.
@@ -3135,19 +3089,8 @@ public final class PostDecompileTransforms {
 
     // Fix IsoChunk.AddCorpses: original subtracts 1.5f, not 1.0f (--).
     // Same pattern as AddBloodToMap.
-    private static String fixIsoChunkAddCorpsesSubtract(String content) {
-        if (!content.contains("class IsoChunk ")) return content;
-        content = content.replace(
-                "this.addBloodSplat(\n" +
-                "                                ((IsoGridSquare)object).getX() + --float1,\n" +
-                "                                ((IsoGridSquare)object).getY() + --float2,",
-                "float1 -= 1.5F;\n" +
-                "                            float2 -= 1.5F;\n" +
-                "                            this.addBloodSplat(\n" +
-                "                                ((IsoGridSquare)object).getX() + float1,\n" +
-                "                                ((IsoGridSquare)object).getY() + float2,");
-        return content;
-    }
+    // fixIsoChunkAddCorpsesSubtract — MOVED TO PostDecompileTransformsArchive.java
+    // Eliminated by Vineflower ConstExprent.hasValueOne() exact float comparison
 
 
     // Fix ClimateValues.updateValues: use compound assignment (+=) and

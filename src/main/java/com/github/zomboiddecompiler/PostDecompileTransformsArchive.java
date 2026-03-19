@@ -7,9 +7,10 @@ import java.util.regex.Pattern;
 /**
  * Archived post-decompilation transforms that are no longer active.
  *
- * <p><b>Eliminated (10):</b> These transforms were needed to fix bytecode-matching divergences
+ * <p><b>Eliminated (15):</b> These transforms were needed to fix bytecode-matching divergences
  * but have been eliminated by fixes in the Vineflower fork (RTF mode improvements,
- * StackVarsProcessor fixes, etc.). They are preserved here for reference in case of regressions.</p>
+ * hasValueOne float comparison, CatchStatement exception widening, etc.).
+ * They are preserved here for reference in case of regressions.</p>
  *
  * <p><b>Never needed in B41 (8):</b> These transforms were written proactively but never
  * triggered on any B41 class. They may be useful for B42 or future builds.</p>
@@ -937,5 +938,85 @@ public final class PostDecompileTransformsArchive {
             if (s.charAt(i) == c) count++;
         }
         return count;
+    }
+
+    // ========================================================================
+    // ELIMINATED: Vineflower ConstExprent.hasValueOne() exact float comparison
+    // ========================================================================
+    // These 4 transforms fixed cases where Vineflower collapsed x += 1.1f into
+    // x++ because hasValueOne() truncated float to int (1.1f -> intValue() == 1).
+    // Fixed by using floatValue()==1.0f / doubleValue()==1.0 instead of intValue()==1.
+
+    static String fixClimbStateFloatIncrement(String content) {
+        if (!content.contains("ClimbOverFenceState") && !content.contains("ClimbThroughWindowState")) {
+            return content;
+        }
+        content = content.replace(
+                "case S:\n                    float2++;\n                    break;",
+                "case S:\n                    float2 += 1.1F;\n                    break;"
+        );
+        content = content.replace(
+                "case E:\n                    float1++;",
+                "case E:\n                    float1 += 1.1F;"
+        );
+        content = content.replace(
+                "case S:\n                        float5++;\n                        break;",
+                "case S:\n                        float5 += 1.1F;\n                        break;"
+        );
+        content = content.replace(
+                "case E:\n                        float4++;",
+                "case E:\n                        float4 += 1.1F;"
+        );
+        return content;
+    }
+
+    static String fixVehicleStorySpawnerAngle(String content) {
+        if (!content.contains("class RandomizedVehicleStoryBase ")) return content;
+        content = content.replace(
+                "vehicleStorySpawner.spawn(floats[0], floats[1], 0.0F, ++float0, this::spawnElement);",
+                "float0 += 1.5707964F;\n            vehicleStorySpawner.spawn(floats[0], floats[1], 0.0F, float0, this::spawnElement);");
+        return content;
+    }
+
+    static String fixAddBloodToMapSubtract(String content) {
+        if (!content.contains("class VirtualZombieManager ")) return content;
+        content = content.replace(
+                "chunk.addBloodSplat(\n" +
+                "                        ((IsoGridSquare)object).getX() + --float0, ((IsoGridSquare)object).getY() + --float1, ((IsoGridSquare)object).getZ(), Rand.Next(12) + 8",
+                "float0 -= 1.5F;\n" +
+                "                    float1 -= 1.5F;\n" +
+                "                    chunk.addBloodSplat(\n" +
+                "                        ((IsoGridSquare)object).getX() + float0, ((IsoGridSquare)object).getY() + float1, ((IsoGridSquare)object).getZ(), Rand.Next(12) + 8");
+        return content;
+    }
+
+    static String fixIsoChunkAddCorpsesSubtract(String content) {
+        if (!content.contains("class IsoChunk ")) return content;
+        content = content.replace(
+                "this.addBloodSplat(\n" +
+                "                                ((IsoGridSquare)object).getX() + --float1,\n" +
+                "                                ((IsoGridSquare)object).getY() + --float2,",
+                "float1 -= 1.5F;\n" +
+                "                            float2 -= 1.5F;\n" +
+                "                            this.addBloodSplat(\n" +
+                "                                ((IsoGridSquare)object).getX() + float1,\n" +
+                "                                ((IsoGridSquare)object).getY() + float2,");
+        return content;
+    }
+
+    // ========================================================================
+    // ELIMINATED: Vineflower CatchStatement RTF exception widening
+    // ========================================================================
+    // Vineflower now widens CloneNotSupportedException to Exception in RTF mode
+    // when the try body doesn't throw it.
+
+    static String fixUncaughtExceptionInTry(String content) {
+        if (content.contains("catch (CloneNotSupportedException")) {
+            content = content.replace(
+                    "catch (CloneNotSupportedException cloneNotSupportedException)",
+                    "catch (Exception cloneNotSupportedException)"
+            );
+        }
+        return content;
     }
 }
