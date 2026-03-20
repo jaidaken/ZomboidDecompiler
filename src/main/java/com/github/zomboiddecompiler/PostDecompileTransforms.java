@@ -26,6 +26,12 @@ public final class PostDecompileTransforms {
         if (content == null || content.isEmpty()) {
             return content;
         }
+        // Skip all transforms — raw VF RTF output produces ~100% EXACT bytecode match
+        // for the code that compiles. Transforms are disabled while we fix the remaining
+        // 217 compilation errors in Vineflower itself.
+        if (true) {
+            return content;
+        }
         // Shared transforms (apply to all versions)
         
         // ELIMINATED: VF scope-escape check in IfPatternMatchProcessor
