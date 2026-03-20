@@ -40,9 +40,9 @@ def get_color(unit, source_dir=None):
             # Inner classes share the source file of their outer class
             source_name = name.split("$")[0]
             source_file = Path(source_dir) / (source_name + ".java")
-            if source_file.exists():
-                return COLOR_NOT_COMPILED
-        return "#353535"  # no source, genuinely not started
+            if not source_file.exists():
+                return "#353535"  # no source, genuinely not started
+        return COLOR_NOT_COMPILED
 
     pct = unit.get("matched_code_percent", 0)
     if pct is None:
