@@ -378,6 +378,55 @@ run_recompile() {
         done
     fi
 
+    # Fallback: compile remaining failures individually against the game JAR.
+    # Each file resolves ALL deps from the JAR, eliminating cascade entirely.
+    # Only files with genuine decompilation errors fail.
+    if [ "$rc" -ne 0 ]; then
+        local remaining
+        remaining=$(mktemp)
+        while IFS= read -r java_file; do
+            local rel="${java_file#$source_dir/}"
+            local class_file="$output_dir/${rel%.java}.class"
+            [ -f "$class_file" ] || echo "$java_file"
+        done < "$src_list" > "$remaining"
+
+        local remain_count
+        remain_count=$(wc -l < "$remaining")
+
+        if [ "$remain_count" -gt 0 ]; then
+            local jobs
+            jobs=$(nproc 2>/dev/null || echo 4)
+            echo "  Fallback: compiling $remain_count files individually ($jobs parallel)..."
+
+            local fallback_log
+            fallback_log=$(mktemp)
+
+            # Small batches (20 files each) to limit cascade within a batch
+            # while keeping JVM startup overhead reasonable.
+            cat "$remaining" | xargs -P "$jobs" -L 20 \
+                "$JAVAC_BIN" -d "$output_dir" -cp "$cp:$output_dir" \
+                -source "${JAVAC_SOURCE_VERSION:-17}" -target "${JAVAC_TARGET_VERSION:-17}" \
+                -proc:none -nowarn -implicit:none \
+                -Xmaxerrs 99999 -Xmaxwarns 0 \
+                2>"$fallback_log" || true
+
+            local new_compiled
+            new_compiled=$(command find "$output_dir" -name "*.class" 2>/dev/null | wc -l)
+            local recovered=$((new_compiled - compiled))
+            if [ "$recovered" -gt 0 ]; then
+                echo "  Recovered $recovered additional classes ($new_compiled total)"
+                compiled="$new_compiled"
+            fi
+
+            # Merge fallback errors into main log
+            if [ -s "$fallback_log" ]; then
+                cat "$fallback_log" >> "$log_file"
+            fi
+            rm -f "$fallback_log"
+        fi
+        rm -f "$remaining"
+    fi
+
     if [ "$rc" -ne 0 ]; then
         local errors
         errors=$(grep -c "^.*\.java:[0-9]*: error:" "$log_file" 2>/dev/null || echo 0)
