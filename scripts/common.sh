@@ -350,6 +350,8 @@ run_recompile() {
             cp "$new_src" "$src_list"
             rm -f "$new_src"
 
+            local pass_log
+            pass_log=$(mktemp)
             "$JAVAC_BIN" \
                 -d "$output_dir" \
                 -cp "$cp" \
@@ -359,13 +361,17 @@ run_recompile() {
                 -implicit:class \
                 -Xmaxerrs 99999 \
                 -Xmaxwarns 0 \
-                "@$src_list" > "$log_file" 2>&1 &
+                "@$src_list" > "$pass_log" 2>&1 &
             javac_pid=$!
 
             spinner "$javac_pid" "Compiling (pass $((pass + 1)))"
 
             rc=0
             wait "$javac_pid" || rc=$?
+
+            # Append pass errors to main log (don't overwrite pass 1 errors)
+            cat "$pass_log" >> "$log_file"
+            rm -f "$pass_log"
 
             compiled=$(command find "$output_dir" -name "*.class" 2>/dev/null | wc -l)
 
@@ -427,13 +433,32 @@ run_recompile() {
         rm -f "$remaining"
     fi
 
-    if [ "$rc" -ne 0 ]; then
-        local errors
-        errors=$(grep -c "^.*\.java:[0-9]*: error:" "$log_file" 2>/dev/null || echo 0)
-        echo "  Compilation finished with errors ($errors errors, $compiled classes produced)"
-        echo "  Error log: $log_file"
+    # Count errors from the log (covers all passes)
+    local errors
+    errors=$(grep -c "^.*\.java:[0-9]*: error:" "$log_file" 2>/dev/null || echo 0)
+    local error_files
+    error_files=$(grep "^.*\.java:[0-9]*: error:" "$log_file" 2>/dev/null \
+        | sed 's/:[0-9]*: error:.*//' | sort -u | wc -l)
+    local source_count
+    source_count=$(wc -l < "$src_list")
+
+    echo ""
+    echo "  ========================================"
+    echo "  Compilation Summary"
+    echo "  ========================================"
+    echo "  Source files:  $source_count"
+    echo "  Classes built: $compiled"
+    echo "  Errors:        $errors (in $error_files files)"
+    if [ "$errors" -gt 0 ]; then
+        echo "  Error log:     $log_file"
+        echo ""
+        echo "  Error breakdown:"
+        grep "^.*\.java:[0-9]*: error:" "$log_file" 2>/dev/null \
+            | sed 's/.*: error: //' | sort | uniq -c | sort -rn | head -10 \
+            | while IFS= read -r line; do echo "    $line"; done
+        echo "  ========================================"
     else
-        echo "  Compiled successfully ($compiled classes)"
+        echo "  ========================================"
         rm -f "$log_file"
     fi
 
@@ -508,6 +533,35 @@ for tier in order:
     if count > 0:
         pct = 100.0 * count / total
         print(f'    {count:6,d}  {pct:5.1f}%  {tier:20s}  ({safety.get(tier, \"\")})')
+" 2>/dev/null || true
+
+        # Generate compact summary JSON
+        local summary_path="${report_path%.json}_summary.json"
+        "$VENV_PYTHON" -c "
+import json
+from collections import Counter
+with open('$report_path') as f:
+    data = json.load(f)
+m = data['measures']
+total = m['total_methods']
+tiers = Counter()
+for u in data['units']:
+    for method in u.get('methods', []):
+        tiers[method.get('matchTier', 'EXACT')] += 1
+tiers['EXACT'] = tiers.get('EXACT', 0) + (total - sum(tiers.values()))
+total_insns = m.get('total_instructions', 0)
+matched_insns = m.get('matched_instructions', 0)
+pct = 100.0 * matched_insns / total_insns if total_insns > 0 else 0
+summary = {
+    'instructions': {'matched': matched_insns, 'total': total_insns, 'percent': round(pct, 2)},
+    'methods': {'matched': total - tiers.get('NONE', 0), 'total': total,
+                'percent': round(100.0 * (total - tiers.get('NONE', 0)) / total, 2) if total > 0 else 0},
+    'tiers': {tier: tiers.get(tier, 0) for tier in ['EXACT','STRUCTURAL','SORTED_MULTISET','FUZZY_COMPUTATION','CORE_OPS_ONLY','NONE']},
+    'exact_percent': round(100.0 * tiers.get('EXACT', 0) / total, 2) if total > 0 else 0,
+}
+with open('$summary_path', 'w') as f:
+    json.dump(summary, f, indent=2)
+print(f'  Summary: $summary_path')
 " 2>/dev/null || true
     fi
 }
