@@ -2,21 +2,21 @@
   "measures": {
     "total_classes": 2978,
     "total_instructions": 1180433,
-    "matched_code_percent": 79.18916194311748,
+    "matched_code_percent": 79.18170705156497,
     "match_tiers": {
-      "FUZZY_COMPUTATION": 270,
+      "FUZZY_COMPUTATION": 265,
       "CORE_OPS_ONLY": 83,
-      "EXACT": 29834,
-      "SORTED_MULTISET": 1081,
+      "EXACT": 29860,
+      "SORTED_MULTISET": 1091,
       "STRUCTURAL_NO_TRYCATCH": 3,
-      "NONE": 726,
-      "STRUCTURAL": 1076
+      "NONE": 727,
+      "STRUCTURAL": 1044
     },
     "total_methods": 33080,
-    "matched_function_percent": 97.78415961305924,
-    "matched_instructions": 934775,
+    "matched_function_percent": 97.78113663845224,
+    "matched_instructions": 934687,
     "matched_classes": 2673,
-    "matched_methods": 32347
+    "matched_methods": 32346
   },
   "units": [
     {
@@ -644,27 +644,11 @@
       "matched_code_percent": 88.61047835990888,
       "methods": [
         {
-          "name": "initClipEvents",
-          "recompInsnCount": 56,
-          "descriptor": "(Lzombie/audio/GameSound;)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 56,
-          "status": "MATCH"
-        },
-        {
           "name": "loadNonBankSounds",
           "recompInsnCount": 24,
           "descriptor": "()V",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 24,
-          "status": "MATCH"
-        },
-        {
-          "name": "loadINI",
-          "recompInsnCount": 36,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 36,
           "status": "MATCH"
         },
         {
@@ -1316,14 +1300,6 @@
     {
       "total_instructions": 63,
       "matched_code_percent": 90.47619047619048,
-      "methods": [{
-        "name": "checkObject",
-        "recompInsnCount": 31,
-        "descriptor": "(Lzombie/iso/IsoObject;)V",
-        "matchTier": "STRUCTURAL",
-        "origInsnCount": 31,
-        "status": "MATCH"
-      }],
       "name": "zombie/LoadGridsquarePerformanceWorkaround$ItemPicker",
       "total_methods": 6,
       "matched_instructions": 57,
@@ -2273,7 +2249,7 @@
           "name": "removeChunkFromWorld",
           "recompInsnCount": 3,
           "descriptor": "(Lzombie/iso/IsoChunk;)V",
-          "matchTier": "STRUCTURAL",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 4,
           "status": "MATCH"
         },
@@ -2289,9 +2265,9 @@
           "recompContext": [
             "#27   LDC 5L",
             "#28   INVOKESTATIC java/lang/Thread.sleep(J)V",
-            "#29   GOTO L4",
+            "#29   GOTO L5",
             "#30   ASTORE v1",
-            "#31   GOTO L4",
+            "#31   GOTO L5",
             "#32   RETURN"
           ],
           "origContext": [
@@ -2857,14 +2833,6 @@
     {
       "total_instructions": 131,
       "matched_code_percent": 92.36641221374046,
-      "methods": [{
-        "name": "fromTable",
-        "recompInsnCount": 21,
-        "descriptor": "(Lse/krka/kahlua/vm/KahluaTable;)V",
-        "matchTier": "FUZZY_COMPUTATION",
-        "origInsnCount": 22,
-        "status": "MATCH"
-      }],
       "name": "zombie/SandboxOptions$BooleanSandboxOption",
       "total_methods": 13,
       "matched_instructions": 121,
@@ -2874,24 +2842,14 @@
     {
       "total_instructions": 195,
       "matched_code_percent": 94.87179487179488,
-      "methods": [
-        {
-          "name": "getTooltip",
-          "recompInsnCount": 75,
-          "descriptor": "()Ljava/lang/String;",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 73,
-          "status": "MATCH"
-        },
-        {
-          "name": "fromTable",
-          "recompInsnCount": 21,
-          "descriptor": "(Lse/krka/kahlua/vm/KahluaTable;)V",
-          "matchTier": "FUZZY_COMPUTATION",
-          "origInsnCount": 22,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "name": "getTooltip",
+        "recompInsnCount": 75,
+        "descriptor": "()Ljava/lang/String;",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 73,
+        "status": "MATCH"
+      }],
       "name": "zombie/SandboxOptions$DoubleSandboxOption",
       "total_methods": 13,
       "matched_instructions": 185,
@@ -2902,14 +2860,6 @@
       "total_instructions": 211,
       "matched_code_percent": 94.31279620853081,
       "methods": [
-        {
-          "name": "fromTable",
-          "recompInsnCount": 21,
-          "descriptor": "(Lse/krka/kahlua/vm/KahluaTable;)V",
-          "matchTier": "FUZZY_COMPUTATION",
-          "origInsnCount": 22,
-          "status": "MATCH"
-        },
         {
           "name": "getValueTranslationByIndex",
           "recompInsnCount": 17,
@@ -2936,24 +2886,14 @@
     {
       "total_instructions": 174,
       "matched_code_percent": 94.25287356321839,
-      "methods": [
-        {
-          "name": "getTooltip",
-          "recompInsnCount": 54,
-          "descriptor": "()Ljava/lang/String;",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 52,
-          "status": "MATCH"
-        },
-        {
-          "name": "fromTable",
-          "recompInsnCount": 21,
-          "descriptor": "(Lse/krka/kahlua/vm/KahluaTable;)V",
-          "matchTier": "FUZZY_COMPUTATION",
-          "origInsnCount": 22,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "name": "getTooltip",
+        "recompInsnCount": 54,
+        "descriptor": "()Ljava/lang/String;",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 52,
+        "status": "MATCH"
+      }],
       "name": "zombie/SandboxOptions$IntegerSandboxOption",
       "total_methods": 13,
       "matched_instructions": 164,
@@ -2981,14 +2921,6 @@
     {
       "total_instructions": 132,
       "matched_code_percent": 92.42424242424242,
-      "methods": [{
-        "name": "fromTable",
-        "recompInsnCount": 21,
-        "descriptor": "(Lse/krka/kahlua/vm/KahluaTable;)V",
-        "matchTier": "FUZZY_COMPUTATION",
-        "origInsnCount": 22,
-        "status": "MATCH"
-      }],
       "name": "zombie/SandboxOptions$StringSandboxOption",
       "total_methods": 13,
       "matched_instructions": 122,
@@ -3030,7 +2962,7 @@
           "name": "initSharedDescriptors",
           "recompInsnCount": 2,
           "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 3,
           "status": "MATCH"
         },
@@ -3115,7 +3047,7 @@
           "name": "setMusicVolume",
           "recompInsnCount": 6,
           "descriptor": "(F)V",
-          "matchTier": "STRUCTURAL",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 7,
           "status": "MATCH"
         }
@@ -3412,14 +3344,6 @@
           "descriptor": "(III)F",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 60,
-          "status": "MATCH"
-        },
-        {
-          "name": "render",
-          "recompInsnCount": 304,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 304,
           "status": "MATCH"
         }
       ],
@@ -3845,9 +3769,9 @@
         },
         {
           "name": "update",
-          "recompInsnCount": 377,
+          "recompInsnCount": 378,
           "descriptor": "(Lzombie/characters/IsoZombie;)V",
-          "matchTier": "STRUCTURAL",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 378,
           "status": "MATCH"
         },
@@ -4028,7 +3952,7 @@
           "name": "updateSnow",
           "recompInsnCount": 7,
           "descriptor": "(Lzombie/characters/IsoPlayer;)V",
-          "matchTier": "STRUCTURAL",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 8,
           "status": "MATCH"
         },
@@ -4153,7 +4077,7 @@
         },
         {
           "name": "triggerPlayerReaction",
-          "recompInsnCount": 188,
+          "recompInsnCount": 189,
           "descriptor": "(Ljava/lang/String;Lzombie/characters/IsoGameCharacter;)V",
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 186,
@@ -7489,7 +7413,7 @@
         {
           "recompContext": [
             "#19   ICONST_2",
-            "#20   IF_ICMPNE L2",
+            "#20   IF_ICMPNE L3",
             "#21   ALOAD v0",
             "#22   ICONST_1",
             "#23   INVOKEVIRTUAL zombie/characters/BodyDamage/BodyDamage.setSneezeCoughActive(I)V",
@@ -7553,40 +7477,40 @@
         },
         {
           "recompContext": [
-            "#21   INSTANCEOF zombie/characters/IsoPlayer",
-            "#22   IFEQ L1",
-            "#23   ALOAD v1",
-            "#24   INVOKEVIRTUAL zombie/characters/BodyDamage/BodyDamage.getParentChar()Lzombie/characters/IsoGameCharacter;",
-            "#25   INVOKEVIRTUAL zombie/characters/IsoPlayer.isLocalPlayer()Z",
-            "#26   IFEQ L6",
-            "#27   ICONST_0",
-            "#28   ISTORE v3",
-            "#29   ICONST_1",
-            "#30   ISTORE v4",
-            "#31   ICONST_1"
+            "#58   ISTORE v10",
+            "#59   ALOAD v0",
+            "#60   INVOKEVIRTUAL zombie/inventory/types/HandWeapon.getCategories()Ljava/util/ArrayList;",
+            "#61   LDC \"Blunt\"",
+            "#62   INVOKEVIRTUAL java/util/ArrayList.contains(Ljava/lang/Object;)Z",
+            "#63   IFEQ L4",
+            "#64   ICONST_0",
+            "#65   ISTORE v10",
+            "#66   ICONST_0",
+            "#67   ISTORE v4",
+            "#68   ICONST_1"
           ],
           "origContext": [
-            "#21   INSTANCEOF zombie/characters/IsoPlayer",
-            "#22   IFEQ L2",
-            "#23   ALOAD v1",
-            "#24   INVOKEVIRTUAL zombie/characters/BodyDamage/BodyDamage.getParentChar()Lzombie/characters/IsoGameCharacter;",
-            "#25   INVOKEVIRTUAL zombie/characters/IsoPlayer.isLocalPlayer()Z",
-            "#26   IFEQ L2",
-            "#27   ICONST_0",
-            "#28   ISTORE v3",
-            "#29   ICONST_1",
-            "#30   ISTORE v4",
-            "#31   ICONST_1"
+            "#58   ISTORE v10",
+            "#59   ALOAD v0",
+            "#60   INVOKEVIRTUAL zombie/inventory/types/HandWeapon.getCategories()Ljava/util/ArrayList;",
+            "#61   LDC \"Blunt\"",
+            "#62   INVOKEVIRTUAL java/util/ArrayList.contains(Ljava/lang/Object;)Z",
+            "#63   IFNE L4",
+            "#64   ALOAD v0",
+            "#65   INVOKEVIRTUAL zombie/inventory/types/HandWeapon.getCategories()Ljava/util/ArrayList;",
+            "#66   LDC \"SmallBlunt\"",
+            "#67   INVOKEVIRTUAL java/util/ArrayList.contains(Ljava/lang/Object;)Z",
+            "#68   IFEQ L5"
           ],
           "name": "DamageFromWeapon",
           "recompInsnCount": 118,
           "descriptor": "(Lzombie/inventory/types/HandWeapon;)V",
-          "firstDiffIndex": 26,
+          "firstDiffIndex": 63,
           "category": "INSN_COUNT_DIFF",
           "matchTier": "NONE",
           "origInsnCount": 302,
           "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #26"
+          "diffDescription": "Instructions differ at #63"
         },
         {
           "recompContext": [
@@ -7627,77 +7551,77 @@
         },
         {
           "recompContext": [
-            "#6    INSTANCEOF zombie/characters/IsoPlayer",
-            "#7    IFEQ L0",
-            "#8    ALOAD v0",
-            "#9    INVOKEVIRTUAL zombie/characters/BodyDamage/BodyDamage.getParentChar()Lzombie/characters/IsoGameCharacter;",
-            "#10   GETFIELD zombie/characters/IsoPlayer.Asleep:Z",
-            "#11   IFNE L9",
-            "#12   ALOAD v0",
-            "#13   INVOKEVIRTUAL zombie/characters/BodyDamage/BodyDamage.getParentChar()Lzombie/characters/IsoGameCharacter;",
-            "#14   INVOKEVIRTUAL zombie/characters/IsoGameCharacter.getCurrentSquare()Lzombie/iso/IsoGridSquare;",
-            "#15   INVOKEVIRTUAL zombie/iso/IsoGridSquare.isInARoom()Z",
-            "#16   IFEQ L3"
+            "#63   F2D",
+            "#64   DMUL",
+            "#65   DSUB",
+            "#66   D2F",
+            "#67   INVOKEVIRTUAL zombie/characters/BodyDamage/BodyDamage.setBoredomLevel(F)V",
+            "#68   GOTO L9",
+            "#69   ALOAD v0",
+            "#70   INVOKEVIRTUAL zombie/characters/BodyDamage/BodyDamage.getParentChar()Lzombie/characters/IsoGameCharacter;",
+            "#71   INVOKEVIRTUAL zombie/characters/IsoGameCharacter.getVehicle()Lzombie/vehicles/BaseVehicle;",
+            "#72   IFNULL L8",
+            "#73   ALOAD v0"
           ],
           "origContext": [
-            "#6    INSTANCEOF zombie/characters/IsoPlayer",
-            "#7    IFEQ L1",
-            "#8    ALOAD v0",
-            "#9    INVOKEVIRTUAL zombie/characters/BodyDamage/BodyDamage.getParentChar()Lzombie/characters/IsoGameCharacter;",
-            "#10   GETFIELD zombie/characters/IsoPlayer.Asleep:Z",
-            "#11   IFNE L1",
-            "#12   ALOAD v0",
-            "#13   INVOKEVIRTUAL zombie/characters/BodyDamage/BodyDamage.getParentChar()Lzombie/characters/IsoGameCharacter;",
-            "#14   INVOKEVIRTUAL zombie/characters/IsoGameCharacter.getCurrentSquare()Lzombie/iso/IsoGridSquare;",
-            "#15   INVOKEVIRTUAL zombie/iso/IsoGridSquare.isInARoom()Z",
-            "#16   IFEQ L5"
+            "#63   F2D",
+            "#64   DMUL",
+            "#65   DSUB",
+            "#66   D2F",
+            "#67   INVOKEVIRTUAL zombie/characters/BodyDamage/BodyDamage.setBoredomLevel(F)V",
+            "#68   ALOAD v0",
+            "#69   INVOKEVIRTUAL zombie/characters/BodyDamage/BodyDamage.getParentChar()Lzombie/characters/IsoGameCharacter;",
+            "#70   INVOKEVIRTUAL zombie/characters/IsoGameCharacter.getNumSurvivorsInVicinity()I",
+            "#71   IFLE L10",
+            "#72   ALOAD v0",
+            "#73   ALOAD v0"
           ],
           "name": "UpdateBoredom",
           "recompInsnCount": 164,
           "descriptor": "()V",
-          "firstDiffIndex": 11,
+          "firstDiffIndex": 68,
           "category": "INSN_COUNT_DIFF",
           "matchTier": "NONE",
           "origInsnCount": 343,
           "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #11"
+          "diffDescription": "Instructions differ at #68"
         },
         {
           "recompContext": [
-            "#54   ALOAD v0",
-            "#55   INVOKEVIRTUAL zombie/characters/BodyDamage/BodyDamage.RestoreToFullHealth()V",
-            "#56   ALOAD v0",
-            "#57   INVOKEVIRTUAL zombie/characters/BodyDamage/BodyDamage.getParentChar()Lzombie/characters/IsoGameCharacter;",
-            "#58   GETFIELD zombie/characters/IsoPlayer.bleedingLevel:B",
-            "#59   IFLE L4",
-            "#60   FCONST_1",
-            "#61   ILOAD v1",
-            "#62   I2F",
-            "#63   FDIV",
-            "#64   LDC 200.0f"
+            "#344  ICONST_1",
+            "#345  INVOKEVIRTUAL zombie/characters/BodyDamage/BodyDamage.setReduceFakeInfection(Z)V",
+            "#346  ALOAD v0",
+            "#347  GETFIELD zombie/characters/BodyDamage/BodyDamage.ParentChar:Lzombie/characters/IsoGameCharacter;",
+            "#348  INVOKEVIRTUAL zombie/characters/IsoGameCharacter.getStats()Lzombie/characters/Stats;",
+            "#349  ALOAD v3",
+            "#350  GETFIELD zombie/characters/Stats.Drunkenness:F",
+            "#351  ALOAD v0",
+            "#352  INVOKEVIRTUAL zombie/characters/BodyDamage/BodyDamage.getDrunkReductionValue()F",
+            "#353  GETSTATIC zombie/GameTime.instance:Lzombie/GameTime;",
+            "#354  INVOKEVIRTUAL zombie/GameTime.getMultiplier()F"
           ],
           "origContext": [
-            "#54   ALOAD v0",
-            "#55   INVOKEVIRTUAL zombie/characters/BodyDamage/BodyDamage.RestoreToFullHealth()V",
-            "#56   ALOAD v0",
-            "#57   INVOKEVIRTUAL zombie/characters/BodyDamage/BodyDamage.getParentChar()Lzombie/characters/IsoGameCharacter;",
-            "#58   GETFIELD zombie/characters/IsoPlayer.bleedingLevel:B",
-            "#59   IFLE L5",
-            "#60   FCONST_1",
-            "#61   ILOAD v1",
-            "#62   I2F",
-            "#63   FDIV",
-            "#64   LDC 200.0f"
+            "#344  ICONST_1",
+            "#345  INVOKEVIRTUAL zombie/characters/BodyDamage/BodyDamage.setReduceFakeInfection(Z)V",
+            "#346  ALOAD v0",
+            "#347  GETFIELD zombie/characters/BodyDamage/BodyDamage.ParentChar:Lzombie/characters/IsoGameCharacter;",
+            "#348  INVOKEVIRTUAL zombie/characters/IsoGameCharacter.getStats()Lzombie/characters/Stats;",
+            "#349  ALOAD v4",
+            "#350  GETFIELD zombie/characters/Stats.Drunkenness:F",
+            "#351  ALOAD v0",
+            "#352  INVOKEVIRTUAL zombie/characters/BodyDamage/BodyDamage.getDrunkReductionValue()F",
+            "#353  GETSTATIC zombie/GameTime.instance:Lzombie/GameTime;",
+            "#354  INVOKEVIRTUAL zombie/GameTime.getMultiplier()F"
           ],
           "name": "Update",
           "recompInsnCount": 550,
           "descriptor": "()V",
-          "firstDiffIndex": 59,
+          "firstDiffIndex": 349,
           "category": "INSN_COUNT_DIFF",
           "matchTier": "NONE",
           "origInsnCount": 1289,
           "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #59"
+          "diffDescription": "Instructions differ at #349"
         },
         {
           "name": "getSicknessFromCorpsesRate",
@@ -7977,14 +7901,6 @@
           "status": "MATCH"
         },
         {
-          "name": "initRegularityMapProfession",
-          "recompInsnCount": 78,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 78,
-          "status": "MATCH"
-        },
-        {
           "name": "<clinit>",
           "recompInsnCount": 0,
           "descriptor": "()V",
@@ -8021,14 +7937,6 @@
       "total_instructions": 1010,
       "matched_code_percent": 76.33663366336634,
       "methods": [
-        {
-          "name": "update",
-          "recompInsnCount": 72,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 72,
-          "status": "MATCH"
-        },
         {
           "recompContext": [
             "#13   FSTORE v0",
@@ -8738,14 +8646,6 @@
     {
       "total_instructions": 611,
       "matched_code_percent": 90.99836333878888,
-      "methods": [{
-        "name": "init",
-        "recompInsnCount": 91,
-        "descriptor": "()V",
-        "matchTier": "STRUCTURAL",
-        "origInsnCount": 91,
-        "status": "MATCH"
-      }],
       "name": "zombie/characters/HairOutfitDefinitions",
       "total_methods": 10,
       "matched_instructions": 556,
@@ -9262,49 +9162,41 @@
           "status": "MATCH"
         },
         {
-          "name": "ReduceHealthWhenBurning",
-          "recompInsnCount": 122,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 122,
-          "status": "MATCH"
-        },
-        {
           "recompContext": [
-            "#5    IFEQ L0",
-            "#6    ALOAD v0",
-            "#7    INVOKEVIRTUAL zombie/characters/IsoGameCharacter.getVehicle()Lzombie/vehicles/BaseVehicle;",
-            "#8    ALOAD v0",
-            "#9    INVOKEVIRTUAL zombie/vehicles/BaseVehicle.showPassenger(Lzombie/characters/IsoGameCharacter;)Z",
-            "#10   IFEQ L6",
-            "#11   ALOAD v0",
-            "#12   INVOKEVIRTUAL zombie/characters/IsoGameCharacter.isSpriteInvisible()Z",
-            "#13   IFNE L6",
-            "#14   ALOAD v0",
-            "#15   INVOKEVIRTUAL zombie/characters/IsoGameCharacter.isAlphaZero()Z"
+            "#104  INVOKEVIRTUAL zombie/characters/IsoGameCharacter.hasActiveModel()Z",
+            "#105  IFEQ L9",
+            "#106  ALOAD v0",
+            "#107  INVOKEVIRTUAL zombie/characters/IsoGameCharacter.getCurrentState()Lzombie/ai/State;",
+            "#108  INVOKESTATIC zombie/ai/states/PathFindState.instance()Lzombie/vehicles/PathFindState2;",
+            "#109  IF_ACMPNE L8",
+            "#110  ALOAD v0",
+            "#111  GETFIELD zombie/characters/IsoGameCharacter.finder:Lzombie/ai/astar/AStarPathFinderResult;",
+            "#112  GETFIELD zombie/ai/astar/AStarPathFinderResult.progress:Lzombie/ai/astar/AStarPathFinder$PathFindProgress;",
+            "#113  GETSTATIC zombie/ai/astar/AStarPathFinder$PathFindProgress.notyetfound:Lzombie/ai/astar/AStarPathFinder$PathFindProgress;",
+            "#114  IF_ACMPNE L8"
           ],
           "origContext": [
-            "#5    IFEQ L1",
-            "#6    ALOAD v0",
-            "#7    INVOKEVIRTUAL zombie/characters/IsoGameCharacter.getVehicle()Lzombie/vehicles/BaseVehicle;",
-            "#8    ALOAD v0",
-            "#9    INVOKEVIRTUAL zombie/vehicles/BaseVehicle.showPassenger(Lzombie/characters/IsoGameCharacter;)Z",
-            "#10   IFEQ L1",
-            "#11   ALOAD v0",
-            "#12   INVOKEVIRTUAL zombie/characters/IsoGameCharacter.isSpriteInvisible()Z",
-            "#13   IFNE L2",
-            "#14   ALOAD v0",
-            "#15   INVOKEVIRTUAL zombie/characters/IsoGameCharacter.isAlphaZero()Z"
+            "#104  INVOKEVIRTUAL zombie/characters/IsoGameCharacter.hasActiveModel()Z",
+            "#105  IFEQ L9",
+            "#106  ALOAD v0",
+            "#107  INVOKEVIRTUAL zombie/characters/IsoGameCharacter.getCurrentState()Lzombie/ai/State;",
+            "#108  INVOKESTATIC zombie/ai/states/PathFindState.instance()Lzombie/vehicles/PathFindState2;",
+            "#109  IF_ACMPEQ L8",
+            "#110  ALOAD v0",
+            "#111  GETFIELD zombie/characters/IsoGameCharacter.legsSprite:Lzombie/iso/sprite/IsoSprite;",
+            "#112  GETFIELD zombie/iso/sprite/IsoSprite.modelSlot:Lzombie/core/skinnedmodel/ModelManager$ModelSlot;",
+            "#113  GETFIELD zombie/core/skinnedmodel/ModelManager$ModelSlot.model:Lzombie/core/skinnedmodel/model/ModelInstance;",
+            "#114  FCONST_1"
           ],
           "name": "render",
           "recompInsnCount": 153,
           "descriptor": "(FFFLzombie/core/textures/ColorInfo;ZZLzombie/core/opengl/Shader;)V",
-          "firstDiffIndex": 10,
+          "firstDiffIndex": 109,
           "category": "INSN_COUNT_DIFF",
           "matchTier": "NONE",
           "origInsnCount": 335,
           "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #10"
+          "diffDescription": "Instructions differ at #109"
         },
         {
           "name": "closestpointonline",
@@ -9459,57 +9351,64 @@
         },
         {
           "recompContext": [
-            "#40   ALOAD v0",
-            "#41   GETFIELD zombie/characters/IsoGameCharacter.current:Lzombie/iso/IsoGridSquare;",
-            "#42   INVOKEVIRTUAL zombie/iso/IsoGridSquare.getMovingObjects()Ljava/util/ArrayList;",
-            "#43   ALOAD v0",
-            "#44   INVOKEVIRTUAL java/util/ArrayList.contains(Ljava/lang/Object;)Z",
-            "#45   IFEQ L50",
-            "#46   GETSTATIC zombie/network/GameClient.bClient:Z",
-            "#47   IFNE L5",
-            "#48   ALOAD v0",
-            "#49   GETFIELD zombie/characters/IsoGameCharacter.m_invisible:Z",
-            "#50   IFNE L5"
+            "#186  IFEQ L16",
+            "#187  GETSTATIC zombie/network/GameClient.bClient:Z",
+            "#188  IFNE L16",
+            "#189  ICONST_0",
+            "#190  ISTORE v2",
+            "#191  ICONST_0",
+            "#192  ISTORE v2",
+            "#193  ALOAD v0",
+            "#194  INSTANCEOF zombie/characters/IsoPlayer",
+            "#195  IFEQ L15",
+            "#196  ALOAD v0"
           ],
           "origContext": [
-            "#40   ALOAD v0",
-            "#41   GETFIELD zombie/characters/IsoGameCharacter.current:Lzombie/iso/IsoGridSquare;",
-            "#42   INVOKEVIRTUAL zombie/iso/IsoGridSquare.getMovingObjects()Ljava/util/ArrayList;",
-            "#43   ALOAD v0",
-            "#44   INVOKEVIRTUAL java/util/ArrayList.contains(Ljava/lang/Object;)Z",
-            "#45   IFEQ L6",
-            "#46   GETSTATIC zombie/network/GameClient.bClient:Z",
-            "#47   IFNE L7",
-            "#48   ALOAD v0",
-            "#49   GETFIELD zombie/characters/IsoGameCharacter.m_invisible:Z",
-            "#50   IFNE L7"
+            "#186  IFEQ L17",
+            "#187  GETSTATIC zombie/network/GameClient.bClient:Z",
+            "#188  IFNE L17",
+            "#189  ICONST_0",
+            "#190  ISTORE v2",
+            "#191  ALOAD v0",
+            "#192  INSTANCEOF zombie/characters/IsoPlayer",
+            "#193  IFEQ L16",
+            "#194  ALOAD v0",
+            "#195  INVOKEVIRTUAL zombie/characters/IsoPlayer.isInvisible()Z",
+            "#196  IFNE L15"
           ],
           "name": "updateInternal",
           "recompInsnCount": 662,
           "descriptor": "()V",
-          "firstDiffIndex": 45,
-          "category": "LABEL_ONLY",
+          "firstDiffIndex": 191,
+          "category": "VARIABLE_COPY_PROPAGATION",
           "matchTier": "NONE",
           "origInsnCount": 975,
           "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #45"
+          "diffDescription": "Instructions differ at #191"
+        },
+        {
+          "name": "updateDirt",
+          "recompInsnCount": 136,
+          "descriptor": "()V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 136,
+          "status": "MATCH"
         },
         {
           "recompContext": [
-            "#3    ALOAD v0",
             "#4    INSTANCEOF zombie/characters/IsoPlayer",
-            "#5    IFEQ L0",
+            "#5    IFEQ L1",
             "#6    ALOAD v0",
             "#7    INVOKEVIRTUAL zombie/characters/IsoPlayer.isLocalPlayer()Z",
-            "#8    IFEQ L3",
+            "#8    IFEQ L1",
             "#9    FCONST_0",
             "#10   FSTORE v1",
             "#11   ALOAD v0",
             "#12   INVOKEVIRTUAL zombie/characters/IsoGameCharacter.getHoursSurvived()D",
-            "#13   D2F"
+            "#13   D2F",
+            "#14   FSTORE v1"
           ],
           "origContext": [
-            "#3    ALOAD v0",
             "#4    INSTANCEOF zombie/characters/IsoPlayer",
             "#5    IFEQ L1",
             "#6    ALOAD v0",
@@ -9519,17 +9418,18 @@
             "#10   INVOKEVIRTUAL zombie/characters/IsoGameCharacter.getHoursSurvived()D",
             "#11   D2F",
             "#12   FSTORE v1",
-            "#13   ALOAD v0"
+            "#13   ALOAD v0",
+            "#14   GETFIELD zombie/characters/IsoGameCharacter.beardGrowTiming:F"
           ],
           "name": "updateBeardAndHair",
           "recompInsnCount": 38,
           "descriptor": "()V",
-          "firstDiffIndex": 8,
+          "firstDiffIndex": 9,
           "category": "INSN_COUNT_DIFF",
           "matchTier": "NONE",
           "origInsnCount": 205,
           "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #8"
+          "diffDescription": "Instructions differ at #9"
         },
         {
           "recompContext": [
@@ -9614,14 +9514,6 @@
           "diffDescription": "Instructions differ at #20"
         },
         {
-          "name": "DoFloorSplat",
-          "recompInsnCount": 175,
-          "descriptor": "(Lzombie/iso/IsoGridSquare;Ljava/lang/String;ZFF)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 175,
-          "status": "MATCH"
-        },
-        {
           "recompContext": [
             "#87   ALOAD v0",
             "#88   INVOKEVIRTUAL zombie/characters/IsoPlayer.IsRunning()Z",
@@ -9699,7 +9591,7 @@
           "name": "checkDrawWeaponPre",
           "recompInsnCount": 39,
           "descriptor": "(FFFLzombie/core/textures/ColorInfo;)V",
-          "matchTier": "STRUCTURAL",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 40,
           "status": "MATCH"
         },
@@ -9720,27 +9612,11 @@
           "status": "MATCH"
         },
         {
-          "name": "dropHandItems",
-          "recompInsnCount": 105,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 105,
-          "status": "MATCH"
-        },
-        {
           "name": "shouldBecomeZombieAfterDeath",
           "recompInsnCount": 39,
           "descriptor": "()Z",
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 45,
-          "status": "MATCH"
-        },
-        {
-          "name": "autoDrink",
-          "recompInsnCount": 43,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 43,
           "status": "MATCH"
         },
         {
@@ -9858,14 +9734,6 @@
           "descriptor": "()Lzombie/vehicles/BaseVehicle;",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 132,
-          "status": "MATCH"
-        },
-        {
-          "name": "dropHeavyItems",
-          "recompInsnCount": 112,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 112,
           "status": "MATCH"
         },
         {
@@ -10507,14 +10375,6 @@
           "status": "MATCH"
         },
         {
-          "name": "updateExt",
-          "recompInsnCount": 54,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 54,
-          "status": "MATCH"
-        },
-        {
           "name": "updateUseKey",
           "recompInsnCount": 68,
           "descriptor": "()Z",
@@ -10524,40 +10384,34 @@
         },
         {
           "recompContext": [
-            "#29   INVOKEVIRTUAL zombie/characters/IsoPlayer.isCurrentState(Lzombie/ai/State;)Z",
-            "#30   IFEQ L2",
-            "#31   GETSTATIC zombie/network/ServerOptions.instance:Lzombie/network/ServerOptions;",
-            "#32   GETFIELD zombie/network/ServerOptions.PVPMeleeWhileHitReaction:Lzombie/network/ServerOptions$BooleanServerOption;",
-            "#33   INVOKEVIRTUAL zombie/network/ServerOptions$BooleanServerOption.getValue()Z",
-            "#34   IFEQ L9",
-            "#35   ALOAD v0",
-            "#36   GETFIELD zombie/characters/IsoPlayer.primaryHandModel:Lzombie/core/skinnedmodel/model/ModelInstance;",
-            "#37   IFNULL L3",
-            "#38   ALOAD v0",
-            "#39   GETFIELD zombie/characters/IsoPlayer.primaryHandModel:Lzombie/core/skinnedmodel/model/ModelInstance;"
+            "#131  GETSTATIC zombie/network/GameClient.bClient:Z",
+            "#132  IFEQ L9",
+            "#133  ALOAD v0",
+            "#134  INVOKEVIRTUAL zombie/characters/IsoPlayer.isLocalPlayer()Z",
+            "#135  IFEQ L9"
           ],
           "origContext": [
-            "#29   INVOKEVIRTUAL zombie/characters/IsoPlayer.isCurrentState(Lzombie/ai/State;)Z",
-            "#30   IFEQ L4",
-            "#31   GETSTATIC zombie/network/ServerOptions.instance:Lzombie/network/ServerOptions;",
-            "#32   GETFIELD zombie/network/ServerOptions.PVPMeleeWhileHitReaction:Lzombie/network/ServerOptions$BooleanServerOption;",
-            "#33   INVOKEVIRTUAL zombie/network/ServerOptions$BooleanServerOption.getValue()Z",
-            "#34   IFEQ L4",
-            "#35   ALOAD v0",
-            "#36   GETFIELD zombie/characters/IsoPlayer.primaryHandModel:Lzombie/core/skinnedmodel/model/ModelInstance;",
-            "#37   IFNULL L5",
-            "#38   ALOAD v0",
-            "#39   GETFIELD zombie/characters/IsoPlayer.primaryHandModel:Lzombie/core/skinnedmodel/model/ModelInstance;"
+            "#131  GETSTATIC zombie/network/GameClient.bClient:Z",
+            "#132  IFEQ L11",
+            "#133  ALOAD v0",
+            "#134  INVOKEVIRTUAL zombie/characters/IsoPlayer.isLocalPlayer()Z",
+            "#135  IFEQ L12",
+            "#136  ALOAD v0",
+            "#137  ALOAD v0",
+            "#138  INVOKEVIRTUAL zombie/characters/IsoPlayer.calculateCombatSpeed()F",
+            "#139  PUTFIELD zombie/characters/IsoPlayer.combatSpeed:F",
+            "#140  ILOAD v4",
+            "#141  IFEQ L13"
           ],
           "name": "pressedAttack",
           "recompInsnCount": 136,
           "descriptor": "(Z)V",
-          "firstDiffIndex": 34,
+          "firstDiffIndex": 136,
           "category": "INSN_COUNT_DIFF",
           "matchTier": "NONE",
           "origInsnCount": 636,
           "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #34"
+          "diffDescription": "Instructions differ at #136"
         },
         {
           "recompContext": [
@@ -10613,17 +10467,25 @@
           "status": "MATCH"
         },
         {
+          "name": "updateToggleToAim",
+          "recompInsnCount": 75,
+          "descriptor": "()V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 75,
+          "status": "MATCH"
+        },
+        {
           "recompContext": [
             "#121  GETSTATIC zombie/characters/IsoPlayer.tempVector2:Lzombie/iso/Vector2;",
             "#122  INVOKEVIRTUAL zombie/characters/IsoPlayer.getJoypadAimVector(Lzombie/iso/Vector2;)Lzombie/iso/Vector2;",
             "#123  GETFIELD zombie/iso/Vector2.x:F",
             "#124  FCONST_0",
             "#125  FCMPL",
-            "#126  IFEQ L13",
+            "#126  IFEQ L14",
             "#127  ALOAD v0",
             "#128  ICONST_1",
             "#129  PUTFIELD zombie/characters/IsoPlayer$InputState.isAiming:Z",
-            "#130  GOTO L14",
+            "#130  GOTO L15",
             "#131  ALOAD v2"
           ],
           "origContext": [
@@ -10851,14 +10713,14 @@
         {
           "recompContext": [
             "#133  INVOKEVIRTUAL zombie/characters/IsoGameCharacter.setAlphaAndTarget(IF)V",
-            "#134  GOTO L9",
+            "#134  GOTO L10",
             "#135  ALOAD v0",
             "#136  INVOKEVIRTUAL zombie/characters/IsoPlayer.getSeeNearbyCharacterDistance()F",
             "#137  FSTORE v19",
             "#138  ICONST_0",
             "#139  ISTORE v20",
             "#140  ILOAD v1",
-            "#141  IFEQ L5",
+            "#141  IFEQ L6",
             "#142  GETSTATIC zombie/network/ServerLOS.instance:Lzombie/network/ServerLOS;",
             "#143  ALOAD v0"
           ],
@@ -10945,14 +10807,6 @@
           "origInsnCount": 755,
           "status": "MISMATCH",
           "diffDescription": "Instructions differ at #89"
-        },
-        {
-          "name": "updateWorldAmbiance",
-          "recompInsnCount": 33,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 33,
-          "status": "MATCH"
         },
         {
           "name": "DoFootstepSound",
@@ -11053,14 +10907,6 @@
           "origInsnCount": 226,
           "status": "MISMATCH",
           "diffDescription": "Instructions differ at #0"
-        },
-        {
-          "name": "becomeCorpse",
-          "recompInsnCount": 35,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 35,
-          "status": "MATCH"
         },
         {
           "name": "<clinit>",
@@ -11243,40 +11089,40 @@
         },
         {
           "recompContext": [
-            "#7    IFNE L9",
-            "#8    GETSTATIC zombie/network/GameClient.bClient:Z",
-            "#9    IFEQ L0",
-            "#10   ALOAD v0",
-            "#11   INVOKEVIRTUAL zombie/characters/IsoZombie.isRemoteZombie()Z",
-            "#12   IFNE L9",
-            "#13   ALOAD v0",
-            "#14   INVOKEVIRTUAL zombie/characters/IsoZombie.getCurrentState()Lzombie/ai/State;",
-            "#15   INVOKESTATIC zombie/ai/states/PathFindState.instance()Lzombie/vehicles/PathFindState2;",
-            "#16   IF_ACMPEQ L1",
-            "#17   ALOAD v0"
+            "#123  FSTORE v1",
+            "#124  ALOAD v3",
+            "#125  GETFIELD zombie/WorldSoundManager$WorldSound.source:Ljava/lang/Object;",
+            "#126  ASTORE v2",
+            "#127  ALOAD v0",
+            "#128  FLOAD v4",
+            "#129  PUTFIELD zombie/characters/IsoZombie.soundAttract:F",
+            "#130  ALOAD v0",
+            "#131  LDC 60.0f",
+            "#132  PUTFIELD zombie/characters/IsoZombie.soundAttractTimeout:F",
+            "#133  GOTO L10"
           ],
           "origContext": [
-            "#7    IFNE L2",
-            "#8    GETSTATIC zombie/network/GameClient.bClient:Z",
-            "#9    IFEQ L3",
-            "#10   ALOAD v0",
-            "#11   INVOKEVIRTUAL zombie/characters/IsoZombie.isRemoteZombie()Z",
-            "#12   IFNE L3",
-            "#13   ALOAD v0",
-            "#14   INVOKEVIRTUAL zombie/characters/IsoZombie.getCurrentState()Lzombie/ai/State;",
-            "#15   INVOKESTATIC zombie/ai/states/PathFindState.instance()Lzombie/vehicles/PathFindState2;",
-            "#16   IF_ACMPEQ L4",
-            "#17   ALOAD v0"
+            "#123  FSTORE v1",
+            "#124  ALOAD v3",
+            "#125  GETFIELD zombie/WorldSoundManager$WorldSound.source:Ljava/lang/Object;",
+            "#126  ASTORE v2",
+            "#127  ALOAD v0",
+            "#128  FLOAD v1",
+            "#129  PUTFIELD zombie/characters/IsoZombie.soundAttract:F",
+            "#130  ALOAD v0",
+            "#131  LDC 60.0f",
+            "#132  PUTFIELD zombie/characters/IsoZombie.soundAttractTimeout:F",
+            "#133  GOTO L10"
           ],
           "name": "RespondToSound",
           "recompInsnCount": 194,
           "descriptor": "()V",
-          "firstDiffIndex": 12,
+          "firstDiffIndex": 128,
           "category": "INSN_COUNT_DIFF",
           "matchTier": "NONE",
           "origInsnCount": 429,
           "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #12"
+          "diffDescription": "Instructions differ at #128"
         },
         {
           "name": "setTurnAlertedValues",
@@ -11314,13 +11160,13 @@
           "recompContext": [
             "#48   GETSTATIC zombie/iso/SpriteDetails/IsoFlagType.smoke:Lzombie/iso/SpriteDetails/IsoFlagType;",
             "#49   INVOKEVIRTUAL zombie/core/properties/PropertyContainer.Is(Lzombie/iso/SpriteDetails/IsoFlagType;)Z",
-            "#50   IFNE L40",
+            "#50   IFNE L44",
             "#51   ALOAD v0",
             "#52   INVOKEVIRTUAL zombie/characters/IsoZombie.isUseless()Z",
-            "#53   IFNE L40",
+            "#53   IFNE L44",
             "#54   ALOAD v1",
             "#55   INSTANCEOF zombie/characters/IsoPlayer",
-            "#56   IFEQ L1",
+            "#56   IFEQ L3",
             "#57   ALOAD v1",
             "#58   INVOKEVIRTUAL zombie/characters/IsoPlayer.isGhostMode()Z"
           ],
@@ -11391,7 +11237,7 @@
             "#34   GETFIELD zombie/iso/sprite/IsoAnim.name:Ljava/lang/String;",
             "#35   LDC \"Walk\"",
             "#36   INVOKEVIRTUAL java/lang/String.contains(Ljava/lang/CharSequence;)Z",
-            "#37   IFNE L1",
+            "#37   IFNE L4",
             "#38   ALOAD v1",
             "#39   ICONST_M1",
             "#40   PUTFIELD zombie/characters/IsoZombie.stepFrameLast:I",
@@ -11642,14 +11488,6 @@
           "recompInsnCount": 39,
           "descriptor": "()V",
           "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 37,
-          "status": "MATCH"
-        },
-        {
-          "name": "setEatBodyTarget",
-          "recompInsnCount": 37,
-          "descriptor": "(Lzombie/iso/IsoMovingObject;ZF)V",
-          "matchTier": "STRUCTURAL",
           "origInsnCount": 37,
           "status": "MATCH"
         },
@@ -16559,9 +16397,9 @@
         },
         {
           "name": "updateKeyboardAux",
-          "recompInsnCount": 868,
+          "recompInsnCount": 869,
           "descriptor": "(Lzombie/ui/UITextBox2;I)V",
-          "matchTier": "STRUCTURAL",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 868,
           "status": "MATCH"
         },
@@ -16975,12 +16813,12 @@
             "#7    ALOAD v1",
             "#8    GETFIELD zombie/core/SpriteRenderer$RingBuffer.bufferSizeInVertices:J",
             "#9    LCMP",
-            "#10   IFLE L0",
+            "#10   IFLE L1",
             "#11   ALOAD v1",
             "#12   INVOKEVIRTUAL zombie/core/SpriteRenderer$RingBuffer.render()V",
             "#13   ALOAD v1",
             "#14   INVOKEVIRTUAL zombie/core/SpriteRenderer$RingBuffer.next()V",
-            "#15   GOTO L1"
+            "#15   GOTO L2"
           ],
           "origContext": [
             "#5    IADD",
@@ -18045,13 +17883,13 @@
             "#27   ISTORE v3",
             "#28   GOTO L0",
             "#29   ALOAD v0",
-            "#30   IFNULL L16",
+            "#30   IFNULL L3",
             "#31   LCONST_0",
             "#32   LSTORE v3",
             "#33   ALOAD v0",
             "#34   INVOKESTATIC zombie/network/MD5Checksum.createChecksum(Ljava/lang/String;)J",
             "#35   LSTORE v3",
-            "#36   GOTO L6"
+            "#36   GOTO L7"
           ],
           "origContext": [
             "#26   IADD",
@@ -20258,40 +20096,35 @@
       "methods": [
         {
           "recompContext": [
-            "#18   ALOAD v1",
-            "#19   ALOAD v2",
-            "#20   ICONST_0",
-            "#21   INVOKESPECIAL zombie/core/textures/TextureFBO.<init>(Lzombie/interfaces/ITexture;Z)V",
-            "#22   PUTFIELD zombie/core/skinnedmodel/ModelManager.bitmap:Lzombie/core/textures/TextureFBO;",
-            "#23   GOTO L4",
-            "#24   INVOKEVIRTUAL java/lang/Exception.printStackTrace()V",
-            "#25   ICONST_0",
-            "#26   PUTSTATIC zombie/core/PerformanceSettings.UseFBOs:Z",
-            "#27   GETSTATIC zombie/debug/DebugLog.Animation:Lzombie/debug/DebugLogStream;",
-            "#28   LDC \"FBO not compatible with gfx card at this time.\""
+            "#72   INVOKEVIRTUAL zombie/core/skinnedmodel/model/ModelMesh.getPath()Lzombie/asset/AssetPath;",
+            "#73   INVOKEVIRTUAL zombie/asset/AssetPath.getPath()Ljava/lang/String;",
+            "#74   ALOAD v5",
+            "#75   INVOKEVIRTUAL java/util/HashMap.put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;",
+            "#76   ASTORE v3",
+            "#77   RETURN"
           ],
           "origContext": [
-            "#18   ALOAD v1",
-            "#19   ALOAD v2",
-            "#20   ICONST_0",
-            "#21   INVOKESPECIAL zombie/core/textures/TextureFBO.<init>(Lzombie/interfaces/ITexture;Z)V",
-            "#22   PUTFIELD zombie/core/skinnedmodel/ModelManager.bitmap:Lzombie/core/textures/TextureFBO;",
-            "#23   GOTO L5",
-            "#24   INVOKEVIRTUAL java/lang/Exception.printStackTrace()V",
-            "#25   ICONST_0",
-            "#26   PUTSTATIC zombie/core/PerformanceSettings.UseFBOs:Z",
-            "#27   GETSTATIC zombie/debug/DebugLog.Animation:Lzombie/debug/DebugLogStream;",
-            "#28   LDC \"FBO not compatible with gfx card at this time.\""
+            "#72   INVOKEVIRTUAL zombie/core/skinnedmodel/model/ModelMesh.getPath()Lzombie/asset/AssetPath;",
+            "#73   INVOKEVIRTUAL zombie/asset/AssetPath.getPath()Ljava/lang/String;",
+            "#74   ALOAD v5",
+            "#75   INVOKEVIRTUAL java/util/HashMap.put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;",
+            "#76   ASTORE v3",
+            "#77   ALOAD v0",
+            "#78   LDC \"skinned/malebody\"",
+            "#79   ACONST_NULL",
+            "#80   ALOAD v4",
+            "#81   INVOKEVIRTUAL zombie/core/skinnedmodel/ModelManager.loadModel(Ljava/lang/String;Ljava/lang/String;Lzombie/core/skinnedmodel/model/ModelMesh;)Lzombie/core/skinnedmodel/model/Model;",
+            "#82   ASTORE v5"
           ],
           "name": "create",
           "recompInsnCount": 78,
           "descriptor": "()V",
-          "firstDiffIndex": 23,
+          "firstDiffIndex": 77,
           "category": "INSN_COUNT_DIFF",
           "matchTier": "NONE",
           "origInsnCount": 155,
           "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #23"
+          "diffDescription": "Instructions differ at #77"
         },
         {
           "recompContext": [
@@ -20423,40 +20256,35 @@
         },
         {
           "recompContext": [
-            "#1    GETFIELD zombie/core/skinnedmodel/ModelManager.m_bCreated:Z",
-            "#2    IFEQ L6",
-            "#3    GETSTATIC zombie/network/GameServer.bServer:Z",
-            "#4    IFEQ L0",
-            "#5    INVOKESTATIC zombie/network/ServerGUI.isCreated()Z",
-            "#6    IFEQ L6",
-            "#7    ALOAD v1",
-            "#8    IFNULL L6",
-            "#9    ALOAD v1",
-            "#10   INVOKEVIRTUAL zombie/vehicles/BaseVehicle.getScript()Lzombie/scripting/objects/VehicleScript;",
-            "#11   IFNULL L6"
+            "#135  ALOAD v1",
+            "#136  PUTFIELD zombie/core/skinnedmodel/model/VehicleModelInstance.object:Lzombie/iso/IsoMovingObject;",
+            "#137  ALOAD v9",
+            "#138  GETFIELD zombie/core/skinnedmodel/ModelManager$ModelSlot.sub:Ljava/util/ArrayList;",
+            "#139  INVOKEVIRTUAL java/util/ArrayList.clear()V",
+            "#140  RETURN"
           ],
           "origContext": [
-            "#1    GETFIELD zombie/core/skinnedmodel/ModelManager.m_bCreated:Z",
-            "#2    IFEQ L0",
-            "#3    GETSTATIC zombie/network/GameServer.bServer:Z",
-            "#4    IFEQ L1",
-            "#5    INVOKESTATIC zombie/network/ServerGUI.isCreated()Z",
-            "#6    IFEQ L1",
-            "#7    ALOAD v1",
-            "#8    IFNULL L2",
-            "#9    ALOAD v1",
-            "#10   INVOKEVIRTUAL zombie/vehicles/BaseVehicle.getScript()Lzombie/scripting/objects/VehicleScript;",
-            "#11   IFNULL L3"
+            "#135  ALOAD v1",
+            "#136  PUTFIELD zombie/core/skinnedmodel/model/VehicleModelInstance.object:Lzombie/iso/IsoMovingObject;",
+            "#137  ALOAD v9",
+            "#138  GETFIELD zombie/core/skinnedmodel/ModelManager$ModelSlot.sub:Ljava/util/ArrayList;",
+            "#139  INVOKEVIRTUAL java/util/ArrayList.clear()V",
+            "#140  ICONST_0",
+            "#141  ALOAD v1",
+            "#142  GETFIELD zombie/vehicles/BaseVehicle.models:Ljava/util/ArrayList;",
+            "#143  INVOKEVIRTUAL java/util/ArrayList.size()I",
+            "#144  IF_ICMPGE L13",
+            "#145  ALOAD v1"
           ],
           "name": "addVehicle",
           "recompInsnCount": 141,
           "descriptor": "(Lzombie/vehicles/BaseVehicle;)V",
-          "firstDiffIndex": 6,
+          "firstDiffIndex": 140,
           "category": "INSN_COUNT_DIFF",
           "matchTier": "NONE",
           "origInsnCount": 231,
           "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #6"
+          "diffDescription": "Instructions differ at #140"
         },
         {
           "name": "addStaticForcedTex",
@@ -21137,40 +20965,40 @@
         },
         {
           "recompContext": [
-            "#23   GETFIELD zombie/core/skinnedmodel/model/ModelInstance.tex:Lzombie/core/textures/Texture;",
-            "#24   IFNONNULL L0",
-            "#25   ALOAD v1",
-            "#26   GETFIELD zombie/core/skinnedmodel/model/ModelInstance.model:Lzombie/core/skinnedmodel/model/Model;",
-            "#27   GETFIELD zombie/core/skinnedmodel/model/Model.tex:Lzombie/core/textures/Texture;",
-            "#28   IFNULL L12",
-            "#29   SIPUSH 2884",
-            "#30   INVOKESTATIC org/lwjgl/opengl/GL11.glEnable(I)V",
-            "#31   SIPUSH 1028",
-            "#32   INVOKESTATIC org/lwjgl/opengl/GL11.glCullFace(I)V",
-            "#33   SIPUSH 2929"
+            "#130  LDC NaNf",
+            "#131  ALOAD v1",
+            "#132  INVOKEVIRTUAL zombie/core/skinnedmodel/shader/Shader.setLight(IFFFFFFFFLzombie/core/skinnedmodel/model/ModelInstance;)V",
+            "#133  LDC 0.7f",
+            "#134  FSTORE v4",
+            "#135  ALOAD v1",
+            "#136  GETFIELD zombie/core/skinnedmodel/model/ModelInstance.model:Lzombie/core/skinnedmodel/model/Model;",
+            "#137  GETFIELD zombie/core/skinnedmodel/model/Model.Mesh:Lzombie/core/skinnedmodel/model/ModelMesh;",
+            "#138  ALOAD v3",
+            "#139  INVOKEVIRTUAL zombie/core/skinnedmodel/model/ModelMesh.Draw(Lzombie/core/skinnedmodel/shader/Shader;)V",
+            "#140  ALOAD v3"
           ],
           "origContext": [
-            "#23   GETFIELD zombie/core/skinnedmodel/model/ModelInstance.tex:Lzombie/core/textures/Texture;",
-            "#24   IFNONNULL L5",
-            "#25   ALOAD v1",
-            "#26   GETFIELD zombie/core/skinnedmodel/model/ModelInstance.model:Lzombie/core/skinnedmodel/model/Model;",
-            "#27   GETFIELD zombie/core/skinnedmodel/model/Model.tex:Lzombie/core/textures/Texture;",
-            "#28   IFNULL L5",
-            "#29   SIPUSH 2884",
-            "#30   INVOKESTATIC org/lwjgl/opengl/GL11.glEnable(I)V",
-            "#31   SIPUSH 1028",
-            "#32   INVOKESTATIC org/lwjgl/opengl/GL11.glCullFace(I)V",
-            "#33   SIPUSH 2929"
+            "#130  LDC NaNf",
+            "#131  ALOAD v1",
+            "#132  INVOKEVIRTUAL zombie/core/skinnedmodel/shader/Shader.setLight(IFFFFFFFFLzombie/core/skinnedmodel/model/ModelInstance;)V",
+            "#133  LDC 0.7f",
+            "#134  FSTORE v4",
+            "#135  ICONST_0",
+            "#136  ALOAD v5",
+            "#137  GETFIELD zombie/core/skinnedmodel/advancedanimation/AnimatedModel.lights:[Lzombie/iso/IsoGridSquare$ResultLight;",
+            "#138  ARRAYLENGTH",
+            "#139  IF_ICMPGE L11",
+            "#140  ALOAD v5"
           ],
           "name": "DrawChar",
           "recompInsnCount": 321,
           "descriptor": "(Lzombie/core/skinnedmodel/advancedanimation/AnimatedModel$AnimatedModelInstanceRenderData;)V",
-          "firstDiffIndex": 28,
+          "firstDiffIndex": 135,
           "category": "INSN_COUNT_DIFF",
           "matchTier": "NONE",
           "origInsnCount": 600,
           "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #28"
+          "diffDescription": "Instructions differ at #135"
         },
         {
           "name": "lambda$setModelData$0",
@@ -22637,12 +22465,12 @@
             "#248  INVOKESTATIC org/lwjgl/opengl/GL11.glTexEnvi(III)V",
             "#249  INVOKESTATIC org/lwjgl/opengl/GL11.glGetError()I",
             "#250  ASTORE v12",
-            "#251  GOTO L13",
+            "#251  GOTO L14",
             "#252  ASTORE v13",
-            "#253  GOTO L16",
+            "#253  GOTO L17",
             "#254  ALOAD v1",
             "#255  INSTANCEOF zombie/core/skinnedmodel/model/VehicleSubModelInstance",
-            "#256  IFEQ L15",
+            "#256  IFEQ L16",
             "#257  LDC 33984",
             "#258  INVOKESTATIC org/lwjgl/opengl/GL13.glActiveTexture(I)V"
           ],
@@ -25499,7 +25327,7 @@
           "recompContext": [
             "#75   FCONST_1",
             "#76   FCMPL",
-            "#77   IFLE L2",
+            "#77   IFLE L3",
             "#78   FCONST_1",
             "#79   FSTORE v13",
             "#80   RETURN"
@@ -29096,7 +28924,7 @@
             "#72   ISTORE v9",
             "#73   ALOAD v4",
             "#74   INVOKEVIRTUAL zombie/fileSystem/TexturePackDevice$PositionInputStream.close()V",
-            "#75   GOTO L12",
+            "#75   GOTO L13",
             "#76   ASTORE v5",
             "#77   ALOAD v4",
             "#78   INVOKEVIRTUAL zombie/fileSystem/TexturePackDevice$PositionInputStream.close()V"
@@ -32259,7 +32087,7 @@
           "name": "update",
           "recompInsnCount": 7,
           "descriptor": "()V",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 8,
           "status": "MATCH"
         },
@@ -33085,7 +32913,7 @@
           "recompContext": [
             "#0    ALOAD v0",
             "#1    INVOKEVIRTUAL zombie/iso/IsoObject.getProperties()Lzombie/core/properties/PropertyContainer;",
-            "#2    IFNULL L3",
+            "#2    IFNULL L0",
             "#3    ACONST_NULL",
             "#4    ASTORE v1",
             "#5    ACONST_NULL",
@@ -33323,11 +33151,11 @@
             "#26   GETFIELD zombie/iso/Helicopter.state:Lzombie/iso/Helicopter$State;",
             "#27   INVOKEVIRTUAL zombie/iso/Helicopter$State.ordinal()I",
             "#28   IALOAD",
-            "#29   SWITCH default:L22 1:L3 2:L11 3:L15 4:L19",
+            "#29   SWITCH default:L23 1:L4 2:L12 3:L16 4:L20",
             "#30   ICONST_0",
             "#31   ISTORE v2",
             "#32   GETSTATIC zombie/network/GameServer.bServer:Z",
-            "#33   IFEQ L7",
+            "#33   IFEQ L8",
             "#34   INVOKESTATIC zombie/network/GameServer.getPlayers()Ljava/util/ArrayList;",
             "#35   ASTORE v3"
           ],
@@ -33485,7 +33313,7 @@
         },
         {
           "recompContext": [
-            "#7    IFNONNULL L0",
+            "#7    IFNONNULL L1",
             "#8    ALOAD v0",
             "#9    INVOKEDYNAMIC run(Lzombie/iso/IsoCell;)Ljava/lang/Runnable; bsm=INVOKESTATIC java/lang/invoke/LambdaMetafactory.metafactory(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;",
             "#10   INVOKESTATIC zombie/core/opengl/RenderThread.invokeOnRenderContext(Ljava/lang/Runnable;)V",
@@ -33568,10 +33396,10 @@
         {
           "recompContext": [
             "#79   ASTORE v10",
-            "#80   GOTO L88",
+            "#80   GOTO L89",
             "#81   ILOAD v3",
             "#82   GETSTATIC zombie/iso/IsoCell.MaxHeight:I",
-            "#83   IF_ICMPLT L71",
+            "#83   IF_ICMPLT L72",
             "#84   ICONST_0",
             "#85   ISTORE v11",
             "#86   ICONST_0",
@@ -33710,40 +33538,40 @@
         },
         {
           "recompContext": [
-            "#15   ALOAD v2",
-            "#16   GETFIELD zombie/iso/IsoCell$SnowGrid.frac:I",
-            "#17   IFGT L0",
-            "#18   ALOAD v1",
-            "#19   GETFIELD zombie/iso/IsoCell$SnowGrid.frac:I",
-            "#20   IFLE L9",
-            "#21   FCONST_1",
-            "#22   FSTORE v3",
-            "#23   FCONST_0",
-            "#24   FSTORE v4",
-            "#25   INVOKESTATIC java/lang/System.currentTimeMillis()J"
+            "#36   ALOAD v0",
+            "#37   GETFIELD zombie/iso/IsoCell.snowTransitionTime:F",
+            "#38   FDIV",
+            "#39   FSTORE v3",
+            "#40   FCONST_1",
+            "#41   FLOAD v6",
+            "#42   FSUB",
+            "#43   FSTORE v4",
+            "#44   ACONST_NULL",
+            "#45   ASTORE v6",
+            "#46   GETSTATIC zombie/debug/DebugOptions.instance:Lzombie/debug/DebugOptions;"
           ],
           "origContext": [
-            "#15   ALOAD v2",
-            "#16   GETFIELD zombie/iso/IsoCell$SnowGrid.frac:I",
-            "#17   IFGT L2",
-            "#18   ALOAD v1",
-            "#19   GETFIELD zombie/iso/IsoCell$SnowGrid.frac:I",
-            "#20   IFLE L2",
-            "#21   FCONST_1",
-            "#22   FSTORE v3",
-            "#23   FCONST_0",
-            "#24   FSTORE v4",
-            "#25   INVOKESTATIC java/lang/System.currentTimeMillis()J"
+            "#36   ALOAD v0",
+            "#37   GETFIELD zombie/iso/IsoCell.snowTransitionTime:F",
+            "#38   FDIV",
+            "#39   FSTORE v3",
+            "#40   FCONST_1",
+            "#41   FLOAD v3",
+            "#42   FSUB",
+            "#43   FSTORE v4",
+            "#44   ACONST_NULL",
+            "#45   ASTORE v6",
+            "#46   GETSTATIC zombie/debug/DebugOptions.instance:Lzombie/debug/DebugOptions;"
           ],
           "name": "RenderSnow",
           "recompInsnCount": 213,
           "descriptor": "(I)V",
-          "firstDiffIndex": 20,
-          "category": "LABEL_ONLY",
+          "firstDiffIndex": 41,
+          "category": "VARIABLE_COPY_PROPAGATION",
           "matchTier": "NONE",
           "origInsnCount": 289,
           "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #20"
+          "diffDescription": "Instructions differ at #41"
         },
         {
           "name": "getDangerScore",
@@ -34386,10 +34214,10 @@
         {
           "recompContext": [
             "#78   ISTORE v8",
-            "#79   GOTO L2",
-            "#80   GOTO L6",
+            "#79   GOTO L3",
+            "#80   GOTO L7",
             "#81   ICONST_1",
-            "#82   IFEQ L7",
+            "#82   IFEQ L8",
             "#83   ILOAD v6",
             "#84   ISTORE v8",
             "#85   ILOAD v6",
@@ -34481,40 +34309,40 @@
         },
         {
           "recompContext": [
-            "#0    GETSTATIC zombie/network/GameServer.bServer:Z",
-            "#1    IFNE L6",
-            "#2    ALOAD v0",
-            "#3    IFNONNULL L0",
-            "#4    ALOAD v1",
-            "#5    IFNULL L6",
-            "#6    ICONST_0",
-            "#7    BIPUSH 8",
-            "#8    IF_ICMPGE L6",
-            "#9    ALOAD v0",
-            "#10   IFNULL L2"
-          ],
-          "origContext": [
-            "#0    GETSTATIC zombie/network/GameServer.bServer:Z",
-            "#1    IFNE L0",
-            "#2    ALOAD v0",
-            "#3    IFNONNULL L1",
-            "#4    ALOAD v1",
-            "#5    IFNULL L1",
-            "#6    ICONST_0",
-            "#7    BIPUSH 8",
             "#8    IF_ICMPGE L7",
             "#9    ALOAD v0",
-            "#10   IFNULL L4"
+            "#10   IFNULL L3",
+            "#11   ICONST_0",
+            "#12   BIPUSH 10",
+            "#13   IF_ICMPGE L5",
+            "#14   ALOAD v0",
+            "#15   ICONST_0",
+            "#16   ILOAD v2",
+            "#17   ILOAD v3",
+            "#18   INVOKEVIRTUAL zombie/iso/IsoChunk.getGridSquare(III)Lzombie/iso/IsoGridSquare;"
+          ],
+          "origContext": [
+            "#8    IF_ICMPGE L7",
+            "#9    ALOAD v0",
+            "#10   IFNULL L4",
+            "#11   ICONST_0",
+            "#12   BIPUSH 10",
+            "#13   IF_ICMPGE L4",
+            "#14   ALOAD v0",
+            "#15   ICONST_0",
+            "#16   ILOAD v2",
+            "#17   ILOAD v3",
+            "#18   INVOKEVIRTUAL zombie/iso/IsoChunk.getGridSquare(III)Lzombie/iso/IsoGridSquare;"
           ],
           "name": "fixObjectAmbientEmittersOnAdjacentChunks",
           "recompInsnCount": 37,
           "descriptor": "(Lzombie/iso/IsoChunk;Lzombie/iso/IsoChunk;)V",
-          "firstDiffIndex": 5,
+          "firstDiffIndex": 13,
           "category": "LABEL_ONLY",
           "matchTier": "NONE",
           "origInsnCount": 55,
           "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #5"
+          "diffDescription": "Instructions differ at #13"
         },
         {
           "name": "updateVehicleStory",
@@ -34961,11 +34789,11 @@
         {
           "recompContext": [
             "#55   ICONST_1",
-            "#56   IF_ICMPLT L6",
+            "#56   IF_ICMPLT L9",
             "#57   ALOAD v8",
             "#58   GETFIELD zombie/iso/IsoFloorBloodSplat.index:I",
             "#59   BIPUSH 10",
-            "#60   IF_ICMPGT L6",
+            "#60   IF_ICMPGT L9",
             "#61   GETSTATIC zombie/iso/IsoChunk.renderByIndex:[[B",
             "#62   GETSTATIC zombie/core/Core.OptionBloodDecals:I",
             "#63   ICONST_1",
@@ -35659,9 +35487,9 @@
         },
         {
           "recompContext": [
-            "#39   IFNE L2",
+            "#39   IFNE L3",
             "#40   GETSTATIC zombie/network/GameClient.bClient:Z",
-            "#41   IFNE L2",
+            "#41   IFNE L3",
             "#42   ALOAD v1",
             "#43   INVOKEVIRTUAL zombie/iso/IsoGridSquare.restackSheetRope()V",
             "#44   RETURN"
@@ -35694,7 +35522,7 @@
             "#58   ALOAD v0",
             "#59   ALOAD v1",
             "#60   INVOKEVIRTUAL zombie/iso/IsoGridSquare.getPlayerBuiltFloor()Lzombie/iso/IsoObject;",
-            "#61   IF_ACMPNE L4",
+            "#61   IF_ACMPNE L5",
             "#62   INVOKESTATIC zombie/iso/IsoGridOcclusionData.SquareChanged()V",
             "#63   RETURN"
           ],
@@ -36591,6 +36419,14 @@
           "status": "MATCH"
         },
         {
+          "name": "removeZonesForCell",
+          "recompInsnCount": 92,
+          "descriptor": "(II)V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 92,
+          "status": "MATCH"
+        },
+        {
           "name": "processZones",
           "recompInsnCount": 74,
           "descriptor": "()V",
@@ -37066,7 +36902,7 @@
             "#255  ILOAD v10",
             "#256  ILOAD v11",
             "#257  INVOKEVIRTUAL zombie/ai/State.isIgnoreCollide(Lzombie/characters/IsoGameCharacter;IIIIII)Z",
-            "#258  IFNE L13"
+            "#258  IFNE L14"
           ],
           "origContext": [
             "#248  ALOAD v1",
@@ -37301,7 +37137,7 @@
             "#62   INVOKESTATIC zombie/GameWindow.WriteString(Ljava/nio/ByteBuffer;Ljava/lang/String;)V",
             "#63   ICONST_0",
             "#64   ILOAD v4",
-            "#65   IF_ICMPGE L13",
+            "#65   IF_ICMPGE L14",
             "#66   ACONST_NULL",
             "#67   ASTORE v6",
             "#68   ICONST_0",
@@ -37551,7 +37387,7 @@
           "recompContext": [
             "#0    ALOAD v0",
             "#1    INVOKEVIRTUAL zombie/iso/IsoObject.getProperties()Lzombie/core/properties/PropertyContainer;",
-            "#2    IFNULL L3",
+            "#2    IFNULL L0",
             "#3    ACONST_NULL",
             "#4    ASTORE v1",
             "#5    ACONST_NULL",
@@ -38147,14 +37983,6 @@
       "total_instructions": 943,
       "matched_code_percent": 97.45493107104984,
       "methods": [
-        {
-          "name": "render",
-          "recompInsnCount": 92,
-          "descriptor": "(Ljava/util/ArrayList;I)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 92,
-          "status": "MATCH"
-        },
         {
           "name": "renderSome",
           "recompInsnCount": 149,
@@ -38756,9 +38584,9 @@
           "recompContext": [
             "#15   GETFIELD zombie/characters/IsoPlayer.JoypadBind:I",
             "#16   ICONST_M1",
-            "#17   IF_ICMPNE L10",
+            "#17   IF_ICMPNE L12",
             "#18   INVOKESTATIC zombie/GameTime.isGamePaused()Z",
-            "#19   IFNE L10",
+            "#19   IFNE L1",
             "#20   FCONST_0",
             "#21   FSTORE v1",
             "#22   LDC 0.05f",
@@ -39046,7 +38874,7 @@
             "#23   GETFIELD zombie/iso/IsoGridSquare.z:I",
             "#24   GETSTATIC zombie/iso/LightingJNI$JNILighting.lightInts:[I",
             "#25   INVOKESTATIC zombie/iso/LightingJNI.getSquareLighting(IIII[I)Z",
-            "#26   IFEQ L7",
+            "#26   IFEQ L8",
             "#27   ICONST_0",
             "#28   ISTORE v1",
             "#29   FCONST_0",
@@ -39301,10 +39129,10 @@
           "recompContext": [
             "#4    ILOAD v2",
             "#5    INVOKEVIRTUAL zombie/iso/IsoCell.getChunkForGridSquare(III)Lzombie/iso/IsoChunk;",
-            "#6    IFNULL L2",
+            "#6    IFNULL L0",
             "#7    GETSTATIC zombie/iso/NearestWalls.renderX:I",
             "#8    ILOAD v0",
-            "#9    IF_ICMPEQ L0",
+            "#9    IF_ICMPEQ L1",
             "#10   ILOAD v0",
             "#11   PUTSTATIC zombie/iso/NearestWalls.renderX:I",
             "#12   ILOAD v1",
@@ -39373,13 +39201,13 @@
         {
           "recompContext": [
             "#134  ILOAD v4",
-            "#135  IFNE L11",
+            "#135  IFNE L12",
             "#136  GETSTATIC zombie/network/GameClient.connection:Lzombie/core/raknet/UdpConnection;",
             "#137  INVOKEVIRTUAL zombie/core/raknet/UdpConnection.cancelPacket()V",
             "#138  RETURN",
             "#139  ALOAD v0",
             "#140  GETFIELD zombie/iso/ObjectsSyncRequests.requestsSyncIsoGridSquare:Ljava/util/ArrayList;",
-            "#141  IFNULL L23",
+            "#141  IFNULL L24",
             "#142  ALOAD v0",
             "#143  GETFIELD zombie/iso/ObjectsSyncRequests.requestsSyncIsoGridSquare:Ljava/util/ArrayList;",
             "#144  INVOKEVIRTUAL java/util/ArrayList.size()I"
@@ -41320,7 +41148,7 @@
       "methods": [
         {
           "recompContext": [
-            "#86   IFNE L7",
+            "#86   IFNE L8",
             "#87   ALOAD v0",
             "#88   GETSTATIC zombie/iso/objects/RenderEffectType.Hit_Door:Lzombie/iso/objects/RenderEffectType;",
             "#89   ICONST_1",
@@ -41630,14 +41458,6 @@
           "status": "MATCH"
         },
         {
-          "name": "ToggleDoor",
-          "recompInsnCount": 60,
-          "descriptor": "(Lzombie/characters/IsoGameCharacter;)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 60,
-          "status": "MATCH"
-        },
-        {
           "recompContext": [
             "#99   INVOKEVIRTUAL zombie/iso/IsoGridSquare.RecalcProperties()V",
             "#100  ALOAD v0",
@@ -41843,14 +41663,6 @@
           "status": "MATCH"
         },
         {
-          "name": "updateBodies",
-          "recompInsnCount": 116,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 116,
-          "status": "MATCH"
-        },
-        {
           "name": "isPlayerNearby",
           "recompInsnCount": 38,
           "descriptor": "(Lzombie/characters/IsoPlayer;Z)Z",
@@ -41977,7 +41789,7 @@
     },
     {
       "total_instructions": 9061,
-      "matched_code_percent": 73.87705551263657,
+      "matched_code_percent": 72.90586028032226,
       "methods": [
         {
           "name": "checkKeyHighlight",
@@ -42069,7 +41881,7 @@
             "#59   ISTORE v2",
             "#60   ALOAD v0",
             "#61   GETFIELD zombie/iso/objects/IsoDoor.Health:I",
-            "#62   IFGT L9",
+            "#62   IFGT L10",
             "#63   ALOAD v0",
             "#64   INVOKEVIRTUAL zombie/iso/objects/IsoDoor.getSquare()Lzombie/iso/IsoGridSquare;",
             "#65   INVOKEVIRTUAL zombie/iso/IsoGridSquare.getBuilding()Lzombie/iso/areas/IsoBuilding;"
@@ -42107,12 +41919,12 @@
         },
         {
           "recompContext": [
-            "#71   GOTO L7",
+            "#71   GOTO L10",
             "#72   LDC 0.89f",
             "#73   FSTORE v6",
             "#74   ILOAD v5",
             "#75   BIPUSH 6",
-            "#76   IF_ICMPNE L8",
+            "#76   IF_ICMPNE L11",
             "#77   LDC 1.15f",
             "#78   FSTORE v6",
             "#79   RETURN",
@@ -42144,40 +41956,35 @@
         },
         {
           "recompContext": [
-            "#58   ILOAD v7",
-            "#59   ICONST_1",
-            "#60   IADD",
-            "#61   ISTORE v7",
-            "#62   GOTO L1",
-            "#63   GOTO L4",
-            "#64   ALOAD v0",
-            "#65   INVOKEVIRTUAL zombie/iso/objects/IsoDoor.addItemsFromProperties()V",
-            "#66   LDC \"Base.Doorknob\"",
-            "#67   INVOKESTATIC zombie/inventory/InventoryItemFactory.CreateItem(Ljava/lang/String;)Lzombie/inventory/InventoryItem;",
-            "#68   ALOAD v0"
+            "#77   INVOKEVIRTUAL zombie/iso/IsoGridSquare.AddWorldInventoryItem(Lzombie/inventory/InventoryItem;FFF)Lzombie/inventory/InventoryItem;",
+            "#78   ASTORE v1",
+            "#79   ICONST_3",
+            "#80   INVOKESTATIC zombie/core/Rand.Next(I)I",
+            "#81   ISTORE v7",
+            "#82   RETURN"
           ],
           "origContext": [
-            "#58   ILOAD v7",
-            "#59   ICONST_1",
-            "#60   IADD",
-            "#61   ISTORE v7",
-            "#62   GOTO L4",
-            "#63   GOTO L5",
-            "#64   ALOAD v0",
-            "#65   INVOKEVIRTUAL zombie/iso/objects/IsoDoor.addItemsFromProperties()V",
-            "#66   LDC \"Base.Doorknob\"",
-            "#67   INVOKESTATIC zombie/inventory/InventoryItemFactory.CreateItem(Ljava/lang/String;)Lzombie/inventory/InventoryItem;",
-            "#68   ALOAD v0"
+            "#77   INVOKEVIRTUAL zombie/iso/IsoGridSquare.AddWorldInventoryItem(Lzombie/inventory/InventoryItem;FFF)Lzombie/inventory/InventoryItem;",
+            "#78   ASTORE v1",
+            "#79   ICONST_3",
+            "#80   INVOKESTATIC zombie/core/Rand.Next(I)I",
+            "#81   ISTORE v7",
+            "#82   ICONST_0",
+            "#83   ILOAD v7",
+            "#84   IF_ICMPGE L7",
+            "#85   ALOAD v0",
+            "#86   GETFIELD zombie/iso/objects/IsoDoor.square:Lzombie/iso/IsoGridSquare;",
+            "#87   LDC \"Base.Hinge\""
           ],
           "name": "destroy",
           "recompInsnCount": 83,
           "descriptor": "()V",
-          "firstDiffIndex": 63,
-          "category": "LABEL_ONLY",
+          "firstDiffIndex": 82,
+          "category": "EXIT_BLOCK_REORDER",
           "matchTier": "NONE",
           "origInsnCount": 118,
           "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #63"
+          "diffDescription": "Instructions differ at #82"
         },
         {
           "name": "syncIsoObject",
@@ -42273,21 +42080,50 @@
           "status": "MATCH"
         },
         {
+          "recompContext": [
+            "#14   ALOAD v0",
+            "#15   GOTO L4",
+            "#16   ACONST_NULL",
+            "#17   ASTORE v2",
+            "#18   ALOAD v1",
+            "#19   IFNONNULL L5",
+            "#20   ALOAD v1",
+            "#21   IFNULL L6",
+            "#22   ALOAD v1",
+            "#23   GETFIELD zombie/iso/objects/IsoDoor.open:Z",
+            "#24   GOTO L7"
+          ],
+          "origContext": [
+            "#14   ALOAD v0",
+            "#15   GOTO L4",
+            "#16   ACONST_NULL",
+            "#17   ASTORE v2",
+            "#18   ALOAD v1",
+            "#19   IFNULL L5",
+            "#20   ALOAD v1",
+            "#21   GETFIELD zombie/iso/objects/IsoDoor.north:Z",
+            "#22   GOTO L6",
+            "#23   ALOAD v2",
+            "#24   GETFIELD zombie/iso/objects/IsoThumpable.north:Z"
+          ],
           "name": "toggleDoubleDoor",
-          "recompInsnCount": 82,
+          "recompInsnCount": 49,
           "descriptor": "(Lzombie/iso/IsoObject;Z)V",
-          "matchTier": "SORTED_MULTISET",
+          "firstDiffIndex": 19,
+          "category": "INSN_COUNT_DIFF",
+          "matchTier": "NONE",
           "origInsnCount": 88,
-          "status": "MATCH"
+          "status": "MISMATCH",
+          "diffDescription": "Instructions differ at #19"
         },
         {
           "recompContext": [
             "#100  ILOAD v7",
             "#101  ICONST_2",
-            "#102  IF_ICMPEQ L17",
+            "#102  IF_ICMPEQ L18",
             "#103  ILOAD v7",
             "#104  ICONST_3",
-            "#105  IF_ICMPEQ L17",
+            "#105  IF_ICMPEQ L18",
             "#106  GETSTATIC zombie/vehicles/PolygonalMap2.instance:Lzombie/vehicles/PolygonalMap2;",
             "#107  ALOAD v0",
             "#108  INVOKEVIRTUAL zombie/iso/IsoObject.getSquare()Lzombie/iso/IsoGridSquare;",
@@ -42450,8 +42286,8 @@
       ],
       "name": "zombie/iso/objects/IsoDoor",
       "total_methods": 119,
-      "matched_instructions": 6694,
-      "matched_methods": 110,
+      "matched_instructions": 6606,
+      "matched_methods": 109,
       "status": "MISMATCH"
     },
     {
@@ -42512,7 +42348,7 @@
         {
           "recompContext": [
             "#28   ICONST_5",
-            "#29   IF_ICMPGE L3",
+            "#29   IF_ICMPGE L4",
             "#30   ALOAD v0",
             "#31   GETFIELD zombie/iso/objects/IsoFire.square:Lzombie/iso/IsoGridSquare;",
             "#32   INVOKEVIRTUAL zombie/iso/IsoGridSquare.BurnTick()V",
@@ -43245,6 +43081,14 @@
           "diffDescription": "Instructions differ at #2"
         },
         {
+          "name": "WeaponHit",
+          "recompInsnCount": 204,
+          "descriptor": "(Lzombie/characters/IsoGameCharacter;Lzombie/inventory/types/HandWeapon;)V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 204,
+          "status": "MATCH"
+        },
+        {
           "name": "countAddSheetRope",
           "recompInsnCount": 14,
           "descriptor": "()I",
@@ -43274,7 +43118,7 @@
             "#170  ILOAD v4",
             "#171  PUTFIELD zombie/iso/objects/IsoThumpable.lockedByKey:Z",
             "#172  GETSTATIC zombie/network/GameServer.bServer:Z",
-            "#173  IFEQ L18"
+            "#173  IFEQ L19"
           ],
           "origContext": [
             "#169  ALOAD v0",
@@ -43788,14 +43632,6 @@
           "descriptor": "(Lzombie/characters/IsoGameCharacter;)V",
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 177,
-          "status": "MATCH"
-        },
-        {
-          "name": "ToggleWindow",
-          "recompInsnCount": 68,
-          "descriptor": "(Lzombie/characters/IsoGameCharacter;)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 68,
           "status": "MATCH"
         },
         {
@@ -44357,7 +44193,7 @@
             "#118  ACONST_NULL",
             "#119  ASTORE v12",
             "#120  ALOAD v9",
-            "#121  IFNULL L7",
+            "#121  IFNULL L8",
             "#122  ALOAD v2",
             "#123  ILOAD v5"
           ],
@@ -44473,40 +44309,40 @@
         },
         {
           "recompContext": [
-            "#100  FLOAD v6",
-            "#101  FLOAD v11",
-            "#102  FSUB",
-            "#103  FSTORE v6",
-            "#104  ALOAD v4",
-            "#105  IFNULL L5",
-            "#106  ALOAD v4",
-            "#107  FLOAD v5",
-            "#108  PUTFIELD zombie/iso/IsoObject.sx:F",
-            "#109  ALOAD v4",
-            "#110  FLOAD v6"
+            "#131  ALOAD v1",
+            "#132  GETFIELD zombie/iso/sprite/IsoSprite.soffY:S",
+            "#133  I2F",
+            "#134  FADD",
+            "#135  FSTORE v6",
+            "#136  RETURN",
+            "#137  FLOAD v5",
+            "#138  GETSTATIC zombie/iso/sprite/IsoSprite.globalOffsetX:F",
+            "#139  FADD",
+            "#140  FSTORE v5",
+            "#141  FLOAD v6"
           ],
           "origContext": [
-            "#100  FLOAD v6",
-            "#101  FLOAD v11",
-            "#102  FSUB",
-            "#103  FSTORE v6",
-            "#104  ALOAD v4",
-            "#105  IFNULL L6",
-            "#106  ALOAD v4",
-            "#107  FLOAD v5",
-            "#108  PUTFIELD zombie/iso/IsoObject.sx:F",
-            "#109  ALOAD v4",
-            "#110  FLOAD v6"
+            "#131  ALOAD v1",
+            "#132  GETFIELD zombie/iso/sprite/IsoSprite.soffY:S",
+            "#133  I2F",
+            "#134  FADD",
+            "#135  FSTORE v6",
+            "#136  GOTO L8",
+            "#137  FLOAD v5",
+            "#138  GETSTATIC zombie/iso/sprite/IsoSprite.globalOffsetX:F",
+            "#139  FADD",
+            "#140  FSTORE v5",
+            "#141  FLOAD v6"
           ],
           "name": "renderVehicle",
           "recompInsnCount": 167,
           "descriptor": "(Lzombie/iso/sprite/IsoSpriteInstance;Lzombie/iso/IsoObject;FFFFFLzombie/core/textures/ColorInfo;Z)V",
-          "firstDiffIndex": 105,
+          "firstDiffIndex": 136,
           "category": "INSN_COUNT_DIFF",
           "matchTier": "NONE",
           "origInsnCount": 418,
           "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #105"
+          "diffDescription": "Instructions differ at #136"
         },
         {
           "name": "getCurrentSpriteFrame",
@@ -44562,14 +44398,6 @@
           "descriptor": "(ILzombie/iso/IsoDirections;)Lzombie/core/textures/Texture;",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 65,
-          "status": "MATCH"
-        },
-        {
-          "name": "update",
-          "recompInsnCount": 89,
-          "descriptor": "(Lzombie/iso/sprite/IsoSpriteInstance;)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 89,
           "status": "MATCH"
         },
         {
@@ -45619,6 +45447,14 @@
           "status": "MATCH"
         },
         {
+          "name": "enqueueThunderEvent",
+          "recompInsnCount": 170,
+          "descriptor": "(IIZZZ)V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 170,
+          "status": "MATCH"
+        },
+        {
           "name": "save",
           "recompInsnCount": 84,
           "descriptor": "(Ljava/io/DataOutputStream;)V",
@@ -46247,7 +46083,7 @@
         {
           "recompContext": [
             "#284  FCMPG",
-            "#285  IFGE L15",
+            "#285  IFGE L16",
             "#286  ALOAD v0",
             "#287  FCONST_1",
             "#288  PUTFIELD zombie/iso/weather/fx/IsoWeatherFX.windSpeed:F",
@@ -46540,40 +46376,40 @@
         },
         {
           "recompContext": [
-            "#8    IFNULL L31",
-            "#9    GETSTATIC zombie/Lua/LuaManager.thread:Lse/krka/kahlua/vm/KahluaThread;",
-            "#10   IFNULL L0",
-            "#11   GETSTATIC zombie/Lua/LuaManager.thread:Lse/krka/kahlua/vm/KahluaThread;",
-            "#12   GETFIELD se/krka/kahlua/vm/KahluaThread.bStep:Z",
-            "#13   IFNE L31",
-            "#14   GETSTATIC zombie/iso/weather/fx/WeatherFxMask.DEBUG_KEYS:Z",
-            "#15   IFEQ L1",
-            "#16   GETSTATIC zombie/core/Core.bDebug:Z",
-            "#17   IFEQ L1",
-            "#18   INVOKESTATIC zombie/iso/weather/fx/WeatherFxMask.updateDebugKeys()V"
+            "#32   IFNE L7",
+            "#33   ICONST_0",
+            "#34   IFEQ L35",
+            "#35   ALOAD v1",
+            "#36   GETFIELD zombie/iso/weather/fx/WeatherFxMask$PlayerFxMask.hasMaskToDraw:Z",
+            "#37   IFEQ L35",
+            "#38   ILOAD v0",
+            "#39   INVOKESTATIC zombie/iso/weather/fx/WeatherFxMask.scanForTiles(I)V",
+            "#40   ILOAD v0",
+            "#41   INVOKESTATIC zombie/iso/IsoCamera.getOffscreenLeft(I)I",
+            "#42   ISTORE v2"
           ],
           "origContext": [
-            "#8    IFNULL L2",
-            "#9    GETSTATIC zombie/Lua/LuaManager.thread:Lse/krka/kahlua/vm/KahluaThread;",
-            "#10   IFNULL L3",
-            "#11   GETSTATIC zombie/Lua/LuaManager.thread:Lse/krka/kahlua/vm/KahluaThread;",
-            "#12   GETFIELD se/krka/kahlua/vm/KahluaThread.bStep:Z",
-            "#13   IFNE L3",
-            "#14   GETSTATIC zombie/iso/weather/fx/WeatherFxMask.DEBUG_KEYS:Z",
-            "#15   IFEQ L4",
-            "#16   GETSTATIC zombie/core/Core.bDebug:Z",
-            "#17   IFEQ L4",
-            "#18   INVOKESTATIC zombie/iso/weather/fx/WeatherFxMask.updateDebugKeys()V"
+            "#32   IFNE L7",
+            "#33   ICONST_0",
+            "#34   IFEQ L8",
+            "#35   ALOAD v1",
+            "#36   GETFIELD zombie/iso/weather/fx/WeatherFxMask$PlayerFxMask.hasMaskToDraw:Z",
+            "#37   IFNE L10",
+            "#38   GETSTATIC zombie/iso/IsoWorld.instance:Lzombie/iso/IsoWorld;",
+            "#39   INVOKEVIRTUAL zombie/iso/IsoWorld.getCell()Lzombie/iso/IsoCell;",
+            "#40   IFNULL L9",
+            "#41   GETSTATIC zombie/iso/IsoWorld.instance:Lzombie/iso/IsoWorld;",
+            "#42   INVOKEVIRTUAL zombie/iso/IsoWorld.getCell()Lzombie/iso/IsoCell;"
           ],
           "name": "renderFxMask",
           "recompInsnCount": 389,
           "descriptor": "(I)V",
-          "firstDiffIndex": 13,
-          "category": "LABEL_ONLY",
+          "firstDiffIndex": 37,
+          "category": "GUARD_CLAUSE_INVERSION",
           "matchTier": "NONE",
           "origInsnCount": 446,
           "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #13"
+          "diffDescription": "Instructions differ at #37"
         },
         {
           "recompContext": [
@@ -46834,9 +46670,9 @@
       "methods": [
         {
           "name": "serverPacket",
-          "recompInsnCount": 119,
+          "recompInsnCount": 121,
           "descriptor": "(Ljava/nio/ByteBuffer;)V",
-          "matchTier": "STRUCTURAL",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 120,
           "status": "MATCH"
         },
@@ -46891,7 +46727,7 @@
           "#27   F2I",
           "#28   I2F",
           "#29   INVOKEVIRTUAL zombie/network/BodyDamageSync$Updater.compareFloats(FF)Z",
-          "#30   IFEQ L0",
+          "#30   IFEQ L1",
           "#31   GETSTATIC zombie/network/BodyDamageSync$Updater.bb:Ljava/nio/ByteBuffer;",
           "#32   BIPUSH 50",
           "#33   INVOKEVIRTUAL java/nio/ByteBuffer.put(B)Ljava/nio/ByteBuffer;",
@@ -46986,12 +46822,12 @@
           "recompContext": [
             "#45   ICONST_0",
             "#46   GETSTATIC zombie/iso/IsoChunkMap.ChunkGridWidth:I",
-            "#47   IF_ICMPGE L6",
+            "#47   IF_ICMPGE L7",
             "#48   ALOAD v1",
             "#49   ILOAD v10",
             "#50   ILOAD v9",
             "#51   INVOKEVIRTUAL zombie/iso/IsoChunkMap.getChunk(II)Lzombie/iso/IsoChunk;",
-            "#52   IFNULL L5",
+            "#52   IFNULL L6",
             "#53   GETSTATIC zombie/network/ClientServerMap.isLoaded:[Z",
             "#54   ILOAD v10",
             "#55   GETSTATIC zombie/iso/IsoChunkMap.ChunkGridWidth:I"
@@ -48230,7 +48066,7 @@
         },
         {
           "name": "receiveSyncAlarmClock",
-          "recompInsnCount": 178,
+          "recompInsnCount": 179,
           "descriptor": "(Ljava/nio/ByteBuffer;S)V",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 179,
@@ -50283,24 +50119,14 @@
     {
       "total_instructions": 460,
       "matched_code_percent": 91.30434782608695,
-      "methods": [
-        {
-          "name": "run",
-          "recompInsnCount": 30,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 30,
-          "status": "MATCH"
-        },
-        {
-          "name": "handlePacket",
-          "recompInsnCount": 178,
-          "descriptor": "(IILjava/lang/String;)V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 178,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "name": "handlePacket",
+        "recompInsnCount": 178,
+        "descriptor": "(IILjava/lang/String;)V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 178,
+        "status": "MATCH"
+      }],
       "name": "zombie/network/RCONServer$ClientThread",
       "total_methods": 7,
       "matched_instructions": 420,
@@ -50343,7 +50169,7 @@
             "#113  ICONST_1",
             "#114  IADD",
             "#115  ISTORE v3",
-            "#116  GOTO L5",
+            "#116  GOTO L6",
             "#117  RETURN"
           ],
           "origContext": [
@@ -52738,14 +52564,6 @@
           "status": "MATCH"
         },
         {
-          "name": "moveZombie",
-          "recompInsnCount": 179,
-          "descriptor": "(Lzombie/characters/IsoZombie;Lzombie/core/raknet/UdpConnection;Lzombie/characters/IsoPlayer;)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 179,
-          "status": "MATCH"
-        },
-        {
           "name": "removeZombies",
           "recompInsnCount": 101,
           "descriptor": "(Lzombie/core/raknet/UdpConnection;)V",
@@ -53122,7 +52940,7 @@
           "name": "endSaveRealZombies",
           "recompInsnCount": 3,
           "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 4,
           "status": "MATCH"
         },
@@ -56899,40 +56717,40 @@
         },
         {
           "recompContext": [
-            "#45   ILOAD v8",
-            "#46   ILOAD v12",
-            "#47   IF_ICMPLE L4",
-            "#48   ILOAD v12",
-            "#49   ISTORE v8",
-            "#50   GOTO L5",
-            "#51   ICONST_1",
-            "#52   ISTORE v6",
             "#53   ILOAD v12",
             "#54   ILOAD v0",
-            "#55   IF_ICMPNE L6"
+            "#55   IF_ICMPNE L9",
+            "#56   ICONST_1",
+            "#57   ISTORE v7",
+            "#58   GOTO L5",
+            "#59   GOTO L16",
+            "#60   ASTORE v11",
+            "#61   ALOAD v13",
+            "#62   IFNONNULL L12",
+            "#63   ALOAD v11"
           ],
           "origContext": [
-            "#45   ILOAD v8",
-            "#46   ILOAD v12",
-            "#47   IF_ICMPLE L8",
-            "#48   ILOAD v12",
-            "#49   ISTORE v8",
-            "#50   GOTO L8",
-            "#51   ICONST_1",
-            "#52   ISTORE v6",
             "#53   ILOAD v12",
             "#54   ILOAD v0",
-            "#55   IF_ICMPNE L9"
+            "#55   IF_ICMPNE L9",
+            "#56   ICONST_1",
+            "#57   ISTORE v7",
+            "#58   ILOAD v9",
+            "#59   ILOAD v12",
+            "#60   INVOKESTATIC java/lang/Math.max(II)I",
+            "#61   ISTORE v9",
+            "#62   GOTO L5",
+            "#63   ALOAD v13"
           ],
           "name": "setPlayer1",
           "recompInsnCount": 110,
           "descriptor": "(Ljava/lang/String;I)V",
-          "firstDiffIndex": 50,
+          "firstDiffIndex": 58,
           "category": "INSN_COUNT_DIFF",
           "matchTier": "NONE",
           "origInsnCount": 246,
           "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #50"
+          "diffDescription": "Instructions differ at #58"
         }
       ],
       "name": "zombie/savefile/PlayerDBHelper",
@@ -56982,16 +56800,16 @@
       "methods": [
         {
           "recompContext": [
-            "#6    IF_ICMPGE L2",
+            "#6    IF_ICMPGE L3",
             "#7    ALOAD v1",
             "#8    GETFIELD zombie/savefile/ServerPlayerDB.conn:Ljava/sql/Connection;",
-            "#9    IFNULL L2",
+            "#9    IFNULL L0",
             "#10   ACONST_NULL",
             "#11   ASTORE v2",
             "#12   GETSTATIC zombie/network/GameServer.bCoop:Z",
-            "#13   IFEQ L0",
+            "#13   IFEQ L1",
             "#14   INVOKESTATIC zombie/core/znet/SteamUtils.isSteamModeEnabled()Z",
-            "#15   IFEQ L0",
+            "#15   IFEQ L1",
             "#16   LDC \"SELECT id FROM networkPlayers WHERE steamid=? AND world=? AND playerIndex=?\""
           ],
           "origContext": [
@@ -58661,7 +58479,7 @@
             "#35   FALOAD",
             "#36   LDC 10000.0f",
             "#37   FCMPL",
-            "#38   IFEQ L1",
+            "#38   IFEQ L2",
             "#39   ACONST_NULL",
             "#40   ASTORE v4",
             "#41   ALOAD v0",
@@ -58871,40 +58689,40 @@
       "methods": [
         {
           "recompContext": [
-            "#17   GETFIELD zombie/ui/UIElement.maxDrawHeight:I",
-            "#18   I2D",
-            "#19   ALOAD v0",
-            "#20   GETFIELD zombie/ui/RadialProgressBar.y:D",
-            "#21   DCMPG",
-            "#22   IFLE L3",
-            "#23   ALOAD v0",
-            "#24   GETFIELD zombie/ui/RadialProgressBar.radialTexture:Lzombie/core/textures/Texture;",
-            "#25   IFNULL L3",
-            "#26   ALOAD v0",
-            "#27   GETFIELD zombie/ui/RadialProgressBar.x:D"
+            "#112  F2D",
+            "#113  INVOKESTATIC java/lang/Math.sin(D)D",
+            "#114  D2F",
+            "#115  INVOKESPECIAL zombie/iso/Vector2.<init>(FF)V",
+            "#116  ASTORE v11",
+            "#117  FCONST_0",
+            "#118  FSTORE v12",
+            "#119  FCONST_0",
+            "#120  FSTORE v13",
+            "#121  ALOAD v0",
+            "#122  GETFIELD zombie/ui/RadialProgressBar.width:F"
           ],
           "origContext": [
-            "#17   GETFIELD zombie/ui/UIElement.maxDrawHeight:I",
-            "#18   I2D",
-            "#19   ALOAD v0",
-            "#20   GETFIELD zombie/ui/RadialProgressBar.y:D",
-            "#21   DCMPG",
-            "#22   IFLE L2",
-            "#23   ALOAD v0",
-            "#24   GETFIELD zombie/ui/RadialProgressBar.radialTexture:Lzombie/core/textures/Texture;",
-            "#25   IFNULL L3",
-            "#26   ALOAD v0",
-            "#27   GETFIELD zombie/ui/RadialProgressBar.x:D"
+            "#112  F2D",
+            "#113  INVOKESTATIC java/lang/Math.sin(D)D",
+            "#114  D2F",
+            "#115  INVOKESPECIAL zombie/iso/Vector2.<init>(FF)V",
+            "#116  ASTORE v11",
+            "#117  ALOAD v0",
+            "#118  GETFIELD zombie/ui/RadialProgressBar.width:F",
+            "#119  FCONST_2",
+            "#120  FDIV",
+            "#121  ALOAD v11",
+            "#122  GETFIELD zombie/iso/Vector2.x:F"
           ],
           "name": "render",
           "recompInsnCount": 210,
           "descriptor": "()V",
-          "firstDiffIndex": 22,
+          "firstDiffIndex": 117,
           "category": "INSN_COUNT_DIFF",
           "matchTier": "NONE",
           "origInsnCount": 548,
           "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #22"
+          "diffDescription": "Instructions differ at #117"
         },
         {
           "name": "<clinit>",
@@ -59285,7 +59103,7 @@
         "name": "init",
         "recompInsnCount": 5,
         "descriptor": "()V",
-        "matchTier": "STRUCTURAL",
+        "matchTier": "SORTED_MULTISET",
         "origInsnCount": 6,
         "status": "MATCH"
       }],
@@ -59307,14 +59125,6 @@
     {
       "total_instructions": 219,
       "matched_code_percent": 98.17351598173516,
-      "methods": [{
-        "name": "render",
-        "recompInsnCount": 82,
-        "descriptor": "()V",
-        "matchTier": "STRUCTURAL",
-        "origInsnCount": 82,
-        "status": "MATCH"
-      }],
       "name": "zombie/ui/UI3DModel",
       "total_methods": 17,
       "matched_instructions": 215,
@@ -59457,14 +59267,6 @@
           "status": "MATCH"
         },
         {
-          "name": "render",
-          "recompInsnCount": 267,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 267,
-          "status": "MATCH"
-        },
-        {
           "name": "isPointOver",
           "recompInsnCount": 160,
           "descriptor": "(DD)Ljava/lang/Boolean;",
@@ -59527,7 +59329,7 @@
         },
         {
           "recompContext": [
-            "#105  IFNE L7",
+            "#105  IFNE L9",
             "#106  INVOKESTATIC zombie/ui/UIManager.getUI()Ljava/util/ArrayList;",
             "#107  INVOKESTATIC zombie/ui/UIManager.getClock()Lzombie/ui/Clock;",
             "#108  INVOKEVIRTUAL java/util/ArrayList.add(Ljava/lang/Object;)Z",
@@ -59576,7 +59378,7 @@
             "#30   GETSTATIC zombie/ui/Clock.instance:Lzombie/ui/Clock;",
             "#31   INVOKEVIRTUAL zombie/ui/Clock.isVisible()Ljava/lang/Boolean;",
             "#32   INVOKEVIRTUAL java/lang/Boolean.booleanValue()Z",
-            "#33   IFEQ L2",
+            "#33   IFEQ L3",
             "#34   BIPUSH 64"
           ],
           "origContext": [
@@ -59749,40 +59551,35 @@
       "methods": [
         {
           "recompContext": [
-            "#14   GETFIELD zombie/ui/UIElement.maxDrawHeight:I",
-            "#15   I2D",
-            "#16   ALOAD v0",
-            "#17   GETFIELD zombie/ui/UITextBox2.y:D",
-            "#18   DCMPG",
-            "#19   IFLE L6",
-            "#20   ALOAD v0",
-            "#21   GETFIELD zombie/ui/UITextBox2.bMask:Z",
-            "#22   IFEQ L1",
-            "#23   ALOAD v0",
-            "#24   GETFIELD zombie/ui/UITextBox2.internalText:Ljava/lang/String;"
+            "#154  FSUB",
+            "#155  FMUL",
+            "#156  FADD",
+            "#157  F2D",
+            "#158  INVOKEVIRTUAL zombie/ui/UITextBox2.DrawTexture(Lzombie/core/textures/Texture;DDD)V",
+            "#159  RETURN"
           ],
           "origContext": [
-            "#14   GETFIELD zombie/ui/UIElement.maxDrawHeight:I",
-            "#15   I2D",
-            "#16   ALOAD v0",
-            "#17   GETFIELD zombie/ui/UITextBox2.y:D",
-            "#18   DCMPG",
-            "#19   IFLE L1",
-            "#20   ALOAD v0",
-            "#21   GETFIELD zombie/ui/UITextBox2.bMask:Z",
-            "#22   IFEQ L2",
-            "#23   ALOAD v0",
-            "#24   GETFIELD zombie/ui/UITextBox2.internalText:Ljava/lang/String;"
+            "#154  FSUB",
+            "#155  FMUL",
+            "#156  FADD",
+            "#157  F2D",
+            "#158  INVOKEVIRTUAL zombie/ui/UITextBox2.DrawTexture(Lzombie/core/textures/Texture;DDD)V",
+            "#159  ALOAD v0",
+            "#160  ALOAD v0",
+            "#161  INVOKEVIRTUAL zombie/ui/UITextBox2.getAbsoluteX()Ljava/lang/Double;",
+            "#162  INVOKEVIRTUAL java/lang/Double.intValue()I",
+            "#163  ILOAD v2",
+            "#164  IADD"
           ],
           "name": "render",
           "recompInsnCount": 160,
           "descriptor": "()V",
-          "firstDiffIndex": 19,
+          "firstDiffIndex": 159,
           "category": "INSN_COUNT_DIFF",
           "matchTier": "NONE",
           "origInsnCount": 716,
           "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #19"
+          "diffDescription": "Instructions differ at #159"
         },
         {
           "name": "keepCursorVisible",
@@ -62174,13 +61971,13 @@
             "#0    ALOAD v0",
             "#1    GETFIELD zombie/characters/IsoZombie.target:Lzombie/iso/IsoMovingObject;",
             "#2    INSTANCEOF zombie/characters/IsoGameCharacter",
-            "#3    IFEQ L14",
+            "#3    IFEQ L16",
             "#4    ALOAD v1",
             "#5    INVOKEVIRTUAL zombie/characters/IsoGameCharacter.getVehicle()Lzombie/vehicles/BaseVehicle;",
-            "#6    IFNULL L14",
+            "#6    IFNULL L0",
             "#7    ALOAD v2",
             "#8    INVOKEVIRTUAL zombie/characters/IsoGameCharacter.isDead()Z",
-            "#9    IFNE L14",
+            "#9    IFNE L1",
             "#10   ALOAD v3"
           ],
           "origContext": [
@@ -62300,14 +62097,6 @@
           "descriptor": "(I)Lzombie/scripting/objects/VehicleScript$Passenger;",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 19,
-          "status": "MATCH"
-        },
-        {
-          "name": "playPartAnim",
-          "recompInsnCount": 102,
-          "descriptor": "(Lzombie/vehicles/VehiclePart;Ljava/lang/String;)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 102,
           "status": "MATCH"
         },
         {
@@ -62504,14 +62293,6 @@
           "descriptor": "()V",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 445,
-          "status": "MATCH"
-        },
-        {
-          "name": "updateControls",
-          "recompInsnCount": 18,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 18,
           "status": "MATCH"
         },
         {
@@ -62776,21 +62557,19 @@
         },
         {
           "recompContext": [
-            "#23   GETFIELD zombie/vehicles/BaseVehicle.square:Lzombie/iso/IsoGridSquare;",
-            "#24   GETFIELD zombie/iso/IsoGridSquare.lighting:[Lzombie/iso/IsoGridSquare$ILighting;",
             "#25   ILOAD v1",
             "#26   AALOAD",
             "#27   INVOKEINTERFACE zombie/iso/IsoGridSquare$ILighting.bSeen()Z",
-            "#28   IFEQ L9",
+            "#28   IFEQ L4",
             "#29   ILOAD v2",
-            "#30   IFEQ L4",
+            "#30   IFEQ L5",
             "#31   ALOAD v0",
             "#32   ILOAD v1",
-            "#33   FCONST_1"
+            "#33   FCONST_1",
+            "#34   INVOKEVIRTUAL zombie/vehicles/BaseVehicle.setTargetAlpha(IF)V",
+            "#35   GOTO L6"
           ],
           "origContext": [
-            "#23   GETFIELD zombie/vehicles/BaseVehicle.square:Lzombie/iso/IsoGridSquare;",
-            "#24   GETFIELD zombie/iso/IsoGridSquare.lighting:[Lzombie/iso/IsoGridSquare$ILighting;",
             "#25   ILOAD v1",
             "#26   AALOAD",
             "#27   INVOKEINTERFACE zombie/iso/IsoGridSquare$ILighting.bSeen()Z",
@@ -62799,17 +62578,19 @@
             "#30   IFNE L5",
             "#31   ALOAD v0",
             "#32   GETFIELD zombie/vehicles/BaseVehicle.square:Lzombie/iso/IsoGridSquare;",
-            "#33   GETFIELD zombie/iso/IsoGridSquare.lighting:[Lzombie/iso/IsoGridSquare$ILighting;"
+            "#33   GETFIELD zombie/iso/IsoGridSquare.lighting:[Lzombie/iso/IsoGridSquare$ILighting;",
+            "#34   ILOAD v1",
+            "#35   AALOAD"
           ],
           "name": "render",
           "recompInsnCount": 100,
           "descriptor": "(FFFLzombie/core/textures/ColorInfo;ZZLzombie/core/opengl/Shader;)V",
-          "firstDiffIndex": 28,
+          "firstDiffIndex": 30,
           "category": "INSN_COUNT_DIFF",
           "matchTier": "NONE",
           "origInsnCount": 160,
           "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #28"
+          "diffDescription": "Instructions differ at #30"
         },
         {
           "name": "renderlast",
@@ -63101,12 +62882,12 @@
             "#46   ICONST_1",
             "#47   IADD",
             "#48   ISTORE v3",
-            "#49   GOTO L2",
+            "#49   GOTO L3",
             "#50   RETURN",
             "#51   ACONST_NULL",
             "#52   ASTORE v3",
             "#53   ILOAD v0",
-            "#54   IFEQ L7",
+            "#54   IFEQ L8",
             "#55   BIPUSH 100",
             "#56   INVOKESTATIC zombie/core/Rand.Next(I)I"
           ],
@@ -63190,7 +62971,7 @@
           "name": "setActiveInBullet",
           "recompInsnCount": 5,
           "descriptor": "(Z)V",
-          "matchTier": "STRUCTURAL",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 6,
           "status": "MATCH"
         },
@@ -63253,6 +63034,14 @@
           "descriptor": "(Lzombie/vehicles/BaseVehicle;Ljava/lang/String;Ljava/lang/String;Z)Z",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 135,
+          "status": "MATCH"
+        },
+        {
+          "name": "tryReconnectToTowedVehicle",
+          "recompInsnCount": 86,
+          "descriptor": "()V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 84,
           "status": "MATCH"
         },
         {
@@ -63781,10 +63570,10 @@
           "recompContext": [
             "#312  ILOAD v6",
             "#313  INVOKEVIRTUAL zombie/iso/IsoCell.getGridSquare(III)Lzombie/iso/IsoGridSquare;",
-            "#314  IFNULL L12",
+            "#314  IFNULL L13",
             "#315  ALOAD v12",
             "#316  INVOKEVIRTUAL zombie/iso/IsoGridSquare.isSolid()Z",
-            "#317  IFEQ L10",
+            "#317  IFEQ L11",
             "#318  ILOAD v11",
             "#319  ILOAD v7",
             "#320  ISUB",
@@ -64735,10 +64524,10 @@
           "recompContext": [
             "#331  F2I",
             "#332  INVOKEVIRTUAL zombie/iso/IsoCell.getGridSquare(III)Lzombie/iso/IsoGridSquare;",
-            "#333  IFNULL L23",
+            "#333  IFNULL L24",
             "#334  ALOAD v13",
             "#335  INVOKEVIRTUAL zombie/iso/IsoGridSquare.isSolid()Z",
-            "#336  IFEQ L23",
+            "#336  IFEQ L24",
             "#337  FLOAD v3",
             "#338  F2I",
             "#339  ILOAD v12",
@@ -66407,7 +66196,7 @@
       "methods": [
         {
           "recompContext": [
-            "#77   IFEQ L2",
+            "#77   IFEQ L3",
             "#78   GETSTATIC zombie/core/SpriteRenderer.instance:Lzombie/core/SpriteRenderer;",
             "#79   ALOAD v1",
             "#80   GETFIELD zombie/vehicles/UI3DScene$StateData.m_gridPlaneDrawer:Lzombie/vehicles/UI3DScene$GridPlaneDrawer;",
@@ -67712,6 +67501,14 @@
           "matchTier": "STRUCTURAL",
           "origInsnCount": 43,
           "status": "MATCH"
+        },
+        {
+          "name": "updateSignalDevice",
+          "recompInsnCount": 78,
+          "descriptor": "()V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 78,
+          "status": "MATCH"
         }
       ],
       "name": "zombie/vehicles/VehiclePart",
@@ -68609,14 +68406,6 @@
     {
       "total_instructions": 84,
       "matched_code_percent": 78.57142857142857,
-      "methods": [{
-        "name": "initDefinitionsFromLua",
-        "recompInsnCount": 28,
-        "descriptor": "()V",
-        "matchTier": "STRUCTURAL",
-        "origInsnCount": 28,
-        "status": "MATCH"
-      }],
       "name": "zombie/worldMap/MapDefinitions",
       "total_methods": 5,
       "matched_instructions": 66,
@@ -68812,40 +68601,35 @@
       "matched_code_percent": 54.878892733564015,
       "methods": [{
         "recompContext": [
-          "#17   INVOKEVIRTUAL java/lang/Double.doubleValue()D",
-          "#18   ALOAD v0",
-          "#19   INVOKEVIRTUAL zombie/worldMap/UIWorldMap.getY()Ljava/lang/Double;",
-          "#20   INVOKEVIRTUAL java/lang/Double.doubleValue()D",
-          "#21   DCMPG",
-          "#22   IFLE L4",
-          "#23   ALOAD v0",
-          "#24   ACONST_NULL",
-          "#25   DCONST_0",
-          "#26   INVOKESTATIC java/lang/Double.valueOf(D)Ljava/lang/Double;",
-          "#27   DCONST_0"
+          "#129  IFEQ L5",
+          "#130  ALOAD v0",
+          "#131  GETFIELD zombie/worldMap/UIWorldMap.m_symbols:Lzombie/worldMap/symbols/WorldMapSymbols;",
+          "#132  ALOAD v0",
+          "#133  INVOKEVIRTUAL zombie/worldMap/symbols/WorldMapSymbols.render(Lzombie/worldMap/UIWorldMap;)V",
+          "#134  RETURN"
         ],
         "origContext": [
-          "#17   INVOKEVIRTUAL java/lang/Double.doubleValue()D",
-          "#18   ALOAD v0",
-          "#19   INVOKEVIRTUAL zombie/worldMap/UIWorldMap.getY()Ljava/lang/Double;",
-          "#20   INVOKEVIRTUAL java/lang/Double.doubleValue()D",
-          "#21   DCMPG",
-          "#22   IFLE L1",
-          "#23   ALOAD v0",
-          "#24   ACONST_NULL",
-          "#25   DCONST_0",
-          "#26   INVOKESTATIC java/lang/Double.valueOf(D)Ljava/lang/Double;",
-          "#27   DCONST_0"
+          "#129  IFEQ L5",
+          "#130  ALOAD v0",
+          "#131  GETFIELD zombie/worldMap/UIWorldMap.m_symbols:Lzombie/worldMap/symbols/WorldMapSymbols;",
+          "#132  ALOAD v0",
+          "#133  INVOKEVIRTUAL zombie/worldMap/symbols/WorldMapSymbols.render(Lzombie/worldMap/UIWorldMap;)V",
+          "#134  ALOAD v0",
+          "#135  GETFIELD zombie/worldMap/UIWorldMap.m_markers:Lzombie/worldMap/markers/WorldMapMarkers;",
+          "#136  ALOAD v0",
+          "#137  INVOKEVIRTUAL zombie/worldMap/markers/WorldMapMarkers.render(Lzombie/worldMap/UIWorldMap;)V",
+          "#138  ALOAD v0",
+          "#139  INVOKEVIRTUAL zombie/worldMap/UIWorldMap.renderLocalPlayers()V"
         ],
         "name": "render",
         "recompInsnCount": 135,
         "descriptor": "()V",
-        "firstDiffIndex": 22,
+        "firstDiffIndex": 134,
         "category": "INSN_COUNT_DIFF",
         "matchTier": "NONE",
         "origInsnCount": 604,
         "status": "MISMATCH",
-        "diffDescription": "Instructions differ at #22"
+        "diffDescription": "Instructions differ at #134"
       }],
       "name": "zombie/worldMap/UIWorldMap",
       "total_methods": 23,
@@ -69203,7 +68987,7 @@
             "#31   ALOAD v9",
             "#32   GETFIELD zombie/worldMap/WorldMapFeature.m_geometries:Ljava/util/ArrayList;",
             "#33   INVOKEVIRTUAL java/util/ArrayList.size()I",
-            "#34   IF_ICMPGE L4",
+            "#34   IF_ICMPGE L5",
             "#35   ACONST_NULL",
             "#36   ASTORE v10",
             "#37   ALOAD v9",
