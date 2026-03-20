@@ -305,6 +305,79 @@ run_recompile() {
     local compiled
     compiled=$(command find "$output_dir" -name "*.class" 2>/dev/null | wc -l)
 
+    # Multi-pass: when compilation fails, exclude root-cause files and retry
+    # so cascade failures can resolve dependencies from the game JAR.
+    if [ "$rc" -ne 0 ]; then
+        local max_passes=3
+        local pass=1
+        local prev_compiled="$compiled"
+
+        while [ "$pass" -le "$max_passes" ]; do
+            # Find files with their OWN errors (not cascade "cannot find symbol")
+            local root_cause
+            root_cause=$(mktemp)
+            grep "^.*\.java:[0-9]*: error:" "$log_file" 2>/dev/null \
+                | grep -v "error: cannot find symbol" \
+                | grep -v "error: package .* does not exist" \
+                | grep -v "error: cannot access " \
+                | sed 's/:[0-9]*: error:.*//' \
+                | sort -u > "$root_cause" || true
+
+            local exclude_count
+            exclude_count=$(wc -l < "$root_cause")
+
+            if [ "$exclude_count" -eq 0 ]; then
+                rm -f "$root_cause"
+                break
+            fi
+
+            # Build reduced source list (exclude root-cause files)
+            local new_src
+            new_src=$(mktemp)
+            grep -Fxvf "$root_cause" "$src_list" > "$new_src" || true
+            rm -f "$root_cause"
+
+            local new_total
+            new_total=$(wc -l < "$new_src")
+
+            if [ "$new_total" -ge "$(wc -l < "$src_list")" ]; then
+                rm -f "$new_src"
+                break
+            fi
+
+            local excluded=$((total - new_total))
+            echo "  Pass $((pass + 1)): excluded $excluded root-cause files, retrying $new_total..."
+            cp "$new_src" "$src_list"
+            rm -f "$new_src"
+
+            "$JAVAC_BIN" \
+                -d "$output_dir" \
+                -cp "$cp" \
+                -source "${JAVAC_SOURCE_VERSION:-17}" -target "${JAVAC_TARGET_VERSION:-17}" \
+                -proc:none \
+                -nowarn \
+                -implicit:class \
+                -Xmaxerrs 99999 \
+                -Xmaxwarns 0 \
+                "@$src_list" > "$log_file" 2>&1 &
+            javac_pid=$!
+
+            spinner "$javac_pid" "Compiling (pass $((pass + 1)))"
+
+            rc=0
+            wait "$javac_pid" || rc=$?
+
+            compiled=$(command find "$output_dir" -name "*.class" 2>/dev/null | wc -l)
+
+            # Stop if no improvement or compilation is clean
+            if [ "$compiled" -le "$prev_compiled" ] || [ "$rc" -eq 0 ]; then
+                break
+            fi
+            prev_compiled="$compiled"
+            pass=$((pass + 1))
+        done
+    fi
+
     if [ "$rc" -ne 0 ]; then
         local errors
         errors=$(grep -c "^.*\.java:[0-9]*: error:" "$log_file" 2>/dev/null || echo 0)
@@ -394,10 +467,16 @@ generate_image() {
     local report_path="$1"
     local output_path="$2"
     local title="$3"
+    local source_dir="${4:-}"
 
     ensure_venv
 
-    "$VENV_PYTHON" "$GENERATE_SCRIPT" "$report_path" "$output_path" "$title" &
+    local args=("$report_path" "$output_path" "$title")
+    if [ -n "$source_dir" ]; then
+        args+=("$source_dir")
+    fi
+
+    "$VENV_PYTHON" "$GENERATE_SCRIPT" "${args[@]}" &
     local py_pid=$!
 
     spinner "$py_pid" "Generating progress image"

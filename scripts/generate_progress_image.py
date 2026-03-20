@@ -22,13 +22,28 @@ COLOR_TIERS = [
     (75,       "#0e6b2c",  "75-90%"),          # dark green
     (50,       "#1a6b6b",  "50-75%"),          # teal
     (25,       "#0c3795",  "25-50%"),          # dark blue
-    (0.01,     "#0d1b3e",  "1-25%"),           # deep navy
-    (0,        "#353535",  "Not started"),     # gray
+    (0,        "#0d1b3e",  "0-25%"),            # deep navy
+    (-1,       "#353535",  "Not started"),     # gray (sentinel, never matched by pct)
 ]
 
+COLOR_NOT_COMPILED = "#D35400"  # burnt orange for "decompiled but not compiled"
 
-def get_color(unit):
+
+def get_color(unit, source_dir=None):
     """Color based on match percentage using tiered gradient."""
+    status = unit.get("status", "")
+
+    # Class exists in original but not in recompiled output
+    if status == "MISSING_RECOMP":
+        if source_dir:
+            name = unit.get("name", "")
+            # Inner classes share the source file of their outer class
+            source_name = name.split("$")[0]
+            source_file = Path(source_dir) / (source_name + ".java")
+            if source_file.exists():
+                return COLOR_NOT_COMPILED
+        return "#353535"  # no source, genuinely not started
+
     pct = unit.get("matched_code_percent", 0)
     if pct is None:
         pct = 0
@@ -41,12 +56,13 @@ def get_color(unit):
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: generate_progress_image.py <report.json> [output.png] [title]")
+        print("Usage: generate_progress_image.py <report.json> [output.png] [title] [source_dir]")
         sys.exit(1)
 
     report_path = sys.argv[1]
     output_path = sys.argv[2] if len(sys.argv) > 2 else "progress.png"
     custom_title = sys.argv[3] if len(sys.argv) > 3 else None
+    source_dir = sys.argv[4] if len(sys.argv) > 4 else None
 
     with open(report_path) as f:
         report = json.load(f)
@@ -68,7 +84,7 @@ def main():
         short_name = name.rsplit("/", 1)[-1] if "/" in name else name
         sizes.append(total_insns)
         labels.append(short_name)
-        colors.append(get_color(unit))
+        colors.append(get_color(unit, source_dir))
 
     if not sizes:
         print("No units with instructions found!")
@@ -95,7 +111,7 @@ def main():
         if dx > 2 and dy > 1.5:
             fontsize = min(8, max(4, min(dx, dy) * 0.8))
             # Use black text on gold/bright colors, white on dark
-            text_color = "#1a1a2e" if color == "#FFD700" else "white"
+            text_color = "#1a1a2e" if color in ("#FFD700", "#2ecc40") else "white"
             ax.text(
                 x + dx / 2, y + dy / 2,
                 label,
@@ -123,21 +139,45 @@ def main():
     else:
         header = "Decompilation Progress"
 
+    # Count decompiled classes when source_dir is available
+    decompiled_info = ""
+    if source_dir:
+        decompiled_count = 0
+        total_count = 0
+        for unit in units:
+            total_count += 1
+            status = unit.get("status", "")
+            if status != "MISSING_RECOMP":
+                decompiled_count += 1
+            else:
+                name = unit.get("name", "")
+                source_name = name.split("$")[0]
+                source_file = Path(source_dir) / (source_name + ".java")
+                if source_file.exists():
+                    decompiled_count += 1
+        if total_count > 0 and decompiled_count < total_count:
+            decompiled_pct = 100.0 * decompiled_count / total_count
+            decompiled_info = f"  |  {decompiled_pct:.1f}% decompiled"
+
     title = (
         f"{header}\n"
         f"{matched_code_pct:.2f}% matched  |  "
         f"{matched_funcs:,}/{total_funcs:,} methods  |  "
         f"{matched_insns:,}/{total_insns:,} instructions"
+        f"{decompiled_info}"
     )
     ax.set_title(title, color="white", fontsize=16, fontweight="bold", pad=20)
 
-    # Legend — only include tiers that appear in the data
-    used_colors = set(colors)
+    # Legend - always show all tiers for consistency across images
     legend_items = []
     for _, color, label in COLOR_TIERS:
-        if color in used_colors:
-            ec = "#1a1a2e" if color == "#FFD700" else "white"
-            legend_items.append(mpatches.Patch(facecolor=color, edgecolor=ec, label=label))
+        if color == "#353535":
+            label = "Not started"  # restore display label for sentinel tier
+        ec = "#1a1a2e" if color == "#FFD700" else "white"
+        legend_items.append(mpatches.Patch(facecolor=color, edgecolor=ec, label=label))
+    legend_items.insert(-1, mpatches.Patch(
+        facecolor=COLOR_NOT_COMPILED, edgecolor="white",
+        label="Decompiled, not compiled"))
 
     ax.legend(
         handles=legend_items,

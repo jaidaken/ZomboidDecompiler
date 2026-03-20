@@ -14,8 +14,9 @@ do_image() {
     source "$SCRIPT_DIR/common.sh"
     REPORT_PATH="$PROJECT_DIR/progress/b41/report.json"
     IMAGE_PATH="$PROJECT_DIR/progress/b41/progress.png"
+    SOURCE_DIR="$BUILDS_DIR/build-41/Decompiled-src/source"
     TITLE="Build 41 — Decompilation Progress"
-    generate_image "$REPORT_PATH" "$IMAGE_PATH" "$TITLE"
+    generate_image "$REPORT_PATH" "$IMAGE_PATH" "$TITLE" "$SOURCE_DIR"
 }
 
 STEP="${1:-all}"
