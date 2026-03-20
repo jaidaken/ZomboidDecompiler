@@ -1,21 +1,21 @@
 {
   "instructions": {
-    "matched": 677529,
+    "matched": 810650,
     "total": 1180403,
-    "percent": 57.4
+    "percent": 68.68
   },
   "methods": {
-    "matched": 32436,
-    "total": 33064,
-    "percent": 98.1
+    "matched": 32281,
+    "total": 33073,
+    "percent": 97.61
   },
   "tiers": {
-    "EXACT": 30700,
-    "STRUCTURAL": 723,
-    "SORTED_MULTISET": 768,
-    "FUZZY_COMPUTATION": 186,
-    "CORE_OPS_ONLY": 56,
-    "NONE": 628
+    "EXACT": 30168,
+    "STRUCTURAL": 897,
+    "SORTED_MULTISET": 908,
+    "FUZZY_COMPUTATION": 235,
+    "CORE_OPS_ONLY": 70,
+    "NONE": 792
   },
-  "exact_percent": 92.85
+  "exact_percent": 91.22
 }
