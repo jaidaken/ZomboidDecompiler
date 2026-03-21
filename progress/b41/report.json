@@ -2,21 +2,21 @@
   "measures": {
     "total_classes": 2978,
     "total_instructions": 1180433,
-    "matched_code_percent": 78.95950045449425,
+    "matched_code_percent": 78.96026288658484,
     "match_tiers": {
       "FUZZY_COMPUTATION": 292,
       "CORE_OPS_ONLY": 83,
-      "EXACT": 29679,
-      "SORTED_MULTISET": 1067,
+      "EXACT": 29696,
+      "SORTED_MULTISET": 1064,
       "STRUCTURAL_NO_TRYCATCH": 3,
-      "NONE": 738,
-      "STRUCTURAL": 1069
+      "NONE": 735,
+      "STRUCTURAL": 1058
     },
     "total_methods": 33086,
-    "matched_function_percent": 97.30097322130206,
-    "matched_instructions": 932064,
+    "matched_function_percent": 97.31004050051381,
+    "matched_instructions": 932073,
     "matched_classes": 2661,
-    "matched_methods": 32193
+    "matched_methods": 32196
   },
   "units": [
     {
@@ -1709,14 +1709,6 @@
           "descriptor": "()Lse/krka/kahlua/vm/KahluaTable;",
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 48,
-          "status": "MATCH"
-        },
-        {
-          "name": "isCurrentExecutionPoint",
-          "recompInsnCount": 32,
-          "descriptor": "(Ljava/lang/String;I)Z",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 32,
           "status": "MATCH"
         },
         {
@@ -8169,14 +8161,6 @@
           "matchTier": "FUZZY_COMPUTATION",
           "origInsnCount": 189,
           "status": "MATCH"
-        },
-        {
-          "name": "canAddFitnessXp",
-          "recompInsnCount": 39,
-          "descriptor": "()Z",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 39,
-          "status": "MATCH"
         }
       ],
       "name": "zombie/characters/BodyDamage/Nutrition",
@@ -10939,14 +10923,6 @@
           "descriptor": "()Ljava/lang/String;",
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 120,
-          "status": "MATCH"
-        },
-        {
-          "name": "pressedAim",
-          "recompInsnCount": 48,
-          "descriptor": "()Z",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 48,
           "status": "MATCH"
         },
         {
@@ -18631,7 +18607,7 @@
     },
     {
       "total_instructions": 953,
-      "matched_code_percent": 74.71143756558237,
+      "matched_code_percent": 75.65582371458552,
       "methods": [
         {
           "name": "init",
@@ -18690,72 +18666,9 @@
           "name": "lockStepRenderStep",
           "recompInsnCount": 39,
           "descriptor": "()Z",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 37,
           "status": "MATCH"
-        },
-        {
-          "recompContext": [
-            "#0    INVOKESTATIC org/lwjglx/opengl/Display.processMessages()V",
-            "#1    RETURN"
-          ],
-          "origContext": [
-            "#0    ICONST_1",
-            "#1    INVOKESTATIC org/lwjglx/opengl/Display.update(Z)V",
-            "#2    INVOKESTATIC zombie/core/opengl/RenderThread.checkControllers()V",
-            "#3    RETURN"
-          ],
-          "name": "lambda$lockStepRenderStep$3",
-          "recompInsnCount": 2,
-          "descriptor": "()V",
-          "firstDiffIndex": 0,
-          "category": "LAMBDA_BODY_SWAP",
-          "matchTier": "NONE",
-          "origInsnCount": 4,
-          "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #0"
-        },
-        {
-          "recompContext": [
-            "#0    ICONST_1",
-            "#1    INVOKESTATIC org/lwjglx/opengl/Display.update(Z)V",
-            "#2    INVOKESTATIC zombie/core/opengl/RenderThread.checkControllers()V",
-            "#3    RETURN"
-          ],
-          "origContext": [
-            "#0    GETSTATIC zombie/core/SpriteRenderer.instance:Lzombie/core/SpriteRenderer;",
-            "#1    INVOKEVIRTUAL zombie/core/SpriteRenderer.postRender()V",
-            "#2    RETURN"
-          ],
-          "name": "lambda$lockStepRenderStep$2",
-          "recompInsnCount": 4,
-          "descriptor": "()V",
-          "firstDiffIndex": 1,
-          "category": "LAMBDA_BODY_SWAP",
-          "matchTier": "NONE",
-          "origInsnCount": 3,
-          "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #1"
-        },
-        {
-          "recompContext": [
-            "#0    GETSTATIC zombie/core/SpriteRenderer.instance:Lzombie/core/SpriteRenderer;",
-            "#1    INVOKEVIRTUAL zombie/core/SpriteRenderer.postRender()V",
-            "#2    RETURN"
-          ],
-          "origContext": [
-            "#0    INVOKESTATIC org/lwjglx/opengl/Display.processMessages()V",
-            "#1    RETURN"
-          ],
-          "name": "lambda$lockStepRenderStep$1",
-          "recompInsnCount": 3,
-          "descriptor": "()V",
-          "firstDiffIndex": 0,
-          "category": "LAMBDA_BODY_SWAP",
-          "matchTier": "NONE",
-          "origInsnCount": 2,
-          "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #0"
         },
         {
           "recompContext": [
@@ -18796,8 +18709,8 @@
       ],
       "name": "zombie/core/opengl/RenderThread",
       "total_methods": 46,
-      "matched_instructions": 712,
-      "matched_methods": 41,
+      "matched_instructions": 721,
+      "matched_methods": 44,
       "status": "MISMATCH"
     },
     {
@@ -20548,14 +20461,6 @@
     {
       "total_instructions": 193,
       "matched_code_percent": 91.19170984455958,
-      "methods": [{
-        "name": "IsInDir",
-        "recompInsnCount": 25,
-        "descriptor": "(Ljava/lang/String;)Z",
-        "matchTier": "STRUCTURAL",
-        "origInsnCount": 25,
-        "status": "MATCH"
-      }],
       "name": "zombie/core/skinnedmodel/ModelManager$AnimDirReloader",
       "total_methods": 5,
       "matched_instructions": 176,
@@ -31145,14 +31050,6 @@
           "diffDescription": "Instructions differ at #100"
         },
         {
-          "name": "loadItem",
-          "recompInsnCount": 137,
-          "descriptor": "(Ljava/nio/ByteBuffer;IZ)Lzombie/inventory/InventoryItem;",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 137,
-          "status": "MATCH"
-        },
-        {
           "recompContext": [
             "#265  INVOKEVIRTUAL java/nio/ByteBuffer.flip()Ljava/nio/ByteBuffer;",
             "#266  ASTORE v9",
@@ -31698,7 +31595,7 @@
           "name": "rollProceduralItem",
           "recompInsnCount": 347,
           "descriptor": "(Ljava/util/ArrayList;Lzombie/inventory/ItemContainer;FLzombie/characters/IsoGameCharacter;Lzombie/inventory/ItemPickerJava$ItemPickerRoom;)V",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 345,
           "status": "MATCH"
         },
@@ -31816,14 +31713,6 @@
           "origInsnCount": 78,
           "status": "MISMATCH",
           "diffDescription": "Instructions differ at #46"
-        },
-        {
-          "name": "getItemContainer",
-          "recompInsnCount": 56,
-          "descriptor": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Z)Lzombie/inventory/ItemPickerJava$ItemPickerContainer;",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 56,
-          "status": "MATCH"
         }
       ],
       "name": "zombie/inventory/ItemPickerJava",
@@ -41003,14 +40892,6 @@
           "diffDescription": "Instructions differ at #0"
         },
         {
-          "name": "interConnect",
-          "recompInsnCount": 162,
-          "descriptor": "()V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 162,
-          "status": "MATCH"
-        },
-        {
           "name": "floodFillExpandWorldRegion",
           "recompInsnCount": 53,
           "descriptor": "(Lzombie/iso/areas/isoregion/regions/IsoChunkRegion;Lzombie/iso/areas/isoregion/regions/IsoWorldRegion;)V",
@@ -41088,14 +40969,6 @@
     {
       "total_instructions": 553,
       "matched_code_percent": 99.63833634719711,
-      "methods": [{
-        "name": "saveChunksToDisk",
-        "recompInsnCount": 96,
-        "descriptor": "()Z",
-        "matchTier": "STRUCTURAL",
-        "origInsnCount": 96,
-        "status": "MATCH"
-      }],
       "name": "zombie/iso/areas/isoregion/jobs/JobChunkUpdate",
       "total_methods": 18,
       "matched_instructions": 551,
@@ -60594,14 +60467,6 @@
       "matched_code_percent": 93.79310344827586,
       "methods": [
         {
-          "name": "isWhitespace",
-          "recompInsnCount": 41,
-          "descriptor": "(Ljava/lang/String;)Z",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 41,
-          "status": "MATCH"
-        },
-        {
           "name": "isBoolean",
           "recompInsnCount": 27,
           "descriptor": "(Ljava/lang/String;)Z",
@@ -62041,30 +61906,6 @@
           "diffDescription": "Instructions differ at #4"
         },
         {
-          "name": "containsKey",
-          "recompInsnCount": 70,
-          "descriptor": "(I)Z",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 70,
-          "status": "MATCH"
-        },
-        {
-          "name": "get",
-          "recompInsnCount": 76,
-          "descriptor": "(I)Ljava/lang/Object;",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 76,
-          "status": "MATCH"
-        },
-        {
-          "name": "remove",
-          "recompInsnCount": 112,
-          "descriptor": "(I)Ljava/lang/Object;",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 112,
-          "status": "MATCH"
-        },
-        {
           "name": "readObject",
           "recompInsnCount": 100,
           "descriptor": "(Ljava/io/ObjectInputStream;)V",
@@ -62213,22 +62054,6 @@
           "origInsnCount": 133,
           "status": "MISMATCH",
           "diffDescription": "Instructions differ at #4"
-        },
-        {
-          "name": "contains",
-          "recompInsnCount": 70,
-          "descriptor": "(I)Z",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 70,
-          "status": "MATCH"
-        },
-        {
-          "name": "remove",
-          "recompInsnCount": 92,
-          "descriptor": "(I)Z",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 92,
-          "status": "MATCH"
         },
         {
           "recompContext": [
@@ -67461,40 +67286,40 @@
       "matched_code_percent": 42.3728813559322,
       "methods": [{
         "recompContext": [
-          "#39   ICONST_0",
-          "#40   ISTORE v4",
-          "#41   ALOAD v2",
-          "#42   IFNONNULL L7",
-          "#43   ALOAD v3",
-          "#44   IFNONNULL L4",
-          "#45   ALOAD v1",
-          "#46   INVOKEVIRTUAL zombie/vehicles/VehicleInterpolation.reset()V",
-          "#47   ICONST_0",
-          "#48   IRETURN",
-          "#49   ALOAD v5"
+          "#49   FASTORE",
+          "#50   ICONST_1",
+          "#51   ALOAD v3",
+          "#52   GETFIELD zombie/vehicles/VehicleInterpolationData.throttle:F",
+          "#53   FASTORE",
+          "#54   ILOAD v4",
+          "#55   ISTORE v6",
+          "#56   ILOAD v4",
+          "#57   ICONST_1",
+          "#58   IADD",
+          "#59   ISTORE v4"
         ],
         "origContext": [
-          "#39   ICONST_0",
-          "#40   ISTORE v4",
-          "#41   ALOAD v2",
-          "#42   IFNONNULL L7",
-          "#43   ALOAD v3",
-          "#44   IFNULL L6",
-          "#45   ALOAD v5",
-          "#46   ICONST_0",
-          "#47   ALOAD v3",
-          "#48   GETFIELD zombie/vehicles/VehicleInterpolationData.engineSpeed:F",
-          "#49   FASTORE"
+          "#49   FASTORE",
+          "#50   ICONST_1",
+          "#51   ALOAD v3",
+          "#52   GETFIELD zombie/vehicles/VehicleInterpolationData.throttle:F",
+          "#53   FASTORE",
+          "#54   ALOAD v6",
+          "#55   ILOAD v4",
+          "#56   ILOAD v4",
+          "#57   ICONST_1",
+          "#58   IADD",
+          "#59   ISTORE v4"
         ],
         "name": "interpolationDataGet",
         "recompInsnCount": 604,
         "descriptor": "([F[FJ)Z",
-        "firstDiffIndex": 44,
-        "category": "GUARD_CLAUSE_INVERSION",
+        "firstDiffIndex": 54,
+        "category": "VARIABLE_COPY_PROPAGATION",
         "matchTier": "NONE",
         "origInsnCount": 544,
         "status": "MISMATCH",
-        "diffDescription": "Instructions differ at #44"
+        "diffDescription": "Instructions differ at #54"
       }],
       "name": "zombie/vehicles/VehicleInterpolation",
       "total_methods": 10,
