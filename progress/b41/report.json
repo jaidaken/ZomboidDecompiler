@@ -2,21 +2,21 @@
   "measures": {
     "total_classes": 2978,
     "total_instructions": 1180433,
-    "matched_code_percent": 78.92790188007282,
+    "matched_code_percent": 78.95950045449425,
     "match_tiers": {
       "FUZZY_COMPUTATION": 292,
       "CORE_OPS_ONLY": 83,
-      "EXACT": 29674,
+      "EXACT": 29679,
       "SORTED_MULTISET": 1067,
       "STRUCTURAL_NO_TRYCATCH": 3,
-      "NONE": 744,
-      "STRUCTURAL": 1068
+      "NONE": 738,
+      "STRUCTURAL": 1069
     },
     "total_methods": 33086,
-    "matched_function_percent": 97.28283866287856,
-    "matched_instructions": 931691,
-    "matched_classes": 2659,
-    "matched_methods": 32187
+    "matched_function_percent": 97.30097322130206,
+    "matched_instructions": 932064,
+    "matched_classes": 2661,
+    "matched_methods": 32193
   },
   "units": [
     {
@@ -13884,74 +13884,8 @@
     },
     {
       "total_instructions": 826,
-      "matched_code_percent": 85.83535108958837,
+      "matched_code_percent": 88.01452784503633,
       "methods": [
-        {
-          "recompContext": [
-            "#0    ACONST_NULL",
-            "#1    ARETURN"
-          ],
-          "origContext": [
-            "#0    ALOAD v0",
-            "#1    INVOKEVIRTUAL java/lang/Object.getClass()Ljava/lang/Class;",
-            "#2    LDC Lzombie/commands/CommandArgs;",
-            "#3    INVOKEVIRTUAL java/lang/Class.getAnnotationsByType(Ljava/lang/Class;)[Ljava/lang/annotation/Annotation;",
-            "#4    ARETURN"
-          ],
-          "name": "getCommandArgVariants",
-          "recompInsnCount": 2,
-          "descriptor": "()[Lzombie/commands/CommandArgs;",
-          "firstDiffIndex": 0,
-          "category": "VARIABLE_COPY_PROPAGATION",
-          "matchTier": "NONE",
-          "origInsnCount": 5,
-          "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #0"
-        },
-        {
-          "recompContext": [
-            "#0    ICONST_0",
-            "#1    IRETURN"
-          ],
-          "origContext": [
-            "#0    ALOAD v0",
-            "#1    INVOKEVIRTUAL java/lang/Object.getClass()Ljava/lang/Class;",
-            "#2    LDC Lzombie/commands/CommandHelp;",
-            "#3    INVOKEVIRTUAL java/lang/Class.getAnnotation(Ljava/lang/Class;)Ljava/lang/annotation/Annotation;",
-            "#4    IFNULL L0",
-            "#5    ICONST_1"
-          ],
-          "name": "hasHelp",
-          "recompInsnCount": 2,
-          "descriptor": "()Z",
-          "firstDiffIndex": 0,
-          "category": "VARIABLE_COPY_PROPAGATION",
-          "matchTier": "NONE",
-          "origInsnCount": 9,
-          "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #0"
-        },
-        {
-          "recompContext": [
-            "#0    ACONST_NULL",
-            "#1    ARETURN"
-          ],
-          "origContext": [
-            "#0    ALOAD v0",
-            "#1    INVOKEVIRTUAL java/lang/Object.getClass()Ljava/lang/Class;",
-            "#2    INVOKESTATIC zombie/commands/CommandBase.getHelp(Ljava/lang/Class;)Ljava/lang/String;",
-            "#3    ARETURN"
-          ],
-          "name": "getHelp",
-          "recompInsnCount": 2,
-          "descriptor": "()Ljava/lang/String;",
-          "firstDiffIndex": 0,
-          "category": "VARIABLE_COPY_PROPAGATION",
-          "matchTier": "NONE",
-          "origInsnCount": 4,
-          "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #0"
-        },
         {
           "name": "getCommandArg",
           "recompInsnCount": 20,
@@ -13979,9 +13913,9 @@
       ],
       "name": "zombie/commands/CommandBase",
       "total_methods": 28,
-      "matched_instructions": 709,
-      "matched_methods": 25,
-      "status": "MISMATCH"
+      "matched_instructions": 727,
+      "matched_methods": 28,
+      "status": "MATCH"
     },
     {
       "total_instructions": 0,
@@ -26436,32 +26370,12 @@
     },
     {
       "total_instructions": 516,
-      "matched_code_percent": 90.50387596899225,
-      "methods": [{
-        "recompContext": ["#0    RETURN"],
-        "origContext": [
-          "#0    GETSTATIC zombie/core/utils/BufferUtils.loadedMethods:Ljava/util/concurrent/atomic/AtomicBoolean;",
-          "#1    ICONST_1",
-          "#2    INVOKEVIRTUAL java/util/concurrent/atomic/AtomicBoolean.getAndSet(Z)Z",
-          "#3    IFNE L0",
-          "#4    GETSTATIC zombie/core/utils/BufferUtils.loadedMethods:Ljava/util/concurrent/atomic/AtomicBoolean;",
-          "#5    MONITORENTER"
-        ],
-        "name": "loadCleanerMethods",
-        "recompInsnCount": 1,
-        "descriptor": "()V",
-        "firstDiffIndex": 0,
-        "category": "INSN_COUNT_DIFF",
-        "matchTier": "NONE",
-        "origInsnCount": 37,
-        "status": "MISMATCH",
-        "diffDescription": "Instructions differ at #0"
-      }],
+      "matched_code_percent": 97.67441860465117,
       "name": "zombie/core/utils/BufferUtils",
       "total_methods": 9,
-      "matched_instructions": 467,
-      "matched_methods": 8,
-      "status": "MISMATCH"
+      "matched_instructions": 504,
+      "matched_methods": 9,
+      "status": "MATCH"
     },
     {
       "total_instructions": 11,
@@ -48662,7 +48576,7 @@
     },
     {
       "total_instructions": 22546,
-      "matched_code_percent": 70.21644637629734,
+      "matched_code_percent": 70.50031047635945,
       "methods": [
         {
           "recompContext": [
@@ -48700,29 +48614,6 @@
           "origInsnCount": 1823,
           "status": "MISMATCH",
           "diffDescription": "Instructions differ at #95"
-        },
-        {
-          "recompContext": [
-            "#0    ACONST_NULL",
-            "#1    ARETURN"
-          ],
-          "origContext": [
-            "#0    ALOAD v0",
-            "#1    IFNONNULL L0",
-            "#2    ACONST_NULL",
-            "#3    ARETURN",
-            "#4    LDC \"admin\"",
-            "#5    ASTORE v1"
-          ],
-          "name": "handleServerCommand",
-          "recompInsnCount": 2,
-          "descriptor": "(Ljava/lang/String;Lzombie/core/raknet/UdpConnection;)Ljava/lang/String;",
-          "firstDiffIndex": 0,
-          "category": "INSN_COUNT_DIFF",
-          "matchTier": "NONE",
-          "origInsnCount": 64,
-          "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #0"
         },
         {
           "name": "doMinimumInit",
@@ -49379,8 +49270,8 @@
       ],
       "name": "zombie/network/GameServer",
       "total_methods": 310,
-      "matched_instructions": 15831,
-      "matched_methods": 297,
+      "matched_instructions": 15895,
+      "matched_methods": 298,
       "status": "MISMATCH"
     },
     {
@@ -59669,27 +59560,15 @@
     },
     {
       "total_instructions": 1265,
-      "matched_code_percent": 65.37549407114625,
+      "matched_code_percent": 85.45454545454545,
       "methods": [
         {
-          "recompContext": ["#0    RETURN"],
-          "origContext": [
-            "#0    ALOAD v0",
-            "#1    INVOKEVIRTUAL zombie/ui/UIDebugConsole.isVisible()Ljava/lang/Boolean;",
-            "#2    INVOKEVIRTUAL java/lang/Boolean.booleanValue()Z",
-            "#3    IFEQ L0",
-            "#4    ALOAD v0",
-            "#5    INVOKEVIRTUAL zombie/ui/UIDebugConsole.handleOutput()V"
-          ],
           "name": "update",
-          "recompInsnCount": 1,
+          "recompInsnCount": 255,
           "descriptor": "()V",
-          "firstDiffIndex": 0,
-          "category": "INSN_COUNT_DIFF",
-          "matchTier": "NONE",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 254,
-          "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #0"
+          "status": "MATCH"
         },
         {
           "name": "ProcessCommand",
@@ -59747,8 +59626,8 @@
       ],
       "name": "zombie/ui/UIDebugConsole",
       "total_methods": 18,
-      "matched_instructions": 827,
-      "matched_methods": 16,
+      "matched_instructions": 1081,
+      "matched_methods": 17,
       "status": "MISMATCH"
     },
     {
