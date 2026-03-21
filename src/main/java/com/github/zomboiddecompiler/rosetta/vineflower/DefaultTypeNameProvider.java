@@ -14,6 +14,7 @@ public class DefaultTypeNameProvider implements ITypeNameProvider {
     @Override
     public String nameVar(VarType type) {
         String typeName = VineflowerUtils.getRawTypeName(type);
+        if (typeName == null) return "var";
 
         // in practice, it doesn't seem like isGeneric() ever returns true
         // this may start working when the generic inference plugin is written
