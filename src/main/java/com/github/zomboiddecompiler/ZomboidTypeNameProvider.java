@@ -11,7 +11,7 @@ public class ZomboidTypeNameProvider implements ITypeNameProvider {
     @Override
     public String nameVar(VarType type) {
         String typeName = VineflowerUtils.getRawTypeName(type);
-        if (TYPE_NAME_OVERRIDES.containsKey(typeName)) {
+        if (typeName != null && TYPE_NAME_OVERRIDES.containsKey(typeName)) {
             typeName = TYPE_NAME_OVERRIDES.get(typeName);
             if (type.arrayDim > 0) {
                 typeName += "s";
@@ -20,6 +20,7 @@ public class ZomboidTypeNameProvider implements ITypeNameProvider {
         }
 
         typeName = DEFAULT_TYPE_NAME_PROVIDER.nameVar(type);
+        if (typeName == null) return "var";
         if (typeName.startsWith("iso")) {
             typeName = typeName.substring(3);
         }

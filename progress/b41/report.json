@@ -2,21 +2,21 @@
   "measures": {
     "total_classes": 2978,
     "total_instructions": 1180433,
-    "matched_code_percent": 76.89517321186378,
+    "matched_code_percent": 77.03715501006835,
     "match_tiers": {
       "FUZZY_COMPUTATION": 272,
       "CORE_OPS_ONLY": 79,
-      "EXACT": 29785,
-      "SORTED_MULTISET": 1019,
+      "EXACT": 29788,
+      "SORTED_MULTISET": 1023,
       "STRUCTURAL_NO_TRYCATCH": 3,
-      "NONE": 896,
+      "NONE": 889,
       "STRUCTURAL": 1014
     },
     "total_methods": 33086,
-    "matched_function_percent": 97.2375022668198,
-    "matched_instructions": 907696,
-    "matched_classes": 2617,
-    "matched_methods": 32172
+    "matched_function_percent": 97.25865925164722,
+    "matched_instructions": 909372,
+    "matched_classes": 2619,
+    "matched_methods": 32179
   },
   "units": [
     {
@@ -28892,30 +28892,15 @@
     },
     {
       "total_instructions": 490,
-      "matched_code_percent": 74.08163265306122,
+      "matched_code_percent": 90.81632653061224,
       "methods": [
         {
-          "recompContext": [
-            "#0    ACONST_NULL",
-            "#1    ARETURN"
-          ],
-          "origContext": [
-            "#0    ALOAD v0",
-            "#1    IFNONNULL L0",
-            "#2    ACONST_NULL",
-            "#3    ARETURN",
-            "#4    ILOAD v1",
-            "#5    IFEQ L1"
-          ],
           "name": "validWall",
-          "recompInsnCount": 2,
+          "recompInsnCount": 87,
           "descriptor": "(Lzombie/iso/IsoGridSquare;ZZ)Lzombie/iso/IsoObject;",
-          "firstDiffIndex": 0,
-          "category": "INSN_COUNT_DIFF",
-          "matchTier": "NONE",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 82,
-          "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #0"
+          "status": "MATCH"
         },
         {
           "name": "currentSeason",
@@ -28936,9 +28921,9 @@
       ],
       "name": "zombie/erosion/categories/ErosionCategory",
       "total_methods": 16,
-      "matched_instructions": 363,
-      "matched_methods": 15,
-      "status": "MISMATCH"
+      "matched_instructions": 445,
+      "matched_methods": 16,
+      "status": "MATCH"
     },
     {
       "total_instructions": 189,
@@ -34268,27 +34253,15 @@
     },
     {
       "total_instructions": 1614,
-      "matched_code_percent": 36.12143742255267,
+      "matched_code_percent": 96.22057001239158,
       "methods": [
         {
-          "recompContext": ["#0    RETURN"],
-          "origContext": [
-            "#0    ACONST_NULL",
-            "#1    ASTORE v0",
-            "#2    ALOAD v1",
-            "#3    IFNULL L0",
-            "#4    ICONST_0",
-            "#5    ISTORE v2"
-          ],
           "name": "DoTileObjectCreation",
-          "recompInsnCount": 1,
+          "recompInsnCount": 974,
           "descriptor": "(Lzombie/iso/sprite/IsoSprite;Lzombie/iso/SpriteDetails/IsoObjectType;Lzombie/iso/IsoGridSquare;Lzombie/iso/IsoCell;IIILjava/lang/String;)V",
-          "firstDiffIndex": 0,
-          "category": "INSN_COUNT_DIFF",
-          "matchTier": "NONE",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 970,
-          "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #0"
+          "status": "MATCH"
         },
         {
           "name": "LoadCellBinaryChunk",
@@ -34317,9 +34290,9 @@
       ],
       "name": "zombie/iso/CellLoader",
       "total_methods": 9,
-      "matched_instructions": 583,
-      "matched_methods": 8,
-      "status": "MISMATCH"
+      "matched_instructions": 1553,
+      "matched_methods": 9,
+      "status": "MATCH"
     },
     {
       "total_instructions": 232,
@@ -49681,7 +49654,7 @@
     },
     {
       "total_instructions": 15353,
-      "matched_code_percent": 81.30007164723507,
+      "matched_code_percent": 83.10427929394906,
       "methods": [
         {
           "name": "receivePlayerUpdate",
@@ -49774,50 +49747,6 @@
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 43,
           "status": "MATCH"
-        },
-        {
-          "recompContext": [
-            "#0    ICONST_0",
-            "#1    IRETURN"
-          ],
-          "origContext": [
-            "#0    ICONST_0",
-            "#1    ISTORE v0",
-            "#2    GETSTATIC zombie/network/GameClient.connection:Lzombie/core/raknet/UdpConnection;",
-            "#3    INVOKEVIRTUAL zombie/core/raknet/UdpConnection.startPacket()Lzombie/core/network/ByteBufferWriter;",
-            "#4    ASTORE v1",
-            "#5    GETSTATIC zombie/network/PacketTypes$PacketType.HitCharacter:Lzombie/network/PacketTypes$PacketType;",
-            "#6    ALOAD v1"
-          ],
-          "name": "sendHitCharacter",
-          "recompInsnCount": 2,
-          "descriptor": "(Lzombie/characters/IsoGameCharacter;Lzombie/iso/IsoMovingObject;Lzombie/inventory/types/HandWeapon;FZFZZZ)Z",
-          "firstDiffIndex": 1,
-          "category": "INSN_COUNT_DIFF",
-          "matchTier": "NONE",
-          "origInsnCount": 194,
-          "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #1"
-        },
-        {
-          "recompContext": ["#0    RETURN"],
-          "origContext": [
-            "#0    GETSTATIC zombie/network/GameClient.connection:Lzombie/core/raknet/UdpConnection;",
-            "#1    INVOKEVIRTUAL zombie/core/raknet/UdpConnection.startPacket()Lzombie/core/network/ByteBufferWriter;",
-            "#2    ASTORE v0",
-            "#3    GETSTATIC zombie/network/PacketTypes$PacketType.HitCharacter:Lzombie/network/PacketTypes$PacketType;",
-            "#4    ALOAD v0",
-            "#5    INVOKEVIRTUAL zombie/network/PacketTypes$PacketType.doPacket(Lzombie/core/network/ByteBufferWriter;)V"
-          ],
-          "name": "sendHitVehicle",
-          "recompInsnCount": 1,
-          "descriptor": "(Lzombie/characters/IsoPlayer;Lzombie/characters/IsoGameCharacter;Lzombie/vehicles/BaseVehicle;FZIFZ)V",
-          "firstDiffIndex": 0,
-          "category": "INSN_COUNT_DIFF",
-          "matchTier": "NONE",
-          "origInsnCount": 83,
-          "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #0"
         },
         {
           "name": "sendEatBody",
@@ -50279,8 +50208,8 @@
       ],
       "name": "zombie/network/GameClient",
       "total_methods": 330,
-      "matched_instructions": 12482,
-      "matched_methods": 315,
+      "matched_instructions": 12759,
+      "matched_methods": 317,
       "status": "MISMATCH"
     },
     {
@@ -56067,7 +55996,7 @@
     },
     {
       "total_instructions": 3548,
-      "matched_code_percent": 76.86020293122886,
+      "matched_code_percent": 86.64036076662909,
       "methods": [
         {
           "recompContext": [
@@ -56172,64 +56101,20 @@
           "status": "MATCH"
         },
         {
-          "recompContext": ["#0    RETURN"],
-          "origContext": [
-            "#0    ACONST_NULL",
-            "#1    ASTORE v0",
-            "#2    ALOAD v1",
-            "#3    GETFIELD zombie/radio/devices/DeviceData.parent:Lzombie/radio/devices/WaveSignalDevice;",
-            "#4    IFNULL L0",
-            "#5    ALOAD v1"
-          ],
-          "name": "setEmitterAndPos",
-          "recompInsnCount": 1,
-          "descriptor": "()V",
-          "firstDiffIndex": 0,
-          "category": "INSN_COUNT_DIFF",
-          "matchTier": "NONE",
-          "origInsnCount": 76,
-          "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #0"
-        },
-        {
-          "recompContext": ["#0    RETURN"],
-          "origContext": [
-            "#0    ALOAD v0",
-            "#1    GETFIELD zombie/radio/devices/DeviceData.voipCounter:F",
-            "#2    FCONST_0",
-            "#3    FCMPL",
-            "#4    IFLT L0",
-            "#5    ALOAD v0"
-          ],
           "name": "updateSimple",
-          "recompInsnCount": 1,
+          "recompInsnCount": 177,
           "descriptor": "()V",
-          "firstDiffIndex": 0,
-          "category": "INSN_COUNT_DIFF",
-          "matchTier": "NONE",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 176,
-          "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #0"
+          "status": "MATCH"
         },
         {
-          "recompContext": ["#0    RETURN"],
-          "origContext": [
-            "#0    ALOAD v0",
-            "#1    GETFIELD zombie/radio/devices/DeviceData.isTurnedOn:Z",
-            "#2    IFEQ L7",
-            "#3    ALOAD v0",
-            "#4    ILOAD v1",
-            "#5    PUTFIELD zombie/radio/devices/DeviceData.lastRecordedDistance:I"
-          ],
           "name": "doReceiveSignal",
-          "recompInsnCount": 1,
+          "recompInsnCount": 96,
           "descriptor": "(I)V",
-          "firstDiffIndex": 0,
-          "category": "INSN_COUNT_DIFF",
-          "matchTier": "NONE",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 95,
-          "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #0"
+          "status": "MATCH"
         },
         {
           "name": "sendDeviceDataStatePacket",
@@ -56274,8 +56159,8 @@
       ],
       "name": "zombie/radio/devices/DeviceData",
       "total_methods": 106,
-      "matched_instructions": 2727,
-      "matched_methods": 100,
+      "matched_instructions": 3074,
+      "matched_methods": 103,
       "status": "MISMATCH"
     },
     {
@@ -59754,27 +59639,40 @@
         },
         {
           "recompContext": [
-            "#0    ACONST_NULL",
-            "#1    ARETURN"
+            "#477  ALOAD v3",
+            "#478  ALOAD v1",
+            "#479  GETFIELD zombie/scripting/objects/Item.SoundRadius:I",
+            "#480  INVOKEVIRTUAL zombie/inventory/types/AlarmClock.setSoundRadius(I)V",
+            "#481  GOTO L31",
+            "#482  ACONST_NULL",
+            "#483  ASTORE v3",
+            "#484  ACONST_NULL",
+            "#485  ASTORE v4",
+            "#486  LDC \"\"",
+            "#487  ASTORE v4"
           ],
           "origContext": [
-            "#0    ACONST_NULL",
-            "#1    ASTORE v0",
-            "#2    ALOAD v1",
-            "#3    GETFIELD zombie/scripting/objects/Item.type:Lzombie/scripting/objects/Item$Type;",
-            "#4    GETSTATIC zombie/scripting/objects/Item$Type.Key:Lzombie/scripting/objects/Item$Type;",
-            "#5    IF_ACMPNE L0",
-            "#6    NEW zombie/inventory/types/Key"
+            "#477  ALOAD v3",
+            "#478  ALOAD v1",
+            "#479  GETFIELD zombie/scripting/objects/Item.SoundRadius:I",
+            "#480  INVOKEVIRTUAL zombie/inventory/types/AlarmClock.setSoundRadius(I)V",
+            "#481  GOTO L31",
+            "#482  LDC \"\"",
+            "#483  ASTORE v3",
+            "#484  ACONST_NULL",
+            "#485  ASTORE v4",
+            "#486  ALOAD v1",
+            "#487  GETFIELD zombie/scripting/objects/Item.PaletteChoices:Ljava/util/Stack;"
           ],
           "name": "InstanceItem",
-          "recompInsnCount": 2,
+          "recompInsnCount": 1333,
           "descriptor": "(Ljava/lang/String;)Lzombie/inventory/InventoryItem;",
-          "firstDiffIndex": 1,
-          "category": "INSN_COUNT_DIFF",
+          "firstDiffIndex": 482,
+          "category": "CONSTANT_ENCODING",
           "matchTier": "NONE",
           "origInsnCount": 1653,
           "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #1"
+          "diffDescription": "Instructions differ at #482"
         },
         {
           "recompContext": ["#0    RETURN"],
