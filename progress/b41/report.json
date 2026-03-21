@@ -2,7 +2,7 @@
   "measures": {
     "total_classes": 2978,
     "total_instructions": 1180433,
-    "matched_code_percent": 78.96026288658484,
+    "matched_code_percent": 82.98471831946412,
     "match_tiers": {
       "FUZZY_COMPUTATION": 292,
       "CORE_OPS_ONLY": 83,
@@ -14,7 +14,7 @@
     },
     "total_methods": 33086,
     "matched_function_percent": 97.31004050051381,
-    "matched_instructions": 932073,
+    "matched_instructions": 979579,
     "matched_classes": 2661,
     "matched_methods": 32196
   },
@@ -65,7 +65,7 @@
     },
     {
       "total_instructions": 1683,
-      "matched_code_percent": 91.8597742127154,
+      "matched_code_percent": 94.94949494949495,
       "methods": [
         {
           "name": "update",
@@ -179,7 +179,7 @@
       ],
       "name": "zombie/AmbientStreamManager",
       "total_methods": 18,
-      "matched_instructions": 1546,
+      "matched_instructions": 1598,
       "matched_methods": 16,
       "status": "MISMATCH"
     },
@@ -275,7 +275,7 @@
     },
     {
       "total_instructions": 1150,
-      "matched_code_percent": 24.347826086956523,
+      "matched_code_percent": 29.304347826086957,
       "methods": [
         {
           "recompContext": [
@@ -354,7 +354,7 @@
       ],
       "name": "zombie/CollisionManager",
       "total_methods": 11,
-      "matched_instructions": 280,
+      "matched_instructions": 337,
       "matched_methods": 9,
       "status": "MISMATCH"
     },
@@ -695,7 +695,7 @@
     },
     {
       "total_instructions": 2781,
-      "matched_code_percent": 62.06400575332614,
+      "matched_code_percent": 69.07587198849335,
       "methods": [
         {
           "name": "getZombieKilledText",
@@ -867,7 +867,7 @@
       ],
       "name": "zombie/GameTime",
       "total_methods": 122,
-      "matched_instructions": 1726,
+      "matched_instructions": 1921,
       "matched_methods": 118,
       "status": "MISMATCH"
     },
@@ -882,7 +882,7 @@
     },
     {
       "total_instructions": 2125,
-      "matched_code_percent": 67.67058823529412,
+      "matched_code_percent": 76.32941176470588,
       "methods": [
         {
           "name": "initShared",
@@ -1110,7 +1110,7 @@
       ],
       "name": "zombie/GameWindow",
       "total_methods": 40,
-      "matched_instructions": 1438,
+      "matched_instructions": 1622,
       "matched_methods": 35,
       "status": "MISMATCH"
     },
@@ -1125,7 +1125,7 @@
     },
     {
       "total_instructions": 288,
-      "matched_code_percent": 36.458333333333336,
+      "matched_code_percent": 71.18055555555556,
       "methods": [
         {
           "recompContext": [
@@ -1212,7 +1212,7 @@
       ],
       "name": "zombie/GameWindow$StringUTF",
       "total_methods": 5,
-      "matched_instructions": 105,
+      "matched_instructions": 205,
       "matched_methods": 3,
       "status": "MISMATCH"
     },
@@ -1567,7 +1567,7 @@
     },
     {
       "total_instructions": 1135,
-      "matched_code_percent": 65.37444933920705,
+      "matched_code_percent": 69.51541850220265,
       "methods": [
         {
           "recompContext": [
@@ -1678,7 +1678,7 @@
       ],
       "name": "zombie/Lua/LuaManager",
       "total_methods": 32,
-      "matched_instructions": 742,
+      "matched_instructions": 789,
       "matched_methods": 30,
       "status": "MISMATCH"
     },
@@ -1693,7 +1693,7 @@
     },
     {
       "total_instructions": 10489,
-      "matched_code_percent": 90.24692535036705,
+      "matched_code_percent": 91.10496710839928,
       "methods": [
         {
           "name": "getTranslatorCredits",
@@ -2102,7 +2102,7 @@
       ],
       "name": "zombie/Lua/LuaManager$GlobalObject",
       "total_methods": 554,
-      "matched_instructions": 9466,
+      "matched_instructions": 9556,
       "matched_methods": 551,
       "status": "MISMATCH"
     },
@@ -2337,7 +2337,7 @@
     },
     {
       "total_instructions": 791,
-      "matched_code_percent": 86.85208596713022,
+      "matched_code_percent": 91.40328697850822,
       "methods": [
         {
           "name": "removeChunkFromWorld",
@@ -2423,7 +2423,7 @@
       ],
       "name": "zombie/MapCollisionData",
       "total_methods": 37,
-      "matched_instructions": 687,
+      "matched_instructions": 723,
       "matched_methods": 35,
       "status": "MISMATCH"
     },
@@ -2438,7 +2438,7 @@
     },
     {
       "total_instructions": 145,
-      "matched_code_percent": 34.48275862068966,
+      "matched_code_percent": 67.58620689655173,
       "methods": [
         {
           "recompContext": [
@@ -2483,7 +2483,7 @@
       ],
       "name": "zombie/MapCollisionData$MCDThread",
       "total_methods": 4,
-      "matched_instructions": 50,
+      "matched_instructions": 98,
       "matched_methods": 3,
       "status": "MISMATCH"
     },
@@ -2612,7 +2612,7 @@
     },
     {
       "total_instructions": 866,
-      "matched_code_percent": 83.37182448036951,
+      "matched_code_percent": 86.83602771362587,
       "methods": [
         {
           "recompContext": [
@@ -2662,7 +2662,7 @@
       ],
       "name": "zombie/PersistentOutfits",
       "total_methods": 26,
-      "matched_instructions": 722,
+      "matched_instructions": 752,
       "matched_methods": 25,
       "status": "MISMATCH"
     },
@@ -2766,7 +2766,7 @@
     },
     {
       "total_instructions": 3247,
-      "matched_code_percent": 82.72251308900523,
+      "matched_code_percent": 87.15737603942101,
       "methods": [
         {
           "recompContext": [
@@ -2920,7 +2920,7 @@
       ],
       "name": "zombie/SandboxOptions",
       "total_methods": 69,
-      "matched_instructions": 2686,
+      "matched_instructions": 2830,
       "matched_methods": 67,
       "status": "MISMATCH"
     },
@@ -3260,7 +3260,7 @@
     },
     {
       "total_instructions": 2823,
-      "matched_code_percent": 69.00460503010981,
+      "matched_code_percent": 73.85759829968119,
       "methods": [
         {
           "name": "init",
@@ -3452,7 +3452,7 @@
       ],
       "name": "zombie/VirtualZombieManager",
       "total_methods": 39,
-      "matched_instructions": 1948,
+      "matched_instructions": 2085,
       "matched_methods": 36,
       "status": "MISMATCH"
     },
@@ -3581,7 +3581,7 @@
     },
     {
       "total_instructions": 3116,
-      "matched_code_percent": 85.71887034659821,
+      "matched_code_percent": 88.9602053915276,
       "methods": [
         {
           "name": "getCanonicalFile",
@@ -3716,7 +3716,7 @@
       ],
       "name": "zombie/ZomboidFileSystem",
       "total_methods": 105,
-      "matched_instructions": 2671,
+      "matched_instructions": 2772,
       "matched_methods": 103,
       "status": "MISMATCH"
     },
@@ -3740,7 +3740,7 @@
     },
     {
       "total_instructions": 420,
-      "matched_code_percent": 50.476190476190474,
+      "matched_code_percent": 65.95238095238095,
       "methods": [{
         "recompContext": [
           "#60   INVOKEINTERFACE se/krka/kahlua/vm/KahluaTable.rawset(Ljava/lang/Object;Ljava/lang/Object;)V",
@@ -3780,7 +3780,7 @@
       }],
       "name": "zombie/ZomboidGlobals",
       "total_methods": 4,
-      "matched_instructions": 212,
+      "matched_instructions": 277,
       "matched_methods": 3,
       "status": "MISMATCH"
     },
@@ -3795,7 +3795,7 @@
     },
     {
       "total_instructions": 566,
-      "matched_code_percent": 73.85159010600707,
+      "matched_code_percent": 74.91166077738517,
       "methods": [{
         "recompContext": [
           "#1    GETFIELD zombie/ai/GameCharacterAIBrain.BlockedMemories:Ljava/util/HashMap;",
@@ -3835,7 +3835,7 @@
       }],
       "name": "zombie/ai/GameCharacterAIBrain",
       "total_methods": 16,
-      "matched_instructions": 418,
+      "matched_instructions": 424,
       "matched_methods": 15,
       "status": "MISMATCH"
     },
@@ -4070,7 +4070,7 @@
     },
     {
       "total_instructions": 1237,
-      "matched_code_percent": 89.00565885206144,
+      "matched_code_percent": 95.06871463217462,
       "methods": [
         {
           "name": "setPlayerFallAsleep",
@@ -4155,7 +4155,7 @@
       ],
       "name": "zombie/ai/sadisticAIDirector/SleepingEvent",
       "total_methods": 16,
-      "matched_instructions": 1101,
+      "matched_instructions": 1176,
       "matched_methods": 15,
       "status": "MISMATCH"
     },
@@ -4170,7 +4170,7 @@
     },
     {
       "total_instructions": 310,
-      "matched_code_percent": 57.096774193548384,
+      "matched_code_percent": 81.61290322580645,
       "methods": [
         {
           "recompContext": [
@@ -4215,13 +4215,13 @@
       ],
       "name": "zombie/ai/states/AttackNetworkState",
       "total_methods": 8,
-      "matched_instructions": 177,
+      "matched_instructions": 253,
       "matched_methods": 7,
       "status": "MISMATCH"
     },
     {
       "total_instructions": 658,
-      "matched_code_percent": 60.790273556231,
+      "matched_code_percent": 74.62006079027356,
       "methods": [
         {
           "recompContext": [
@@ -4274,7 +4274,7 @@
       ],
       "name": "zombie/ai/states/AttackState",
       "total_methods": 9,
-      "matched_instructions": 400,
+      "matched_instructions": 491,
       "matched_methods": 8,
       "status": "MISMATCH"
     },
@@ -4360,7 +4360,7 @@
     },
     {
       "total_instructions": 1863,
-      "matched_code_percent": 84.27267847557702,
+      "matched_code_percent": 90.33816425120773,
       "methods": [
         {
           "recompContext": [
@@ -4506,7 +4506,7 @@
       ],
       "name": "zombie/ai/states/ClimbOverFenceState",
       "total_methods": 20,
-      "matched_instructions": 1570,
+      "matched_instructions": 1683,
       "matched_methods": 18,
       "status": "MISMATCH"
     },
@@ -4521,7 +4521,7 @@
     },
     {
       "total_instructions": 792,
-      "matched_code_percent": 66.91919191919192,
+      "matched_code_percent": 69.44444444444444,
       "methods": [
         {
           "name": "execute",
@@ -4619,7 +4619,7 @@
       ],
       "name": "zombie/ai/states/ClimbOverWallState",
       "total_methods": 13,
-      "matched_instructions": 530,
+      "matched_instructions": 550,
       "matched_methods": 12,
       "status": "MISMATCH"
     },
@@ -4688,7 +4688,7 @@
     },
     {
       "total_instructions": 1866,
-      "matched_code_percent": 72.2400857449089,
+      "matched_code_percent": 73.31189710610933,
       "methods": [
         {
           "name": "execute",
@@ -4823,7 +4823,7 @@
       ],
       "name": "zombie/ai/states/ClimbThroughWindowState",
       "total_methods": 22,
-      "matched_instructions": 1348,
+      "matched_instructions": 1368,
       "matched_methods": 20,
       "status": "MISMATCH"
     },
@@ -5174,7 +5174,7 @@
     },
     {
       "total_instructions": 6414,
-      "matched_code_percent": 39.77237293420642,
+      "matched_code_percent": 45.74368568755847,
       "methods": [
         {
           "name": "GetWeapon",
@@ -5580,7 +5580,7 @@
       ],
       "name": "zombie/ai/states/SwipeStatePlayer",
       "total_methods": 44,
-      "matched_instructions": 2551,
+      "matched_instructions": 2934,
       "matched_methods": 36,
       "status": "MISMATCH"
     },
@@ -5648,7 +5648,7 @@
     },
     {
       "total_instructions": 361,
-      "matched_code_percent": 9.97229916897507,
+      "matched_code_percent": 77.00831024930748,
       "methods": [{
         "recompContext": [
           "#237  GETFIELD zombie/characters/IsoZombie.bCrawling:Z",
@@ -5683,7 +5683,7 @@
       }],
       "name": "zombie/ai/states/WalkTowardNetworkState",
       "total_methods": 6,
-      "matched_instructions": 36,
+      "matched_instructions": 278,
       "matched_methods": 5,
       "status": "MISMATCH"
     },
@@ -5716,7 +5716,7 @@
     },
     {
       "total_instructions": 242,
-      "matched_code_percent": 42.97520661157025,
+      "matched_code_percent": 56.611570247933884,
       "methods": [{
         "recompContext": [
           "#28   ALOAD v1",
@@ -5751,7 +5751,7 @@
       }],
       "name": "zombie/ai/states/ZombieEatBodyState",
       "total_methods": 6,
-      "matched_instructions": 104,
+      "matched_instructions": 137,
       "matched_methods": 5,
       "status": "MISMATCH"
     },
@@ -5836,7 +5836,7 @@
     },
     {
       "total_instructions": 232,
-      "matched_code_percent": 27.586206896551722,
+      "matched_code_percent": 64.22413793103448,
       "methods": [{
         "recompContext": [
           "#80   IFNE L7",
@@ -5871,7 +5871,7 @@
       }],
       "name": "zombie/ai/states/ZombieIdleState",
       "total_methods": 8,
-      "matched_instructions": 64,
+      "matched_instructions": 149,
       "matched_methods": 7,
       "status": "MISMATCH"
     },
@@ -7511,7 +7511,7 @@
     },
     {
       "total_instructions": 7588,
-      "matched_code_percent": 49.143384290985765,
+      "matched_code_percent": 62.01897733263047,
       "methods": [
         {
           "recompContext": [
@@ -7838,13 +7838,13 @@
       ],
       "name": "zombie/characters/BodyDamage/BodyDamage",
       "total_methods": 228,
-      "matched_instructions": 3729,
+      "matched_instructions": 4706,
       "matched_methods": 220,
       "status": "MISMATCH"
     },
     {
       "total_instructions": 4244,
-      "matched_code_percent": 59.51932139491046,
+      "matched_code_percent": 74.59943449575871,
       "methods": [
         {
           "recompContext": [
@@ -8003,7 +8003,7 @@
       ],
       "name": "zombie/characters/BodyDamage/BodyPart",
       "total_methods": 123,
-      "matched_instructions": 2526,
+      "matched_instructions": 3166,
       "matched_methods": 119,
       "status": "MISMATCH"
     },
@@ -8115,7 +8115,7 @@
     },
     {
       "total_instructions": 1010,
-      "matched_code_percent": 76.33663366336634,
+      "matched_code_percent": 78.11881188118812,
       "methods": [
         {
           "recompContext": [
@@ -8165,13 +8165,13 @@
       ],
       "name": "zombie/characters/BodyDamage/Nutrition",
       "total_methods": 27,
-      "matched_instructions": 771,
+      "matched_instructions": 789,
       "matched_methods": 26,
       "status": "MISMATCH"
     },
     {
       "total_instructions": 2979,
-      "matched_code_percent": 67.27089627391742,
+      "matched_code_percent": 82.8130245048674,
       "methods": [
         {
           "name": "initNodes",
@@ -8327,7 +8327,7 @@
       ],
       "name": "zombie/characters/BodyDamage/Thermoregulator",
       "total_methods": 67,
-      "matched_instructions": 2004,
+      "matched_instructions": 2467,
       "matched_methods": 64,
       "status": "MISMATCH"
     },
@@ -8360,7 +8360,7 @@
     },
     {
       "total_instructions": 4331,
-      "matched_code_percent": 66.52043407988917,
+      "matched_code_percent": 83.44493188640037,
       "methods": [
         {
           "name": "initNodes",
@@ -8561,7 +8561,7 @@
       ],
       "name": "zombie/characters/BodyDamage/Thermoregulator_tryouts",
       "total_methods": 69,
-      "matched_instructions": 2881,
+      "matched_instructions": 3614,
       "matched_methods": 65,
       "status": "MISMATCH"
     },
@@ -8665,7 +8665,7 @@
     },
     {
       "total_instructions": 1103,
-      "matched_code_percent": 30.190389845874886,
+      "matched_code_percent": 44.87760652765186,
       "methods": [
         {
           "recompContext": [
@@ -8715,7 +8715,7 @@
       ],
       "name": "zombie/characters/ClothingWetness",
       "total_methods": 6,
-      "matched_instructions": 333,
+      "matched_instructions": 495,
       "matched_methods": 5,
       "status": "MISMATCH"
     },
@@ -8748,7 +8748,7 @@
     },
     {
       "total_instructions": 697,
-      "matched_code_percent": 84.36154949784792,
+      "matched_code_percent": 92.96987087517934,
       "methods": [
         {
           "name": "writeToBuffer",
@@ -8793,7 +8793,7 @@
       ],
       "name": "zombie/characters/Faction",
       "total_methods": 33,
-      "matched_instructions": 588,
+      "matched_instructions": 648,
       "matched_methods": 32,
       "status": "MISMATCH"
     },
@@ -8984,7 +8984,7 @@
     },
     {
       "total_instructions": 30477,
-      "matched_code_percent": 66.44682875611116,
+      "matched_code_percent": 72.7400990911179,
       "methods": [
         {
           "recompContext": [
@@ -9949,7 +9949,7 @@
       ],
       "name": "zombie/characters/IsoGameCharacter",
       "total_methods": 928,
-      "matched_instructions": 20251,
+      "matched_instructions": 22169,
       "matched_methods": 911,
       "status": "MISMATCH"
     },
@@ -10195,7 +10195,7 @@
     },
     {
       "total_instructions": 20475,
-      "matched_code_percent": 58.95482295482295,
+      "matched_code_percent": 70.03174603174604,
       "methods": [
         {
           "recompContext": [
@@ -11073,7 +11073,7 @@
       ],
       "name": "zombie/characters/IsoPlayer",
       "total_methods": 410,
-      "matched_instructions": 12071,
+      "matched_instructions": 14339,
       "matched_methods": 392,
       "status": "MISMATCH"
     },
@@ -11151,7 +11151,7 @@
     },
     {
       "total_instructions": 11955,
-      "matched_code_percent": 60.18402342116269,
+      "matched_code_percent": 70.70681723128398,
       "methods": [
         {
           "recompContext": [
@@ -11731,7 +11731,7 @@
       ],
       "name": "zombie/characters/IsoZombie",
       "total_methods": 226,
-      "matched_instructions": 7195,
+      "matched_instructions": 8453,
       "matched_methods": 215,
       "status": "MISMATCH"
     },
@@ -11976,7 +11976,7 @@
     },
     {
       "total_instructions": 1098,
-      "matched_code_percent": 81.78506375227687,
+      "matched_code_percent": 88.16029143897997,
       "methods": [
         {
           "name": "isNeedToUpdate",
@@ -12046,13 +12046,13 @@
       ],
       "name": "zombie/characters/NetworkPlayerAI",
       "total_methods": 19,
-      "matched_instructions": 898,
+      "matched_instructions": 968,
       "matched_methods": 17,
       "status": "MISMATCH"
     },
     {
       "total_instructions": 335,
-      "matched_code_percent": 44.776119402985074,
+      "matched_code_percent": 54.92537313432836,
       "methods": [
         {
           "name": "getBooleanVariables",
@@ -12097,7 +12097,7 @@
       ],
       "name": "zombie/characters/NetworkPlayerVariables",
       "total_methods": 4,
-      "matched_instructions": 150,
+      "matched_instructions": 184,
       "matched_methods": 3,
       "status": "MISMATCH"
     },
@@ -12311,7 +12311,7 @@
     },
     {
       "total_instructions": 1237,
-      "matched_code_percent": 89.08649959579628,
+      "matched_code_percent": 94.66451091350041,
       "methods": [
         {
           "name": "<init>",
@@ -12372,7 +12372,7 @@
       ],
       "name": "zombie/characters/SurvivorDesc",
       "total_methods": 75,
-      "matched_instructions": 1102,
+      "matched_instructions": 1171,
       "matched_methods": 74,
       "status": "MISMATCH"
     },
@@ -12645,7 +12645,7 @@
     },
     {
       "total_instructions": 1058,
-      "matched_code_percent": 77.9773156899811,
+      "matched_code_percent": 81.75803402646503,
       "methods": [
         {
           "name": "pickDefinition",
@@ -12745,7 +12745,7 @@
       ],
       "name": "zombie/characters/ZombiesZoneDefinition",
       "total_methods": 17,
-      "matched_instructions": 825,
+      "matched_instructions": 865,
       "matched_methods": 15,
       "status": "MISMATCH"
     },
@@ -13306,7 +13306,7 @@
     },
     {
       "total_instructions": 165,
-      "matched_code_percent": 80.60606060606061,
+      "matched_code_percent": 93.33333333333333,
       "methods": [
         {
           "name": "addXPBoost",
@@ -13352,7 +13352,7 @@
       ],
       "name": "zombie/characters/traits/TraitFactory$Trait",
       "total_methods": 17,
-      "matched_instructions": 133,
+      "matched_instructions": 154,
       "matched_methods": 16,
       "status": "MISMATCH"
     },
@@ -13385,7 +13385,7 @@
     },
     {
       "total_instructions": 1034,
-      "matched_code_percent": 89.0715667311412,
+      "matched_code_percent": 93.61702127659575,
       "methods": [
         {
           "name": "addChatLine",
@@ -13443,7 +13443,7 @@
       ],
       "name": "zombie/chat/ChatElement",
       "total_methods": 30,
-      "matched_instructions": 921,
+      "matched_instructions": 968,
       "matched_methods": 29,
       "status": "MISMATCH"
     },
@@ -13712,7 +13712,7 @@
     },
     {
       "total_instructions": 268,
-      "matched_code_percent": 70.14925373134328,
+      "matched_code_percent": 85.07462686567165,
       "methods": [{
         "recompContext": [
           "#35   INVOKESTATIC zombie/Lua/LuaManager.getHourMinuteJava()Ljava/lang/String;",
@@ -13748,7 +13748,7 @@
       }],
       "name": "zombie/chat/defaultChats/GeneralChat",
       "total_methods": 9,
-      "matched_instructions": 188,
+      "matched_instructions": 228,
       "matched_methods": 8,
       "status": "MISMATCH"
     },
@@ -13976,7 +13976,7 @@
     },
     {
       "total_instructions": 167,
-      "matched_code_percent": 4.191616766467066,
+      "matched_code_percent": 30.538922155688624,
       "methods": [
         {
           "recompContext": [
@@ -14026,7 +14026,7 @@
       ],
       "name": "zombie/commands/serverCommands/AddItemCommand",
       "total_methods": 3,
-      "matched_instructions": 7,
+      "matched_instructions": 51,
       "matched_methods": 1,
       "status": "MISMATCH"
     },
@@ -14526,7 +14526,7 @@
     },
     {
       "total_instructions": 184,
-      "matched_code_percent": 18.47826086956522,
+      "matched_code_percent": 23.91304347826087,
       "methods": [{
         "recompContext": [
           "#5    GETSTATIC zombie/network/ServerWorldDatabase.instance:Lzombie/network/ServerWorldDatabase;",
@@ -14566,7 +14566,7 @@
       }],
       "name": "zombie/commands/serverCommands/SetAccessLevelCommand",
       "total_methods": 3,
-      "matched_instructions": 34,
+      "matched_instructions": 44,
       "matched_methods": 2,
       "status": "MISMATCH"
     },
@@ -14607,7 +14607,7 @@
     },
     {
       "total_instructions": 124,
-      "matched_code_percent": 5.645161290322581,
+      "matched_code_percent": 17.741935483870968,
       "methods": [{
         "recompContext": [
           "#10   ALOAD v0",
@@ -14647,7 +14647,7 @@
       }],
       "name": "zombie/commands/serverCommands/StatisticsCommand",
       "total_methods": 2,
-      "matched_instructions": 7,
+      "matched_instructions": 22,
       "matched_methods": 1,
       "status": "MISMATCH"
     },
@@ -14750,7 +14750,7 @@
     },
     {
       "total_instructions": 94,
-      "matched_code_percent": 7.446808510638298,
+      "matched_code_percent": 39.361702127659576,
       "methods": [{
         "recompContext": [
           "#25   ICONST_0",
@@ -14790,7 +14790,7 @@
       }],
       "name": "zombie/commands/serverCommands/VoiceBanCommand",
       "total_methods": 2,
-      "matched_instructions": 7,
+      "matched_instructions": 37,
       "matched_methods": 1,
       "status": "MISMATCH"
     },
@@ -15110,7 +15110,7 @@
     },
     {
       "total_instructions": 598,
-      "matched_code_percent": 76.42140468227424,
+      "matched_code_percent": 88.12709030100335,
       "methods": [
         {
           "recompContext": [
@@ -15168,7 +15168,7 @@
       ],
       "name": "zombie/core/Collections/NonBlockingHashMap$CHM",
       "total_methods": 11,
-      "matched_instructions": 457,
+      "matched_instructions": 527,
       "matched_methods": 10,
       "status": "MISMATCH"
     },
@@ -15344,7 +15344,7 @@
     },
     {
       "total_instructions": 970,
-      "matched_code_percent": 71.44329896907216,
+      "matched_code_percent": 84.12371134020619,
       "methods": [
         {
           "name": "putIfMatch",
@@ -15443,7 +15443,7 @@
       ],
       "name": "zombie/core/Collections/NonBlockingHashMapLong$CHM",
       "total_methods": 17,
-      "matched_instructions": 693,
+      "matched_instructions": 816,
       "matched_methods": 15,
       "status": "MISMATCH"
     },
@@ -15633,7 +15633,7 @@
     },
     {
       "total_instructions": 598,
-      "matched_code_percent": 76.42140468227424,
+      "matched_code_percent": 88.12709030100335,
       "methods": [
         {
           "recompContext": [
@@ -15691,7 +15691,7 @@
       ],
       "name": "zombie/core/Collections/NonBlockingHashtable$CHM",
       "total_methods": 11,
-      "matched_instructions": 457,
+      "matched_instructions": 527,
       "matched_methods": 10,
       "status": "MISMATCH"
     },
@@ -15872,7 +15872,7 @@
     },
     {
       "total_instructions": 598,
-      "matched_code_percent": 76.42140468227424,
+      "matched_code_percent": 88.12709030100335,
       "methods": [
         {
           "recompContext": [
@@ -15930,7 +15930,7 @@
       ],
       "name": "zombie/core/Collections/NonBlockingIdentityHashMap$CHM",
       "total_methods": 11,
-      "matched_instructions": 457,
+      "matched_instructions": 527,
       "matched_methods": 10,
       "status": "MISMATCH"
     },
@@ -16501,7 +16501,7 @@
     },
     {
       "total_instructions": 8363,
-      "matched_code_percent": 90.85256486906613,
+      "matched_code_percent": 92.81358364223365,
       "methods": [
         {
           "recompContext": [
@@ -16724,7 +16724,7 @@
       ],
       "name": "zombie/core/Core",
       "total_methods": 395,
-      "matched_instructions": 7598,
+      "matched_instructions": 7762,
       "matched_methods": 392,
       "status": "MISMATCH"
     },
@@ -16976,7 +16976,7 @@
     },
     {
       "total_instructions": 1102,
-      "matched_code_percent": 45.73502722323049,
+      "matched_code_percent": 53.26678765880218,
       "methods": [
         {
           "recompContext": [
@@ -17055,7 +17055,7 @@
       ],
       "name": "zombie/core/SpriteRenderer$RingBuffer",
       "total_methods": 13,
-      "matched_instructions": 504,
+      "matched_instructions": 587,
       "matched_methods": 11,
       "status": "MISMATCH"
     },
@@ -17367,7 +17367,7 @@
     },
     {
       "total_instructions": 2245,
-      "matched_code_percent": 72.29398663697104,
+      "matched_code_percent": 73.94209354120267,
       "methods": [
         {
           "name": "doNews",
@@ -17449,7 +17449,7 @@
       ],
       "name": "zombie/core/Translator",
       "total_methods": 50,
-      "matched_instructions": 1623,
+      "matched_instructions": 1660,
       "matched_methods": 49,
       "status": "MISMATCH"
     },
@@ -17482,7 +17482,7 @@
     },
     {
       "total_instructions": 395,
-      "matched_code_percent": 47.59493670886076,
+      "matched_code_percent": 88.86075949367088,
       "methods": [
         {
           "name": "init",
@@ -17559,7 +17559,7 @@
       ],
       "name": "zombie/core/VBO/GLVertexBufferObject",
       "total_methods": 19,
-      "matched_instructions": 188,
+      "matched_instructions": 351,
       "matched_methods": 17,
       "status": "MISMATCH"
     },
@@ -17938,7 +17938,7 @@
     },
     {
       "total_instructions": 212,
-      "matched_code_percent": 36.320754716981135,
+      "matched_code_percent": 43.867924528301884,
       "methods": [{
         "recompContext": [
           "#11   AALOAD",
@@ -17978,7 +17978,7 @@
       }],
       "name": "zombie/core/logger/LoggerManager",
       "total_methods": 9,
-      "matched_instructions": 77,
+      "matched_instructions": 93,
       "matched_methods": 8,
       "status": "MISMATCH"
     },
@@ -18010,7 +18010,7 @@
     },
     {
       "total_instructions": 1128,
-      "matched_code_percent": 68.17375886524823,
+      "matched_code_percent": 71.01063829787235,
       "methods": [
         {
           "name": "addZipFile",
@@ -18105,7 +18105,7 @@
       ],
       "name": "zombie/core/logger/ZipLogs",
       "total_methods": 21,
-      "matched_instructions": 769,
+      "matched_instructions": 801,
       "matched_methods": 19,
       "status": "MISMATCH"
     },
@@ -18566,7 +18566,7 @@
     },
     {
       "total_instructions": 657,
-      "matched_code_percent": 36.83409436834094,
+      "matched_code_percent": 63.470319634703195,
       "methods": [{
         "recompContext": [
           "#170  ALOAD v1",
@@ -18601,13 +18601,13 @@
       }],
       "name": "zombie/core/opengl/RenderSettings$PlayerRenderSettings",
       "total_methods": 21,
-      "matched_instructions": 242,
+      "matched_instructions": 417,
       "matched_methods": 20,
       "status": "MISMATCH"
     },
     {
       "total_instructions": 953,
-      "matched_code_percent": 75.65582371458552,
+      "matched_code_percent": 83.00104931794334,
       "methods": [
         {
           "name": "init",
@@ -18709,7 +18709,7 @@
       ],
       "name": "zombie/core/opengl/RenderThread",
       "total_methods": 46,
-      "matched_instructions": 721,
+      "matched_instructions": 791,
       "matched_methods": 44,
       "status": "MISMATCH"
     },
@@ -18883,7 +18883,7 @@
     },
     {
       "total_instructions": 3979,
-      "matched_code_percent": 46.619753706961546,
+      "matched_code_percent": 62.72932897712993,
       "methods": [
         {
           "recompContext": [
@@ -19087,7 +19087,7 @@
       ],
       "name": "zombie/core/physics/CarController",
       "total_methods": 31,
-      "matched_instructions": 1855,
+      "matched_instructions": 2496,
       "matched_methods": 26,
       "status": "MISMATCH"
     },
@@ -19500,7 +19500,7 @@
     },
     {
       "total_instructions": 2636,
-      "matched_code_percent": 83.53566009104703,
+      "matched_code_percent": 86.76024279210925,
       "methods": [
         {
           "recompContext": [
@@ -19655,7 +19655,7 @@
       ],
       "name": "zombie/core/raknet/VoiceManager",
       "total_methods": 44,
-      "matched_instructions": 2202,
+      "matched_instructions": 2287,
       "matched_methods": 41,
       "status": "MISMATCH"
     },
@@ -20217,7 +20217,7 @@
     },
     {
       "total_instructions": 4650,
-      "matched_code_percent": 77.46236559139786,
+      "matched_code_percent": 85.11827956989248,
       "methods": [
         {
           "recompContext": [
@@ -20454,7 +20454,7 @@
       ],
       "name": "zombie/core/skinnedmodel/ModelManager",
       "total_methods": 79,
-      "matched_instructions": 3602,
+      "matched_instructions": 3958,
       "matched_methods": 74,
       "status": "MISMATCH"
     },
@@ -20532,7 +20532,7 @@
     },
     {
       "total_instructions": 1100,
-      "matched_code_percent": 81.63636363636364,
+      "matched_code_percent": 83.81818181818181,
       "methods": [
         {
           "name": "GetDebug",
@@ -20606,7 +20606,7 @@
       ],
       "name": "zombie/core/skinnedmodel/advancedanimation/AdvancedAnimator",
       "total_methods": 38,
-      "matched_instructions": 898,
+      "matched_instructions": 922,
       "matched_methods": 37,
       "status": "MISMATCH"
     },
@@ -20782,7 +20782,7 @@
     },
     {
       "total_instructions": 1934,
-      "matched_code_percent": 89.29679420889349,
+      "matched_code_percent": 91.72699069286453,
       "methods": [
         {
           "name": "invokeAnimEvent",
@@ -20884,7 +20884,7 @@
       ],
       "name": "zombie/core/skinnedmodel/advancedanimation/AnimLayer",
       "total_methods": 45,
-      "matched_instructions": 1727,
+      "matched_instructions": 1774,
       "matched_methods": 44,
       "status": "MISMATCH"
     },
@@ -20899,7 +20899,7 @@
     },
     {
       "total_instructions": 417,
-      "matched_code_percent": 63.069544364508396,
+      "matched_code_percent": 83.21342925659472,
       "methods": [
         {
           "recompContext": [
@@ -20949,7 +20949,7 @@
       ],
       "name": "zombie/core/skinnedmodel/advancedanimation/AnimNode",
       "total_methods": 16,
-      "matched_instructions": 263,
+      "matched_instructions": 347,
       "matched_methods": 15,
       "status": "MISMATCH"
     },
@@ -21017,7 +21017,7 @@
     },
     {
       "total_instructions": 2717,
-      "matched_code_percent": 66.10231873389768,
+      "matched_code_percent": 73.83143172616857,
       "methods": [
         {
           "recompContext": [
@@ -21144,13 +21144,13 @@
       ],
       "name": "zombie/core/skinnedmodel/advancedanimation/AnimatedModel",
       "total_methods": 76,
-      "matched_instructions": 1796,
+      "matched_instructions": 2006,
       "matched_methods": 72,
       "status": "MISMATCH"
     },
     {
       "total_instructions": 240,
-      "matched_code_percent": 3.3333333333333335,
+      "matched_code_percent": 29.583333333333332,
       "methods": [
         {
           "recompContext": [
@@ -21225,7 +21225,7 @@
       ],
       "name": "zombie/core/skinnedmodel/advancedanimation/AnimatedModel$AnimatedModelInstanceRenderData",
       "total_methods": 3,
-      "matched_instructions": 8,
+      "matched_instructions": 71,
       "matched_methods": 1,
       "status": "MISMATCH"
     },
@@ -21641,7 +21641,7 @@
     },
     {
       "total_instructions": 1388,
-      "matched_code_percent": 90.99423631123919,
+      "matched_code_percent": 91.4985590778098,
       "methods": [
         {
           "name": "<init>",
@@ -21731,7 +21731,7 @@
       ],
       "name": "zombie/core/skinnedmodel/advancedanimation/debug/AnimatorDebugMonitor",
       "total_methods": 42,
-      "matched_instructions": 1263,
+      "matched_instructions": 1270,
       "matched_methods": 41,
       "status": "MISMATCH"
     },
@@ -22567,7 +22567,7 @@
     },
     {
       "total_instructions": 1840,
-      "matched_code_percent": 74.83695652173913,
+      "matched_code_percent": 88.58695652173913,
       "methods": [
         {
           "name": "drawVehicleLights",
@@ -22625,7 +22625,7 @@
       ],
       "name": "zombie/core/skinnedmodel/model/Model",
       "total_methods": 25,
-      "matched_instructions": 1377,
+      "matched_instructions": 1630,
       "matched_methods": 24,
       "status": "MISMATCH"
     },
@@ -22772,7 +22772,7 @@
     },
     {
       "total_instructions": 663,
-      "matched_code_percent": 74.35897435897436,
+      "matched_code_percent": 74.81146304675717,
       "methods": [
         {
           "name": "init",
@@ -22826,7 +22826,7 @@
       ],
       "name": "zombie/core/skinnedmodel/model/ModelInstanceRenderData",
       "total_methods": 12,
-      "matched_instructions": 493,
+      "matched_instructions": 496,
       "matched_methods": 11,
       "status": "MISMATCH"
     },
@@ -23054,7 +23054,7 @@
     },
     {
       "total_instructions": 1641,
-      "matched_code_percent": 60.08531383302864,
+      "matched_code_percent": 88.36075563680683,
       "methods": [
         {
           "recompContext": [
@@ -23100,7 +23100,7 @@
       ],
       "name": "zombie/core/skinnedmodel/model/ModelSlotRenderData",
       "total_methods": 16,
-      "matched_instructions": 986,
+      "matched_instructions": 1450,
       "matched_methods": 15,
       "status": "MISMATCH"
     },
@@ -23480,7 +23480,7 @@
     },
     {
       "total_instructions": 958,
-      "matched_code_percent": 43.94572025052192,
+      "matched_code_percent": 55.53235908141962,
       "methods": [
         {
           "recompContext": [
@@ -23538,7 +23538,7 @@
       ],
       "name": "zombie/core/skinnedmodel/model/WorldItemAtlas$ItemParams",
       "total_methods": 9,
-      "matched_instructions": 421,
+      "matched_instructions": 532,
       "matched_methods": 8,
       "status": "MISMATCH"
     },
@@ -23579,7 +23579,7 @@
     },
     {
       "total_instructions": 1270,
-      "matched_code_percent": 76.92913385826772,
+      "matched_code_percent": 78.50393700787401,
       "methods": [
         {
           "name": "render",
@@ -23637,7 +23637,7 @@
       ],
       "name": "zombie/core/skinnedmodel/model/WorldItemAtlas$RenderJob",
       "total_methods": 17,
-      "matched_instructions": 977,
+      "matched_instructions": 997,
       "matched_methods": 16,
       "status": "MISMATCH"
     },
@@ -23652,7 +23652,7 @@
     },
     {
       "total_instructions": 1378,
-      "matched_code_percent": 57.69230769230769,
+      "matched_code_percent": 57.9100145137881,
       "methods": [
         {
           "recompContext": [
@@ -23698,7 +23698,7 @@
       ],
       "name": "zombie/core/skinnedmodel/model/WorldItemModelDrawer",
       "total_methods": 12,
-      "matched_instructions": 795,
+      "matched_instructions": 798,
       "matched_methods": 11,
       "status": "MISMATCH"
     },
@@ -23713,7 +23713,7 @@
     },
     {
       "total_instructions": 1794,
-      "matched_code_percent": 73.52285395763657,
+      "matched_code_percent": 75.08361204013377,
       "methods": [
         {
           "recompContext": [
@@ -23779,7 +23779,7 @@
       ],
       "name": "zombie/core/skinnedmodel/model/jassimp/ImportedSkeleton",
       "total_methods": 14,
-      "matched_instructions": 1319,
+      "matched_instructions": 1347,
       "matched_methods": 13,
       "status": "MISMATCH"
     },
@@ -23794,7 +23794,7 @@
     },
     {
       "total_instructions": 421,
-      "matched_code_percent": 8.31353919239905,
+      "matched_code_percent": 61.52019002375297,
       "methods": [{
         "recompContext": [
           "#219  ICONST_2",
@@ -23834,7 +23834,7 @@
       }],
       "name": "zombie/core/skinnedmodel/model/jassimp/ImportedSkinnedMesh",
       "total_methods": 3,
-      "matched_instructions": 35,
+      "matched_instructions": 259,
       "matched_methods": 2,
       "status": "MISMATCH"
     },
@@ -24290,7 +24290,7 @@
     },
     {
       "total_instructions": 1263,
-      "matched_code_percent": 44.10134600158353,
+      "matched_code_percent": 71.97149643705463,
       "methods": [
         {
           "recompContext": [
@@ -24404,7 +24404,7 @@
       ],
       "name": "zombie/core/skinnedmodel/shader/Shader",
       "total_methods": 50,
-      "matched_instructions": 557,
+      "matched_instructions": 909,
       "matched_methods": 47,
       "status": "MISMATCH"
     },
@@ -24488,7 +24488,7 @@
     },
     {
       "total_instructions": 2019,
-      "matched_code_percent": 78.2565626547796,
+      "matched_code_percent": 89.25210500247647,
       "methods": [
         {
           "name": "getBaseTexture",
@@ -24599,7 +24599,7 @@
       ],
       "name": "zombie/core/skinnedmodel/visual/ItemVisual",
       "total_methods": 61,
-      "matched_instructions": 1580,
+      "matched_instructions": 1802,
       "matched_methods": 59,
       "status": "MISMATCH"
     },
@@ -24614,7 +24614,7 @@
     },
     {
       "total_instructions": 2525,
-      "matched_code_percent": 89.58415841584159,
+      "matched_code_percent": 90.77227722772277,
       "methods": [
         {
           "recompContext": [
@@ -24664,7 +24664,7 @@
       ],
       "name": "zombie/core/sprite/GenericSpriteRenderState",
       "total_methods": 68,
-      "matched_instructions": 2262,
+      "matched_instructions": 2292,
       "matched_methods": 67,
       "status": "MISMATCH"
     },
@@ -24742,7 +24742,7 @@
     },
     {
       "total_instructions": 1190,
-      "matched_code_percent": 70.67226890756302,
+      "matched_code_percent": 77.89915966386555,
       "methods": [
         {
           "name": "checkStashItem",
@@ -24808,7 +24808,7 @@
       ],
       "name": "zombie/core/stash/StashSystem",
       "total_methods": 18,
-      "matched_instructions": 841,
+      "matched_instructions": 927,
       "matched_methods": 17,
       "status": "MISMATCH"
     },
@@ -24979,7 +24979,7 @@
     },
     {
       "total_instructions": 955,
-      "matched_code_percent": 73.50785340314137,
+      "matched_code_percent": 86.07329842931937,
       "methods": [
         {
           "recompContext": [
@@ -25061,7 +25061,7 @@
       ],
       "name": "zombie/core/textures/MultiTextureFBO2",
       "total_methods": 21,
-      "matched_instructions": 702,
+      "matched_instructions": 822,
       "matched_methods": 20,
       "status": "MISMATCH"
     },
@@ -25411,7 +25411,7 @@
     },
     {
       "total_instructions": 4273,
-      "matched_code_percent": 73.71869880645916,
+      "matched_code_percent": 80.76293002574303,
       "methods": [
         {
           "recompContext": [
@@ -25668,7 +25668,7 @@
       ],
       "name": "zombie/core/textures/Texture",
       "total_methods": 118,
-      "matched_instructions": 3150,
+      "matched_instructions": 3451,
       "matched_methods": 112,
       "status": "MISMATCH"
     },
@@ -25710,7 +25710,7 @@
     },
     {
       "total_instructions": 942,
-      "matched_code_percent": 56.90021231422505,
+      "matched_code_percent": 63.26963906581741,
       "methods": [
         {
           "name": "createTexture",
@@ -25760,7 +25760,7 @@
       ],
       "name": "zombie/core/textures/TextureCombiner",
       "total_methods": 19,
-      "matched_instructions": 536,
+      "matched_instructions": 596,
       "matched_methods": 18,
       "status": "MISMATCH"
     },
@@ -25931,7 +25931,7 @@
     },
     {
       "total_instructions": 1507,
-      "matched_code_percent": 77.04047777040478,
+      "matched_code_percent": 77.96947577969476,
       "methods": [
         {
           "name": "<init>",
@@ -26013,7 +26013,7 @@
       ],
       "name": "zombie/core/textures/TextureID",
       "total_methods": 39,
-      "matched_instructions": 1161,
+      "matched_instructions": 1175,
       "matched_methods": 38,
       "status": "MISMATCH"
     },
@@ -26346,7 +26346,7 @@
     },
     {
       "total_instructions": 616,
-      "matched_code_percent": 63.47402597402598,
+      "matched_code_percent": 72.8896103896104,
       "methods": [{
         "recompContext": [
           "#53   ALOAD v3",
@@ -26382,7 +26382,7 @@
       }],
       "name": "zombie/core/utils/FibonacciHeap",
       "total_methods": 17,
-      "matched_instructions": 391,
+      "matched_instructions": 449,
       "matched_methods": 16,
       "status": "MISMATCH"
     },
@@ -26689,7 +26689,7 @@
     },
     {
       "total_instructions": 339,
-      "matched_code_percent": 83.48082595870207,
+      "matched_code_percent": 84.95575221238938,
       "methods": [
         {
           "recompContext": [
@@ -26739,7 +26739,7 @@
       ],
       "name": "zombie/core/znet/ServerBrowser",
       "total_methods": 33,
-      "matched_instructions": 283,
+      "matched_instructions": 288,
       "matched_methods": 32,
       "status": "MISMATCH"
     },
@@ -26806,7 +26806,7 @@
     },
     {
       "total_instructions": 435,
-      "matched_code_percent": 40,
+      "matched_code_percent": 79.3103448275862,
       "methods": [
         {
           "recompContext": [
@@ -26901,13 +26901,13 @@
       ],
       "name": "zombie/core/znet/SteamUtils",
       "total_methods": 29,
-      "matched_instructions": 174,
+      "matched_instructions": 345,
       "matched_methods": 27,
       "status": "MISMATCH"
     },
     {
       "total_instructions": 611,
-      "matched_code_percent": 83.9607201309329,
+      "matched_code_percent": 88.54337152209493,
       "methods": [
         {
           "recompContext": [
@@ -26953,7 +26953,7 @@
       ],
       "name": "zombie/core/znet/SteamWorkshop",
       "total_methods": 59,
-      "matched_instructions": 513,
+      "matched_instructions": 541,
       "matched_methods": 58,
       "status": "MISMATCH"
     },
@@ -27127,7 +27127,7 @@
     },
     {
       "total_instructions": 9258,
-      "matched_code_percent": 18.859364873622813,
+      "matched_code_percent": 21.052063080578957,
       "methods": [
         {
           "name": "eval",
@@ -27230,7 +27230,7 @@
       ],
       "name": "zombie/creative/creativerects/OpenSimplexNoise",
       "total_methods": 12,
-      "matched_instructions": 1746,
+      "matched_instructions": 1949,
       "matched_methods": 10,
       "status": "MISMATCH"
     },
@@ -27761,7 +27761,7 @@
     },
     {
       "total_instructions": 32708,
-      "matched_code_percent": 74.85018955607191,
+      "matched_code_percent": 75.13758101993396,
       "methods": [
         {
           "name": "save",
@@ -27814,7 +27814,7 @@
       ],
       "name": "zombie/erosion/ErosionData$Square",
       "total_methods": 6,
-      "matched_instructions": 24482,
+      "matched_instructions": 24576,
       "matched_methods": 5,
       "status": "MISMATCH"
     },
@@ -27829,7 +27829,7 @@
     },
     {
       "total_instructions": 1791,
-      "matched_code_percent": 80.6253489670575,
+      "matched_code_percent": 84.98045784477945,
       "methods": [
         {
           "recompContext": [
@@ -27898,7 +27898,7 @@
       ],
       "name": "zombie/erosion/ErosionMain",
       "total_methods": 27,
-      "matched_instructions": 1444,
+      "matched_instructions": 1522,
       "matched_methods": 26,
       "status": "MISMATCH"
     },
@@ -28081,7 +28081,7 @@
     },
     {
       "total_instructions": 972,
-      "matched_code_percent": 65.84362139917695,
+      "matched_code_percent": 79.83539094650206,
       "methods": [
         {
           "recompContext": [
@@ -28176,7 +28176,7 @@
       ],
       "name": "zombie/erosion/categories/NatureGeneric",
       "total_methods": 10,
-      "matched_instructions": 640,
+      "matched_instructions": 776,
       "matched_methods": 7,
       "status": "MISMATCH"
     },
@@ -28307,7 +28307,7 @@
     },
     {
       "total_instructions": 604,
-      "matched_code_percent": 70.03311258278146,
+      "matched_code_percent": 85.59602649006622,
       "methods": [
         {
           "name": "validateSpawn",
@@ -28365,7 +28365,7 @@
       ],
       "name": "zombie/erosion/categories/WallCracks",
       "total_methods": 8,
-      "matched_instructions": 423,
+      "matched_instructions": 517,
       "matched_methods": 6,
       "status": "MISMATCH"
     },
@@ -28380,7 +28380,7 @@
     },
     {
       "total_instructions": 824,
-      "matched_code_percent": 75,
+      "matched_code_percent": 90.77669902912622,
       "methods": [
         {
           "name": "replaceExistingObject",
@@ -28454,7 +28454,7 @@
       ],
       "name": "zombie/erosion/categories/WallVines",
       "total_methods": 8,
-      "matched_instructions": 618,
+      "matched_instructions": 748,
       "matched_methods": 6,
       "status": "MISMATCH"
     },
@@ -28975,7 +28975,7 @@
     },
     {
       "total_instructions": 381,
-      "matched_code_percent": 53.54330708661417,
+      "matched_code_percent": 72.70341207349081,
       "methods": [
         {
           "recompContext": [
@@ -29025,7 +29025,7 @@
       ],
       "name": "zombie/fileSystem/TexturePackDevice",
       "total_methods": 13,
-      "matched_instructions": 204,
+      "matched_instructions": 277,
       "matched_methods": 11,
       "status": "MISMATCH"
     },
@@ -29276,7 +29276,7 @@
     },
     {
       "total_instructions": 1112,
-      "matched_code_percent": 85.52158273381295,
+      "matched_code_percent": 87.94964028776978,
       "methods": [
         {
           "name": "WorkshopQuery",
@@ -29334,7 +29334,7 @@
       ],
       "name": "zombie/gameStates/ConnectToServerState",
       "total_methods": 25,
-      "matched_instructions": 951,
+      "matched_instructions": 978,
       "matched_methods": 24,
       "status": "MISMATCH"
     },
@@ -29411,7 +29411,7 @@
     },
     {
       "total_instructions": 4600,
-      "matched_code_percent": 77.02173913043478,
+      "matched_code_percent": 82.26086956521739,
       "methods": [
         {
           "name": "update",
@@ -29570,7 +29570,7 @@
       ],
       "name": "zombie/gameStates/DebugChunkState",
       "total_methods": 43,
-      "matched_instructions": 3543,
+      "matched_instructions": 3784,
       "matched_methods": 41,
       "status": "MISMATCH"
     },
@@ -29647,7 +29647,7 @@
     },
     {
       "total_instructions": 1642,
-      "matched_code_percent": 20.523751522533495,
+      "matched_code_percent": 73.0816077953715,
       "methods": [
         {
           "recompContext": [
@@ -29724,7 +29724,7 @@
       ],
       "name": "zombie/gameStates/GameLoadingState",
       "total_methods": 9,
-      "matched_instructions": 337,
+      "matched_instructions": 1200,
       "matched_methods": 7,
       "status": "MISMATCH"
     },
@@ -29774,7 +29774,7 @@
     },
     {
       "total_instructions": 3177,
-      "matched_code_percent": 62.38589864652187,
+      "matched_code_percent": 69.71986150456405,
       "methods": [
         {
           "recompContext": [
@@ -29943,7 +29943,7 @@
       ],
       "name": "zombie/gameStates/IngameState",
       "total_methods": 30,
-      "matched_instructions": 1982,
+      "matched_instructions": 2215,
       "matched_methods": 27,
       "status": "MISMATCH"
     },
@@ -29975,7 +29975,7 @@
     },
     {
       "total_instructions": 1973,
-      "matched_code_percent": 76.83730359858085,
+      "matched_code_percent": 82.00709579320831,
       "methods": [
         {
           "recompContext": [
@@ -30052,7 +30052,7 @@
       ],
       "name": "zombie/gameStates/MainScreenState",
       "total_methods": 20,
-      "matched_instructions": 1516,
+      "matched_instructions": 1618,
       "matched_methods": 19,
       "status": "MISMATCH"
     },
@@ -30103,7 +30103,7 @@
     },
     {
       "total_instructions": 535,
-      "matched_code_percent": 67.66355140186916,
+      "matched_code_percent": 67.85046728971963,
       "methods": [
         {
           "name": "renderAttribution",
@@ -30153,7 +30153,7 @@
       ],
       "name": "zombie/gameStates/TISLogoState",
       "total_methods": 7,
-      "matched_instructions": 362,
+      "matched_instructions": 363,
       "matched_methods": 5,
       "status": "MISMATCH"
     },
@@ -30353,7 +30353,7 @@
     },
     {
       "total_instructions": 746,
-      "matched_code_percent": 82.30563002680965,
+      "matched_code_percent": 88.6058981233244,
       "methods": [
         {
           "recompContext": [
@@ -30398,7 +30398,7 @@
       ],
       "name": "zombie/globalObjects/SGlobalObjectSystem",
       "total_methods": 21,
-      "matched_instructions": 614,
+      "matched_instructions": 661,
       "matched_methods": 20,
       "status": "MISMATCH"
     },
@@ -30721,7 +30721,7 @@
     },
     {
       "total_instructions": 571,
-      "matched_code_percent": 45.884413309982484,
+      "matched_code_percent": 50.08756567425569,
       "methods": [
         {
           "name": "readBlock",
@@ -30771,7 +30771,7 @@
       ],
       "name": "zombie/inventory/ClothingItemsDotTxt",
       "total_methods": 5,
-      "matched_instructions": 262,
+      "matched_instructions": 286,
       "matched_methods": 4,
       "status": "MISMATCH"
     },
@@ -30804,7 +30804,7 @@
     },
     {
       "total_instructions": 676,
-      "matched_code_percent": 75.44378698224853,
+      "matched_code_percent": 83.4319526627219,
       "methods": [
         {
           "name": "ensureCapacity",
@@ -30874,7 +30874,7 @@
       ],
       "name": "zombie/inventory/CompressIdenticalItems",
       "total_methods": 10,
-      "matched_instructions": 510,
+      "matched_instructions": 564,
       "matched_methods": 9,
       "status": "MISMATCH"
     },
@@ -30942,7 +30942,7 @@
     },
     {
       "total_instructions": 6284,
-      "matched_code_percent": 59.78676002546149,
+      "matched_code_percent": 67.28198599618078,
       "methods": [
         {
           "recompContext": [
@@ -31127,7 +31127,7 @@
       ],
       "name": "zombie/inventory/InventoryItem",
       "total_methods": 385,
-      "matched_instructions": 3757,
+      "matched_instructions": 4228,
       "matched_methods": 381,
       "status": "MISMATCH"
     },
@@ -31160,7 +31160,7 @@
     },
     {
       "total_instructions": 7631,
-      "matched_code_percent": 91.35106801205609,
+      "matched_code_percent": 91.90145459310706,
       "methods": [
         {
           "name": "getNumberOfItem",
@@ -31370,7 +31370,7 @@
       ],
       "name": "zombie/inventory/ItemContainer",
       "total_methods": 302,
-      "matched_instructions": 6971,
+      "matched_instructions": 7013,
       "matched_methods": 301,
       "status": "MISMATCH"
     },
@@ -31520,7 +31520,7 @@
     },
     {
       "total_instructions": 2701,
-      "matched_code_percent": 70.19622362088116,
+      "matched_code_percent": 77.00851536467975,
       "methods": [
         {
           "name": "ParseSuburbsDistributions",
@@ -31717,7 +31717,7 @@
       ],
       "name": "zombie/inventory/ItemPickerJava",
       "total_methods": 24,
-      "matched_instructions": 1896,
+      "matched_instructions": 2080,
       "matched_methods": 20,
       "status": "MISMATCH"
     },
@@ -32076,7 +32076,7 @@
     },
     {
       "total_instructions": 2518,
-      "matched_code_percent": 53.29626687847498,
+      "matched_code_percent": 64.49563145353456,
       "methods": [
         {
           "name": "Unwear",
@@ -32232,7 +32232,7 @@
       ],
       "name": "zombie/inventory/types/Clothing",
       "total_methods": 88,
-      "matched_instructions": 1342,
+      "matched_instructions": 1624,
       "matched_methods": 84,
       "status": "MISMATCH"
     },
@@ -32335,7 +32335,7 @@
     },
     {
       "total_instructions": 4859,
-      "matched_code_percent": 48.71372710434246,
+      "matched_code_percent": 64.60176991150442,
       "methods": [
         {
           "recompContext": [
@@ -32616,13 +32616,13 @@
       ],
       "name": "zombie/inventory/types/Food",
       "total_methods": 130,
-      "matched_instructions": 2367,
+      "matched_instructions": 3139,
       "matched_methods": 123,
       "status": "MISMATCH"
     },
     {
       "total_instructions": 4064,
-      "matched_code_percent": 81.39763779527559,
+      "matched_code_percent": 86.07283464566929,
       "methods": [
         {
           "recompContext": [
@@ -32672,7 +32672,7 @@
       ],
       "name": "zombie/inventory/types/HandWeapon",
       "total_methods": 262,
-      "matched_instructions": 3308,
+      "matched_instructions": 3498,
       "matched_methods": 261,
       "status": "MISMATCH"
     },
@@ -32723,7 +32723,7 @@
     },
     {
       "total_instructions": 898,
-      "matched_code_percent": 82.51670378619154,
+      "matched_code_percent": 86.41425389755011,
       "methods": [
         {
           "name": "DoTooltip",
@@ -32781,7 +32781,7 @@
       ],
       "name": "zombie/inventory/types/Literature",
       "total_methods": 38,
-      "matched_instructions": 741,
+      "matched_instructions": 776,
       "matched_methods": 37,
       "status": "MISMATCH"
     },
@@ -32917,7 +32917,7 @@
     },
     {
       "total_instructions": 903,
-      "matched_code_percent": 63.78737541528239,
+      "matched_code_percent": 70.7641196013289,
       "methods": [
         {
           "recompContext": [
@@ -33027,7 +33027,7 @@
       ],
       "name": "zombie/iso/BrokenFences",
       "total_methods": 24,
-      "matched_instructions": 576,
+      "matched_instructions": 639,
       "matched_methods": 22,
       "status": "MISMATCH"
     },
@@ -33209,7 +33209,7 @@
     },
     {
       "total_instructions": 836,
-      "matched_code_percent": 37.91866028708134,
+      "matched_code_percent": 41.50717703349282,
       "methods": [
         {
           "name": "pickRandomTarget",
@@ -33267,7 +33267,7 @@
       ],
       "name": "zombie/iso/Helicopter",
       "total_methods": 11,
-      "matched_instructions": 317,
+      "matched_instructions": 347,
       "matched_methods": 10,
       "status": "MISMATCH"
     },
@@ -33343,7 +33343,7 @@
     },
     {
       "total_instructions": 15021,
-      "matched_code_percent": 62.89195126822449,
+      "matched_code_percent": 66.9196458291725,
       "methods": [
         {
           "name": "getChunkForGridSquare",
@@ -33903,7 +33903,7 @@
       ],
       "name": "zombie/iso/IsoCell",
       "total_methods": 212,
-      "matched_instructions": 9447,
+      "matched_instructions": 10052,
       "matched_methods": 202,
       "status": "MISMATCH"
     },
@@ -34023,7 +34023,7 @@
     },
     {
       "total_instructions": 14196,
-      "matched_code_percent": 69.8224852071006,
+      "matched_code_percent": 73.37278106508876,
       "methods": [
         {
           "name": "AddCorpses",
@@ -34624,13 +34624,13 @@
       ],
       "name": "zombie/iso/IsoChunk",
       "total_methods": 101,
-      "matched_instructions": 9912,
+      "matched_instructions": 10416,
       "matched_methods": 89,
       "status": "MISMATCH"
     },
     {
       "total_instructions": 61,
-      "matched_code_percent": 0,
+      "matched_code_percent": 4.918032786885246,
       "methods": [{
         "recompContext": [
           "#0    INVOKESTATIC zombie/iso/IsoDirections.values()[Lzombie/iso/IsoDirections;",
@@ -34666,7 +34666,7 @@
       }],
       "name": "zombie/iso/IsoChunk$1",
       "total_methods": 1,
-      "matched_instructions": 0,
+      "matched_instructions": 3,
       "matched_methods": 0,
       "status": "MISMATCH"
     },
@@ -34725,7 +34725,7 @@
     },
     {
       "total_instructions": 3588,
-      "matched_code_percent": 75.8082497212932,
+      "matched_code_percent": 78.95763656633221,
       "methods": [
         {
           "name": "processAllLoadGridSquare",
@@ -34924,7 +34924,7 @@
       ],
       "name": "zombie/iso/IsoChunkMap",
       "total_methods": 53,
-      "matched_instructions": 2720,
+      "matched_instructions": 2833,
       "matched_methods": 51,
       "status": "MISMATCH"
     },
@@ -35019,7 +35019,7 @@
     },
     {
       "total_instructions": 25076,
-      "matched_code_percent": 69.50869357154251,
+      "matched_code_percent": 74.19444887541873,
       "methods": [
         {
           "name": "getWater",
@@ -36123,7 +36123,7 @@
       ],
       "name": "zombie/iso/IsoGridSquare",
       "total_methods": 388,
-      "matched_instructions": 17430,
+      "matched_instructions": 18605,
       "matched_methods": 370,
       "status": "MISMATCH"
     },
@@ -36271,7 +36271,7 @@
     },
     {
       "total_instructions": 391,
-      "matched_code_percent": 40.153452685421996,
+      "matched_code_percent": 56.52173913043478,
       "methods": [{
         "recompContext": [
           "#59   ALOAD v3",
@@ -36311,7 +36311,7 @@
       }],
       "name": "zombie/iso/IsoLot",
       "total_methods": 10,
-      "matched_instructions": 157,
+      "matched_instructions": 221,
       "matched_methods": 9,
       "status": "MISMATCH"
     },
@@ -36453,7 +36453,7 @@
     },
     {
       "total_instructions": 5428,
-      "matched_code_percent": 73.4340456890199,
+      "matched_code_percent": 77.61606484893147,
       "methods": [
         {
           "name": "getVehicleZoneAt",
@@ -36747,7 +36747,7 @@
       ],
       "name": "zombie/iso/IsoMetaGrid",
       "total_methods": 68,
-      "matched_instructions": 3986,
+      "matched_instructions": 4213,
       "matched_methods": 64,
       "status": "MISMATCH"
     },
@@ -36954,7 +36954,7 @@
     },
     {
       "total_instructions": 5332,
-      "matched_code_percent": 79.96999249812453,
+      "matched_code_percent": 85.29632408102026,
       "methods": [
         {
           "name": "<init>",
@@ -37156,7 +37156,7 @@
       ],
       "name": "zombie/iso/IsoMovingObject",
       "total_methods": 172,
-      "matched_instructions": 4264,
+      "matched_instructions": 4548,
       "matched_methods": 169,
       "status": "MISMATCH"
     },
@@ -37198,7 +37198,7 @@
     },
     {
       "total_instructions": 10631,
-      "matched_code_percent": 74.45207412284827,
+      "matched_code_percent": 78.07355846110431,
       "methods": [
         {
           "name": "getNew",
@@ -37557,7 +37557,7 @@
       ],
       "name": "zombie/iso/IsoObject",
       "total_methods": 303,
-      "matched_instructions": 7915,
+      "matched_instructions": 8300,
       "matched_methods": 297,
       "status": "MISMATCH"
     },
@@ -38014,7 +38014,7 @@
     },
     {
       "total_instructions": 331,
-      "matched_code_percent": 1.8126888217522659,
+      "matched_code_percent": 26.58610271903323,
       "methods": [{
         "recompContext": [
           "#77   ALOAD v9",
@@ -38054,7 +38054,7 @@
       }],
       "name": "zombie/iso/IsoObjectPicker$ClickObject",
       "total_methods": 3,
-      "matched_instructions": 6,
+      "matched_instructions": 88,
       "matched_methods": 2,
       "status": "MISMATCH"
     },
@@ -38095,7 +38095,7 @@
     },
     {
       "total_instructions": 943,
-      "matched_code_percent": 97.45493107104984,
+      "matched_code_percent": 97.87910922587487,
       "methods": [
         {
           "name": "renderSome",
@@ -38143,7 +38143,7 @@
       ],
       "name": "zombie/iso/IsoPuddles",
       "total_methods": 26,
-      "matched_instructions": 919,
+      "matched_instructions": 923,
       "matched_methods": 25,
       "status": "MISMATCH"
     },
@@ -38210,7 +38210,7 @@
     },
     {
       "total_instructions": 1145,
-      "matched_code_percent": 51.877729257641924,
+      "matched_code_percent": 56.157205240174676,
       "methods": [
         {
           "name": "init",
@@ -38260,7 +38260,7 @@
       ],
       "name": "zombie/iso/IsoPuddlesGeometry",
       "total_methods": 8,
-      "matched_instructions": 594,
+      "matched_instructions": 643,
       "matched_methods": 7,
       "status": "MISMATCH"
     },
@@ -38433,7 +38433,7 @@
     },
     {
       "total_instructions": 506,
-      "matched_code_percent": 24.110671936758894,
+      "matched_code_percent": 84.78260869565217,
       "methods": [
         {
           "name": "addZone",
@@ -38479,13 +38479,13 @@
       ],
       "name": "zombie/iso/IsoWaterFlow",
       "total_methods": 7,
-      "matched_instructions": 122,
+      "matched_instructions": 429,
       "matched_methods": 6,
       "status": "MISMATCH"
     },
     {
       "total_instructions": 588,
-      "matched_code_percent": 27.891156462585034,
+      "matched_code_percent": 58.843537414965986,
       "methods": [
         {
           "recompContext": [
@@ -38535,13 +38535,13 @@
       ],
       "name": "zombie/iso/IsoWaterGeometry",
       "total_methods": 6,
-      "matched_instructions": 164,
+      "matched_instructions": 346,
       "matched_methods": 5,
       "status": "MISMATCH"
     },
     {
       "total_instructions": 6534,
-      "matched_code_percent": 31.512090602999695,
+      "matched_code_percent": 40.83256810529538,
       "methods": [
         {
           "name": "getFreeEmitter",
@@ -38805,7 +38805,7 @@
       ],
       "name": "zombie/iso/IsoWorld",
       "total_methods": 106,
-      "matched_instructions": 2059,
+      "matched_instructions": 2668,
       "matched_methods": 100,
       "status": "MISMATCH"
     },
@@ -38864,7 +38864,7 @@
     },
     {
       "total_instructions": 2528,
-      "matched_code_percent": 82.75316455696202,
+      "matched_code_percent": 82.83227848101266,
       "methods": [
         {
           "name": "init",
@@ -38975,13 +38975,13 @@
       ],
       "name": "zombie/iso/LightingJNI",
       "total_methods": 58,
-      "matched_instructions": 2092,
+      "matched_instructions": 2094,
       "matched_methods": 56,
       "status": "MISMATCH"
     },
     {
       "total_instructions": 682,
-      "matched_code_percent": 20.821114369501466,
+      "matched_code_percent": 24.926686217008797,
       "methods": [
         {
           "recompContext": [
@@ -39031,7 +39031,7 @@
       ],
       "name": "zombie/iso/LightingJNI$JNILighting",
       "total_methods": 25,
-      "matched_instructions": 142,
+      "matched_instructions": 170,
       "matched_methods": 24,
       "status": "MISMATCH"
     },
@@ -39133,7 +39133,7 @@
     },
     {
       "total_instructions": 796,
-      "matched_code_percent": 60.42713567839196,
+      "matched_code_percent": 71.98492462311557,
       "methods": [
         {
           "recompContext": [
@@ -39191,13 +39191,13 @@
       ],
       "name": "zombie/iso/MultiStageBuilding$Stage",
       "total_methods": 18,
-      "matched_instructions": 481,
+      "matched_instructions": 573,
       "matched_methods": 16,
       "status": "MISMATCH"
     },
     {
       "total_instructions": 1168,
-      "matched_code_percent": 76.62671232876713,
+      "matched_code_percent": 77.3972602739726,
       "methods": [
         {
           "name": "calcDistanceOnThisChunkOnly",
@@ -39295,7 +39295,7 @@
       ],
       "name": "zombie/iso/NearestWalls",
       "total_methods": 15,
-      "matched_instructions": 895,
+      "matched_instructions": 904,
       "matched_methods": 14,
       "status": "MISMATCH"
     },
@@ -39310,7 +39310,7 @@
     },
     {
       "total_instructions": 1486,
-      "matched_code_percent": 64.19919246298788,
+      "matched_code_percent": 73.55316285329744,
       "methods": [
         {
           "recompContext": [
@@ -39360,7 +39360,7 @@
       ],
       "name": "zombie/iso/ObjectsSyncRequests",
       "total_methods": 15,
-      "matched_instructions": 954,
+      "matched_instructions": 1093,
       "matched_methods": 13,
       "status": "MISMATCH"
     },
@@ -39429,7 +39429,7 @@
     },
     {
       "total_instructions": 745,
-      "matched_code_percent": 58.38926174496644,
+      "matched_code_percent": 59.060402684563755,
       "methods": [{
         "recompContext": [
           "#0    ICONST_0",
@@ -39469,7 +39469,7 @@
       }],
       "name": "zombie/iso/ParticlesFire",
       "total_methods": 15,
-      "matched_instructions": 435,
+      "matched_instructions": 440,
       "matched_methods": 14,
       "status": "MISMATCH"
     },
@@ -39493,7 +39493,7 @@
     },
     {
       "total_instructions": 282,
-      "matched_code_percent": 62.4113475177305,
+      "matched_code_percent": 74.46808510638297,
       "methods": [{
         "recompContext": [
           "#29   FLOAD v4",
@@ -39533,7 +39533,7 @@
       }],
       "name": "zombie/iso/ParticlesFire$Zone",
       "total_methods": 3,
-      "matched_instructions": 176,
+      "matched_instructions": 210,
       "matched_methods": 2,
       "status": "MISMATCH"
     },
@@ -39548,7 +39548,7 @@
     },
     {
       "total_instructions": 1400,
-      "matched_code_percent": 31.142857142857142,
+      "matched_code_percent": 53.5,
       "methods": [{
         "recompContext": [
           "#308  FLOAD v19",
@@ -39588,7 +39588,7 @@
       }],
       "name": "zombie/iso/PlayerCamera",
       "total_methods": 17,
-      "matched_instructions": 436,
+      "matched_instructions": 749,
       "matched_methods": 16,
       "status": "MISMATCH"
     },
@@ -39874,7 +39874,7 @@
     },
     {
       "total_instructions": 2363,
-      "matched_code_percent": 79.55988150655946,
+      "matched_code_percent": 82.39526026237833,
       "methods": [
         {
           "recompContext": [
@@ -39940,7 +39940,7 @@
       ],
       "name": "zombie/iso/WorldMarkers",
       "total_methods": 40,
-      "matched_instructions": 1880,
+      "matched_instructions": 1947,
       "matched_methods": 39,
       "status": "MISMATCH"
     },
@@ -40096,7 +40096,7 @@
     },
     {
       "total_instructions": 2525,
-      "matched_code_percent": 83.00990099009901,
+      "matched_code_percent": 88.95049504950495,
       "methods": [
         {
           "name": "sendRequests",
@@ -40223,7 +40223,7 @@
       ],
       "name": "zombie/iso/WorldStreamer",
       "total_methods": 32,
-      "matched_instructions": 2096,
+      "matched_instructions": 2246,
       "matched_methods": 30,
       "status": "MISMATCH"
     },
@@ -40594,7 +40594,7 @@
     },
     {
       "total_instructions": 549,
-      "matched_code_percent": 77.59562841530055,
+      "matched_code_percent": 80.32786885245902,
       "methods": [
         {
           "name": "update",
@@ -40679,7 +40679,7 @@
       ],
       "name": "zombie/iso/areas/isoregion/IsoRegions",
       "total_methods": 31,
-      "matched_instructions": 426,
+      "matched_instructions": 441,
       "matched_methods": 29,
       "status": "MISMATCH"
     },
@@ -40703,7 +40703,7 @@
     },
     {
       "total_instructions": 3063,
-      "matched_code_percent": 45.47828925889651,
+      "matched_code_percent": 52.4322559582109,
       "methods": [
         {
           "recompContext": [
@@ -40761,7 +40761,7 @@
       ],
       "name": "zombie/iso/areas/isoregion/IsoRegionsRenderer",
       "total_methods": 47,
-      "matched_instructions": 1393,
+      "matched_instructions": 1606,
       "matched_methods": 45,
       "status": "MISMATCH"
     },
@@ -40785,7 +40785,7 @@
     },
     {
       "total_instructions": 1758,
-      "matched_code_percent": 81.51308304891923,
+      "matched_code_percent": 83.33333333333333,
       "methods": [
         {
           "name": "getSquare",
@@ -40910,7 +40910,7 @@
       ],
       "name": "zombie/iso/areas/isoregion/data/DataChunk",
       "total_methods": 50,
-      "matched_instructions": 1433,
+      "matched_instructions": 1465,
       "matched_methods": 48,
       "status": "MISMATCH"
     },
@@ -41111,7 +41111,7 @@
     },
     {
       "total_instructions": 703,
-      "matched_code_percent": 55.049786628734,
+      "matched_code_percent": 85.91749644381224,
       "methods": [
         {
           "recompContext": [
@@ -41161,7 +41161,7 @@
       ],
       "name": "zombie/iso/objects/BSFurnace",
       "total_methods": 25,
-      "matched_instructions": 387,
+      "matched_instructions": 604,
       "matched_methods": 24,
       "status": "MISMATCH"
     },
@@ -41194,7 +41194,7 @@
     },
     {
       "total_instructions": 1055,
-      "matched_code_percent": 69.38388625592417,
+      "matched_code_percent": 72.51184834123222,
       "methods": [
         {
           "name": "isSpriteWithPropaneTank",
@@ -41252,13 +41252,13 @@
       ],
       "name": "zombie/iso/objects/IsoBarbecue",
       "total_methods": 35,
-      "matched_instructions": 732,
+      "matched_instructions": 765,
       "matched_methods": 34,
       "status": "MISMATCH"
     },
     {
       "total_instructions": 1898,
-      "matched_code_percent": 92.2550052687039,
+      "matched_code_percent": 97.04952581664911,
       "methods": [
         {
           "recompContext": [
@@ -41359,7 +41359,7 @@
       ],
       "name": "zombie/iso/objects/IsoBarricade",
       "total_methods": 37,
-      "matched_instructions": 1751,
+      "matched_instructions": 1842,
       "matched_methods": 35,
       "status": "MISMATCH"
     },
@@ -41392,7 +41392,7 @@
     },
     {
       "total_instructions": 919,
-      "matched_code_percent": 77.58433079434168,
+      "matched_code_percent": 82.04570184983677,
       "methods": [
         {
           "recompContext": [
@@ -41471,7 +41471,7 @@
       ],
       "name": "zombie/iso/objects/IsoCarBatteryCharger",
       "total_methods": 24,
-      "matched_instructions": 713,
+      "matched_instructions": 754,
       "matched_methods": 22,
       "status": "MISMATCH"
     },
@@ -41513,7 +41513,7 @@
     },
     {
       "total_instructions": 1194,
-      "matched_code_percent": 80.65326633165829,
+      "matched_code_percent": 92.46231155778895,
       "methods": [
         {
           "recompContext": [
@@ -41622,13 +41622,13 @@
       ],
       "name": "zombie/iso/objects/IsoCurtain",
       "total_methods": 25,
-      "matched_instructions": 963,
+      "matched_instructions": 1104,
       "matched_methods": 23,
       "status": "MISMATCH"
     },
     {
       "total_instructions": 4294,
-      "matched_code_percent": 49.1616208663251,
+      "matched_code_percent": 68.51420586865393,
       "methods": [
         {
           "recompContext": [
@@ -41888,7 +41888,7 @@
       ],
       "name": "zombie/iso/objects/IsoDeadBody",
       "total_methods": 78,
-      "matched_instructions": 2111,
+      "matched_instructions": 2942,
       "matched_methods": 70,
       "status": "MISMATCH"
     },
@@ -41903,7 +41903,7 @@
     },
     {
       "total_instructions": 9061,
-      "matched_code_percent": 72.90586028032226,
+      "matched_code_percent": 80.13464297538903,
       "methods": [
         {
           "name": "checkKeyHighlight",
@@ -42400,7 +42400,7 @@
       ],
       "name": "zombie/iso/objects/IsoDoor",
       "total_methods": 119,
-      "matched_instructions": 6606,
+      "matched_instructions": 7261,
       "matched_methods": 109,
       "status": "MISMATCH"
     },
@@ -42433,7 +42433,7 @@
     },
     {
       "total_instructions": 2134,
-      "matched_code_percent": 77.97563261480788,
+      "matched_code_percent": 79.52202436738519,
       "methods": [
         {
           "name": "load",
@@ -42502,13 +42502,13 @@
       ],
       "name": "zombie/iso/objects/IsoFire",
       "total_methods": 34,
-      "matched_instructions": 1664,
+      "matched_instructions": 1697,
       "matched_methods": 33,
       "status": "MISMATCH"
     },
     {
       "total_instructions": 738,
-      "matched_code_percent": 80.75880758807588,
+      "matched_code_percent": 90.2439024390244,
       "methods": [
         {
           "name": "Fire_LightCalc",
@@ -42561,7 +42561,7 @@
       ],
       "name": "zombie/iso/objects/IsoFireManager",
       "total_methods": 20,
-      "matched_instructions": 596,
+      "matched_instructions": 666,
       "matched_methods": 19,
       "status": "MISMATCH"
     },
@@ -42612,7 +42612,7 @@
     },
     {
       "total_instructions": 1047,
-      "matched_code_percent": 77.17287488061127,
+      "matched_code_percent": 80.61127029608404,
       "methods": [{
         "recompContext": [
           "#31   PUTFIELD zombie/iso/objects/IsoFireplace.LastUpdateTime:F",
@@ -42652,13 +42652,13 @@
       }],
       "name": "zombie/iso/objects/IsoFireplace",
       "total_methods": 29,
-      "matched_instructions": 808,
+      "matched_instructions": 844,
       "matched_methods": 28,
       "status": "MISMATCH"
     },
     {
       "total_instructions": 2025,
-      "matched_code_percent": 84,
+      "matched_code_percent": 86.8641975308642,
       "methods": [
         {
           "recompContext": [
@@ -42756,7 +42756,7 @@
       ],
       "name": "zombie/iso/objects/IsoGenerator",
       "total_methods": 38,
-      "matched_instructions": 1701,
+      "matched_instructions": 1759,
       "matched_methods": 37,
       "status": "MISMATCH"
     },
@@ -42789,7 +42789,7 @@
     },
     {
       "total_instructions": 2343,
-      "matched_code_percent": 81.77550149381135,
+      "matched_code_percent": 82.71446862996159,
       "methods": [
         {
           "name": "load",
@@ -42855,13 +42855,13 @@
       ],
       "name": "zombie/iso/objects/IsoLightSwitch",
       "total_methods": 52,
-      "matched_instructions": 1916,
+      "matched_instructions": 1938,
       "matched_methods": 51,
       "status": "MISMATCH"
     },
     {
       "total_instructions": 2118,
-      "matched_code_percent": 89.56562795089707,
+      "matched_code_percent": 91.02927289896128,
       "methods": [
         {
           "name": "render",
@@ -42927,7 +42927,7 @@
       ],
       "name": "zombie/iso/objects/IsoMannequin",
       "total_methods": 48,
-      "matched_instructions": 1897,
+      "matched_instructions": 1928,
       "matched_methods": 47,
       "status": "MISMATCH"
     },
@@ -43116,7 +43116,7 @@
     },
     {
       "total_instructions": 5642,
-      "matched_code_percent": 81.5490960652251,
+      "matched_code_percent": 85.9447004608295,
       "methods": [
         {
           "name": "getFacingPosition",
@@ -43333,7 +43333,7 @@
       ],
       "name": "zombie/iso/objects/IsoThumpable",
       "total_methods": 151,
-      "matched_instructions": 4601,
+      "matched_instructions": 4849,
       "matched_methods": 147,
       "status": "MISMATCH"
     },
@@ -43356,7 +43356,7 @@
     },
     {
       "total_instructions": 1237,
-      "matched_code_percent": 87.71220695230396,
+      "matched_code_percent": 94.90703314470493,
       "methods": [
         {
           "name": "<init>",
@@ -43417,7 +43417,7 @@
       ],
       "name": "zombie/iso/objects/IsoTrap",
       "total_methods": 43,
-      "matched_instructions": 1085,
+      "matched_instructions": 1174,
       "matched_methods": 42,
       "status": "MISMATCH"
     },
@@ -43432,7 +43432,7 @@
     },
     {
       "total_instructions": 1201,
-      "matched_code_percent": 68.85928393005828,
+      "matched_code_percent": 79.76686094920899,
       "methods": [
         {
           "name": "initTree",
@@ -43538,7 +43538,7 @@
       ],
       "name": "zombie/iso/objects/IsoTree",
       "total_methods": 28,
-      "matched_instructions": 827,
+      "matched_instructions": 958,
       "matched_methods": 26,
       "status": "MISMATCH"
     },
@@ -43571,7 +43571,7 @@
     },
     {
       "total_instructions": 3952,
-      "matched_code_percent": 74.06376518218623,
+      "matched_code_percent": 84.7672064777328,
       "methods": [
         {
           "name": "getAddSheetSquare",
@@ -43831,7 +43831,7 @@
       ],
       "name": "zombie/iso/objects/IsoWindow",
       "total_methods": 84,
-      "matched_instructions": 2927,
+      "matched_instructions": 3350,
       "matched_methods": 79,
       "status": "MISMATCH"
     },
@@ -43899,7 +43899,7 @@
     },
     {
       "total_instructions": 1465,
-      "matched_code_percent": 82.79863481228669,
+      "matched_code_percent": 89.07849829351535,
       "methods": [
         {
           "name": "getWaterMax",
@@ -43952,7 +43952,7 @@
       ],
       "name": "zombie/iso/objects/IsoWorldInventoryObject",
       "total_methods": 38,
-      "matched_instructions": 1213,
+      "matched_instructions": 1305,
       "matched_methods": 37,
       "status": "MISMATCH"
     },
@@ -44020,7 +44020,7 @@
     },
     {
       "total_instructions": 1645,
-      "matched_code_percent": 54.04255319148936,
+      "matched_code_percent": 68.69300911854103,
       "methods": [
         {
           "name": "alloc",
@@ -44173,7 +44173,7 @@
       ],
       "name": "zombie/iso/objects/ObjectRenderEffects",
       "total_methods": 17,
-      "matched_instructions": 889,
+      "matched_instructions": 1130,
       "matched_methods": 14,
       "status": "MISMATCH"
     },
@@ -44303,7 +44303,7 @@
     },
     {
       "total_instructions": 1770,
-      "matched_code_percent": 79.88700564971751,
+      "matched_code_percent": 86.55367231638418,
       "methods": [
         {
           "name": "LoadFramesReverseAltName",
@@ -44377,7 +44377,7 @@
       ],
       "name": "zombie/iso/sprite/IsoAnim",
       "total_methods": 23,
-      "matched_instructions": 1414,
+      "matched_instructions": 1532,
       "matched_methods": 22,
       "status": "MISMATCH"
     },
@@ -44427,7 +44427,7 @@
     },
     {
       "total_instructions": 3162,
-      "matched_code_percent": 74.32005060088551,
+      "matched_code_percent": 84.59835547122074,
       "methods": [
         {
           "name": "isMaskClicked",
@@ -44541,7 +44541,7 @@
       ],
       "name": "zombie/iso/sprite/IsoSprite",
       "total_methods": 76,
-      "matched_instructions": 2350,
+      "matched_instructions": 2675,
       "matched_methods": 74,
       "status": "MISMATCH"
     },
@@ -44609,7 +44609,7 @@
     },
     {
       "total_instructions": 1012,
-      "matched_code_percent": 94.86166007905139,
+      "matched_code_percent": 97.03557312252964,
       "methods": [
         {
           "name": "getTextureCurrent",
@@ -44678,7 +44678,7 @@
       ],
       "name": "zombie/iso/sprite/SkyBox",
       "total_methods": 22,
-      "matched_instructions": 960,
+      "matched_instructions": 982,
       "matched_methods": 21,
       "status": "MISMATCH"
     },
@@ -44969,7 +44969,7 @@
     },
     {
       "total_instructions": 221,
-      "matched_code_percent": 31.221719457013574,
+      "matched_code_percent": 69.23076923076923,
       "methods": [
         {
           "recompContext": [
@@ -45043,7 +45043,7 @@
       ],
       "name": "zombie/iso/weather/ClimateForecaster$ForecastValue",
       "total_methods": 13,
-      "matched_instructions": 69,
+      "matched_instructions": 153,
       "matched_methods": 11,
       "status": "MISMATCH"
     },
@@ -45058,7 +45058,7 @@
     },
     {
       "total_instructions": 6273,
-      "matched_code_percent": 81.85875976406822,
+      "matched_code_percent": 82.831181252989,
       "methods": [
         {
           "name": "getWindAngleDegrees",
@@ -45191,7 +45191,7 @@
       ],
       "name": "zombie/iso/weather/ClimateManager",
       "total_methods": 173,
-      "matched_instructions": 5135,
+      "matched_instructions": 5196,
       "matched_methods": 171,
       "status": "MISMATCH"
     },
@@ -45269,7 +45269,7 @@
     },
     {
       "total_instructions": 305,
-      "matched_code_percent": 59.34426229508197,
+      "matched_code_percent": 66.88524590163935,
       "methods": [
         {
           "recompContext": [
@@ -45315,13 +45315,13 @@
       ],
       "name": "zombie/iso/weather/ClimateMoon",
       "total_methods": 10,
-      "matched_instructions": 181,
+      "matched_instructions": 204,
       "matched_methods": 9,
       "status": "MISMATCH"
     },
     {
       "total_instructions": 1384,
-      "matched_code_percent": 48.33815028901734,
+      "matched_code_percent": 48.627167630057805,
       "methods": [{
         "recompContext": [
           "#0    ALOAD v0",
@@ -45359,13 +45359,13 @@
       }],
       "name": "zombie/iso/weather/ClimateValues",
       "total_methods": 42,
-      "matched_instructions": 669,
+      "matched_instructions": 673,
       "matched_methods": 41,
       "status": "MISMATCH"
     },
     {
       "total_instructions": 2965,
-      "matched_code_percent": 43.3389544688027,
+      "matched_code_percent": 50.286677908937605,
       "methods": [
         {
           "recompContext": [
@@ -45489,7 +45489,7 @@
       ],
       "name": "zombie/iso/weather/SimplexNoise",
       "total_methods": 9,
-      "matched_instructions": 1285,
+      "matched_instructions": 1491,
       "matched_methods": 6,
       "status": "MISMATCH"
     },
@@ -45504,7 +45504,7 @@
     },
     {
       "total_instructions": 328,
-      "matched_code_percent": 79.26829268292683,
+      "matched_code_percent": 81.70731707317073,
       "methods": [{
         "recompContext": [
           "#3    PUTSTATIC zombie/iso/weather/Temperature.DO_DAYLEN_MOD:Z",
@@ -45544,7 +45544,7 @@
       }],
       "name": "zombie/iso/weather/Temperature",
       "total_methods": 15,
-      "matched_instructions": 260,
+      "matched_instructions": 268,
       "matched_methods": 14,
       "status": "MISMATCH"
     },
@@ -45645,7 +45645,7 @@
     },
     {
       "total_instructions": 3687,
-      "matched_code_percent": 54.054787089774884,
+      "matched_code_percent": 58.85543802549498,
       "methods": [
         {
           "name": "RandNext",
@@ -45871,7 +45871,7 @@
       ],
       "name": "zombie/iso/weather/WeatherPeriod",
       "total_methods": 70,
-      "matched_instructions": 1993,
+      "matched_instructions": 2170,
       "matched_methods": 65,
       "status": "MISMATCH"
     },
@@ -46000,7 +46000,7 @@
     },
     {
       "total_instructions": 2195,
-      "matched_code_percent": 73.21184510250569,
+      "matched_code_percent": 91.07061503416857,
       "methods": [
         {
           "name": "calculateTotal",
@@ -46082,7 +46082,7 @@
       ],
       "name": "zombie/iso/weather/dbg/ClimMngrDebug",
       "total_methods": 24,
-      "matched_instructions": 1607,
+      "matched_instructions": 1999,
       "matched_methods": 22,
       "status": "MISMATCH"
     },
@@ -46218,7 +46218,7 @@
     },
     {
       "total_instructions": 1681,
-      "matched_code_percent": 72.21891731112433,
+      "matched_code_percent": 91.01725163593099,
       "methods": [
         {
           "name": "init",
@@ -46308,7 +46308,7 @@
       ],
       "name": "zombie/iso/weather/fx/IsoWeatherFX",
       "total_methods": 34,
-      "matched_instructions": 1214,
+      "matched_instructions": 1530,
       "matched_methods": 32,
       "status": "MISMATCH"
     },
@@ -46323,7 +46323,7 @@
     },
     {
       "total_instructions": 311,
-      "matched_code_percent": 36.334405144694536,
+      "matched_code_percent": 45.98070739549839,
       "methods": [{
         "recompContext": [
           "#25   D2I",
@@ -46363,13 +46363,13 @@
       }],
       "name": "zombie/iso/weather/fx/ParticleRectangle",
       "total_methods": 8,
-      "matched_instructions": 113,
+      "matched_instructions": 143,
       "matched_methods": 7,
       "status": "MISMATCH"
     },
     {
       "total_instructions": 466,
-      "matched_code_percent": 36.69527896995708,
+      "matched_code_percent": 40.55793991416309,
       "methods": [{
         "recompContext": [
           "#13   ALOAD v0",
@@ -46409,7 +46409,7 @@
       }],
       "name": "zombie/iso/weather/fx/RainParticle",
       "total_methods": 4,
-      "matched_instructions": 171,
+      "matched_instructions": 189,
       "matched_methods": 3,
       "status": "MISMATCH"
     },
@@ -46433,7 +46433,7 @@
     },
     {
       "total_instructions": 269,
-      "matched_code_percent": 20.44609665427509,
+      "matched_code_percent": 22.304832713754646,
       "methods": [{
         "recompContext": [
           "#0    ALOAD v0",
@@ -46473,7 +46473,7 @@
       }],
       "name": "zombie/iso/weather/fx/SnowParticle",
       "total_methods": 4,
-      "matched_instructions": 55,
+      "matched_instructions": 60,
       "matched_methods": 3,
       "status": "MISMATCH"
     },
@@ -46488,7 +46488,7 @@
     },
     {
       "total_instructions": 2705,
-      "matched_code_percent": 58.262476894639555,
+      "matched_code_percent": 66.80221811460258,
       "methods": [
         {
           "name": "checkFbos",
@@ -46639,7 +46639,7 @@
       ],
       "name": "zombie/iso/weather/fx/WeatherFxMask",
       "total_methods": 27,
-      "matched_instructions": 1576,
+      "matched_instructions": 1807,
       "matched_methods": 24,
       "status": "MISMATCH"
     },
@@ -46672,7 +46672,7 @@
     },
     {
       "total_instructions": 456,
-      "matched_code_percent": 65.78947368421052,
+      "matched_code_percent": 87.06140350877193,
       "methods": [
         {
           "recompContext": [
@@ -46722,7 +46722,7 @@
       ],
       "name": "zombie/iso/weather/fx/WeatherParticle",
       "total_methods": 8,
-      "matched_instructions": 300,
+      "matched_instructions": 397,
       "matched_methods": 7,
       "status": "MISMATCH"
     },
@@ -46867,7 +46867,7 @@
     },
     {
       "total_instructions": 303,
-      "matched_code_percent": 44.224422442244226,
+      "matched_code_percent": 54.12541254125413,
       "methods": [{
         "recompContext": [
           "#25   GETFIELD zombie/network/BodyDamageSync$Updater.bdSent:Lzombie/characters/BodyDamage/BodyDamage;",
@@ -46907,7 +46907,7 @@
       }],
       "name": "zombie/network/BodyDamageSync$Updater",
       "total_methods": 8,
-      "matched_instructions": 134,
+      "matched_instructions": 164,
       "matched_methods": 7,
       "status": "MISMATCH"
     },
@@ -46948,7 +46948,7 @@
     },
     {
       "total_instructions": 998,
-      "matched_code_percent": 42.68537074148296,
+      "matched_code_percent": 47.69539078156313,
       "methods": [
         {
           "name": "isValidCell",
@@ -47014,7 +47014,7 @@
       ],
       "name": "zombie/network/ClientServerMap",
       "total_methods": 15,
-      "matched_instructions": 426,
+      "matched_instructions": 476,
       "matched_methods": 13,
       "status": "MISMATCH"
     },
@@ -47305,7 +47305,7 @@
     },
     {
       "total_instructions": 1011,
-      "matched_code_percent": 17.309594460929773,
+      "matched_code_percent": 31.05835806132542,
       "methods": [
         {
           "recompContext": [
@@ -47387,7 +47387,7 @@
       ],
       "name": "zombie/network/FakeClientManager",
       "total_methods": 14,
-      "matched_instructions": 175,
+      "matched_instructions": 314,
       "matched_methods": 12,
       "status": "MISMATCH"
     },
@@ -47410,7 +47410,7 @@
     },
     {
       "total_instructions": 2478,
-      "matched_code_percent": 91.12187247780469,
+      "matched_code_percent": 94.43099273607749,
       "methods": [
         {
           "recompContext": [
@@ -47479,7 +47479,7 @@
       ],
       "name": "zombie/network/FakeClientManager$Client",
       "total_methods": 48,
-      "matched_instructions": 2258,
+      "matched_instructions": 2340,
       "matched_methods": 47,
       "status": "MISMATCH"
     },
@@ -47564,7 +47564,7 @@
     },
     {
       "total_instructions": 1388,
-      "matched_code_percent": 71.97406340057637,
+      "matched_code_percent": 82.42074927953891,
       "methods": [
         {
           "name": "lineMovement",
@@ -47665,7 +47665,7 @@
       ],
       "name": "zombie/network/FakeClientManager$Player",
       "total_methods": 16,
-      "matched_instructions": 999,
+      "matched_instructions": 1144,
       "matched_methods": 14,
       "status": "MISMATCH"
     },
@@ -47707,7 +47707,7 @@
     },
     {
       "total_instructions": 288,
-      "matched_code_percent": 36.458333333333336,
+      "matched_code_percent": 71.18055555555556,
       "methods": [
         {
           "recompContext": [
@@ -47794,7 +47794,7 @@
       ],
       "name": "zombie/network/FakeClientManager$StringUTF",
       "total_methods": 5,
-      "matched_instructions": 105,
+      "matched_instructions": 205,
       "matched_methods": 3,
       "status": "MISMATCH"
     },
@@ -47809,7 +47809,7 @@
     },
     {
       "total_instructions": 1479,
-      "matched_code_percent": 69.64164976335361,
+      "matched_code_percent": 78.49898580121703,
       "methods": [
         {
           "name": "process",
@@ -47867,7 +47867,7 @@
       ],
       "name": "zombie/network/FakeClientManager$ZombieSimulator",
       "total_methods": 17,
-      "matched_instructions": 1030,
+      "matched_instructions": 1161,
       "matched_methods": 16,
       "status": "MISMATCH"
     },
@@ -47882,7 +47882,7 @@
     },
     {
       "total_instructions": 15353,
-      "matched_code_percent": 84.08780042988342,
+      "matched_code_percent": 87.92418419852798,
       "methods": [
         {
           "name": "receivePlayerUpdate",
@@ -48417,7 +48417,7 @@
       ],
       "name": "zombie/network/GameClient",
       "total_methods": 330,
-      "matched_instructions": 12910,
+      "matched_instructions": 13499,
       "matched_methods": 320,
       "status": "MISMATCH"
     },
@@ -48449,7 +48449,7 @@
     },
     {
       "total_instructions": 22546,
-      "matched_code_percent": 70.50031047635945,
+      "matched_code_percent": 78.78115852035837,
       "methods": [
         {
           "recompContext": [
@@ -49143,7 +49143,7 @@
       ],
       "name": "zombie/network/GameServer",
       "total_methods": 310,
-      "matched_instructions": 15895,
+      "matched_instructions": 17762,
       "matched_methods": 298,
       "status": "MISMATCH"
     },
@@ -49370,7 +49370,7 @@
     },
     {
       "total_instructions": 46,
-      "matched_code_percent": 8.695652173913043,
+      "matched_code_percent": 52.17391304347826,
       "methods": [{
         "recompContext": [
           "#15   INVOKESPECIAL java/util/zip/CRC32.<init>()V",
@@ -49410,13 +49410,13 @@
       }],
       "name": "zombie/network/MD5Checksum",
       "total_methods": 3,
-      "matched_instructions": 4,
+      "matched_instructions": 24,
       "matched_methods": 2,
       "status": "MISMATCH"
     },
     {
       "total_instructions": 2748,
-      "matched_code_percent": 76.16448326055313,
+      "matched_code_percent": 81.6957787481805,
       "methods": [
         {
           "name": "process",
@@ -49511,7 +49511,7 @@
       ],
       "name": "zombie/network/MPStatistic",
       "total_methods": 28,
-      "matched_instructions": 2093,
+      "matched_instructions": 2245,
       "matched_methods": 26,
       "status": "MISMATCH"
     },
@@ -49571,7 +49571,7 @@
     },
     {
       "total_instructions": 510,
-      "matched_code_percent": 45.09803921568628,
+      "matched_code_percent": 52.94117647058823,
       "methods": [{
         "recompContext": [
           "#35   INVOKEVIRTUAL zombie/core/network/ByteBufferWriter.putInt(I)V",
@@ -49611,7 +49611,7 @@
       }],
       "name": "zombie/network/MPStatisticClient",
       "total_methods": 9,
-      "matched_instructions": 230,
+      "matched_instructions": 270,
       "matched_methods": 8,
       "status": "MISMATCH"
     },
@@ -50029,7 +50029,7 @@
     },
     {
       "total_instructions": 221,
-      "matched_code_percent": 21.71945701357466,
+      "matched_code_percent": 68.32579185520362,
       "methods": [{
         "recompContext": [
           "#98   IADD",
@@ -50064,7 +50064,7 @@
       }],
       "name": "zombie/network/PassengerMap$PassengerLocal",
       "total_methods": 4,
-      "matched_instructions": 48,
+      "matched_instructions": 151,
       "matched_methods": 3,
       "status": "MISMATCH"
     },
@@ -50219,7 +50219,7 @@
     },
     {
       "total_instructions": 139,
-      "matched_code_percent": 56.83453237410072,
+      "matched_code_percent": 89.92805755395683,
       "methods": [
         {
           "recompContext": [
@@ -50264,7 +50264,7 @@
       ],
       "name": "zombie/network/RCONClient$RCONMessage",
       "total_methods": 5,
-      "matched_instructions": 79,
+      "matched_instructions": 125,
       "matched_methods": 4,
       "status": "MISMATCH"
     },
@@ -50330,7 +50330,7 @@
     },
     {
       "total_instructions": 504,
-      "matched_code_percent": 62.698412698412696,
+      "matched_code_percent": 85.91269841269842,
       "methods": [
         {
           "recompContext": [
@@ -50375,7 +50375,7 @@
       ],
       "name": "zombie/network/ReplayManager",
       "total_methods": 10,
-      "matched_instructions": 316,
+      "matched_instructions": 433,
       "matched_methods": 8,
       "status": "MISMATCH"
     },
@@ -50634,7 +50634,7 @@
     },
     {
       "total_instructions": 1863,
-      "matched_code_percent": 87.43961352657004,
+      "matched_code_percent": 88.35212023617821,
       "methods": [
         {
           "name": "init",
@@ -50732,7 +50732,7 @@
       ],
       "name": "zombie/network/ServerGUI",
       "total_methods": 19,
-      "matched_instructions": 1629,
+      "matched_instructions": 1646,
       "matched_methods": 18,
       "status": "MISMATCH"
     },
@@ -50755,7 +50755,7 @@
     },
     {
       "total_instructions": 342,
-      "matched_code_percent": 66.95906432748538,
+      "matched_code_percent": 83.91812865497076,
       "methods": [
         {
           "recompContext": [
@@ -50800,7 +50800,7 @@
       ],
       "name": "zombie/network/ServerLOS$LOSThread",
       "total_methods": 5,
-      "matched_instructions": 229,
+      "matched_instructions": 287,
       "matched_methods": 4,
       "status": "MISMATCH"
     },
@@ -50841,7 +50841,7 @@
     },
     {
       "total_instructions": 2070,
-      "matched_code_percent": 72.31884057971014,
+      "matched_code_percent": 76.52173913043478,
       "methods": [
         {
           "name": "isValidCell",
@@ -50947,7 +50947,7 @@
       ],
       "name": "zombie/network/ServerMap",
       "total_methods": 35,
-      "matched_instructions": 1497,
+      "matched_instructions": 1584,
       "matched_methods": 34,
       "status": "MISMATCH"
     },
@@ -51131,7 +51131,7 @@
     },
     {
       "total_instructions": 2977,
-      "matched_code_percent": 74.33658045011757,
+      "matched_code_percent": 79.17366476318442,
       "methods": [
         {
           "name": "executeQuery",
@@ -51307,7 +51307,7 @@
       ],
       "name": "zombie/network/ServerWorldDatabase",
       "total_methods": 40,
-      "matched_instructions": 2213,
+      "matched_instructions": 2357,
       "matched_methods": 37,
       "status": "MISMATCH"
     },
@@ -51465,7 +51465,7 @@
     },
     {
       "total_instructions": 1480,
-      "matched_code_percent": 88.64864864864865,
+      "matched_code_percent": 91.55405405405405,
       "methods": [
         {
           "name": "initPlayer",
@@ -51579,7 +51579,7 @@
       ],
       "name": "zombie/network/chat/ChatServer",
       "total_methods": 33,
-      "matched_instructions": 1312,
+      "matched_instructions": 1355,
       "matched_methods": 32,
       "status": "MISMATCH"
     },
@@ -51991,7 +51991,7 @@
     },
     {
       "total_instructions": 409,
-      "matched_code_percent": 64.30317848410758,
+      "matched_code_percent": 70.4156479217604,
       "methods": [{
         "recompContext": [
           "#20   GETFIELD zombie/network/packets/Stitch.wielder:Lzombie/network/packets/hit/Player;",
@@ -52031,7 +52031,7 @@
       }],
       "name": "zombie/network/packets/Stitch",
       "total_methods": 8,
-      "matched_instructions": 263,
+      "matched_instructions": 288,
       "matched_methods": 7,
       "status": "MISMATCH"
     },
@@ -52054,7 +52054,7 @@
     },
     {
       "total_instructions": 229,
-      "matched_code_percent": 58.51528384279476,
+      "matched_code_percent": 86.02620087336244,
       "methods": [
         {
           "recompContext": [
@@ -52099,7 +52099,7 @@
       ],
       "name": "zombie/network/packets/SyncClothingPacket",
       "total_methods": 7,
-      "matched_instructions": 134,
+      "matched_instructions": 197,
       "matched_methods": 6,
       "status": "MISMATCH"
     },
@@ -52140,7 +52140,7 @@
     },
     {
       "total_instructions": 445,
-      "matched_code_percent": 57.752808988764045,
+      "matched_code_percent": 69.66292134831461,
       "methods": [{
         "recompContext": [
           "#48   IFNULL L2",
@@ -52180,7 +52180,7 @@
       }],
       "name": "zombie/network/packets/ValidatePacket",
       "total_methods": 7,
-      "matched_instructions": 257,
+      "matched_instructions": 310,
       "matched_methods": 6,
       "status": "MISMATCH"
     },
@@ -52247,7 +52247,7 @@
     },
     {
       "total_instructions": 216,
-      "matched_code_percent": 51.851851851851855,
+      "matched_code_percent": 57.407407407407405,
       "methods": [{
         "recompContext": [
           "#7    INVOKEVIRTUAL zombie/characters/IsoGameCharacter.setAttackedBy(Lzombie/characters/IsoGameCharacter;)V",
@@ -52287,7 +52287,7 @@
       }],
       "name": "zombie/network/packets/hit/Bite",
       "total_methods": 6,
-      "matched_instructions": 112,
+      "matched_instructions": 124,
       "matched_methods": 5,
       "status": "MISMATCH"
     },
@@ -52812,7 +52812,7 @@
     },
     {
       "total_instructions": 774,
-      "matched_code_percent": 86.04651162790698,
+      "matched_code_percent": 91.47286821705427,
       "methods": [
         {
           "recompContext": [
@@ -52862,7 +52862,7 @@
       ],
       "name": "zombie/popman/NetworkZombiePacker",
       "total_methods": 12,
-      "matched_instructions": 666,
+      "matched_instructions": 708,
       "matched_methods": 11,
       "status": "MISMATCH"
     },
@@ -52877,7 +52877,7 @@
     },
     {
       "total_instructions": 1095,
-      "matched_code_percent": 30.77625570776256,
+      "matched_code_percent": 40.54794520547945,
       "methods": [
         {
           "name": "added",
@@ -52967,7 +52967,7 @@
       ],
       "name": "zombie/popman/NetworkZombieSimulator",
       "total_methods": 21,
-      "matched_instructions": 337,
+      "matched_instructions": 444,
       "matched_methods": 19,
       "status": "MISMATCH"
     },
@@ -53043,7 +53043,7 @@
     },
     {
       "total_instructions": 1858,
-      "matched_code_percent": 85.57588805166846,
+      "matched_code_percent": 88.05166846071045,
       "methods": [
         {
           "name": "noise",
@@ -53203,7 +53203,7 @@
       ],
       "name": "zombie/popman/ZombiePopulationManager",
       "total_methods": 64,
-      "matched_instructions": 1590,
+      "matched_instructions": 1636,
       "matched_methods": 61,
       "status": "MISMATCH"
     },
@@ -53536,7 +53536,7 @@
     },
     {
       "total_instructions": 1333,
-      "matched_code_percent": 69.91747936984245,
+      "matched_code_percent": 76.59414853713429,
       "methods": [
         {
           "recompContext": [
@@ -53627,13 +53627,13 @@
       ],
       "name": "zombie/radio/RadioData",
       "total_methods": 26,
-      "matched_instructions": 932,
+      "matched_instructions": 1021,
       "matched_methods": 24,
       "status": "MISMATCH"
     },
     {
       "total_instructions": 712,
-      "matched_code_percent": 33.42696629213483,
+      "matched_code_percent": 69.9438202247191,
       "methods": [
         {
           "name": "update",
@@ -53678,7 +53678,7 @@
       ],
       "name": "zombie/radio/RadioDebugConsole",
       "total_methods": 7,
-      "matched_instructions": 238,
+      "matched_instructions": 498,
       "matched_methods": 6,
       "status": "MISMATCH"
     },
@@ -53790,7 +53790,7 @@
     },
     {
       "total_instructions": 502,
-      "matched_code_percent": 33.864541832669325,
+      "matched_code_percent": 74.10358565737052,
       "methods": [
         {
           "name": "playSound",
@@ -53840,7 +53840,7 @@
       ],
       "name": "zombie/radio/StorySounds/StoryEmitter",
       "total_methods": 4,
-      "matched_instructions": 170,
+      "matched_instructions": 372,
       "matched_methods": 3,
       "status": "MISMATCH"
     },
@@ -53873,7 +53873,7 @@
     },
     {
       "total_instructions": 2721,
-      "matched_code_percent": 84.93201029033443,
+      "matched_code_percent": 86.03454612274899,
       "methods": [
         {
           "name": "Init",
@@ -53990,7 +53990,7 @@
       ],
       "name": "zombie/radio/ZomboidRadio",
       "total_methods": 57,
-      "matched_instructions": 2311,
+      "matched_instructions": 2341,
       "matched_methods": 55,
       "status": "MISMATCH"
     },
@@ -54005,7 +54005,7 @@
     },
     {
       "total_instructions": 3548,
-      "matched_code_percent": 86.64036076662909,
+      "matched_code_percent": 88.7260428410372,
       "methods": [
         {
           "recompContext": [
@@ -54168,7 +54168,7 @@
       ],
       "name": "zombie/radio/devices/DeviceData",
       "total_methods": 106,
-      "matched_instructions": 3074,
+      "matched_instructions": 3148,
       "matched_methods": 103,
       "status": "MISMATCH"
     },
@@ -54478,7 +54478,7 @@
     },
     {
       "total_instructions": 1129,
-      "matched_code_percent": 55.447298494242695,
+      "matched_code_percent": 72.01062887511071,
       "methods": [
         {
           "recompContext": [
@@ -54604,7 +54604,7 @@
       ],
       "name": "zombie/radio/media/RecordedMedia",
       "total_methods": 20,
-      "matched_instructions": 626,
+      "matched_instructions": 813,
       "matched_methods": 18,
       "status": "MISMATCH"
     },
@@ -54779,7 +54779,7 @@
     },
     {
       "total_instructions": 2106,
-      "matched_code_percent": 74.78632478632478,
+      "matched_code_percent": 84.33048433048432,
       "methods": [
         {
           "recompContext": [
@@ -54935,7 +54935,7 @@
       ],
       "name": "zombie/randomizedWorld/RandomizedWorldBase",
       "total_methods": 59,
-      "matched_instructions": 1575,
+      "matched_instructions": 1776,
       "matched_methods": 56,
       "status": "MISMATCH"
     },
@@ -55043,7 +55043,7 @@
     },
     {
       "total_instructions": 155,
-      "matched_code_percent": 18.70967741935484,
+      "matched_code_percent": 77.41935483870968,
       "methods": [{
         "recompContext": [
           "#86   ILOAD v4",
@@ -55083,7 +55083,7 @@
       }],
       "name": "zombie/randomizedWorld/randomizedBuilding/RBBurntFireman",
       "total_methods": 3,
-      "matched_instructions": 29,
+      "matched_instructions": 120,
       "matched_methods": 2,
       "status": "MISMATCH"
     },
@@ -55166,7 +55166,7 @@
     },
     {
       "total_instructions": 364,
-      "matched_code_percent": 6.593406593406593,
+      "matched_code_percent": 15.659340659340659,
       "methods": [{
         "recompContext": [
           "#28   INVOKEVIRTUAL zombie/iso/IsoCell.getGridSquare(III)Lzombie/iso/IsoGridSquare;",
@@ -55206,7 +55206,7 @@
       }],
       "name": "zombie/randomizedWorld/randomizedBuilding/RBOffice",
       "total_methods": 4,
-      "matched_instructions": 24,
+      "matched_instructions": 57,
       "matched_methods": 3,
       "status": "MISMATCH"
     },
@@ -55263,7 +55263,7 @@
     },
     {
       "total_instructions": 321,
-      "matched_code_percent": 22.741433021806852,
+      "matched_code_percent": 36.44859813084112,
       "methods": [{
         "recompContext": [
           "#39   IFNULL L3",
@@ -55303,7 +55303,7 @@
       }],
       "name": "zombie/randomizedWorld/randomizedBuilding/RBSafehouse",
       "total_methods": 4,
-      "matched_instructions": 73,
+      "matched_instructions": 117,
       "matched_methods": 3,
       "status": "MISMATCH"
     },
@@ -55352,7 +55352,7 @@
     },
     {
       "total_instructions": 502,
-      "matched_code_percent": 2.9880478087649402,
+      "matched_code_percent": 12.94820717131474,
       "methods": [{
         "recompContext": [
           "#45   IFNULL L3",
@@ -55392,7 +55392,7 @@
       }],
       "name": "zombie/randomizedWorld/randomizedBuilding/RBStripclub",
       "total_methods": 3,
-      "matched_instructions": 15,
+      "matched_instructions": 65,
       "matched_methods": 2,
       "status": "MISMATCH"
     },
@@ -55433,7 +55433,7 @@
     },
     {
       "total_instructions": 1274,
-      "matched_code_percent": 72.8414442700157,
+      "matched_code_percent": 79.51334379905809,
       "methods": [
         {
           "recompContext": [
@@ -55571,7 +55571,7 @@
       ],
       "name": "zombie/randomizedWorld/randomizedBuilding/RandomizedBuildingBase",
       "total_methods": 29,
-      "matched_instructions": 928,
+      "matched_instructions": 1013,
       "matched_methods": 27,
       "status": "MISMATCH"
     },
@@ -55612,7 +55612,7 @@
     },
     {
       "total_instructions": 1489,
-      "matched_code_percent": 6.3801208865010075,
+      "matched_code_percent": 42.71323035594359,
       "methods": [{
         "recompContext": [
           "#536  ICONST_0",
@@ -55652,7 +55652,7 @@
       }],
       "name": "zombie/randomizedWorld/randomizedBuilding/TableStories/RBTSDinner",
       "total_methods": 3,
-      "matched_instructions": 95,
+      "matched_instructions": 636,
       "matched_methods": 2,
       "status": "MISMATCH"
     },
@@ -56254,7 +56254,7 @@
     },
     {
       "total_instructions": 514,
-      "matched_code_percent": 58.17120622568093,
+      "matched_code_percent": 80.1556420233463,
       "methods": [
         {
           "recompContext": [
@@ -56300,7 +56300,7 @@
       ],
       "name": "zombie/randomizedWorld/randomizedVehicleStory/RVSUtilityVehicle",
       "total_methods": 5,
-      "matched_instructions": 299,
+      "matched_instructions": 412,
       "matched_methods": 4,
       "status": "MISMATCH"
     },
@@ -56315,7 +56315,7 @@
     },
     {
       "total_instructions": 1144,
-      "matched_code_percent": 89.68531468531468,
+      "matched_code_percent": 90.55944055944056,
       "methods": [
         {
           "name": "doRandomStory",
@@ -56389,7 +56389,7 @@
       ],
       "name": "zombie/randomizedWorld/randomizedVehicleStory/RandomizedVehicleStoryBase",
       "total_methods": 29,
-      "matched_instructions": 1026,
+      "matched_instructions": 1036,
       "matched_methods": 28,
       "status": "MISMATCH"
     },
@@ -56528,7 +56528,7 @@
     },
     {
       "total_instructions": 189,
-      "matched_code_percent": 9.523809523809524,
+      "matched_code_percent": 56.08465608465608,
       "methods": [{
         "recompContext": [
           "#83   ALOAD v1",
@@ -56563,7 +56563,7 @@
       }],
       "name": "zombie/randomizedWorld/randomizedZoneStory/RZSMusicFestStage",
       "total_methods": 2,
-      "matched_instructions": 18,
+      "matched_instructions": 106,
       "matched_methods": 1,
       "status": "MISMATCH"
     },
@@ -56587,7 +56587,7 @@
     },
     {
       "total_instructions": 711,
-      "matched_code_percent": 75.10548523206751,
+      "matched_code_percent": 79.0436005625879,
       "methods": [
         {
           "name": "isValidForStory",
@@ -56672,7 +56672,7 @@
       ],
       "name": "zombie/randomizedWorld/randomizedZoneStory/RandomizedZoneStoryBase",
       "total_methods": 15,
-      "matched_instructions": 534,
+      "matched_instructions": 562,
       "matched_methods": 14,
       "status": "MISMATCH"
     },
@@ -56972,7 +56972,7 @@
     },
     {
       "total_instructions": 623,
-      "matched_code_percent": 52.32744783306581,
+      "matched_code_percent": 61.637239165329056,
       "methods": [
         {
           "name": "create",
@@ -57038,7 +57038,7 @@
       ],
       "name": "zombie/savefile/PlayerDBHelper",
       "total_methods": 6,
-      "matched_instructions": 326,
+      "matched_instructions": 384,
       "matched_methods": 5,
       "status": "MISMATCH"
     },
@@ -57079,7 +57079,7 @@
     },
     {
       "total_instructions": 603,
-      "matched_code_percent": 54.892205638474294,
+      "matched_code_percent": 56.71641791044776,
       "methods": [
         {
           "name": "create",
@@ -57145,7 +57145,7 @@
       ],
       "name": "zombie/savefile/ServerPlayerDB",
       "total_methods": 13,
-      "matched_instructions": 331,
+      "matched_instructions": 342,
       "matched_methods": 12,
       "status": "MISMATCH"
     },
@@ -57169,7 +57169,7 @@
     },
     {
       "total_instructions": 2108,
-      "matched_code_percent": 78.98481973434535,
+      "matched_code_percent": 83.20683111954459,
       "methods": [
         {
           "name": "LoadFile",
@@ -57235,7 +57235,7 @@
       ],
       "name": "zombie/scripting/ScriptManager",
       "total_methods": 54,
-      "matched_instructions": 1665,
+      "matched_instructions": 1754,
       "matched_methods": 53,
       "status": "MISMATCH"
     },
@@ -57339,7 +57339,7 @@
     },
     {
       "total_instructions": 1856,
-      "matched_code_percent": 36.26077586206897,
+      "matched_code_percent": 49.838362068965516,
       "methods": [
         {
           "recompContext": [
@@ -57462,7 +57462,7 @@
       ],
       "name": "zombie/scripting/objects/EvolvedRecipe",
       "total_methods": 28,
-      "matched_instructions": 673,
+      "matched_instructions": 925,
       "matched_methods": 25,
       "status": "MISMATCH"
     },
@@ -57539,7 +57539,7 @@
     },
     {
       "total_instructions": 8168,
-      "matched_code_percent": 78.50146914789423,
+      "matched_code_percent": 84.40254652301665,
       "methods": [
         {
           "name": "Load",
@@ -57597,7 +57597,7 @@
       ],
       "name": "zombie/scripting/objects/Item",
       "total_methods": 246,
-      "matched_instructions": 6412,
+      "matched_instructions": 6894,
       "matched_methods": 245,
       "status": "MISMATCH"
     },
@@ -57772,7 +57772,7 @@
     },
     {
       "total_instructions": 5153,
-      "matched_code_percent": 78.57558703667766,
+      "matched_code_percent": 80.26392392780905,
       "methods": [
         {
           "name": "Load",
@@ -57934,7 +57934,7 @@
       ],
       "name": "zombie/scripting/objects/VehicleScript",
       "total_methods": 123,
-      "matched_instructions": 4049,
+      "matched_instructions": 4136,
       "matched_methods": 120,
       "status": "MISMATCH"
     },
@@ -58299,7 +58299,7 @@
     },
     {
       "total_instructions": 190,
-      "matched_code_percent": 47.36842105263158,
+      "matched_code_percent": 49.473684210526315,
       "methods": [{
         "recompContext": [
           "#0    ALOAD v0",
@@ -58337,7 +58337,7 @@
       }],
       "name": "zombie/text/templating/ReplaceProviderLua",
       "total_methods": 11,
-      "matched_instructions": 90,
+      "matched_instructions": 94,
       "matched_methods": 10,
       "status": "MISMATCH"
     },
@@ -58459,7 +58459,7 @@
     },
     {
       "total_instructions": 1642,
-      "matched_code_percent": 56.33373934226553,
+      "matched_code_percent": 62.971985383678444,
       "methods": [
         {
           "recompContext": [
@@ -58544,7 +58544,7 @@
       ],
       "name": "zombie/ui/Clock",
       "total_methods": 13,
-      "matched_instructions": 925,
+      "matched_instructions": 1034,
       "matched_methods": 11,
       "status": "MISMATCH"
     },
@@ -58559,7 +58559,7 @@
     },
     {
       "total_instructions": 329,
-      "matched_code_percent": 31.003039513677813,
+      "matched_code_percent": 68.38905775075987,
       "methods": [
         {
           "recompContext": [
@@ -58609,7 +58609,7 @@
       ],
       "name": "zombie/ui/FPSGraph",
       "total_methods": 8,
-      "matched_instructions": 102,
+      "matched_instructions": 225,
       "matched_methods": 6,
       "status": "MISMATCH"
     },
@@ -58702,7 +58702,7 @@
     },
     {
       "total_instructions": 392,
-      "matched_code_percent": 18.622448979591837,
+      "matched_code_percent": 91.83673469387755,
       "methods": [
         {
           "recompContext": [
@@ -58747,7 +58747,7 @@
       ],
       "name": "zombie/ui/LoadingQueueUI",
       "total_methods": 6,
-      "matched_instructions": 73,
+      "matched_instructions": 360,
       "matched_methods": 5,
       "status": "MISMATCH"
     },
@@ -58762,7 +58762,7 @@
     },
     {
       "total_instructions": 1267,
-      "matched_code_percent": 61.01026045777427,
+      "matched_code_percent": 64.08839779005525,
       "methods": [
         {
           "recompContext": [
@@ -58820,7 +58820,7 @@
       ],
       "name": "zombie/ui/MoodlesUI",
       "total_methods": 11,
-      "matched_instructions": 773,
+      "matched_instructions": 812,
       "matched_methods": 10,
       "status": "MISMATCH"
     },
@@ -58976,7 +58976,7 @@
     },
     {
       "total_instructions": 773,
-      "matched_code_percent": 27.813712807244503,
+      "matched_code_percent": 42.949547218628716,
       "methods": [
         {
           "recompContext": [
@@ -59026,7 +59026,7 @@
       ],
       "name": "zombie/ui/RadialProgressBar",
       "total_methods": 9,
-      "matched_instructions": 215,
+      "matched_instructions": 332,
       "matched_methods": 8,
       "status": "MISMATCH"
     },
@@ -59041,7 +59041,7 @@
     },
     {
       "total_instructions": 729,
-      "matched_code_percent": 85.87105624142661,
+      "matched_code_percent": 94.10150891632374,
       "methods": [
         {
           "name": "render",
@@ -59087,13 +59087,13 @@
       ],
       "name": "zombie/ui/ScrollBar",
       "total_methods": 10,
-      "matched_instructions": 626,
+      "matched_instructions": 686,
       "matched_methods": 9,
       "status": "MISMATCH"
     },
     {
       "total_instructions": 356,
-      "matched_code_percent": 85.67415730337079,
+      "matched_code_percent": 95.2247191011236,
       "methods": [
         {
           "name": "getCurrentGameSpeed",
@@ -59138,7 +59138,7 @@
       ],
       "name": "zombie/ui/SpeedControls",
       "total_methods": 10,
-      "matched_instructions": 305,
+      "matched_instructions": 339,
       "matched_methods": 9,
       "status": "MISMATCH"
     },
@@ -59197,7 +59197,7 @@
     },
     {
       "total_instructions": 2593,
-      "matched_code_percent": 83.72541457770922,
+      "matched_code_percent": 90.70574623987659,
       "methods": [
         {
           "name": "getUnformatted",
@@ -59287,7 +59287,7 @@
       ],
       "name": "zombie/ui/TextDrawObject",
       "total_methods": 79,
-      "matched_instructions": 2171,
+      "matched_instructions": 2352,
       "matched_methods": 78,
       "status": "MISMATCH"
     },
@@ -59320,7 +59320,7 @@
     },
     {
       "total_instructions": 872,
-      "matched_code_percent": 50.68807339449541,
+      "matched_code_percent": 59.977064220183486,
       "methods": [
         {
           "recompContext": [
@@ -59365,7 +59365,7 @@
       ],
       "name": "zombie/ui/TextManager",
       "total_methods": 24,
-      "matched_instructions": 442,
+      "matched_instructions": 523,
       "matched_methods": 23,
       "status": "MISMATCH"
     },
@@ -59433,7 +59433,7 @@
     },
     {
       "total_instructions": 1265,
-      "matched_code_percent": 85.45454545454545,
+      "matched_code_percent": 89.80237154150197,
       "methods": [
         {
           "name": "update",
@@ -59499,7 +59499,7 @@
       ],
       "name": "zombie/ui/UIDebugConsole",
       "total_methods": 18,
-      "matched_instructions": 1081,
+      "matched_instructions": 1136,
       "matched_methods": 17,
       "status": "MISMATCH"
     },
@@ -59600,7 +59600,7 @@
     },
     {
       "total_instructions": 3397,
-      "matched_code_percent": 43.62672946717692,
+      "matched_code_percent": 54.01825139829261,
       "methods": [
         {
           "name": "DrawTexture",
@@ -59778,7 +59778,7 @@
       ],
       "name": "zombie/ui/UIManager",
       "total_methods": 114,
-      "matched_instructions": 1482,
+      "matched_instructions": 1835,
       "matched_methods": 110,
       "status": "MISMATCH"
     },
@@ -59838,7 +59838,7 @@
     },
     {
       "total_instructions": 2695,
-      "matched_code_percent": 63.265306122448976,
+      "matched_code_percent": 73.13543599257885,
       "methods": [
         {
           "recompContext": [
@@ -59931,7 +59931,7 @@
       ],
       "name": "zombie/ui/UITextBox2",
       "total_methods": 57,
-      "matched_instructions": 1705,
+      "matched_instructions": 1971,
       "matched_methods": 55,
       "status": "MISMATCH"
     },
@@ -59946,7 +59946,7 @@
     },
     {
       "total_instructions": 481,
-      "matched_code_percent": 30.76923076923077,
+      "matched_code_percent": 77.96257796257797,
       "methods": [{
         "recompContext": [
           "#222  GETFIELD zombie/ui/UI_BodyPart.BodyPartType:Lzombie/characters/BodyDamage/BodyPartType;",
@@ -59986,7 +59986,7 @@
       }],
       "name": "zombie/ui/UI_BodyPart",
       "total_methods": 3,
-      "matched_instructions": 148,
+      "matched_instructions": 375,
       "matched_methods": 2,
       "status": "MISMATCH"
     },
@@ -60001,7 +60001,7 @@
     },
     {
       "total_instructions": 226,
-      "matched_code_percent": 80.08849557522124,
+      "matched_code_percent": 86.28318584070796,
       "methods": [
         {
           "name": "size",
@@ -60048,13 +60048,13 @@
       ],
       "name": "zombie/util/AbstractIntCollection",
       "total_methods": 15,
-      "matched_instructions": 181,
+      "matched_instructions": 195,
       "matched_methods": 14,
       "status": "MISMATCH"
     },
     {
       "total_instructions": 563,
-      "matched_code_percent": 23.80106571936057,
+      "matched_code_percent": 24.866785079928952,
       "methods": [{
         "recompContext": [
           "#1    ALOAD v0",
@@ -60094,7 +60094,7 @@
       }],
       "name": "zombie/util/AddCoopPlayer",
       "total_methods": 7,
-      "matched_instructions": 134,
+      "matched_instructions": 140,
       "matched_methods": 6,
       "status": "MISMATCH"
     },
@@ -61452,7 +61452,7 @@
     },
     {
       "total_instructions": 186,
-      "matched_code_percent": 78.49462365591398,
+      "matched_code_percent": 85.48387096774194,
       "methods": [
         {
           "recompContext": [
@@ -61499,7 +61499,7 @@
       ],
       "name": "zombie/util/list/AbstractIntList",
       "total_methods": 14,
-      "matched_instructions": 146,
+      "matched_instructions": 159,
       "matched_methods": 13,
       "status": "MISMATCH"
     },
@@ -61523,7 +61523,7 @@
     },
     {
       "total_instructions": 587,
-      "matched_code_percent": 83.30494037478705,
+      "matched_code_percent": 94.8892674616695,
       "methods": [
         {
           "name": "computeCapacity",
@@ -61633,7 +61633,7 @@
       ],
       "name": "zombie/util/list/IntArrayList",
       "total_methods": 31,
-      "matched_instructions": 489,
+      "matched_instructions": 557,
       "matched_methods": 28,
       "status": "MISMATCH"
     },
@@ -61868,7 +61868,7 @@
     },
     {
       "total_instructions": 1050,
-      "matched_code_percent": 81.61904761904762,
+      "matched_code_percent": 82,
       "methods": [
         {
           "recompContext": [
@@ -61924,7 +61924,7 @@
       ],
       "name": "zombie/util/map/IntKeyOpenHashMap",
       "total_methods": 31,
-      "matched_instructions": 857,
+      "matched_instructions": 861,
       "matched_methods": 29,
       "status": "MISMATCH"
     },
@@ -62018,7 +62018,7 @@
     },
     {
       "total_instructions": 872,
-      "matched_code_percent": 75.80275229357798,
+      "matched_code_percent": 77.75229357798165,
       "methods": [
         {
           "recompContext": [
@@ -62107,7 +62107,7 @@
       ],
       "name": "zombie/util/set/IntOpenHashSet",
       "total_methods": 30,
-      "matched_instructions": 661,
+      "matched_instructions": 678,
       "matched_methods": 27,
       "status": "MISMATCH"
     },
@@ -62157,7 +62157,7 @@
     },
     {
       "total_instructions": 518,
-      "matched_code_percent": 46.91119691119691,
+      "matched_code_percent": 47.87644787644788,
       "methods": [
         {
           "name": "execute",
@@ -62215,13 +62215,13 @@
       ],
       "name": "zombie/vehicles/AttackVehicleState",
       "total_methods": 9,
-      "matched_instructions": 243,
+      "matched_instructions": 248,
       "matched_methods": 8,
       "status": "MISMATCH"
     },
     {
       "total_instructions": 28284,
-      "matched_code_percent": 75.42780370527507,
+      "matched_code_percent": 81.05996323009475,
       "methods": [
         {
           "name": "getFakeSpeedModifier",
@@ -63291,7 +63291,7 @@
       ],
       "name": "zombie/vehicles/BaseVehicle",
       "total_methods": 500,
-      "matched_instructions": 21334,
+      "matched_instructions": 22927,
       "matched_methods": 482,
       "status": "MISMATCH"
     },
@@ -63474,7 +63474,7 @@
     },
     {
       "total_instructions": 3091,
-      "matched_code_percent": 2.264639275315432,
+      "matched_code_percent": 9.18796505985118,
       "methods": [
         {
           "recompContext": [
@@ -63553,7 +63553,7 @@
       ],
       "name": "zombie/vehicles/CircleLineIntersect",
       "total_methods": 5,
-      "matched_instructions": 70,
+      "matched_instructions": 284,
       "matched_methods": 3,
       "status": "MISMATCH"
     },
@@ -63657,7 +63657,7 @@
     },
     {
       "total_instructions": 542,
-      "matched_code_percent": 90.59040590405904,
+      "matched_code_percent": 95.20295202952029,
       "methods": [
         {
           "name": "equaldirection",
@@ -63723,7 +63723,7 @@
       ],
       "name": "zombie/vehicles/CircleLineIntersect$VectorMath",
       "total_methods": 24,
-      "matched_instructions": 491,
+      "matched_instructions": 516,
       "matched_methods": 23,
       "status": "MISMATCH"
     },
@@ -63765,7 +63765,7 @@
     },
     {
       "total_instructions": 2537,
-      "matched_code_percent": 59.36145053212456,
+      "matched_code_percent": 75.7981868348443,
       "methods": [
         {
           "recompContext": [
@@ -63868,7 +63868,7 @@
       ],
       "name": "zombie/vehicles/CollideWithObstacles",
       "total_methods": 13,
-      "matched_instructions": 1506,
+      "matched_instructions": 1923,
       "matched_methods": 10,
       "status": "MISMATCH"
     },
@@ -64048,7 +64048,7 @@
     },
     {
       "total_instructions": 1417,
-      "matched_code_percent": 77.34650670430487,
+      "matched_code_percent": 80.73394495412845,
       "methods": [
         {
           "name": "resolveCollision",
@@ -64114,7 +64114,7 @@
       ],
       "name": "zombie/vehicles/CollideWithObstaclesPoly",
       "total_methods": 10,
-      "matched_instructions": 1096,
+      "matched_instructions": 1144,
       "matched_methods": 9,
       "status": "MISMATCH"
     },
@@ -64199,7 +64199,7 @@
     },
     {
       "total_instructions": 1040,
-      "matched_code_percent": 25.865384615384617,
+      "matched_code_percent": 30.384615384615383,
       "methods": [
         {
           "recompContext": [
@@ -64249,7 +64249,7 @@
       ],
       "name": "zombie/vehicles/CollideWithObstaclesPoly$ChunkDataZ",
       "total_methods": 9,
-      "matched_instructions": 269,
+      "matched_instructions": 316,
       "matched_methods": 8,
       "status": "MISMATCH"
     },
@@ -64385,7 +64385,7 @@
     },
     {
       "total_instructions": 3630,
-      "matched_code_percent": 69.75206611570248,
+      "matched_code_percent": 76.83195592286502,
       "methods": [
         {
           "name": "pathToNearest",
@@ -64520,7 +64520,7 @@
       ],
       "name": "zombie/vehicles/PathFindBehavior2",
       "total_methods": 42,
-      "matched_instructions": 2532,
+      "matched_instructions": 2789,
       "matched_methods": 40,
       "status": "MISMATCH"
     },
@@ -64597,7 +64597,7 @@
     },
     {
       "total_instructions": 6469,
-      "matched_code_percent": 43.700726541969395,
+      "matched_code_percent": 52.3419384758077,
       "methods": [
         {
           "name": "createVehicleCluster",
@@ -64882,7 +64882,7 @@
       ],
       "name": "zombie/vehicles/PolygonalMap2",
       "total_methods": 53,
-      "matched_instructions": 2827,
+      "matched_instructions": 3386,
       "matched_methods": 47,
       "status": "MISMATCH"
     },
@@ -64985,7 +64985,7 @@
     },
     {
       "total_instructions": 759,
-      "matched_code_percent": 39.78919631093544,
+      "matched_code_percent": 47.430830039525695,
       "methods": [{
         "recompContext": [
           "#53   SIPUSH 512",
@@ -65025,7 +65025,7 @@
       }],
       "name": "zombie/vehicles/PolygonalMap2$ChunkDataZ",
       "total_methods": 6,
-      "matched_instructions": 302,
+      "matched_instructions": 360,
       "matched_methods": 5,
       "status": "MISMATCH"
     },
@@ -65318,7 +65318,7 @@
     },
     {
       "total_instructions": 1923,
-      "matched_code_percent": 44.253770150806034,
+      "matched_code_percent": 56.42225689027561,
       "methods": [
         {
           "recompContext": [
@@ -65405,13 +65405,13 @@
       ],
       "name": "zombie/vehicles/PolygonalMap2$LineClearCollide",
       "total_methods": 11,
-      "matched_instructions": 851,
+      "matched_instructions": 1085,
       "matched_methods": 9,
       "status": "MISMATCH"
     },
     {
       "total_instructions": 2777,
-      "matched_code_percent": 28.664025927259633,
+      "matched_code_percent": 40.94346416996759,
       "methods": [
         {
           "name": "canStandAtOld",
@@ -65498,7 +65498,7 @@
       ],
       "name": "zombie/vehicles/PolygonalMap2$LineClearCollideMain",
       "total_methods": 11,
-      "matched_instructions": 796,
+      "matched_instructions": 1137,
       "matched_methods": 9,
       "status": "MISMATCH"
     },
@@ -65617,7 +65617,7 @@
     },
     {
       "total_instructions": 129,
-      "matched_code_percent": 52.713178294573645,
+      "matched_code_percent": 72.09302325581395,
       "methods": [{
         "recompContext": [
           "#20   GETFIELD zombie/vehicles/PolygonalMap2.sync:Lzombie/vehicles/PolygonalMap2$Sync;",
@@ -65652,7 +65652,7 @@
       }],
       "name": "zombie/vehicles/PolygonalMap2$PMThread",
       "total_methods": 5,
-      "matched_instructions": 68,
+      "matched_instructions": 93,
       "matched_methods": 4,
       "status": "MISMATCH"
     },
@@ -65823,7 +65823,7 @@
     },
     {
       "total_instructions": 667,
-      "matched_code_percent": 49.62518740629685,
+      "matched_code_percent": 63.26836581709146,
       "methods": [
         {
           "recompContext": [
@@ -65881,7 +65881,7 @@
       ],
       "name": "zombie/vehicles/PolygonalMap2$SquareUpdateTask",
       "total_methods": 12,
-      "matched_instructions": 331,
+      "matched_instructions": 422,
       "matched_methods": 11,
       "status": "MISMATCH"
     },
@@ -65982,7 +65982,7 @@
     },
     {
       "total_instructions": 703,
-      "matched_code_percent": 47.36842105263158,
+      "matched_code_percent": 83.92603129445234,
       "methods": [{
         "recompContext": [
           "#252  ALOAD v0",
@@ -66018,7 +66018,7 @@
       }],
       "name": "zombie/vehicles/PolygonalMap2$VehiclePoly",
       "total_methods": 8,
-      "matched_instructions": 333,
+      "matched_instructions": 590,
       "matched_methods": 7,
       "status": "MISMATCH"
     },
@@ -66092,7 +66092,7 @@
     },
     {
       "total_instructions": 4411,
-      "matched_code_percent": 80.43527544774427,
+      "matched_code_percent": 86.0349127182045,
       "methods": [
         {
           "name": "intersects",
@@ -66211,7 +66211,7 @@
       ],
       "name": "zombie/vehicles/PolygonalMap2$VisibilityGraph",
       "total_methods": 33,
-      "matched_instructions": 3548,
+      "matched_instructions": 3795,
       "matched_methods": 31,
       "status": "MISMATCH"
     },
@@ -66393,7 +66393,7 @@
     },
     {
       "total_instructions": 6059,
-      "matched_code_percent": 84.18881003465918,
+      "matched_code_percent": 85.5421686746988,
       "methods": [
         {
           "recompContext": [
@@ -66526,7 +66526,7 @@
       ],
       "name": "zombie/vehicles/UI3DScene",
       "total_methods": 55,
-      "matched_instructions": 5101,
+      "matched_instructions": 5183,
       "matched_methods": 54,
       "status": "MISMATCH"
     },
@@ -66754,7 +66754,7 @@
     },
     {
       "total_instructions": 1418,
-      "matched_code_percent": 64.59802538787024,
+      "matched_code_percent": 74.47108603667137,
       "methods": [
         {
           "name": "hitTest",
@@ -66844,13 +66844,13 @@
       ],
       "name": "zombie/vehicles/UI3DScene$RotateGizmo",
       "total_methods": 11,
-      "matched_instructions": 916,
+      "matched_instructions": 1056,
       "matched_methods": 9,
       "status": "MISMATCH"
     },
     {
       "total_instructions": 852,
-      "matched_code_percent": 58.568075117370896,
+      "matched_code_percent": 62.44131455399061,
       "methods": [{
         "recompContext": [
           "#28   FCONST_0",
@@ -66890,7 +66890,7 @@
       }],
       "name": "zombie/vehicles/UI3DScene$ScaleGizmo",
       "total_methods": 6,
-      "matched_instructions": 499,
+      "matched_instructions": 532,
       "matched_methods": 5,
       "status": "MISMATCH"
     },
@@ -66923,7 +66923,7 @@
     },
     {
       "total_instructions": 154,
-      "matched_code_percent": 43.506493506493506,
+      "matched_code_percent": 72.07792207792208,
       "methods": [{
         "recompContext": [
           "#39   FLOAD v4",
@@ -66959,7 +66959,7 @@
       }],
       "name": "zombie/vehicles/UI3DScene$SceneObject",
       "total_methods": 5,
-      "matched_instructions": 67,
+      "matched_instructions": 111,
       "matched_methods": 4,
       "status": "MISMATCH"
     },
@@ -67010,7 +67010,7 @@
     },
     {
       "total_instructions": 947,
-      "matched_code_percent": 61.56282998944034,
+      "matched_code_percent": 65.57550158394932,
       "methods": [
         {
           "recompContext": [
@@ -67068,7 +67068,7 @@
       ],
       "name": "zombie/vehicles/UI3DScene$TranslateGizmo",
       "total_methods": 6,
-      "matched_instructions": 583,
+      "matched_instructions": 621,
       "matched_methods": 5,
       "status": "MISMATCH"
     },
@@ -67146,7 +67146,7 @@
     },
     {
       "total_instructions": 126,
-      "matched_code_percent": 2.380952380952381,
+      "matched_code_percent": 42.06349206349206,
       "methods": [{
         "recompContext": [
           "#45   ISTORE v6",
@@ -67182,7 +67182,7 @@
       }],
       "name": "zombie/vehicles/VehicleDBHelper",
       "total_methods": 2,
-      "matched_instructions": 3,
+      "matched_instructions": 53,
       "matched_methods": 1,
       "status": "MISMATCH"
     },
@@ -67283,7 +67283,7 @@
     },
     {
       "total_instructions": 944,
-      "matched_code_percent": 42.3728813559322,
+      "matched_code_percent": 48.09322033898305,
       "methods": [{
         "recompContext": [
           "#49   FASTORE",
@@ -67323,7 +67323,7 @@
       }],
       "name": "zombie/vehicles/VehicleInterpolation",
       "total_methods": 10,
-      "matched_instructions": 400,
+      "matched_instructions": 454,
       "matched_methods": 9,
       "status": "MISMATCH"
     },
@@ -67407,7 +67407,7 @@
     },
     {
       "total_instructions": 5208,
-      "matched_code_percent": 86.07910906298002,
+      "matched_code_percent": 87.11597542242704,
       "methods": [
         {
           "name": "serverUpdate",
@@ -67526,7 +67526,7 @@
       ],
       "name": "zombie/vehicles/VehicleManager",
       "total_methods": 41,
-      "matched_instructions": 4483,
+      "matched_instructions": 4537,
       "matched_methods": 39,
       "status": "MISMATCH"
     },
@@ -67584,7 +67584,7 @@
     },
     {
       "total_instructions": 2118,
-      "matched_code_percent": 89.56562795089707,
+      "matched_code_percent": 91.123701605288,
       "methods": [
         {
           "name": "getTable",
@@ -67714,7 +67714,7 @@
       ],
       "name": "zombie/vehicles/VehiclePart",
       "total_methods": 89,
-      "matched_instructions": 1897,
+      "matched_instructions": 1930,
       "matched_methods": 88,
       "status": "MISMATCH"
     },
@@ -67755,7 +67755,7 @@
     },
     {
       "total_instructions": 346,
-      "matched_code_percent": 50.28901734104046,
+      "matched_code_percent": 55.49132947976879,
       "methods": [
         {
           "recompContext": [
@@ -67805,7 +67805,7 @@
       ],
       "name": "zombie/vehicles/VehiclesDB2",
       "total_methods": 23,
-      "matched_instructions": 174,
+      "matched_instructions": 192,
       "matched_methods": 22,
       "status": "MISMATCH"
     },
@@ -67838,7 +67838,7 @@
     },
     {
       "total_instructions": 296,
-      "matched_code_percent": 47.63513513513514,
+      "matched_code_percent": 62.5,
       "methods": [{
         "recompContext": [
           "#39   ALOAD v5",
@@ -67878,7 +67878,7 @@
       }],
       "name": "zombie/vehicles/VehiclesDB2$MemoryStore",
       "total_methods": 8,
-      "matched_instructions": 141,
+      "matched_instructions": 185,
       "matched_methods": 7,
       "status": "MISMATCH"
     },
@@ -68022,7 +68022,7 @@
     },
     {
       "total_instructions": 228,
-      "matched_code_percent": 46.92982456140351,
+      "matched_code_percent": 75,
       "methods": [
         {
           "recompContext": [
@@ -68067,7 +68067,7 @@
       ],
       "name": "zombie/vehicles/VehiclesDB2$VehicleBuffer",
       "total_methods": 6,
-      "matched_instructions": 107,
+      "matched_instructions": 171,
       "matched_methods": 5,
       "status": "MISMATCH"
     },
@@ -68275,7 +68275,7 @@
     },
     {
       "total_instructions": 632,
-      "matched_code_percent": 68.0379746835443,
+      "matched_code_percent": 76.74050632911393,
       "methods": [{
         "recompContext": [
           "#50   ALOAD v1",
@@ -68315,13 +68315,13 @@
       }],
       "name": "zombie/world/ItemInfo",
       "total_methods": 19,
-      "matched_instructions": 430,
+      "matched_instructions": 485,
       "matched_methods": 18,
       "status": "MISMATCH"
     },
     {
       "total_instructions": 606,
-      "matched_code_percent": 69.47194719471948,
+      "matched_code_percent": 81.02310231023102,
       "methods": [
         {
           "recompContext": [
@@ -68371,7 +68371,7 @@
       ],
       "name": "zombie/world/WorldDictionary",
       "total_methods": 30,
-      "matched_instructions": 421,
+      "matched_instructions": 491,
       "matched_methods": 29,
       "status": "MISMATCH"
     },
@@ -68667,7 +68667,7 @@
     },
     {
       "total_instructions": 272,
-      "matched_code_percent": 38.970588235294116,
+      "matched_code_percent": 77.57352941176471,
       "methods": [{
         "recompContext": [
           "#100  IFLT L4",
@@ -68702,7 +68702,7 @@
       }],
       "name": "zombie/worldMap/Rasterize",
       "total_methods": 4,
-      "matched_instructions": 106,
+      "matched_instructions": 211,
       "matched_methods": 3,
       "status": "MISMATCH"
     },
@@ -68717,7 +68717,7 @@
     },
     {
       "total_instructions": 1095,
-      "matched_code_percent": 81.27853881278538,
+      "matched_code_percent": 88.03652968036529,
       "methods": [
         {
           "name": "getStrokeGeometry",
@@ -68783,7 +68783,7 @@
       ],
       "name": "zombie/worldMap/StrokeGeometry",
       "total_methods": 11,
-      "matched_instructions": 890,
+      "matched_instructions": 964,
       "matched_methods": 10,
       "status": "MISMATCH"
     },
@@ -68807,7 +68807,7 @@
     },
     {
       "total_instructions": 1445,
-      "matched_code_percent": 54.878892733564015,
+      "matched_code_percent": 64.1522491349481,
       "methods": [{
         "recompContext": [
           "#129  IFEQ L5",
@@ -68842,7 +68842,7 @@
       }],
       "name": "zombie/worldMap/UIWorldMap",
       "total_methods": 23,
-      "matched_instructions": 793,
+      "matched_instructions": 927,
       "matched_methods": 22,
       "status": "MISMATCH"
     },
@@ -68964,7 +68964,7 @@
     },
     {
       "total_instructions": 710,
-      "matched_code_percent": 36.61971830985915,
+      "matched_code_percent": 37.32394366197183,
       "methods": [
         {
           "name": "containsPoint",
@@ -69014,7 +69014,7 @@
       ],
       "name": "zombie/worldMap/WorldMapGeometry",
       "total_methods": 9,
-      "matched_instructions": 260,
+      "matched_instructions": 265,
       "matched_methods": 8,
       "status": "MISMATCH"
     },
@@ -69172,7 +69172,7 @@
     },
     {
       "total_instructions": 7862,
-      "matched_code_percent": 94.19994912236072,
+      "matched_code_percent": 95.40829305520224,
       "methods": [
         {
           "name": "renderCellFeatures",
@@ -69355,7 +69355,7 @@
       ],
       "name": "zombie/worldMap/WorldMapRenderer$Drawer",
       "total_methods": 45,
-      "matched_instructions": 7406,
+      "matched_instructions": 7501,
       "matched_methods": 43,
       "status": "MISMATCH"
     },
@@ -69451,7 +69451,7 @@
     },
     {
       "total_instructions": 2232,
-      "matched_code_percent": 76.74731182795699,
+      "matched_code_percent": 82.57168458781362,
       "methods": [
         {
           "recompContext": [
@@ -69551,7 +69551,7 @@
       ],
       "name": "zombie/worldMap/WorldMapVisited",
       "total_methods": 39,
-      "matched_instructions": 1713,
+      "matched_instructions": 1843,
       "matched_methods": 36,
       "status": "MISMATCH"
     },
@@ -69869,7 +69869,7 @@
     },
     {
       "total_instructions": 809,
-      "matched_code_percent": 85.41409147095179,
+      "matched_code_percent": 90.85290482076638,
       "methods": [
         {
           "recompContext": [
@@ -69923,7 +69923,7 @@
       ],
       "name": "zombie/worldMap/symbols/WorldMapSymbols",
       "total_methods": 20,
-      "matched_instructions": 691,
+      "matched_instructions": 735,
       "matched_methods": 18,
       "status": "MISMATCH"
     },

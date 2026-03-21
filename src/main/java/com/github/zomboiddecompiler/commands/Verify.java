@@ -416,6 +416,10 @@ public class Verify implements Callable<Integer> {
                     if (mr.status() == Status.MATCH) {
                         classMatched += insns;
                         methodMatched++;
+                    } else if (mr.firstDiffIndex() > 0) {
+                        // Count the matching prefix of non-matched methods.
+                        // Instructions before firstDiffIndex are identical.
+                        classMatched += mr.firstDiffIndex();
                     }
 
                     // Track match tiers for the global summary
