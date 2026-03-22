@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate a decomp.dev-style treemap progress image from a verify JSON report."""
+"""Generate a treemap progress image showing EXACT method percentage per class."""
 
 import json
 import sys
@@ -12,41 +12,48 @@ import matplotlib.patches as mpatches
 import squarify
 
 
-# ── Color scheme: clear gradient from gray → red → blue → green → gold ──
-
+# Color by percentage of methods that are EXACT matches
 COLOR_TIERS = [
     # (min_pct, color,     label)
-    (100,      "#FFD700",  "100% matched"),   # gold
-    (95,       "#2ecc40",  "95-100%"),         # bright green
-    (90,       "#1a8f1a",  "90-95%"),          # medium green
-    (75,       "#0e6b2c",  "75-90%"),          # dark green
-    (50,       "#1a6b6b",  "50-75%"),          # teal
-    (25,       "#0c3795",  "25-50%"),          # dark blue
-    (0,        "#0d1b3e",  "0-25%"),            # deep navy
-    (-1,       "#353535",  "Not started"),     # gray (sentinel, never matched by pct)
+    (100,      "#FFD700",  "100% EXACT"),        # gold
+    (95,       "#2ecc40",  "95-100% EXACT"),      # bright green
+    (90,       "#1a8f1a",  "90-95% EXACT"),       # medium green
+    (75,       "#0e6b2c",  "75-90% EXACT"),       # dark green
+    (50,       "#1a6b6b",  "50-75% EXACT"),       # teal
+    (25,       "#0c3795",  "25-50% EXACT"),       # dark blue
+    (0,        "#0d1b3e",  "< 25% EXACT"),        # deep navy
+    (-1,       "#353535",  "Not started"),         # gray
 ]
 
-COLOR_NOT_COMPILED = "#D35400"  # burnt orange for "decompiled but not compiled"
+COLOR_NOT_COMPILED = "#D35400"  # burnt orange
+
+
+def get_exact_pct(unit):
+    """Calculate what percentage of a class's methods are EXACT matches."""
+    total = unit.get("total_methods", 0)
+    if total == 0:
+        return 0
+    # The methods array only contains NON-EXACT methods.
+    # EXACT count = total - len(methods array)
+    non_exact = len(unit.get("methods", []))
+    exact = total - non_exact
+    return 100.0 * exact / total
 
 
 def get_color(unit, source_dir=None):
-    """Color based on match percentage using tiered gradient."""
+    """Color based on EXACT method percentage."""
     status = unit.get("status", "")
 
-    # Class exists in original but not in recompiled output
     if status == "MISSING_RECOMP":
         if source_dir:
             name = unit.get("name", "")
-            # Inner classes share the source file of their outer class
             source_name = name.split("$")[0]
             source_file = Path(source_dir) / (source_name + ".java")
             if not source_file.exists():
-                return "#353535"  # no source, genuinely not started
+                return "#353535"
         return COLOR_NOT_COMPILED
 
-    pct = unit.get("matched_code_percent", 0)
-    if pct is None:
-        pct = 0
+    pct = get_exact_pct(unit)
 
     for min_pct, color, _ in COLOR_TIERS:
         if pct >= min_pct:
@@ -70,6 +77,19 @@ def main():
     measures = report["measures"]
     units = report["units"]
 
+    # Calculate global tier counts
+    total_methods = 0
+    exact_methods = 0
+    tier_counts = {}
+    for unit in units:
+        tm = unit.get("total_methods", 0)
+        total_methods += tm
+        methods = unit.get("methods", [])
+        exact_methods += tm - len(methods)
+        for m in methods:
+            tier = m.get("matchTier", "NONE")
+            tier_counts[tier] = tier_counts.get(tier, 0) + 1
+
     # Prepare data for treemap
     sizes = []
     labels = []
@@ -80,7 +100,6 @@ def main():
         if total_insns == 0:
             continue
         name = unit["name"]
-        # Use short class name for display, strip package prefix
         short_name = name.rsplit("/", 1)[-1] if "/" in name else name
         sizes.append(total_insns)
         labels.append(short_name)
@@ -90,12 +109,10 @@ def main():
         print("No units with instructions found!")
         return
 
-    # Create figure
     fig, ax = plt.subplots(1, 1, figsize=(20, 12))
     fig.patch.set_facecolor("#1a1a2e")
     ax.set_facecolor("#1a1a2e")
 
-    # Normalize sizes for squarify
     normed = squarify.normalize_sizes(sizes, 100, 60)
     rects = squarify.squarify(normed, 0, 0, 100, 60)
 
@@ -107,10 +124,8 @@ def main():
             edgecolor="#0d0d1a",
             linewidth=0.5,
         ))
-        # Only label large enough rectangles
         if dx > 2 and dy > 1.5:
             fontsize = min(8, max(4, min(dx, dy) * 0.8))
-            # Use black text on gold/bright colors, white on dark
             text_color = "#1a1a2e" if color in ("#FFD700", "#2ecc40") else "white"
             ax.text(
                 x + dx / 2, y + dy / 2,
@@ -127,52 +142,26 @@ def main():
     ax.set_aspect("equal")
     ax.axis("off")
 
-    # Title with stats
-    matched_code_pct = measures.get("matched_code_percent", 0)
-    matched_funcs = int(measures.get("matched_methods", 0))
-    total_funcs = int(measures.get("total_methods", 0))
-    total_insns = int(measures.get("total_instructions", 0))
-    matched_insns = int(measures.get("matched_instructions", 0))
-
-    if custom_title:
-        header = custom_title
-    else:
-        header = "Decompilation Progress"
-
-    # Count decompiled classes when source_dir is available
-    decompiled_info = ""
-    if source_dir:
-        decompiled_count = 0
-        total_count = 0
-        for unit in units:
-            total_count += 1
-            status = unit.get("status", "")
-            if status != "MISSING_RECOMP":
-                decompiled_count += 1
-            else:
-                name = unit.get("name", "")
-                source_name = name.split("$")[0]
-                source_file = Path(source_dir) / (source_name + ".java")
-                if source_file.exists():
-                    decompiled_count += 1
-        if total_count > 0 and decompiled_count < total_count:
-            decompiled_pct = 100.0 * decompiled_count / total_count
-            decompiled_info = f"  |  {decompiled_pct:.1f}% decompiled"
+    # Title: show EXACT stats and tier breakdown
+    header = custom_title or "Decompilation Progress"
+    exact_pct = 100.0 * exact_methods / total_methods if total_methods > 0 else 0
+    none_count = tier_counts.get("NONE", 0)
+    structural = tier_counts.get("STRUCTURAL", 0)
+    sorted_ms = tier_counts.get("SORTED_MULTISET", 0)
 
     title = (
         f"{header}\n"
-        f"{matched_code_pct:.2f}% matched  |  "
-        f"{matched_funcs:,}/{total_funcs:,} methods  |  "
-        f"{matched_insns:,}/{total_insns:,} instructions"
-        f"{decompiled_info}"
+        f"{exact_pct:.1f}% EXACT  |  "
+        f"{exact_methods:,}/{total_methods:,} methods  |  "
+        f"STRUCTURAL {structural:,}  |  "
+        f"SORTED_MULTISET {sorted_ms:,}  |  "
+        f"NONE {none_count:,}"
     )
-    ax.set_title(title, color="white", fontsize=16, fontweight="bold", pad=20)
+    ax.set_title(title, color="white", fontsize=14, fontweight="bold", pad=20)
 
-    # Legend - always show all tiers for consistency across images
+    # Legend
     legend_items = []
     for _, color, label in COLOR_TIERS:
-        if color == "#353535":
-            label = "Not started"  # restore display label for sentinel tier
         ec = "#1a1a2e" if color == "#FFD700" else "white"
         legend_items.append(mpatches.Patch(facecolor=color, edgecolor=ec, label=label))
     legend_items.insert(-1, mpatches.Patch(
@@ -192,8 +181,8 @@ def main():
     plt.tight_layout()
     plt.savefig(output_path, dpi=150, bbox_inches="tight", facecolor=fig.get_facecolor())
     plt.close()
-    print(f"  Code: {matched_code_pct:.2f}% matched ({matched_insns:,} / {total_insns:,} instructions)")
-    print(f"  Methods: {matched_funcs:,} / {total_funcs:,}")
+    print(f"  EXACT: {exact_pct:.1f}% ({exact_methods:,}/{total_methods:,} methods)")
+    print(f"  STRUCTURAL: {structural:,}  SORTED_MULTISET: {sorted_ms:,}  NONE: {none_count:,}")
 
 
 if __name__ == "__main__":
