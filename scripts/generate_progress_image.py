@@ -124,9 +124,18 @@ def main():
             edgecolor="#0d0d1a",
             linewidth=0.5,
         ))
-        if dx > 2 and dy > 1.5:
-            fontsize = min(8, max(4, min(dx, dy) * 0.8))
+        # Pick orientation based on rectangle aspect ratio
+        # Tall/narrow rectangles get vertical text, wide ones get horizontal
+        if dx >= 1.2 and dy >= 0.8:
             text_color = "#1a1a2e" if color in ("#FFD700", "#2ecc40") else "white"
+            if dy > dx * 1.5:
+                # Tall rectangle - vertical text fits better
+                fontsize = min(8, max(3.5, dx * 0.9))
+                rotation = 90
+            else:
+                # Wide or square rectangle - horizontal text
+                fontsize = min(8, max(3.5, min(dx, dy) * 0.8))
+                rotation = 0
             ax.text(
                 x + dx / 2, y + dy / 2,
                 label,
@@ -135,6 +144,7 @@ def main():
                 fontsize=fontsize,
                 fontweight="bold",
                 alpha=0.85,
+                rotation=rotation,
             )
 
     ax.set_xlim(0, 100)
