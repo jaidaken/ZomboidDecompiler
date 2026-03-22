@@ -977,7 +977,8 @@ public final class BytecodeComparator {
         // SWITCH, MONITORENTER/EXIT), strip labels and variable indices, sort and compare.
         // If the computation instructions match as a multiset, the methods perform the
         // same operations — only the control flow routing differs.
-        if (semanticNormalize && origInsns.size() >= 2) {
+        if (semanticNormalize && Math.abs(origInsns.size() - recompInsns.size()) <= 50
+                && origInsns.size() >= 2) {
             List<String> origComp = stripToComputation(origInsns);
             List<String> recompComp = stripToComputation(recompInsns);
             if (origComp.size() == recompComp.size() && origComp.equals(recompComp)) {
@@ -1008,7 +1009,7 @@ public final class BytecodeComparator {
             if (!origCore.isEmpty() && !recompCore.isEmpty()) {
                 int coreMax = Math.max(origCore.size(), recompCore.size());
                 int coreIntersect = multisetIntersectionSize(origCore, recompCore);
-                if (coreIntersect >= coreMax * 0.75 && coreMax >= 5) {
+                if (coreIntersect >= coreMax * 0.85 && coreMax >= 5) {
                     return new MethodResult(name, desc, Status.MATCH, MatchTier.CORE_OPS_ONLY,
                             origInsns.size(), recompInsns.size(), -1, null, List.of(), List.of());
                 }
