@@ -6,8 +6,6 @@ Simplified decompilation tool for Project Zomboid powered by a [custom fork of V
 ### Build 41
 ![Build 41 Decompilation Progress](progress/b41/progress.png)
 
-**Status:** 0 compilation errors | 2,974 classes compiled | 1,599 source files | 90.6% EXACT bytecode match
-
 ### Build 42
 ![Build 42 Decompilation Progress](progress/b42/progress.png)
 
