@@ -2,21 +2,20 @@
   "measures": {
     "total_classes": 2978,
     "total_instructions": 1180433,
-    "matched_code_percent": 94.84070675760505,
+    "matched_code_percent": 94.84189276307931,
     "match_tiers": {
-      "FUZZY_COMPUTATION": 108,
       "CORE_OPS_ONLY": 6,
-      "EXACT": 30827,
+      "FUZZY_COMPUTATION": 108,
+      "EXACT": 30828,
       "SORTED_MULTISET": 847,
       "STRUCTURAL_NO_TRYCATCH": 5,
-      "NONE": 1,
       "STRUCTURAL": 1173
     },
     "total_methods": 32968,
-    "matched_function_percent": 99.99393351128367,
-    "matched_instructions": 1119531,
+    "matched_function_percent": 99.99696675564184,
+    "matched_instructions": 1119545,
     "matched_classes": 2977,
-    "matched_methods": 32966
+    "matched_methods": 32967
   },
   "units": [
     {
@@ -13648,29 +13647,19 @@
     },
     {
       "total_instructions": 258,
-      "matched_code_percent": 88.75968992248062,
-      "methods": [
-        {
-          "name": "getAnimNodes",
-          "recompInsnCount": 109,
-          "descriptor": "(Lzombie/core/skinnedmodel/advancedanimation/IAnimationVariableSource;Ljava/util/List;)Ljava/util/List;",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 110,
-          "status": "MATCH"
-        },
-        {
-          "name": "lambda$getAnimNodes$0",
-          "recompInsnCount": 0,
-          "descriptor": "(Lzombie/core/skinnedmodel/advancedanimation/AnimNode;)Ljava/lang/String;",
-          "matchTier": "NONE",
-          "origInsnCount": 0,
-          "status": "MISSING_RECOMP"
-        }
-      ],
+      "matched_code_percent": 94.18604651162791,
+      "methods": [{
+        "name": "getAnimNodes",
+        "recompInsnCount": 109,
+        "descriptor": "(Lzombie/core/skinnedmodel/advancedanimation/IAnimationVariableSource;Ljava/util/List;)Ljava/util/List;",
+        "matchTier": "STRUCTURAL",
+        "origInsnCount": 110,
+        "status": "MATCH"
+      }],
       "name": "zombie/core/skinnedmodel/advancedanimation/AnimState",
       "total_methods": 8,
-      "matched_instructions": 229,
-      "matched_methods": 7,
+      "matched_instructions": 243,
+      "matched_methods": 8,
       "status": "MATCH"
     },
     {
