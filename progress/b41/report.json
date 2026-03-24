@@ -2,21 +2,21 @@
   "measures": {
     "total_classes": 2978,
     "total_instructions": 1180433,
-    "matched_code_percent": 89.76773777080105,
+    "matched_code_percent": 92.14508574396005,
     "match_tiers": {
-      "FUZZY_COMPUTATION": 114,
+      "FUZZY_COMPUTATION": 116,
       "CORE_OPS_ONLY": 9,
-      "EXACT": 29493,
-      "SORTED_MULTISET": 937,
+      "EXACT": 29924,
+      "SORTED_MULTISET": 981,
       "STRUCTURAL_NO_TRYCATCH": 5,
-      "NONE": 7,
-      "STRUCTURAL": 1056
+      "NONE": 8,
+      "STRUCTURAL": 1083
     },
     "total_methods": 32968,
-    "matched_function_percent": 95.89298713904392,
-    "matched_instructions": 1059648,
-    "matched_classes": 2892,
-    "matched_methods": 31614
+    "matched_function_percent": 97.42174229555933,
+    "matched_instructions": 1087711,
+    "matched_classes": 2953,
+    "matched_methods": 32118
   },
   "units": [
     {
@@ -5349,21 +5349,39 @@
     },
     {
       "total_instructions": 1103,
-      "matched_code_percent": 0,
+      "matched_code_percent": 93.10970081595649,
+      "methods": [
+        {
+          "name": "updateWetness",
+          "recompInsnCount": 696,
+          "descriptor": "(FF)V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 694,
+          "status": "MATCH"
+        },
+        {
+          "name": "increaseWetness",
+          "recompInsnCount": 186,
+          "descriptor": "(F)V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 181,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/characters/ClothingWetness",
       "total_methods": 6,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 1027,
+      "matched_methods": 6,
+      "status": "MATCH"
     },
     {
       "total_instructions": 3,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/characters/ClothingWetness$ItemList",
       "total_methods": 1,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 3,
+      "matched_methods": 1,
+      "status": "MATCH"
     },
     {
       "total_instructions": 172,
@@ -20892,39 +20910,65 @@
     },
     {
       "total_instructions": 676,
-      "matched_code_percent": 0,
+      "matched_code_percent": 97.0414201183432,
+      "methods": [
+        {
+          "name": "setCompareItem",
+          "recompInsnCount": 55,
+          "descriptor": "(Lzombie/inventory/CompressIdenticalItems$PerThreadData;Lzombie/inventory/InventoryItem;)Z",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 56,
+          "status": "MATCH"
+        },
+        {
+          "name": "areItemsIdentical",
+          "recompInsnCount": 149,
+          "descriptor": "(Lzombie/inventory/CompressIdenticalItems$PerThreadData;Lzombie/inventory/InventoryItem;Lzombie/inventory/InventoryItem;)Z",
+          "matchTier": "FUZZY_COMPUTATION",
+          "origInsnCount": 146,
+          "status": "MATCH"
+        },
+        {
+          "name": "<clinit>",
+          "recompInsnCount": 12,
+          "descriptor": "()V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 12,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/inventory/CompressIdenticalItems",
       "total_methods": 10,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 656,
+      "matched_methods": 10,
+      "status": "MATCH"
     },
     {
       "total_instructions": 10,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/inventory/CompressIdenticalItems$1",
       "total_methods": 3,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 10,
+      "matched_methods": 3,
+      "status": "MATCH"
     },
     {
       "total_instructions": 70,
-      "matched_code_percent": 0,
+      "matched_code_percent": 95.71428571428571,
       "name": "zombie/inventory/CompressIdenticalItems$PerCallData",
       "total_methods": 3,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 67,
+      "matched_methods": 3,
+      "status": "MATCH"
     },
     {
       "total_instructions": 26,
-      "matched_code_percent": 0,
+      "matched_code_percent": 92.3076923076923,
       "name": "zombie/inventory/CompressIdenticalItems$PerThreadData",
       "total_methods": 2,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 24,
+      "matched_methods": 2,
+      "status": "MATCH"
     },
     {
       "total_instructions": 591,
@@ -41519,507 +41563,1112 @@
     },
     {
       "total_instructions": 6469,
-      "matched_code_percent": 0,
+      "matched_code_percent": 70.79919616633174,
+      "methods": [
+        {
+          "name": "createVehicleCluster",
+          "recompInsnCount": 131,
+          "descriptor": "(Lzombie/vehicles/PolygonalMap2$VehicleRect;Ljava/util/ArrayList;Ljava/util/ArrayList;)V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 133,
+          "status": "MATCH"
+        },
+        {
+          "name": "addStairNodes",
+          "recompInsnCount": 287,
+          "descriptor": "()V",
+          "matchTier": "FUZZY_COMPUTATION",
+          "origInsnCount": 279,
+          "status": "MATCH"
+        },
+        {
+          "recompContext": [
+            "#119  ASTORE v8",
+            "#120  ICONST_0",
+            "#121  ISTORE v9",
+            "#122  ICONST_0",
+            "#123  ISTORE v10",
+            "#124  ICONST_0",
+            "#125  ISTORE v11",
+            "#126  ICONST_0",
+            "#127  ISTORE v12",
+            "#128  ICONST_0",
+            "#129  ISTORE v13"
+          ],
+          "origContext": [
+            "#119  ASTORE v8",
+            "#120  ICONST_0",
+            "#121  ISTORE v9",
+            "#122  ICONST_0",
+            "#123  ISTORE v10",
+            "#124  ALOAD v2",
+            "#125  ALOAD v1",
+            "#126  GETFIELD zombie/vehicles/PolygonalMap2$PathFindRequest.startX:F",
+            "#127  F2I",
+            "#128  ALOAD v1",
+            "#129  GETFIELD zombie/vehicles/PolygonalMap2$PathFindRequest.startY:F"
+          ],
+          "name": "findPath",
+          "recompInsnCount": 2612,
+          "descriptor": "(Lzombie/vehicles/PolygonalMap2$PathFindRequest;Z)Z",
+          "firstDiffIndex": 124,
+          "category": "INSN_COUNT_DIFF",
+          "matchTier": "NONE",
+          "origInsnCount": 1620,
+          "status": "MISMATCH",
+          "diffDescription": "Instructions differ at #124"
+        },
+        {
+          "name": "cleanPath",
+          "recompInsnCount": 426,
+          "descriptor": "(Ljava/util/ArrayList;Lzombie/vehicles/PolygonalMap2$PathFindRequest;ZZLzombie/vehicles/PolygonalMap2$SearchNode;)V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 423,
+          "status": "MATCH"
+        },
+        {
+          "name": "smoothPath",
+          "recompInsnCount": 80,
+          "descriptor": "(Lzombie/vehicles/PolygonalMap2$Path;)V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 80,
+          "status": "MATCH"
+        },
+        {
+          "name": "getApparentZ",
+          "recompInsnCount": 46,
+          "descriptor": "(Lzombie/iso/IsoGridSquare;)F",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 46,
+          "status": "MATCH"
+        },
+        {
+          "name": "render",
+          "recompInsnCount": 954,
+          "descriptor": "()V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 954,
+          "status": "MATCH"
+        },
+        {
+          "name": "getCellFromSquarePos",
+          "recompInsnCount": 45,
+          "descriptor": "(II)Lzombie/vehicles/PolygonalMap2$Cell;",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 45,
+          "status": "MATCH"
+        },
+        {
+          "name": "updateThread",
+          "recompInsnCount": 236,
+          "descriptor": "()V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 236,
+          "status": "MATCH"
+        },
+        {
+          "name": "supercover",
+          "recompInsnCount": 195,
+          "descriptor": "(FFFFILzombie/vehicles/PolygonalMap2$PointPool;Ljava/util/ArrayList;)V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 189,
+          "status": "MATCH"
+        },
+        {
+          "name": "intersectLineWithVehicle",
+          "recompInsnCount": 207,
+          "descriptor": "(FFFFLzombie/vehicles/BaseVehicle;Lzombie/iso/Vector2;)Z",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 207,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/vehicles/PolygonalMap2",
       "total_methods": 53,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 4580,
+      "matched_methods": 52,
+      "status": "MISMATCH"
     },
     {
       "total_instructions": 15,
-      "matched_code_percent": 0,
+      "matched_code_percent": 93.33333333333333,
       "name": "zombie/vehicles/PolygonalMap2$1",
       "total_methods": 3,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 14,
+      "matched_methods": 3,
+      "status": "MATCH"
     },
     {
       "total_instructions": 3,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/vehicles/PolygonalMap2$AdjustStartEndNodeData",
       "total_methods": 1,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 3,
+      "matched_methods": 1,
+      "status": "MATCH"
     },
     {
       "total_instructions": 213,
-      "matched_code_percent": 0,
+      "matched_code_percent": 96.71361502347418,
+      "methods": [
+        {
+          "name": "getChunkFromChunkPos",
+          "recompInsnCount": 38,
+          "descriptor": "(II)Lzombie/vehicles/PolygonalMap2$Chunk;",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 38,
+          "status": "MATCH"
+        },
+        {
+          "name": "allocChunkIfNeeded",
+          "recompInsnCount": 74,
+          "descriptor": "(II)Lzombie/vehicles/PolygonalMap2$Chunk;",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 74,
+          "status": "MATCH"
+        },
+        {
+          "name": "<clinit>",
+          "recompInsnCount": 12,
+          "descriptor": "()V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 12,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/vehicles/PolygonalMap2$Cell",
       "total_methods": 8,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 206,
+      "matched_methods": 8,
+      "status": "MATCH"
     },
     {
       "total_instructions": 305,
-      "matched_code_percent": 0,
+      "matched_code_percent": 99.01639344262296,
+      "methods": [
+        {
+          "name": "getSquare",
+          "recompInsnCount": 40,
+          "descriptor": "(III)Lzombie/vehicles/PolygonalMap2$Square;",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 40,
+          "status": "MATCH"
+        },
+        {
+          "name": "setData",
+          "recompInsnCount": 102,
+          "descriptor": "(Lzombie/vehicles/PolygonalMap2$SquareUpdateTask;)Z",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 102,
+          "status": "MATCH"
+        },
+        {
+          "name": "<clinit>",
+          "recompInsnCount": 12,
+          "descriptor": "()V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 12,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/vehicles/PolygonalMap2$Chunk",
       "total_methods": 8,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 302,
+      "matched_methods": 8,
+      "status": "MATCH"
     },
     {
       "total_instructions": 68,
-      "matched_code_percent": 0,
+      "matched_code_percent": 98.52941176470588,
       "name": "zombie/vehicles/PolygonalMap2$ChunkData",
       "total_methods": 4,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 67,
+      "matched_methods": 4,
+      "status": "MATCH"
     },
     {
       "total_instructions": 759,
-      "matched_code_percent": 0,
+      "matched_code_percent": 98.41897233201581,
+      "methods": [{
+        "name": "init",
+        "recompInsnCount": 445,
+        "descriptor": "(Lzombie/vehicles/PolygonalMap2$Chunk;I)V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 445,
+        "status": "MATCH"
+      }],
       "name": "zombie/vehicles/PolygonalMap2$ChunkDataZ",
       "total_methods": 6,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 747,
+      "matched_methods": 6,
+      "status": "MATCH"
     },
     {
       "total_instructions": 91,
-      "matched_code_percent": 0,
+      "matched_code_percent": 92.3076923076923,
+      "methods": [{
+        "name": "<clinit>",
+        "recompInsnCount": 12,
+        "descriptor": "()V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 12,
+        "status": "MATCH"
+      }],
       "name": "zombie/vehicles/PolygonalMap2$ChunkRemoveTask",
       "total_methods": 6,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 84,
+      "matched_methods": 6,
+      "status": "MATCH"
     },
     {
       "total_instructions": 168,
-      "matched_code_percent": 0,
+      "matched_code_percent": 96.42857142857143,
+      "methods": [{
+        "name": "<clinit>",
+        "recompInsnCount": 12,
+        "descriptor": "()V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 12,
+        "status": "MATCH"
+      }],
       "name": "zombie/vehicles/PolygonalMap2$ChunkUpdateTask",
       "total_methods": 6,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 162,
+      "matched_methods": 6,
+      "status": "MATCH"
     },
     {
       "total_instructions": 8,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/vehicles/PolygonalMap2$ClosestPointOnEdge",
       "total_methods": 1,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 8,
+      "matched_methods": 1,
+      "status": "MATCH"
     },
     {
       "total_instructions": 84,
-      "matched_code_percent": 0,
+      "matched_code_percent": 98.80952380952381,
+      "methods": [{
+        "name": "<clinit>",
+        "recompInsnCount": 12,
+        "descriptor": "()V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 12,
+        "status": "MATCH"
+      }],
       "name": "zombie/vehicles/PolygonalMap2$ClusterOutline",
       "total_methods": 5,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 83,
+      "matched_methods": 5,
+      "status": "MATCH"
     },
     {
       "total_instructions": 799,
-      "matched_code_percent": 0,
+      "matched_code_percent": 95.61952440550688,
+      "methods": [{
+        "name": "get",
+        "recompInsnCount": 50,
+        "descriptor": "(III)Lzombie/vehicles/PolygonalMap2$ClusterOutline;",
+        "matchTier": "STRUCTURAL",
+        "origInsnCount": 50,
+        "status": "MATCH"
+      }],
       "name": "zombie/vehicles/PolygonalMap2$ClusterOutlineGrid",
       "total_methods": 19,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 764,
+      "matched_methods": 19,
+      "status": "MATCH"
     },
     {
       "total_instructions": 1010,
-      "matched_code_percent": 0,
+      "matched_code_percent": 98.7128712871287,
+      "methods": [
+        {
+          "name": "floodFill",
+          "recompInsnCount": 254,
+          "descriptor": "(II)V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 251,
+          "status": "MATCH"
+        },
+        {
+          "name": "shouldVisit",
+          "recompInsnCount": 64,
+          "descriptor": "(IIII)Z",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 64,
+          "status": "MATCH"
+        },
+        {
+          "name": "isBlocked",
+          "recompInsnCount": 441,
+          "descriptor": "(Lzombie/vehicles/PolygonalMap2$Square;Lzombie/vehicles/PolygonalMap2$Square;Z)Z",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 441,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/vehicles/PolygonalMap2$ConnectedRegions",
       "total_methods": 12,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 997,
+      "matched_methods": 12,
+      "status": "MATCH"
     },
     {
       "total_instructions": 92,
-      "matched_code_percent": 0,
+      "matched_code_percent": 94.56521739130434,
+      "methods": [{
+        "name": "<clinit>",
+        "recompInsnCount": 12,
+        "descriptor": "()V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 12,
+        "status": "MATCH"
+      }],
       "name": "zombie/vehicles/PolygonalMap2$Connection",
       "total_methods": 7,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 87,
+      "matched_methods": 7,
+      "status": "MATCH"
     },
     {
       "total_instructions": 457,
-      "matched_code_percent": 0,
+      "matched_code_percent": 98.6870897155361,
+      "methods": [{
+        "name": "<clinit>",
+        "recompInsnCount": 12,
+        "descriptor": "()V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 12,
+        "status": "MATCH"
+      }],
       "name": "zombie/vehicles/PolygonalMap2$Edge",
       "total_methods": 10,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 451,
+      "matched_methods": 10,
+      "status": "MATCH"
     },
     {
       "total_instructions": 468,
-      "matched_code_percent": 0,
+      "matched_code_percent": 97.22222222222223,
+      "methods": [{
+        "name": "<clinit>",
+        "recompInsnCount": 12,
+        "descriptor": "()V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 12,
+        "status": "MATCH"
+      }],
       "name": "zombie/vehicles/PolygonalMap2$EdgeRing",
       "total_methods": 14,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 455,
+      "matched_methods": 14,
+      "status": "MATCH"
     },
     {
       "total_instructions": 50,
-      "matched_code_percent": 0,
+      "matched_code_percent": 92,
       "name": "zombie/vehicles/PolygonalMap2$EdgeRingHit",
       "total_methods": 5,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 46,
+      "matched_methods": 5,
+      "status": "MATCH"
     },
     {
       "total_instructions": 88,
-      "matched_code_percent": 0,
+      "matched_code_percent": 96.5909090909091,
       "name": "zombie/vehicles/PolygonalMap2$GoalNode",
       "total_methods": 3,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 85,
+      "matched_methods": 3,
+      "status": "MATCH"
     },
     {
       "total_instructions": 0,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/vehicles/PolygonalMap2$IChunkTask",
       "total_methods": 2,
       "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_methods": 2,
+      "status": "MATCH"
     },
     {
       "total_instructions": 0,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/vehicles/PolygonalMap2$IPathfinder",
       "total_methods": 2,
       "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_methods": 2,
+      "status": "MATCH"
     },
     {
       "total_instructions": 0,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/vehicles/PolygonalMap2$IVehicleTask",
       "total_methods": 3,
       "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_methods": 3,
+      "status": "MATCH"
     },
     {
       "total_instructions": 130,
-      "matched_code_percent": 0,
+      "matched_code_percent": 99.23076923076923,
+      "methods": [{
+        "name": "<clinit>",
+        "recompInsnCount": 12,
+        "descriptor": "()V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 12,
+        "status": "MATCH"
+      }],
       "name": "zombie/vehicles/PolygonalMap2$ImmutableRectF",
       "total_methods": 13,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 129,
+      "matched_methods": 13,
+      "status": "MATCH"
     },
     {
       "total_instructions": 47,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/vehicles/PolygonalMap2$Intersection",
       "total_methods": 3,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 47,
+      "matched_methods": 3,
+      "status": "MATCH"
     },
     {
       "total_instructions": 8,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/vehicles/PolygonalMap2$L_lineSegmentIntersects",
       "total_methods": 2,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 8,
+      "matched_methods": 2,
+      "status": "MATCH"
     },
     {
       "total_instructions": 8,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/vehicles/PolygonalMap2$L_render",
       "total_methods": 2,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 8,
+      "matched_methods": 2,
+      "status": "MATCH"
     },
     {
       "total_instructions": 163,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/vehicles/PolygonalMap2$LiangBarsky",
       "total_methods": 3,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 163,
+      "matched_methods": 3,
+      "status": "MATCH"
     },
     {
       "total_instructions": 1923,
-      "matched_code_percent": 0,
+      "matched_code_percent": 98.54394175767031,
+      "methods": [
+        {
+          "name": "canStandAt",
+          "recompInsnCount": 223,
+          "descriptor": "(Lzombie/vehicles/PolygonalMap2;FFFFFLzombie/vehicles/PolygonalMap2$Vehicle;)Z",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 223,
+          "status": "MATCH"
+        },
+        {
+          "name": "canStandAtClipper",
+          "recompInsnCount": 74,
+          "descriptor": "(Lzombie/vehicles/PolygonalMap2;FFFFFLzombie/vehicles/PolygonalMap2$Vehicle;I)Z",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 74,
+          "status": "MATCH"
+        },
+        {
+          "name": "isNotClearOld",
+          "recompInsnCount": 784,
+          "descriptor": "(Lzombie/vehicles/PolygonalMap2;FFFFII)Z",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 784,
+          "status": "MATCH"
+        },
+        {
+          "name": "isNotClearClipper",
+          "recompInsnCount": 266,
+          "descriptor": "(Lzombie/vehicles/PolygonalMap2;FFFFII)Z",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 260,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/vehicles/PolygonalMap2$LineClearCollide",
       "total_methods": 11,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 1895,
+      "matched_methods": 11,
+      "status": "MATCH"
     },
     {
       "total_instructions": 2777,
-      "matched_code_percent": 0,
+      "matched_code_percent": 97.04717320849838,
+      "methods": [
+        {
+          "name": "canStandAtOld",
+          "recompInsnCount": 428,
+          "descriptor": "(Lzombie/vehicles/PolygonalMap2;FFFLzombie/vehicles/BaseVehicle;I)Z",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 428,
+          "status": "MATCH"
+        },
+        {
+          "name": "isNotClearOld",
+          "recompInsnCount": 1090,
+          "descriptor": "(Lzombie/vehicles/PolygonalMap2;FFFFILzombie/vehicles/BaseVehicle;I)Z",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 1094,
+          "status": "MATCH"
+        },
+        {
+          "name": "getCollidepoint",
+          "recompInsnCount": 805,
+          "descriptor": "(Lzombie/vehicles/PolygonalMap2;FFFFILzombie/vehicles/BaseVehicle;I)Lzombie/iso/Vector2;",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 805,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/vehicles/PolygonalMap2$LineClearCollideMain",
       "total_methods": 11,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 2695,
+      "matched_methods": 11,
+      "status": "MATCH"
     },
     {
       "total_instructions": 375,
-      "matched_code_percent": 0,
+      "matched_code_percent": 97.06666666666666,
+      "methods": [
+        {
+          "name": "<init>",
+          "recompInsnCount": 25,
+          "descriptor": "()V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 23,
+          "status": "MATCH"
+        },
+        {
+          "name": "<clinit>",
+          "recompInsnCount": 18,
+          "descriptor": "()V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 18,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/vehicles/PolygonalMap2$Node",
       "total_methods": 15,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 364,
+      "matched_methods": 15,
+      "status": "MATCH"
     },
     {
       "total_instructions": 1159,
-      "matched_code_percent": 0,
+      "matched_code_percent": 96.20362381363245,
+      "methods": [
+        {
+          "name": "setWest",
+          "recompInsnCount": 71,
+          "descriptor": "(III[[Lzombie/vehicles/PolygonalMap2$ObjectOutline;)V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 73,
+          "status": "MATCH"
+        },
+        {
+          "name": "setNorth",
+          "recompInsnCount": 71,
+          "descriptor": "(III[[Lzombie/vehicles/PolygonalMap2$ObjectOutline;)V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 73,
+          "status": "MATCH"
+        },
+        {
+          "name": "get",
+          "recompInsnCount": 40,
+          "descriptor": "(III[[Lzombie/vehicles/PolygonalMap2$ObjectOutline;)Lzombie/vehicles/PolygonalMap2$ObjectOutline;",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 40,
+          "status": "MATCH"
+        },
+        {
+          "name": "trace",
+          "recompInsnCount": 73,
+          "descriptor": "([[Lzombie/vehicles/PolygonalMap2$ObjectOutline;Ljava/util/ArrayList;)V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 73,
+          "status": "MATCH"
+        },
+        {
+          "name": "<clinit>",
+          "recompInsnCount": 12,
+          "descriptor": "()V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 12,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/vehicles/PolygonalMap2$ObjectOutline",
       "total_methods": 18,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 1115,
+      "matched_methods": 18,
+      "status": "MATCH"
     },
     {
       "total_instructions": 978,
-      "matched_code_percent": 0,
+      "matched_code_percent": 96.11451942740287,
+      "methods": [
+        {
+          "name": "connectCrawlNodes",
+          "recompInsnCount": 101,
+          "descriptor": "(Lzombie/vehicles/PolygonalMap2$VisibilityGraph;Lzombie/vehicles/PolygonalMap2$Obstacle;)V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 101,
+          "status": "MATCH"
+        },
+        {
+          "name": "getClosestInteriorCrawlNode",
+          "recompInsnCount": 35,
+          "descriptor": "(FF)Lzombie/vehicles/PolygonalMap2$Node;",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 35,
+          "status": "MATCH"
+        },
+        {
+          "name": "<clinit>",
+          "recompInsnCount": 12,
+          "descriptor": "()V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 12,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/vehicles/PolygonalMap2$Obstacle",
       "total_methods": 22,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 940,
+      "matched_methods": 22,
+      "status": "MATCH"
     },
     {
       "total_instructions": 129,
-      "matched_code_percent": 0,
+      "matched_code_percent": 88.37209302325581,
       "name": "zombie/vehicles/PolygonalMap2$PMThread",
       "total_methods": 5,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 114,
+      "matched_methods": 5,
+      "status": "MATCH"
     },
     {
       "total_instructions": 346,
-      "matched_code_percent": 0,
+      "matched_code_percent": 97.6878612716763,
       "name": "zombie/vehicles/PolygonalMap2$Path",
       "total_methods": 12,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 338,
+      "matched_methods": 12,
+      "status": "MATCH"
     },
     {
       "total_instructions": 187,
-      "matched_code_percent": 0,
+      "matched_code_percent": 94.11764705882354,
+      "methods": [{
+        "name": "<clinit>",
+        "recompInsnCount": 12,
+        "descriptor": "()V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 12,
+        "status": "MATCH"
+      }],
       "name": "zombie/vehicles/PolygonalMap2$PathFindRequest",
       "total_methods": 6,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 176,
+      "matched_methods": 6,
+      "status": "MATCH"
     },
     {
       "total_instructions": 44,
-      "matched_code_percent": 0,
+      "matched_code_percent": 90.9090909090909,
       "name": "zombie/vehicles/PolygonalMap2$PathNode",
       "total_methods": 4,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 40,
+      "matched_methods": 4,
+      "status": "MATCH"
     },
     {
       "total_instructions": 114,
-      "matched_code_percent": 0,
+      "matched_code_percent": 94.73684210526316,
+      "methods": [{
+        "name": "<clinit>",
+        "recompInsnCount": 12,
+        "descriptor": "()V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 12,
+        "status": "MATCH"
+      }],
       "name": "zombie/vehicles/PolygonalMap2$PathRequestTask",
       "total_methods": 6,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 108,
+      "matched_methods": 6,
+      "status": "MATCH"
     },
     {
       "total_instructions": 30,
-      "matched_code_percent": 0,
+      "matched_code_percent": 93.33333333333333,
       "name": "zombie/vehicles/PolygonalMap2$Point",
       "total_methods": 3,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 28,
+      "matched_methods": 3,
+      "status": "MATCH"
     },
     {
       "total_instructions": 26,
-      "matched_code_percent": 0,
+      "matched_code_percent": 96.15384615384616,
       "name": "zombie/vehicles/PolygonalMap2$PointPool",
       "total_methods": 3,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 25,
+      "matched_methods": 3,
+      "status": "MATCH"
     },
     {
       "total_instructions": 80,
-      "matched_code_percent": 0,
+      "matched_code_percent": 87.5,
       "name": "zombie/vehicles/PolygonalMap2$RequestQueue",
       "total_methods": 4,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 70,
+      "matched_methods": 4,
+      "status": "MATCH"
     },
     {
       "total_instructions": 1188,
-      "matched_code_percent": 0,
+      "matched_code_percent": 96.63299663299664,
+      "methods": [
+        {
+          "name": "<init>",
+          "recompInsnCount": 13,
+          "descriptor": "()V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 11,
+          "status": "MATCH"
+        },
+        {
+          "name": "c",
+          "recompInsnCount": 468,
+          "descriptor": "(Lastar/ISearchNode;)D",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 468,
+          "status": "MATCH"
+        },
+        {
+          "name": "getSuccessors",
+          "recompInsnCount": 344,
+          "descriptor": "(Ljava/util/ArrayList;)V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 347,
+          "status": "MATCH"
+        },
+        {
+          "name": "getApparentZ",
+          "recompInsnCount": 64,
+          "descriptor": "()F",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 64,
+          "status": "MATCH"
+        },
+        {
+          "name": "<clinit>",
+          "recompInsnCount": 17,
+          "descriptor": "()V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 17,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/vehicles/PolygonalMap2$SearchNode",
       "total_methods": 18,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 1148,
+      "matched_methods": 18,
+      "status": "MATCH"
     },
     {
       "total_instructions": 330,
-      "matched_code_percent": 0,
+      "matched_code_percent": 83.93939393939394,
+      "methods": [
+        {
+          "name": "<init>",
+          "recompInsnCount": 13,
+          "descriptor": "()V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 11,
+          "status": "MATCH"
+        },
+        {
+          "name": "isAdjacentToWindow",
+          "recompInsnCount": 42,
+          "descriptor": "()Z",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 42,
+          "status": "MATCH"
+        },
+        {
+          "name": "<clinit>",
+          "recompInsnCount": 14,
+          "descriptor": "()V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 14,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/vehicles/PolygonalMap2$Square",
       "total_methods": 15,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 277,
+      "matched_methods": 15,
+      "status": "MATCH"
     },
     {
       "total_instructions": 667,
-      "matched_code_percent": 0,
+      "matched_code_percent": 89.65517241379311,
+      "methods": [{
+        "name": "<clinit>",
+        "recompInsnCount": 12,
+        "descriptor": "()V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 12,
+        "status": "MATCH"
+      }],
       "name": "zombie/vehicles/PolygonalMap2$SquareUpdateTask",
       "total_methods": 12,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 598,
+      "matched_methods": 12,
+      "status": "MATCH"
     },
     {
       "total_instructions": 76,
-      "matched_code_percent": 0,
+      "matched_code_percent": 94.73684210526316,
       "name": "zombie/vehicles/PolygonalMap2$Sync",
       "total_methods": 4,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 72,
+      "matched_methods": 4,
+      "status": "MATCH"
     },
     {
       "total_instructions": 23,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/vehicles/PolygonalMap2$TestRequest",
       "total_methods": 3,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 23,
+      "matched_methods": 3,
+      "status": "MATCH"
     },
     {
       "total_instructions": 805,
-      "matched_code_percent": 0,
+      "matched_code_percent": 97.51552795031056,
+      "methods": [{
+        "name": "canNotMoveBetween",
+        "recompInsnCount": 548,
+        "descriptor": "(Lzombie/vehicles/PolygonalMap2$Square;Lzombie/vehicles/PolygonalMap2$Square;Z)Z",
+        "matchTier": "STRUCTURAL",
+        "origInsnCount": 548,
+        "status": "MATCH"
+      }],
       "name": "zombie/vehicles/PolygonalMap2$VGAStar",
       "total_methods": 11,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 785,
+      "matched_methods": 11,
+      "status": "MATCH"
     },
     {
       "total_instructions": 45,
-      "matched_code_percent": 0,
+      "matched_code_percent": 84.44444444444444,
       "name": "zombie/vehicles/PolygonalMap2$VGAStar$InitProc",
       "total_methods": 3,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 38,
+      "matched_methods": 3,
+      "status": "MATCH"
     },
     {
       "total_instructions": 55,
-      "matched_code_percent": 0,
+      "matched_code_percent": 98.18181818181819,
+      "methods": [{
+        "name": "<clinit>",
+        "recompInsnCount": 12,
+        "descriptor": "()V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 12,
+        "status": "MATCH"
+      }],
       "name": "zombie/vehicles/PolygonalMap2$Vehicle",
       "total_methods": 4,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 54,
+      "matched_methods": 4,
+      "status": "MATCH"
     },
     {
       "total_instructions": 156,
-      "matched_code_percent": 0,
+      "matched_code_percent": 95.51282051282051,
+      "methods": [{
+        "name": "<clinit>",
+        "recompInsnCount": 12,
+        "descriptor": "()V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 12,
+        "status": "MATCH"
+      }],
       "name": "zombie/vehicles/PolygonalMap2$VehicleAddTask",
       "total_methods": 6,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 149,
+      "matched_methods": 6,
+      "status": "MATCH"
     },
     {
       "total_instructions": 134,
-      "matched_code_percent": 0,
+      "matched_code_percent": 97.76119402985074,
+      "methods": [{
+        "name": "<clinit>",
+        "recompInsnCount": 12,
+        "descriptor": "()V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 12,
+        "status": "MATCH"
+      }],
       "name": "zombie/vehicles/PolygonalMap2$VehicleCluster",
       "total_methods": 7,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 131,
+      "matched_methods": 7,
+      "status": "MATCH"
     },
     {
       "total_instructions": 703,
-      "matched_code_percent": 0,
+      "matched_code_percent": 99.85775248933143,
       "name": "zombie/vehicles/PolygonalMap2$VehiclePoly",
       "total_methods": 8,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 702,
+      "matched_methods": 8,
+      "status": "MATCH"
     },
     {
       "total_instructions": 272,
-      "matched_code_percent": 0,
+      "matched_code_percent": 99.63235294117646,
+      "methods": [{
+        "name": "<clinit>",
+        "recompInsnCount": 12,
+        "descriptor": "()V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 12,
+        "status": "MATCH"
+      }],
       "name": "zombie/vehicles/PolygonalMap2$VehicleRect",
       "total_methods": 14,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 271,
+      "matched_methods": 14,
+      "status": "MATCH"
     },
     {
       "total_instructions": 92,
-      "matched_code_percent": 0,
+      "matched_code_percent": 91.30434782608695,
+      "methods": [{
+        "name": "<clinit>",
+        "recompInsnCount": 12,
+        "descriptor": "()V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 12,
+        "status": "MATCH"
+      }],
       "name": "zombie/vehicles/PolygonalMap2$VehicleRemoveTask",
       "total_methods": 6,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 84,
+      "matched_methods": 6,
+      "status": "MATCH"
     },
     {
       "total_instructions": 157,
-      "matched_code_percent": 0,
+      "matched_code_percent": 95.54140127388536,
+      "methods": [{
+        "name": "<clinit>",
+        "recompInsnCount": 12,
+        "descriptor": "()V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 12,
+        "status": "MATCH"
+      }],
       "name": "zombie/vehicles/PolygonalMap2$VehicleState",
       "total_methods": 6,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 150,
+      "matched_methods": 6,
+      "status": "MATCH"
     },
     {
       "total_instructions": 124,
-      "matched_code_percent": 0,
+      "matched_code_percent": 93.54838709677419,
+      "methods": [{
+        "name": "<clinit>",
+        "recompInsnCount": 12,
+        "descriptor": "()V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 12,
+        "status": "MATCH"
+      }],
       "name": "zombie/vehicles/PolygonalMap2$VehicleUpdateTask",
       "total_methods": 6,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 116,
+      "matched_methods": 6,
+      "status": "MATCH"
     },
     {
       "total_instructions": 4411,
-      "matched_code_percent": 0,
+      "matched_code_percent": 95.89662208116073,
+      "methods": [
+        {
+          "name": "intersects",
+          "recompInsnCount": 40,
+          "descriptor": "(Lzombie/vehicles/PolygonalMap2$Node;Lzombie/vehicles/PolygonalMap2$Node;Lzombie/vehicles/PolygonalMap2$Edge;)Z",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 40,
+          "status": "MATCH"
+        },
+        {
+          "name": "connectVehicleCrawlNodes",
+          "recompInsnCount": 441,
+          "descriptor": "()V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 444,
+          "status": "MATCH"
+        },
+        {
+          "name": "addPerimeterEdges",
+          "recompInsnCount": 367,
+          "descriptor": "()V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 367,
+          "status": "MATCH"
+        },
+        {
+          "name": "<clinit>",
+          "recompInsnCount": 20,
+          "descriptor": "()V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 20,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/vehicles/PolygonalMap2$VisibilityGraph",
       "total_methods": 33,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 4230,
+      "matched_methods": 33,
+      "status": "MATCH"
     },
     {
       "total_instructions": 46,
-      "matched_code_percent": 0,
+      "matched_code_percent": 95.65217391304348,
       "name": "zombie/vehicles/PolygonalMap2$VisibilityGraph$CompareIntersection",
       "total_methods": 3,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 44,
+      "matched_methods": 3,
+      "status": "MATCH"
     },
     {
       "total_instructions": 884,
