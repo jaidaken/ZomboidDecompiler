@@ -424,6 +424,39 @@ run_recompile() {
                 compiled="$new_compiled"
             fi
 
+            # Second fallback: compile truly individually (L-1) for files still missing
+            # The L-20 batch can still cascade when 1 bad file kills 19 good ones.
+            local still_missing
+            still_missing=$(mktemp)
+            while IFS= read -r java_file; do
+                local rel="${java_file#$source_dir/}"
+                local class_file="$output_dir/${rel%.java}.class"
+                [ -f "$class_file" ] || echo "$java_file"
+            done < "$remaining" > "$still_missing"
+            local still_count
+            still_count=$(wc -l < "$still_missing")
+            if [ "$still_count" -gt 0 ]; then
+                local fallback2_log
+                fallback2_log=$(mktemp)
+                cat "$still_missing" | xargs -P "$jobs" -L 1 \
+                    "$JAVAC_BIN" -d "$output_dir" -cp "$cp:$output_dir" \
+                    -source "${JAVAC_SOURCE_VERSION:-17}" -target "${JAVAC_TARGET_VERSION:-17}" \
+                    -proc:none -nowarn -implicit:none \
+                    -Xmaxerrs 99999 -Xmaxwarns 0 \
+                    2>"$fallback2_log" || true
+                new_compiled=$(command find "$output_dir" -name "*.class" 2>/dev/null | wc -l)
+                local recovered2=$((new_compiled - compiled))
+                if [ "$recovered2" -gt 0 ]; then
+                    echo "  Recovered $recovered2 more classes via individual compilation ($new_compiled total)"
+                    compiled="$new_compiled"
+                fi
+                if [ -s "$fallback2_log" ]; then
+                    cat "$fallback2_log" >> "$log_file"
+                fi
+                rm -f "$fallback2_log"
+            fi
+            rm -f "$still_missing"
+
             # Merge fallback errors into main log
             if [ -s "$fallback_log" ]; then
                 cat "$fallback_log" >> "$log_file"
@@ -527,12 +560,24 @@ safety = {
     'CORE_OPS_ONLY': 'most risky',
     'NONE': 'unmatched',
 }
+matched_cls = m.get('matched_classes', 0)
+total_cls = m.get('total_classes', 0)
+matched_meth = m.get('matched_methods', 0)
+matched_insns = m.get('matched_instructions', 0)
+total_insns = m.get('total_instructions', 0)
+cls_pct = 100.0 * matched_cls / total_cls if total_cls > 0 else 0
+meth_pct = 100.0 * matched_meth / total if total > 0 else 0
+insn_pct = 100.0 * matched_insns / total_insns if total_insns > 0 else 0
 print(f'  Match tiers ({total} methods):')
 for tier in order:
     count = tiers.get(tier, 0)
     if count > 0:
         pct = 100.0 * count / total
         print(f'    {count:6,d}  {pct:5.1f}%  {tier:20s}  ({safety.get(tier, \"\")})')
+print(f'  Coverage:')
+print(f'    Classes:      {matched_cls:,}/{total_cls:,} ({cls_pct:.1f}%)')
+print(f'    Methods:      {matched_meth:,}/{total:,} ({meth_pct:.1f}%)')
+print(f'    Instructions: {matched_insns:,}/{total_insns:,} ({insn_pct:.1f}%)')
 " 2>/dev/null || true
 
         # Generate compact summary JSON
