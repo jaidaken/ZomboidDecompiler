@@ -51,12 +51,22 @@ ensure_built() {
         fi
     fi
 
+    # Also check if vineflower jar is newer than installed jar (manual builds)
+    # Check both the copy and the +local jar
+    local installed_jar="$INSTALL_DIR/lib/vineflower-1.11.2-module.jar"
+    if [ -f "$installed_jar" ]; then
+        if { [ -f "$VINEFLOWER_COPY" ] && [ "$VINEFLOWER_COPY" -nt "$installed_jar" ]; } || \
+           { [ -f "$VINEFLOWER_JAR" ] && [ "$VINEFLOWER_JAR" -nt "$installed_jar" ]; }; then
+            # Ensure the copy exists
+            [ -f "$VINEFLOWER_JAR" ] && cp "$VINEFLOWER_JAR" "$VINEFLOWER_COPY"
+            vineflower_changed=true
+        fi
+    fi
+
     if [ ! -d "$INSTALL_DIR/lib" ]; then
-        # First build - just installDist
         echo "Building ZomboidDecompiler..."
         JAVA_HOME="$ZULU17_HOME" "$PROJECT_DIR/gradlew" -p "$PROJECT_DIR" installDist --quiet
     elif $vineflower_changed; then
-        # Vineflower changed - clean install to pick up new jar
         echo "Rebuilding ZomboidDecompiler (vineflower changed)..."
         JAVA_HOME="$ZULU17_HOME" "$PROJECT_DIR/gradlew" -p "$PROJECT_DIR" clean installDist --quiet
     fi
