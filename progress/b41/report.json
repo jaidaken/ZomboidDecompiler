@@ -2,21 +2,21 @@
   "measures": {
     "total_classes": 2978,
     "total_instructions": 1180433,
-    "matched_code_percent": 94.71397360121243,
+    "matched_code_percent": 94.84070675760505,
     "match_tiers": {
-      "FUZZY_COMPUTATION": 107,
+      "FUZZY_COMPUTATION": 108,
       "CORE_OPS_ONLY": 6,
       "EXACT": 30827,
       "SORTED_MULTISET": 847,
       "STRUCTURAL_NO_TRYCATCH": 5,
-      "NONE": 2,
+      "NONE": 1,
       "STRUCTURAL": 1173
     },
     "total_methods": 32968,
-    "matched_function_percent": 99.99090026692551,
-    "matched_instructions": 1118035,
-    "matched_classes": 2976,
-    "matched_methods": 32965
+    "matched_function_percent": 99.99393351128367,
+    "matched_instructions": 1119531,
+    "matched_classes": 2977,
+    "matched_methods": 32966
   },
   "units": [
     {
@@ -40989,7 +40989,7 @@
     },
     {
       "total_instructions": 6469,
-      "matched_code_percent": 70.79919616633174,
+      "matched_code_percent": 93.92487246869686,
       "methods": [
         {
           "name": "createVehicleCluster",
@@ -41008,41 +41008,12 @@
           "status": "MATCH"
         },
         {
-          "recompContext": [
-            "#119  ASTORE v8",
-            "#120  ICONST_0",
-            "#121  ISTORE v9",
-            "#122  ICONST_0",
-            "#123  ISTORE v10",
-            "#124  ICONST_0",
-            "#125  ISTORE v11",
-            "#126  ICONST_0",
-            "#127  ISTORE v12",
-            "#128  ICONST_0",
-            "#129  ISTORE v13"
-          ],
-          "origContext": [
-            "#119  ASTORE v8",
-            "#120  ICONST_0",
-            "#121  ISTORE v9",
-            "#122  ICONST_0",
-            "#123  ISTORE v10",
-            "#124  ALOAD v2",
-            "#125  ALOAD v1",
-            "#126  GETFIELD zombie/vehicles/PolygonalMap2$PathFindRequest.startX:F",
-            "#127  F2I",
-            "#128  ALOAD v1",
-            "#129  GETFIELD zombie/vehicles/PolygonalMap2$PathFindRequest.startY:F"
-          ],
           "name": "findPath",
-          "recompInsnCount": 2612,
+          "recompInsnCount": 1616,
           "descriptor": "(Lzombie/vehicles/PolygonalMap2$PathFindRequest;Z)Z",
-          "firstDiffIndex": 124,
-          "category": "INSN_COUNT_DIFF",
-          "matchTier": "NONE",
+          "matchTier": "FUZZY_COMPUTATION",
           "origInsnCount": 1620,
-          "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #124"
+          "status": "MATCH"
         },
         {
           "name": "cleanPath",
@@ -41103,9 +41074,9 @@
       ],
       "name": "zombie/vehicles/PolygonalMap2",
       "total_methods": 53,
-      "matched_instructions": 4580,
-      "matched_methods": 52,
-      "status": "MISMATCH"
+      "matched_instructions": 6076,
+      "matched_methods": 53,
+      "status": "MATCH"
     },
     {
       "total_instructions": 15,
