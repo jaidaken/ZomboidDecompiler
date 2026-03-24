@@ -2,21 +2,21 @@
   "measures": {
     "total_classes": 2978,
     "total_instructions": 1180433,
-    "matched_code_percent": 93.24713897358004,
+    "matched_code_percent": 94.1141936899426,
     "match_tiers": {
-      "FUZZY_COMPUTATION": 121,
+      "FUZZY_COMPUTATION": 123,
       "CORE_OPS_ONLY": 9,
-      "EXACT": 30506,
-      "SORTED_MULTISET": 991,
+      "EXACT": 30691,
+      "SORTED_MULTISET": 1003,
       "STRUCTURAL_NO_TRYCATCH": 5,
       "NONE": 18,
-      "STRUCTURAL": 1109
+      "STRUCTURAL": 1117
     },
     "total_methods": 32976,
-    "matched_function_percent": 99.28736050460941,
-    "matched_instructions": 1100720,
-    "matched_classes": 2961,
-    "matched_methods": 32741
+    "matched_function_percent": 99.91508976225134,
+    "matched_instructions": 1110955,
+    "matched_classes": 2970,
+    "matched_methods": 32948
   },
   "units": [
     {
@@ -25739,57 +25739,155 @@
     },
     {
       "total_instructions": 6534,
-      "matched_code_percent": 0,
+      "matched_code_percent": 95.5616773798592,
+      "methods": [
+        {
+          "name": "getFreeEmitter",
+          "recompInsnCount": 30,
+          "descriptor": "()Lzombie/audio/BaseSoundEmitter;",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 28,
+          "status": "MATCH"
+        },
+        {
+          "name": "LoadTileDefinitions",
+          "recompInsnCount": 2143,
+          "descriptor": "(Lzombie/iso/sprite/IsoSpriteManager;Ljava/lang/String;I)V",
+          "matchTier": "FUZZY_COMPUTATION",
+          "origInsnCount": 2145,
+          "status": "MATCH"
+        },
+        {
+          "name": "LoadTileDefinitionsPropertyStrings",
+          "recompInsnCount": 161,
+          "descriptor": "(Lzombie/iso/sprite/IsoSpriteManager;Ljava/lang/String;I)V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 159,
+          "status": "MATCH"
+        },
+        {
+          "name": "LoadPlayerForInfo",
+          "recompInsnCount": 184,
+          "descriptor": "()Z",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 186,
+          "status": "MATCH"
+        },
+        {
+          "name": "init",
+          "recompInsnCount": 1484,
+          "descriptor": "()V",
+          "matchTier": "FUZZY_COMPUTATION",
+          "origInsnCount": 1484,
+          "status": "MATCH"
+        },
+        {
+          "name": "readWorldVersion",
+          "recompInsnCount": 128,
+          "descriptor": "()I",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 128,
+          "status": "MATCH"
+        },
+        {
+          "name": "sceneCullZombies",
+          "recompInsnCount": 278,
+          "descriptor": "()V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 283,
+          "status": "MATCH"
+        },
+        {
+          "name": "DrawIsoCursorHelper",
+          "recompInsnCount": 129,
+          "descriptor": "()V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 127,
+          "status": "MATCH"
+        },
+        {
+          "name": "updateInternal",
+          "recompInsnCount": 203,
+          "descriptor": "()V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 201,
+          "status": "MATCH"
+        },
+        {
+          "name": "isValidSquare",
+          "recompInsnCount": 13,
+          "descriptor": "(III)Z",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 13,
+          "status": "MATCH"
+        },
+        {
+          "name": "<clinit>",
+          "recompInsnCount": 42,
+          "descriptor": "()V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 42,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/iso/IsoWorld",
       "total_methods": 106,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 6244,
+      "matched_methods": 106,
+      "status": "MATCH"
     },
     {
       "total_instructions": 52,
-      "matched_code_percent": 0,
+      "matched_code_percent": 96.15384615384616,
       "name": "zombie/iso/IsoWorld$CompDistToPlayer",
       "total_methods": 3,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 50,
+      "matched_methods": 3,
+      "status": "MATCH"
     },
     {
       "total_instructions": 62,
-      "matched_code_percent": 0,
+      "matched_code_percent": 93.54838709677419,
+      "methods": [{
+        "name": "getScore",
+        "recompInsnCount": 27,
+        "descriptor": "(Lzombie/characters/IsoZombie;)F",
+        "matchTier": "STRUCTURAL",
+        "origInsnCount": 28,
+        "status": "MATCH"
+      }],
       "name": "zombie/iso/IsoWorld$CompScoreToPlayer",
       "total_methods": 4,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 58,
+      "matched_methods": 4,
+      "status": "MATCH"
     },
     {
       "total_instructions": 82,
-      "matched_code_percent": 0,
+      "matched_code_percent": 93.90243902439025,
       "name": "zombie/iso/IsoWorld$Frame",
       "total_methods": 1,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 77,
+      "matched_methods": 1,
+      "status": "MATCH"
     },
     {
       "total_instructions": 8,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/iso/IsoWorld$MetaCell",
       "total_methods": 1,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 8,
+      "matched_methods": 1,
+      "status": "MATCH"
     },
     {
       "total_instructions": 14,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/iso/IsoWorld$s_performance",
       "total_methods": 2,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 14,
+      "matched_methods": 2,
+      "status": "MATCH"
     },
     {
       "total_instructions": 2528,
@@ -28434,30 +28532,112 @@
     },
     {
       "total_instructions": 3952,
-      "matched_code_percent": 0,
+      "matched_code_percent": 94.38259109311741,
+      "methods": [
+        {
+          "name": "getAddSheetSquare",
+          "recompInsnCount": 54,
+          "descriptor": "(Lzombie/characters/IsoGameCharacter;)Lzombie/iso/IsoGridSquare;",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 54,
+          "status": "MATCH"
+        },
+        {
+          "name": "getThumpableFor",
+          "recompInsnCount": 22,
+          "descriptor": "(Lzombie/characters/IsoGameCharacter;)Lzombie/iso/objects/interfaces/Thumpable;",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 22,
+          "status": "MATCH"
+        },
+        {
+          "name": "openCloseCurtain",
+          "recompInsnCount": 116,
+          "descriptor": "(Lzombie/characters/IsoGameCharacter;)V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 112,
+          "status": "MATCH"
+        },
+        {
+          "name": "removeSheet",
+          "recompInsnCount": 104,
+          "descriptor": "(Lzombie/characters/IsoGameCharacter;)V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 102,
+          "status": "MATCH"
+        },
+        {
+          "name": "addSheet",
+          "recompInsnCount": 180,
+          "descriptor": "(Lzombie/characters/IsoGameCharacter;)V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 177,
+          "status": "MATCH"
+        },
+        {
+          "name": "canClimbHere",
+          "recompInsnCount": 39,
+          "descriptor": "(Lzombie/iso/IsoGridSquare;)Z",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 39,
+          "status": "MATCH"
+        },
+        {
+          "name": "addSheetRope",
+          "recompInsnCount": 233,
+          "descriptor": "(Lzombie/characters/IsoPlayer;Lzombie/iso/IsoGridSquare;ZLjava/lang/String;)Z",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 233,
+          "status": "MATCH"
+        },
+        {
+          "name": "removeSheetRope",
+          "recompInsnCount": 233,
+          "descriptor": "(Lzombie/characters/IsoPlayer;Lzombie/iso/IsoGridSquare;Z)Z",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 230,
+          "status": "MATCH"
+        },
+        {
+          "name": "isInvincible",
+          "recompInsnCount": 64,
+          "descriptor": "()Z",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 64,
+          "status": "MATCH"
+        },
+        {
+          "name": "canClimbThrough",
+          "recompInsnCount": 47,
+          "descriptor": "(Lzombie/characters/IsoGameCharacter;)Z",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 47,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/iso/objects/IsoWindow",
       "total_methods": 84,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 3730,
+      "matched_methods": 84,
+      "status": "MATCH"
     },
     {
       "total_instructions": 19,
-      "matched_code_percent": 0,
+      "matched_code_percent": 89.47368421052632,
       "name": "zombie/iso/objects/IsoWindow$1",
       "total_methods": 1,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 17,
+      "matched_methods": 1,
+      "status": "MATCH"
     },
     {
       "total_instructions": 40,
-      "matched_code_percent": 0,
+      "matched_code_percent": 92.5,
       "name": "zombie/iso/objects/IsoWindow$WindowType",
       "total_methods": 5,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 37,
+      "matched_methods": 5,
+      "status": "MATCH"
     },
     {
       "total_instructions": 470,
