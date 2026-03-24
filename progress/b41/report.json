@@ -2,21 +2,21 @@
   "measures": {
     "total_classes": 2978,
     "total_instructions": 1180433,
-    "matched_code_percent": 92.14508574396005,
+    "matched_code_percent": 93.24713897358004,
     "match_tiers": {
-      "FUZZY_COMPUTATION": 116,
+      "FUZZY_COMPUTATION": 121,
       "CORE_OPS_ONLY": 9,
-      "EXACT": 29924,
-      "SORTED_MULTISET": 981,
+      "EXACT": 30506,
+      "SORTED_MULTISET": 991,
       "STRUCTURAL_NO_TRYCATCH": 5,
-      "NONE": 8,
-      "STRUCTURAL": 1083
+      "NONE": 18,
+      "STRUCTURAL": 1109
     },
-    "total_methods": 32968,
-    "matched_function_percent": 97.42174229555933,
-    "matched_instructions": 1087711,
-    "matched_classes": 2953,
-    "matched_methods": 32118
+    "total_methods": 32976,
+    "matched_function_percent": 99.28736050460941,
+    "matched_instructions": 1100720,
+    "matched_classes": 2961,
+    "matched_methods": 32741
   },
   "units": [
     {
@@ -1020,48 +1020,462 @@
     },
     {
       "total_instructions": 1135,
-      "matched_code_percent": 0,
+      "matched_code_percent": 93.03964757709251,
+      "methods": [
+        {
+          "name": "LoadDirBase",
+          "recompInsnCount": 142,
+          "descriptor": "(Ljava/lang/String;Z)V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 142,
+          "status": "MATCH"
+        },
+        {
+          "name": "finishChecksum",
+          "recompInsnCount": 19,
+          "descriptor": "()V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 21,
+          "status": "MATCH"
+        },
+        {
+          "name": "RunLua",
+          "recompInsnCount": 45,
+          "descriptor": "(Ljava/lang/String;Z)Ljava/lang/Object;",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 41,
+          "status": "MATCH"
+        },
+        {
+          "name": "RunLuaInternal",
+          "recompInsnCount": 174,
+          "descriptor": "(Ljava/lang/String;Z)Ljava/lang/Object;",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 172,
+          "status": "MATCH"
+        },
+        {
+          "name": "getFunctionObject",
+          "recompInsnCount": 93,
+          "descriptor": "(Ljava/lang/String;)Ljava/lang/Object;",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 91,
+          "status": "MATCH"
+        },
+        {
+          "name": "copyTable",
+          "recompInsnCount": 40,
+          "descriptor": "(Lse/krka/kahlua/vm/KahluaTable;Lse/krka/kahlua/vm/KahluaTable;)Lse/krka/kahlua/vm/KahluaTable;",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 40,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/Lua/LuaManager",
       "total_methods": 32,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 1056,
+      "matched_methods": 32,
+      "status": "MATCH"
     },
     {
       "total_instructions": 1759,
-      "matched_code_percent": 0,
+      "matched_code_percent": 99.71574758385447,
       "name": "zombie/Lua/LuaManager$Exposer",
       "total_methods": 4,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 1754,
+      "matched_methods": 4,
+      "status": "MATCH"
     },
     {
       "total_instructions": 10489,
-      "matched_code_percent": 0,
+      "matched_code_percent": 93.21193631423395,
+      "methods": [
+        {
+          "name": "getTranslatorCredits",
+          "recompInsnCount": 74,
+          "descriptor": "(Lzombie/core/Language;)Ljava/util/ArrayList;",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 72,
+          "status": "MATCH"
+        },
+        {
+          "name": "getLatestSave",
+          "recompInsnCount": 50,
+          "descriptor": "()Lse/krka/kahlua/vm/KahluaTable;",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 48,
+          "status": "MATCH"
+        },
+        {
+          "name": "isCurrentExecutionPoint",
+          "recompInsnCount": 32,
+          "descriptor": "(Ljava/lang/String;I)Z",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 32,
+          "status": "MATCH"
+        },
+        {
+          "name": "getMapDirectoryTable",
+          "recompInsnCount": 97,
+          "descriptor": "()Lse/krka/kahlua/vm/KahluaTable;",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 97,
+          "status": "MATCH"
+        },
+        {
+          "name": "getServerList",
+          "recompInsnCount": 198,
+          "descriptor": "()Lse/krka/kahlua/vm/KahluaTable;",
+          "matchTier": "FUZZY_COMPUTATION",
+          "origInsnCount": 196,
+          "status": "MATCH"
+        },
+        {
+          "name": "deleteAllGameModeSaves",
+          "recompInsnCount": 27,
+          "descriptor": "(Ljava/lang/String;)V",
+          "matchTier": "FUZZY_COMPUTATION",
+          "origInsnCount": 27,
+          "status": "MATCH"
+        },
+        {
+          "name": "getMapFoldersForMod",
+          "recompInsnCount": 81,
+          "descriptor": "(Ljava/lang/String;)Ljava/util/ArrayList;",
+          "matchTier": "FUZZY_COMPUTATION",
+          "origInsnCount": 81,
+          "status": "MATCH"
+        },
+        {
+          "name": "require",
+          "recompInsnCount": 39,
+          "descriptor": "(Ljava/lang/String;)Ljava/lang/Object;",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 37,
+          "status": "MATCH"
+        },
+        {
+          "name": "getModFileReader",
+          "recompInsnCount": 100,
+          "descriptor": "(Ljava/lang/String;Ljava/lang/String;Z)Ljava/io/BufferedReader;",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 100,
+          "status": "MATCH"
+        },
+        {
+          "name": "getModFileWriter",
+          "recompInsnCount": 98,
+          "descriptor": "(Ljava/lang/String;Ljava/lang/String;ZZ)Lzombie/Lua/LuaManager$GlobalObject$LuaFileWriter;",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 98,
+          "status": "MATCH"
+        },
+        {
+          "name": "isControllerConnected",
+          "recompInsnCount": 16,
+          "descriptor": "(I)Z",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 16,
+          "status": "MATCH"
+        },
+        {
+          "name": "getControllerGUID",
+          "recompInsnCount": 17,
+          "descriptor": "(I)Ljava/lang/String;",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 17,
+          "status": "MATCH"
+        },
+        {
+          "name": "getControllerName",
+          "recompInsnCount": 17,
+          "descriptor": "(I)Ljava/lang/String;",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 17,
+          "status": "MATCH"
+        },
+        {
+          "name": "getControllerAxisCount",
+          "recompInsnCount": 17,
+          "descriptor": "(I)I",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 17,
+          "status": "MATCH"
+        },
+        {
+          "name": "getControllerAxisValue",
+          "recompInsnCount": 26,
+          "descriptor": "(II)F",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 26,
+          "status": "MATCH"
+        },
+        {
+          "name": "getControllerDeadZone",
+          "recompInsnCount": 22,
+          "descriptor": "(II)F",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 22,
+          "status": "MATCH"
+        },
+        {
+          "name": "getControllerButtonCount",
+          "recompInsnCount": 17,
+          "descriptor": "(I)I",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 17,
+          "status": "MATCH"
+        },
+        {
+          "name": "getControllerPovX",
+          "recompInsnCount": 17,
+          "descriptor": "(I)F",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 17,
+          "status": "MATCH"
+        },
+        {
+          "name": "getControllerPovY",
+          "recompInsnCount": 17,
+          "descriptor": "(I)F",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 17,
+          "status": "MATCH"
+        },
+        {
+          "name": "getButtonCount",
+          "recompInsnCount": 17,
+          "descriptor": "(I)I",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 17,
+          "status": "MATCH"
+        },
+        {
+          "name": "createStory",
+          "recompInsnCount": 37,
+          "descriptor": "(Ljava/lang/String;)V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 37,
+          "status": "MATCH"
+        },
+        {
+          "name": "createTile",
+          "recompInsnCount": 45,
+          "descriptor": "(Ljava/lang/String;Lzombie/iso/IsoGridSquare;)V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 48,
+          "status": "MATCH"
+        },
+        {
+          "name": "getSaveInfo",
+          "recompInsnCount": 239,
+          "descriptor": "(Ljava/lang/String;)Lse/krka/kahlua/vm/KahluaTable;",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 239,
+          "status": "MATCH"
+        },
+        {
+          "name": "renameSaveFile",
+          "recompInsnCount": 115,
+          "descriptor": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Z",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 115,
+          "status": "MATCH"
+        },
+        {
+          "name": "isValidSteamID",
+          "recompInsnCount": 10,
+          "descriptor": "(Ljava/lang/String;)Z",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 10,
+          "status": "MATCH"
+        },
+        {
+          "name": "querySteamWorkshopItemDetails",
+          "recompInsnCount": 59,
+          "descriptor": "(Ljava/util/ArrayList;Lse/krka/kahlua/vm/LuaClosure;Ljava/lang/Object;)V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 58,
+          "status": "MATCH"
+        },
+        {
+          "name": "getPublicServersList",
+          "recompInsnCount": 369,
+          "descriptor": "()Lse/krka/kahlua/vm/KahluaTable;",
+          "matchTier": "FUZZY_COMPUTATION",
+          "origInsnCount": 367,
+          "status": "MATCH"
+        },
+        {
+          "name": "steamGetInternetServerDetails",
+          "recompInsnCount": 132,
+          "descriptor": "(I)Lzombie/network/Server;",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 132,
+          "status": "MATCH"
+        },
+        {
+          "name": "addZombiesInBuilding",
+          "recompInsnCount": 153,
+          "descriptor": "(Lzombie/iso/BuildingDef;ILjava/lang/String;Lzombie/iso/RoomDef;Ljava/lang/Integer;)Ljava/util/ArrayList;",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 151,
+          "status": "MATCH"
+        },
+        {
+          "name": "addAllVehicles",
+          "recompInsnCount": 128,
+          "descriptor": "(Ljava/util/function/Predicate;)V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 130,
+          "status": "MATCH"
+        },
+        {
+          "name": "proceedPM",
+          "recompInsnCount": 39,
+          "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 40,
+          "status": "MATCH"
+        },
+        {
+          "name": "checkPlayerCanUseChat",
+          "recompInsnCount": 149,
+          "descriptor": "(Ljava/lang/String;)Ljava/lang/Boolean;",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 145,
+          "status": "MATCH"
+        },
+        {
+          "name": "getAllItemsForBodyLocation",
+          "recompInsnCount": 44,
+          "descriptor": "(Ljava/lang/String;)Lse/krka/kahlua/vm/KahluaTable;",
+          "matchTier": "FUZZY_COMPUTATION",
+          "origInsnCount": 42,
+          "status": "MATCH"
+        },
+        {
+          "name": "getAllDecalNamesForItem",
+          "recompInsnCount": 32,
+          "descriptor": "(Lzombie/inventory/InventoryItem;)Ljava/util/ArrayList;",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 32,
+          "status": "MATCH"
+        },
+        {
+          "name": "<clinit>",
+          "recompInsnCount": 18,
+          "descriptor": "()V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 18,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/Lua/LuaManager$GlobalObject",
       "total_methods": 554,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 9777,
+      "matched_methods": 554,
+      "status": "MATCH"
     },
     {
       "total_instructions": 18,
-      "matched_code_percent": 0,
+      "matched_code_percent": 88.88888888888889,
       "name": "zombie/Lua/LuaManager$GlobalObject$1",
       "total_methods": 3,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 16,
+      "matched_methods": 3,
+      "status": "MATCH"
     },
     {
       "total_instructions": 18,
-      "matched_code_percent": 0,
+      "matched_code_percent": 16.666666666666668,
+      "methods": [
+        {
+          "name": "compare",
+          "recompInsnCount": 0,
+          "descriptor": "(Ljava/io/File;Ljava/io/File;)I",
+          "matchTier": "NONE",
+          "origInsnCount": 0,
+          "status": "MISSING_RECOMP"
+        },
+        {
+          "name": "compare",
+          "recompInsnCount": 0,
+          "descriptor": "(Ljava/lang/Object;Ljava/lang/Object;)I",
+          "matchTier": "NONE",
+          "origInsnCount": 0,
+          "status": "MISSING_RECOMP"
+        },
+        {
+          "name": "preVisitDirectory",
+          "recompInsnCount": 0,
+          "descriptor": "(Ljava/nio/file/Path;Ljava/nio/file/attribute/BasicFileAttributes;)Ljava/nio/file/FileVisitResult;",
+          "matchTier": "NONE",
+          "origInsnCount": 0,
+          "status": "MISSING_ORIG"
+        },
+        {
+          "name": "visitFile",
+          "recompInsnCount": 0,
+          "descriptor": "(Ljava/nio/file/Path;Ljava/nio/file/attribute/BasicFileAttributes;)Ljava/nio/file/FileVisitResult;",
+          "matchTier": "NONE",
+          "origInsnCount": 0,
+          "status": "MISSING_ORIG"
+        },
+        {
+          "name": "visitFileFailed",
+          "recompInsnCount": 0,
+          "descriptor": "(Ljava/nio/file/Path;Ljava/io/IOException;)Ljava/nio/file/FileVisitResult;",
+          "matchTier": "NONE",
+          "origInsnCount": 0,
+          "status": "MISSING_ORIG"
+        },
+        {
+          "name": "postVisitDirectory",
+          "recompInsnCount": 0,
+          "descriptor": "(Ljava/nio/file/Path;Ljava/io/IOException;)Ljava/nio/file/FileVisitResult;",
+          "matchTier": "NONE",
+          "origInsnCount": 0,
+          "status": "MISSING_ORIG"
+        },
+        {
+          "name": "postVisitDirectory",
+          "recompInsnCount": 0,
+          "descriptor": "(Ljava/lang/Object;Ljava/io/IOException;)Ljava/nio/file/FileVisitResult;",
+          "matchTier": "NONE",
+          "origInsnCount": 0,
+          "status": "MISSING_ORIG"
+        },
+        {
+          "name": "visitFileFailed",
+          "recompInsnCount": 0,
+          "descriptor": "(Ljava/lang/Object;Ljava/io/IOException;)Ljava/nio/file/FileVisitResult;",
+          "matchTier": "NONE",
+          "origInsnCount": 0,
+          "status": "MISSING_ORIG"
+        },
+        {
+          "name": "visitFile",
+          "recompInsnCount": 0,
+          "descriptor": "(Ljava/lang/Object;Ljava/nio/file/attribute/BasicFileAttributes;)Ljava/nio/file/FileVisitResult;",
+          "matchTier": "NONE",
+          "origInsnCount": 0,
+          "status": "MISSING_ORIG"
+        },
+        {
+          "name": "preVisitDirectory",
+          "recompInsnCount": 0,
+          "descriptor": "(Ljava/lang/Object;Ljava/nio/file/attribute/BasicFileAttributes;)Ljava/nio/file/FileVisitResult;",
+          "matchTier": "NONE",
+          "origInsnCount": 0,
+          "status": "MISSING_ORIG"
+        }
+      ],
       "name": "zombie/Lua/LuaManager$GlobalObject$2",
-      "total_methods": 3,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "total_methods": 11,
+      "matched_instructions": 3,
+      "matched_methods": 1,
+      "status": "MISMATCH"
     },
     {
       "total_instructions": 41,
@@ -1074,39 +1488,39 @@
     },
     {
       "total_instructions": 204,
-      "matched_code_percent": 0,
+      "matched_code_percent": 96.07843137254902,
       "name": "zombie/Lua/LuaManager$GlobalObject$ItemQuery",
       "total_methods": 11,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 196,
+      "matched_methods": 11,
+      "status": "MATCH"
     },
     {
       "total_instructions": 165,
-      "matched_code_percent": 0,
+      "matched_code_percent": 98.18181818181819,
       "name": "zombie/Lua/LuaManager$GlobalObject$ItemQueryJava",
       "total_methods": 12,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 162,
+      "matched_methods": 12,
+      "status": "MATCH"
     },
     {
       "total_instructions": 24,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/Lua/LuaManager$GlobalObject$LuaFileWriter",
       "total_methods": 4,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 24,
+      "matched_methods": 4,
+      "status": "MATCH"
     },
     {
       "total_instructions": 23,
-      "matched_code_percent": 0,
+      "matched_code_percent": 91.30434782608695,
       "name": "zombie/Lua/LuaManager$GlobalObject$TimSortComparator",
       "total_methods": 2,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 21,
+      "matched_methods": 2,
+      "status": "MATCH"
     },
     {
       "total_instructions": 709,
