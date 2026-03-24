@@ -30,12 +30,35 @@ if [ -x "$ZULU17_HOME/bin/java" ]; then
     JAVAC_BIN="$ZULU17_HOME/bin/javac"
 fi
 
-# Ensure the project is built
+# Ensure the project is built and up to date.
+# Rebuilds vineflower if its source changed, then rebuilds ZomboidDecompiler
+# with clean installDist to avoid stale cached jars.
 INSTALL_DIR="$PROJECT_DIR/build/install/ZomboidDecompiler"
+VINEFLOWER_DIR="$BUILDS_DIR/vineflower"
+VINEFLOWER_JAR="$VINEFLOWER_DIR/build/libs/vineflower-1.11.2+local.jar"
+VINEFLOWER_COPY="$VINEFLOWER_DIR/build/libs/vineflower-1.11.2.jar"
 ensure_built() {
+    local vineflower_changed=false
+
+    # Rebuild vineflower if any source file is newer than the jar
+    if [ -d "$VINEFLOWER_DIR/src" ]; then
+        if [ ! -f "$VINEFLOWER_JAR" ] || \
+           [ -n "$(command find "$VINEFLOWER_DIR/src" -name "*.java" -newer "$VINEFLOWER_JAR" 2>/dev/null | head -1)" ]; then
+            echo "Building Vineflower..."
+            JAVA_HOME="$ZULU17_HOME" "$VINEFLOWER_DIR/gradlew" -p "$VINEFLOWER_DIR" clean allJar --quiet 2>/dev/null
+            cp "$VINEFLOWER_JAR" "$VINEFLOWER_COPY"
+            vineflower_changed=true
+        fi
+    fi
+
     if [ ! -d "$INSTALL_DIR/lib" ]; then
+        # First build - just installDist
         echo "Building ZomboidDecompiler..."
-        "$PROJECT_DIR/gradlew" -p "$PROJECT_DIR" installDist --quiet
+        JAVA_HOME="$ZULU17_HOME" "$PROJECT_DIR/gradlew" -p "$PROJECT_DIR" installDist --quiet
+    elif $vineflower_changed; then
+        # Vineflower changed - clean install to pick up new jar
+        echo "Rebuilding ZomboidDecompiler (vineflower changed)..."
+        JAVA_HOME="$ZULU17_HOME" "$PROJECT_DIR/gradlew" -p "$PROJECT_DIR" clean installDist --quiet
     fi
 }
 
