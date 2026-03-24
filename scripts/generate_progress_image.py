@@ -155,14 +155,15 @@ def main():
     # Title: show EXACT stats and tier breakdown
     header = custom_title or "Decompilation Progress"
     exact_pct = 100.0 * exact_methods / total_methods if total_methods > 0 else 0
+    matched_insn_pct = measures.get("matched_code_percent", 0)
     none_count = tier_counts.get("NONE", 0)
     structural = tier_counts.get("STRUCTURAL", 0)
     sorted_ms = tier_counts.get("SORTED_MULTISET", 0)
 
     title = (
         f"{header}\n"
-        f"{exact_pct:.1f}% EXACT  |  "
-        f"{exact_methods:,}/{total_methods:,} methods  |  "
+        f"EXACT: {exact_pct:.1f}% ({exact_methods:,}/{total_methods:,} methods)  |  "
+        f"Code match: {matched_insn_pct:.1f}%  |  "
         f"STRUCTURAL {structural:,}  |  "
         f"SORTED_MULTISET {sorted_ms:,}  |  "
         f"NONE {none_count:,}"
@@ -191,7 +192,7 @@ def main():
     plt.tight_layout()
     plt.savefig(output_path, dpi=150, bbox_inches="tight", facecolor=fig.get_facecolor())
     plt.close()
-    print(f"  EXACT: {exact_pct:.1f}% ({exact_methods:,}/{total_methods:,} methods)")
+    print(f"  EXACT: {exact_pct:.1f}% ({exact_methods:,}/{total_methods:,} methods)  Code match: {matched_insn_pct:.1f}%")
     print(f"  STRUCTURAL: {structural:,}  SORTED_MULTISET: {sorted_ms:,}  NONE: {none_count:,}")
 
 
