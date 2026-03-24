@@ -315,8 +315,7 @@ run_recompile() {
 
     echo "Recompiling $total source files -> $output_dir"
 
-    local log_file
-    log_file=$(mktemp)
+    local log_file="$output_dir/compile-errors.log"
 
     "$JAVAC_BIN" \
         -d "$output_dir" \
@@ -525,7 +524,7 @@ run_recompile() {
         echo "  ========================================"
     else
         echo "  ========================================"
-        rm -f "$log_file"
+        : > "$log_file"  # truncate to empty (no errors)
     fi
 
     rm -f "$src_list"
