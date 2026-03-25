@@ -9,24 +9,8 @@ Forked from [demiurgeQuantified/ZomboidDecompiler](https://github.com/demiurgeQu
 ### Build 41
 ![Build 41 Decompilation Progress](progress/b41/progress.png)
 
-| Metric | Value |
-|--------|-------|
-| EXACT match | 31,431 / 32,967 methods (95.3%) |
-| Instruction match | 94.84% |
-| Compile errors | 0 |
-| NONE (unmatched) | 0 |
-| Classes matched | 2,977 / 2,978 (99.97%) |
-
-Match tier breakdown:
-
-| Tier | Methods | Description |
-|------|---------|-------------|
-| EXACT | 31,431 | Identical normalized instructions + try-catch |
-| STRUCTURAL | 613 | Same instructions, different label targets |
-| SORTED_MULTISET | 807 | Same instructions as a set, different order |
-| FUZZY_COMPUTATION | 104 | Core computations match |
-| CORE_OPS_ONLY | 5 | Only invocations/field access match |
-| NONE | 0 | No match at any tier |
+### Build 42
+![Build 42 Decompilation Progress](progress/b42/progress.png)
 
 ## How it works
 
@@ -84,17 +68,20 @@ Automated decompile/recompile/verify pipelines for Build 41 and Build 42:
 - L-1 individual compilation fallback for cascade failure recovery
 - Progress image generation (treemap visualization)
 
-### PostDecompileTransforms (removed for B41)
-B41 post-decompile transforms have been removed. All issues they worked around were fixed at the source in the Vineflower fork. B42 transforms still exist but are also disabled pending further Vineflower fixes.
+### PostDecompileTransforms (removed)
+All post-decompile source transforms for B41 and B42 have been removed. Every issue they worked around was fixed at the source in the Vineflower fork.
 
 ## Usage
 
-### Full pipeline (Build 41)
+### Full pipeline
 ```bash
-# Decompile + recompile + verify
+# Build 41 (Zulu JDK 17)
 ./scripts/b41.sh
 
-# Individual steps
+# Build 42 (Zulu JDK 25)
+./scripts/b42.sh
+
+# Individual steps (same for both)
 ./scripts/b41.sh decompile
 ./scripts/b41.sh recompile
 ./scripts/b41.sh verify
@@ -158,8 +145,8 @@ cd ../ZomboidDecompiler
 - Progress tracking with treemap visualization
 
 ## Supported builds
-- **Build 41** (Zulu JDK 17.0.1) - primary target, 94.84% instruction match
-- **Build 42** (Zulu JDK 25.0.1) - supported
+- **Build 41** (Zulu JDK 17.0.1)
+- **Build 42** (Zulu JDK 25.0.1)
 
 ## Remote debugging
 Guide: [PZModdingGuides/RemoteDebugging](https://github.com/demiurgeQuantified/PZModdingGuides/blob/main/guides/RemoteDebugging.md)
