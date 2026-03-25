@@ -15,7 +15,7 @@ Forked from [demiurgeQuantified/ZomboidDecompiler](https://github.com/demiurgeQu
 | Instruction match | 94.84% |
 | Compile errors | 0 |
 | NONE (unmatched) | 0 |
-| Classes matched | 2,977 / 2,978 (100.0%) |
+| Classes matched | 2,977 / 2,978 (99.97%) |
 
 Match tier breakdown:
 
