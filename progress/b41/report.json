@@ -1,8 +1,8 @@
 {
   "measures": {
-    "total_classes": 2978,
-    "total_instructions": 1180433,
-    "matched_code_percent": 94.84189276307931,
+    "total_classes": 2977,
+    "total_instructions": 1180386,
+    "matched_code_percent": 94.84566912857319,
     "match_tiers": {
       "CORE_OPS_ONLY": 6,
       "FUZZY_COMPUTATION": 104,
@@ -11,8 +11,8 @@
       "STRUCTURAL_NO_TRYCATCH": 6,
       "STRUCTURAL": 613
     },
-    "total_methods": 32968,
-    "matched_function_percent": 99.99696675564184,
+    "total_methods": 32967,
+    "matched_function_percent": 100,
     "matched_instructions": 1119545,
     "matched_classes": 2977,
     "matched_methods": 32967
@@ -4854,15 +4854,6 @@
       "matched_instructions": 746,
       "matched_methods": 29,
       "status": "MATCH"
-    },
-    {
-      "total_instructions": 47,
-      "matched_code_percent": 0,
-      "name": "zombie/characters/CharacterSoundEmitter$1",
-      "total_methods": 1,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
     },
     {
       "total_instructions": 80,

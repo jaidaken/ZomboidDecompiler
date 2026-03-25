@@ -7,6 +7,7 @@ import com.github.zomboiddecompiler.verify.BytecodeComparator.Status;
 import com.github.zomboiddecompiler.verify.MismatchCategorizer;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FrameNode;
@@ -148,6 +149,12 @@ public class Verify implements Callable<Integer> {
                 results.put(className, new ClassResult(className, Status.MISSING_ORIG,
                         List.of("Class exists only in recompiled"), List.of()));
             } else if (recomp == null) {
+                // Skip orphaned synthetic switch-map classes ($N with $SwitchMap fields).
+                // These are stale javac artifacts from removed enum switch statements
+                // that no decompiler can reproduce.
+                if (isOrphanedSwitchMap(orig)) {
+                    continue;
+                }
                 results.put(className, new ClassResult(className, Status.MISSING_RECOMP,
                         List.of("Class exists only in original"), List.of()));
             } else {
@@ -160,6 +167,37 @@ public class Verify implements Callable<Integer> {
         System.out.println();
 
         return results;
+    }
+
+    /** Check if a class is an orphaned synthetic switch-map ($N with $SwitchMap fields). */
+    private boolean isOrphanedSwitchMap(ClassNode classNode) {
+        if (classNode == null) return false;
+        // Must be synthetic $N class
+        if ((classNode.access & Opcodes.ACC_SYNTHETIC) == 0) return false;
+        String name = classNode.name;
+        if (name == null || !name.matches(".*\\$\\d+$")) return false;
+        // Must have a $SwitchMap field
+        if (classNode.fields == null) return false;
+        for (var field : classNode.fields) {
+            if (field.name != null && field.name.startsWith("$SwitchMap")) {
+                // Verify the parent class doesn't reference this switch-map
+                String parentName = name.substring(0, name.lastIndexOf('$'));
+                ClassNode parent = origClasses.get(parentName);
+                if (parent == null) return true; // no parent = orphaned
+                // Check if any method in the parent references this class
+                for (var method : parent.methods) {
+                    if (method.instructions != null) {
+                        for (var insn = method.instructions.getFirst(); insn != null; insn = insn.getNext()) {
+                            if (insn instanceof org.objectweb.asm.tree.FieldInsnNode fi) {
+                                if (fi.owner.equals(name)) return false; // referenced
+                            }
+                        }
+                    }
+                }
+                return true; // has $SwitchMap field but no parent references it
+            }
+        }
+        return false;
     }
 
     private void printReport(Map<String, ClassResult> results) {
