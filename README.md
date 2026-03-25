@@ -71,82 +71,55 @@ Automated decompile/recompile/verify pipelines for Build 41 and Build 42:
 ### PostDecompileTransforms (removed)
 All post-decompile source transforms for B41 and B42 have been removed. Every issue they worked around was fixed at the source in the Vineflower fork.
 
+## Setup
+
+### Prerequisites
+- The [Vineflower fork](https://github.com/jaidaken/vineflower-zomboid) cloned alongside this repo at `../vineflower/`
+- Zulu JDK 17.0.1 (Build 41) and/or Zulu JDK 25.0.1 (Build 42) in `../tools/`
+- PZ game files in `../build-41/vanilla-game-41/projectzomboid/` or `../build-42/vanilla-game-42/projectzomboid/`
+
+### Directory layout
+```
+optizomb/
+  vineflower/           # Vineflower fork
+  ZomboidDecompiler/    # This repo
+  tools/
+    zulu-jdk-17.0.1/    # B41 JDK
+    zulu-jdk-25.0.1/    # B42 JDK
+  build-41/
+    vanilla-game-41/projectzomboid/   # B41 game files
+  build-42/
+    vanilla-game-42/projectzomboid/   # B42 game files
+```
+
 ## Usage
 
 ### Full pipeline
+The scripts handle building Vineflower, rebuilding ZomboidDecompiler, decompiling, recompiling, verifying, and generating progress images:
+
 ```bash
-# Build 41 (Zulu JDK 17)
+# Build 41
 ./scripts/b41.sh
 
-# Build 42 (Zulu JDK 25)
+# Build 42
 ./scripts/b42.sh
 
-# Individual steps (same for both)
+# Individual steps
 ./scripts/b41.sh decompile
 ./scripts/b41.sh recompile
 ./scripts/b41.sh verify
 ```
 
-### Bytecode verification
+### Verify only
 ```bash
-ZomboidDecompiler verify path/to/projectzomboid path/to/recompiled-classes/
-
-# With options
-ZomboidDecompiler verify original/ recompiled/ --semantic --context 10 --json-report report.json
+./build/install/ZomboidDecompiler/bin/ZomboidDecompiler verify \
+  path/to/original path/to/recompiled \
+  --json-report report.json
 ```
-
-| Option | Description |
-|--------|-------------|
-| `--class-pattern` | Class name pattern filter (default: `zombie.*`) |
-| `--verbose` | Show all methods including matches |
-| `--strict-vars` | Compare variable indices without normalization |
-| `--context N` | Instructions to show around diffs (default: 5) |
-| `--semantic` | Enable semantic normalization |
-| `--json-report PATH` | Write JSON report for progress image generation |
-
-### Simple decompilation
-For basic decompilation without verification:
-
-**Windows:** Download from [Releases](https://github.com/jaidaken/ZomboidDecompiler/releases), extract, run `bin/ZomboidDecompiler.bat`.
-
-**Linux/Mac:** `bin/ZomboidDecompiler "path/to/ProjectZomboid"`
-
-Output goes to `output/` with dependencies and game jar.
-
-## Building
-
-### Prerequisites
-- Java 17+ (Zulu JDK 17.0.1 recommended for bytecode-exact matching)
-- The Vineflower fork cloned alongside this repo at `../vineflower/`
-
-### Build from source
-```bash
-# Build Vineflower fork
-cd vineflower
-JAVA_HOME=/path/to/zulu17 ./gradlew clean allJar
-cp build/libs/vineflower-1.11.2+local.jar build/libs/vineflower-1.11.2.jar
-
-# Build ZomboidDecompiler (must use clean to avoid stale jar cache)
-cd ../ZomboidDecompiler
-./gradlew clean installDist
-
-# Run full pipeline
-./scripts/b41.sh
-```
-
-## Features
-- Single-click game decompilation
-- Automatic gathering of game dependencies for recompilation
-- Parameter renaming using Rosetta data
-- Variable renaming by type for readability
-- Line number remapping for remote debugging
-- Roundtrip fidelity mode via custom Vineflower fork
-- Bytecode verification with multi-tier matching
-- Progress tracking with treemap visualization
 
 ## Supported builds
-- **Build 41** (Zulu JDK 17.0.1)
-- **Build 42** (Zulu JDK 25.0.1)
+- **Build 41** - Zulu JDK 17.0.1
+- **Build 42** - Zulu JDK 25.0.1
 
 ## Remote debugging
 Guide: [PZModdingGuides/RemoteDebugging](https://github.com/demiurgeQuantified/PZModdingGuides/blob/main/guides/RemoteDebugging.md)
