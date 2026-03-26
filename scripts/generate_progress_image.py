@@ -176,11 +176,11 @@ def main():
     except Exception:
         pass
 
-    matched = total_methods - none_count
-    func_pct = 100.0 * matched / total_methods if total_methods > 0 else 0
+    non_exact = total_methods - exact_methods
 
     line2 = f"Byte-exact: {exact_pct:.1f}% ({exact_methods:,} / {total_methods:,})"
-    line2 += f"    Functional: {func_pct:.1f}% ({matched:,} / {total_methods:,})"
+    if non_exact > 0:
+        line2 += f"    Non-exact: {non_exact:,}"
     if none_count > 0:
         line2 += f"    Unmatched: {none_count:,}"
 
