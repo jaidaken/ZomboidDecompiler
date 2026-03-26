@@ -176,13 +176,11 @@ def main():
     except Exception:
         pass
 
-    structural = tier_counts.get("STRUCTURAL", 0)
-    sorted_ms = tier_counts.get("SORTED_MULTISET", 0)
-    functional = exact_methods + structural + sorted_ms
-    func_pct = 100.0 * functional / total_methods if total_methods > 0 else 0
+    matched = total_methods - none_count
+    func_pct = 100.0 * matched / total_methods if total_methods > 0 else 0
 
     line2 = f"Byte-exact: {exact_pct:.1f}% ({exact_methods:,} / {total_methods:,})"
-    line2 += f"    Functional: {func_pct:.1f}% ({functional:,} / {total_methods:,})"
+    line2 += f"    Functional: {func_pct:.1f}% ({matched:,} / {total_methods:,})"
     if none_count > 0:
         line2 += f"    Unmatched: {none_count:,}"
 

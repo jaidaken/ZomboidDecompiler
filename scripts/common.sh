@@ -580,12 +580,12 @@ for u in data['units']:
 tiers['EXACT'] = tiers.get('EXACT', 0) + (total - sum(tiers.values()))
 
 exact = tiers.get('EXACT', 0)
-functional = exact + tiers.get('STRUCTURAL', 0) + tiers.get('SORTED_MULTISET', 0)
 none = tiers.get('NONE', 0)
+matched = total - none
 
 print()
 print(f'  Byte-exact:    {exact:,} / {total:,} ({100*exact/total:.1f}%)')
-print(f'  Functional:    {functional:,} / {total:,} ({100*functional/total:.1f}%)')
+print(f'  Functional:    {matched:,} / {total:,} ({100*matched/total:.1f}%)')
 if none > 0:
     print(f'  Unmatched:     {none:,}')
 print()
@@ -614,10 +614,11 @@ for u in data['units']:
         tiers[method.get('matchTier', 'EXACT')] += 1
 tiers['EXACT'] = tiers.get('EXACT', 0) + (total - sum(tiers.values()))
 exact = tiers.get('EXACT', 0)
-functional = exact + tiers.get('STRUCTURAL', 0) + tiers.get('SORTED_MULTISET', 0)
+none = tiers.get('NONE', 0)
+matched = total - none
 summary = {
     'exact': exact,
-    'functional': functional,
+    'functional': matched,
     'total': total,
     'tiers': {t: tiers.get(t, 0) for t in ['EXACT','STRUCTURAL','SORTED_MULTISET','FUZZY_COMPUTATION','CORE_OPS_ONLY','NONE']},
 }
