@@ -156,7 +156,7 @@ def main():
     non_exact = total_methods - exact_methods
     line2 = f"{exact_methods:,} / {total_methods:,} byte-exact ({exact_pct:.1f}%)"
     if non_exact > 0:
-        line2 += f"   |   {non_exact:,} non-exact: {', '.join(parts)}"
+        line2 += f"\n{non_exact:,} non-exact: {', '.join(parts)}"
 
     # Status line: compile errors and missing classes
     status_parts = []
