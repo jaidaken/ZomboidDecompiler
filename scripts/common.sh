@@ -574,16 +574,23 @@ with open('$report_path') as f:
 m = data['measures']
 total = m['total_methods']
 tiers = Counter()
+uncompiled = 0
 for u in data['units']:
+    if u.get('status') == 'MISSING_RECOMP':
+        uncompiled += u.get('total_methods', 0)
+        continue
     for method in u.get('methods', []):
         tiers[method.get('matchTier', 'EXACT')] += 1
-tiers['EXACT'] = tiers.get('EXACT', 0) + (total - sum(tiers.values()))
+compiled_total = total - uncompiled
+tiers['EXACT'] = tiers.get('EXACT', 0) + (compiled_total - sum(tiers.values()))
 
 exact = tiers.get('EXACT', 0)
 none = tiers.get('NONE', 0)
 
 print()
 print(f'  Byte-exact:  {exact:,} / {total:,} ({100*exact/total:.1f}%)')
+if uncompiled > 0:
+    print(f'  Uncompiled:  {uncompiled:,} (from classes that failed to compile)')
 if none > 0:
     print(f'  Unmatched:   {none:,}')
 print()
@@ -607,16 +614,23 @@ with open('$report_path') as f:
 m = data['measures']
 total = m['total_methods']
 tiers = Counter()
+uncompiled = 0
 for u in data['units']:
+    if u.get('status') == 'MISSING_RECOMP':
+        uncompiled += u.get('total_methods', 0)
+        continue
     for method in u.get('methods', []):
         tiers[method.get('matchTier', 'EXACT')] += 1
-tiers['EXACT'] = tiers.get('EXACT', 0) + (total - sum(tiers.values()))
+compiled_total = total - uncompiled
+tiers['EXACT'] = tiers.get('EXACT', 0) + (compiled_total - sum(tiers.values()))
 exact = tiers.get('EXACT', 0)
 summary = {
     'exact': exact,
     'total': total,
     'tiers': {t: tiers.get(t, 0) for t in ['EXACT','STRUCTURAL','SORTED_MULTISET','FUZZY_COMPUTATION','CORE_OPS_ONLY','NONE']},
 }
+if uncompiled > 0:
+    summary['uncompiled'] = uncompiled
 with open('$summary_path', 'w') as f:
     json.dump(summary, f, indent=2)
 " 2>/dev/null || true
