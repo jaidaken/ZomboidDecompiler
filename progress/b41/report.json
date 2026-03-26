@@ -6,10 +6,10 @@
     "match_tiers": {
       "CORE_OPS_ONLY": 1,
       "FUZZY_COMPUTATION": 96,
-      "EXACT": 31592,
-      "SORTED_MULTISET": 624,
+      "EXACT": 31607,
+      "SORTED_MULTISET": 623,
       "STRUCTURAL_NO_TRYCATCH": 6,
-      "STRUCTURAL": 648
+      "STRUCTURAL": 634
     },
     "total_methods": 32967,
     "matched_function_percent": 100,
@@ -1071,14 +1071,6 @@
           "descriptor": "()Lse/krka/kahlua/vm/KahluaTable;",
           "matchTier": "FUZZY_COMPUTATION",
           "origInsnCount": 367,
-          "status": "MATCH"
-        },
-        {
-          "name": "addZombiesInBuilding",
-          "recompInsnCount": 151,
-          "descriptor": "(Lzombie/iso/BuildingDef;ILjava/lang/String;Lzombie/iso/RoomDef;Ljava/lang/Integer;)Ljava/util/ArrayList;",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 151,
           "status": "MATCH"
         },
         {
@@ -4960,14 +4952,6 @@
           "status": "MATCH"
         },
         {
-          "name": "debugAim",
-          "recompInsnCount": 455,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 455,
-          "status": "MATCH"
-        },
-        {
           "name": "Throw",
           "recompInsnCount": 195,
           "descriptor": "(Lzombie/inventory/types/HandWeapon;)V",
@@ -5298,9 +5282,9 @@
         },
         {
           "name": "getControllerAimDir",
-          "recompInsnCount": 74,
+          "recompInsnCount": 72,
           "descriptor": "(Lzombie/iso/Vector2;)Lzombie/iso/Vector2;",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 74,
           "status": "MATCH"
         },
@@ -5310,22 +5294,6 @@
           "descriptor": "()Z",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 1515,
-          "status": "MATCH"
-        },
-        {
-          "name": "getJoypadAimVector",
-          "recompInsnCount": 43,
-          "descriptor": "(Lzombie/iso/Vector2;)Lzombie/iso/Vector2;",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 43,
-          "status": "MATCH"
-        },
-        {
-          "name": "getJoypadMoveVector",
-          "recompInsnCount": 45,
-          "descriptor": "(Lzombie/iso/Vector2;)Lzombie/iso/Vector2;",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 45,
           "status": "MATCH"
         },
         {
@@ -5342,14 +5310,6 @@
           "descriptor": "()Lzombie/vehicles/BaseVehicle;",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 172,
-          "status": "MATCH"
-        },
-        {
-          "name": "attackWhileInVehicle",
-          "recompInsnCount": 250,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 250,
           "status": "MATCH"
         },
         {
@@ -14646,22 +14606,6 @@
           "status": "MATCH"
         },
         {
-          "name": "renderwallw",
-          "recompInsnCount": 142,
-          "descriptor": "(FFFFIIII)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 142,
-          "status": "MATCH"
-        },
-        {
-          "name": "renderwalln",
-          "recompInsnCount": 138,
-          "descriptor": "(FFFFIIII)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 138,
-          "status": "MATCH"
-        },
-        {
           "name": "renderstrip",
           "recompInsnCount": 128,
           "descriptor": "(IIIIFFFFLjava/util/function/Consumer;)V",
@@ -19148,14 +19092,6 @@
           "status": "MATCH"
         },
         {
-          "name": "RenderFloorShading",
-          "recompInsnCount": 188,
-          "descriptor": "(I)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 188,
-          "status": "MATCH"
-        },
-        {
           "name": "IsCollapsibleBuildingSquare",
           "recompInsnCount": 151,
           "descriptor": "(Lzombie/iso/IsoGridSquare;)Z",
@@ -21685,14 +21621,6 @@
     {
       "total_instructions": 1400,
       "matched_code_percent": 97.5,
-      "methods": [{
-        "name": "update",
-        "recompInsnCount": 929,
-        "descriptor": "()V",
-        "matchTier": "STRUCTURAL",
-        "origInsnCount": 929,
-        "status": "MATCH"
-      }],
       "name": "zombie/iso/PlayerCamera",
       "total_methods": 17,
       "matched_instructions": 1365,
@@ -22864,14 +22792,6 @@
           "descriptor": "(Ljava/nio/ByteBuffer;Z)V",
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 187,
-          "status": "MATCH"
-        },
-        {
-          "name": "render",
-          "recompInsnCount": 581,
-          "descriptor": "(FFFLzombie/core/textures/ColorInfo;ZZLzombie/core/opengl/Shader;)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 581,
           "status": "MATCH"
         },
         {
@@ -24535,7 +24455,7 @@
       "methods": [
         {
           "name": "RandNext",
-          "recompInsnCount": 20,
+          "recompInsnCount": 22,
           "descriptor": "(FF)F",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 24,
@@ -24543,7 +24463,7 @@
         },
         {
           "name": "RandNext",
-          "recompInsnCount": 17,
+          "recompInsnCount": 19,
           "descriptor": "(II)I",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 21,
@@ -29764,24 +29684,14 @@
     {
       "total_instructions": 1274,
       "matched_code_percent": 96.23233908948194,
-      "methods": [
-        {
-          "name": "addZombies",
-          "recompInsnCount": 157,
-          "descriptor": "(Lzombie/iso/BuildingDef;ILjava/lang/String;Ljava/lang/Integer;Lzombie/iso/RoomDef;)Ljava/util/ArrayList;",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 157,
-          "status": "MATCH"
-        },
-        {
-          "name": "addBarricade",
-          "recompInsnCount": 97,
-          "descriptor": "(Lzombie/iso/IsoGridSquare;I)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 98,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "name": "addBarricade",
+        "recompInsnCount": 97,
+        "descriptor": "(Lzombie/iso/IsoGridSquare;I)V",
+        "matchTier": "STRUCTURAL",
+        "origInsnCount": 98,
+        "status": "MATCH"
+      }],
       "name": "zombie/randomizedWorld/randomizedBuilding/RandomizedBuildingBase",
       "total_methods": 29,
       "matched_instructions": 1226,
@@ -31656,7 +31566,7 @@
       "methods": [
         {
           "name": "RandNext",
-          "recompInsnCount": 19,
+          "recompInsnCount": 21,
           "descriptor": "(FF)F",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 23,
@@ -31664,7 +31574,7 @@
         },
         {
           "name": "RandNext",
-          "recompInsnCount": 16,
+          "recompInsnCount": 18,
           "descriptor": "(II)I",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 20,
@@ -34292,14 +34202,6 @@
           "status": "MATCH"
         },
         {
-          "name": "renderExits",
-          "recompInsnCount": 208,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 208,
-          "status": "MATCH"
-        },
-        {
           "name": "renderAreas",
           "recompInsnCount": 450,
           "descriptor": "()V",
@@ -36073,24 +35975,14 @@
     {
       "total_instructions": 980,
       "matched_code_percent": 94.28571428571429,
-      "methods": [
-        {
-          "name": "update",
-          "recompInsnCount": 135,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 137,
-          "status": "MATCH"
-        },
-        {
-          "name": "render",
-          "recompInsnCount": 50,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 50,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "name": "update",
+        "recompInsnCount": 135,
+        "descriptor": "()V",
+        "matchTier": "STRUCTURAL",
+        "origInsnCount": 137,
+        "status": "MATCH"
+      }],
       "name": "zombie/vehicles/SurroundVehicle",
       "total_methods": 14,
       "matched_instructions": 924,
@@ -36460,14 +36352,6 @@
     {
       "total_instructions": 852,
       "matched_code_percent": 95.77464788732394,
-      "methods": [{
-        "name": "hitTest",
-        "recompInsnCount": 317,
-        "descriptor": "(FF)Lzombie/vehicles/UI3DScene$Axis;",
-        "matchTier": "STRUCTURAL",
-        "origInsnCount": 317,
-        "status": "MATCH"
-      }],
       "name": "zombie/vehicles/UI3DScene$ScaleGizmo",
       "total_methods": 6,
       "matched_instructions": 816,
@@ -36558,24 +36442,14 @@
     {
       "total_instructions": 947,
       "matched_code_percent": 95.8817317845829,
-      "methods": [
-        {
-          "name": "hitTest",
-          "recompInsnCount": 325,
-          "descriptor": "(FF)Lzombie/vehicles/UI3DScene$Axis;",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 325,
-          "status": "MATCH"
-        },
-        {
-          "name": "render",
-          "recompInsnCount": 284,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 284,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "name": "render",
+        "recompInsnCount": 284,
+        "descriptor": "()V",
+        "matchTier": "STRUCTURAL",
+        "origInsnCount": 284,
+        "status": "MATCH"
+      }],
       "name": "zombie/vehicles/UI3DScene$TranslateGizmo",
       "total_methods": 6,
       "matched_instructions": 908,
