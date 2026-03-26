@@ -5,8 +5,8 @@
     "matched_code_percent": 94.84566912857319,
     "match_tiers": {
       "CORE_OPS_ONLY": 1,
-      "FUZZY_COMPUTATION": 96,
-      "EXACT": 31607,
+      "FUZZY_COMPUTATION": 95,
+      "EXACT": 31608,
       "SORTED_MULTISET": 623,
       "STRUCTURAL_NO_TRYCATCH": 6,
       "STRUCTURAL": 634
@@ -29265,24 +29265,14 @@
     {
       "total_instructions": 1129,
       "matched_code_percent": 89.90256864481843,
-      "methods": [
-        {
-          "name": "getMediaTypeForCategory",
-          "recompInsnCount": 12,
-          "descriptor": "(Ljava/lang/String;)B",
-          "matchTier": "FUZZY_COMPUTATION",
-          "origInsnCount": 10,
-          "status": "MATCH"
-        },
-        {
-          "name": "save",
-          "recompInsnCount": 116,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 120,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "name": "save",
+        "recompInsnCount": 116,
+        "descriptor": "()V",
+        "matchTier": "STRUCTURAL",
+        "origInsnCount": 120,
+        "status": "MATCH"
+      }],
       "name": "zombie/radio/media/RecordedMedia",
       "total_methods": 20,
       "matched_instructions": 1015,
