@@ -12,17 +12,15 @@ import matplotlib.patches as mpatches
 import squarify
 
 
-# Color by percentage of methods that are EXACT matches
 COLOR_TIERS = [
-    # (min_pct, color,     label)
-    (100,      "#FFD700",  "100% exact"),
-    (95,       "#2ecc40",  "95-99%"),
-    (90,       "#1a8f1a",  "90-95%"),
-    (75,       "#0e6b2c",  "75-90%"),
-    (50,       "#1a6b6b",  "50-75%"),
-    (25,       "#0c3795",  "25-50%"),
-    (0,        "#0d1b3e",  "< 25%"),
-    (-1,       "#353535",  "Not started"),
+    (100,  "#FFD700",  "100% exact"),
+    (95,   "#2ecc40",  "95-99%"),
+    (90,   "#1a8f1a",  "90-95%"),
+    (75,   "#0e6b2c",  "75-90%"),
+    (50,   "#1a6b6b",  "50-75%"),
+    (25,   "#0c3795",  "25-50%"),
+    (0,    "#0d1b3e",  "< 25%"),
+    (-1,   "#353535",  "Not started"),
 ]
 
 COLOR_NOT_COMPILED = "#D35400"
@@ -33,8 +31,7 @@ def get_exact_pct(unit):
     if total == 0:
         return 0
     non_exact = len(unit.get("methods", []))
-    exact = total - non_exact
-    return 100.0 * exact / total
+    return 100.0 * (total - non_exact) / total
 
 
 def get_color(unit, source_dir=None):
@@ -42,8 +39,7 @@ def get_color(unit, source_dir=None):
     if status == "MISSING_RECOMP":
         if source_dir:
             name = unit.get("name", "")
-            source_name = name.split("$")[0]
-            source_file = Path(source_dir) / (source_name + ".java")
+            source_file = Path(source_dir) / (name.split("$")[0] + ".java")
             if not source_file.exists():
                 return "#353535"
         return COLOR_NOT_COMPILED
@@ -69,11 +65,14 @@ def main():
 
     units = report["units"]
 
-    # Calculate global stats
+    # Calculate stats
     total_methods = 0
     exact_methods = 0
     tier_counts = {}
+    missing_classes = 0
+    total_classes = 0
     for unit in units:
+        total_classes += 1
         tm = unit.get("total_methods", 0)
         total_methods += tm
         methods = unit.get("methods", [])
@@ -81,15 +80,17 @@ def main():
         for m in methods:
             tier = m.get("matchTier", "NONE")
             tier_counts[tier] = tier_counts.get(tier, 0) + 1
+        if unit.get("status") == "MISSING_RECOMP":
+            missing_classes += 1
 
-    none_count = tier_counts.get("NONE", 0)
     exact_pct = 100.0 * exact_methods / total_methods if total_methods > 0 else 0
+    structural = tier_counts.get("STRUCTURAL", 0) + tier_counts.get("STRUCTURAL_NO_TRYCATCH", 0)
+    reordered = tier_counts.get("SORTED_MULTISET", 0)
+    divergent = tier_counts.get("FUZZY_COMPUTATION", 0) + tier_counts.get("CORE_OPS_ONLY", 0)
+    unmatched = tier_counts.get("NONE", 0)
 
-    # Prepare treemap data
-    sizes = []
-    labels = []
-    colors = []
-
+    # Treemap data
+    sizes, labels, colors = [], [], []
     for unit in units:
         total_insns = int(unit.get("total_instructions", 0) or 0)
         if total_insns == 0:
@@ -104,6 +105,7 @@ def main():
         print("No units with instructions found!")
         return
 
+    # Layout
     fig, ax = plt.subplots(1, 1, figsize=(20, 12))
     fig.patch.set_facecolor("#1a1a2e")
     ax.set_facecolor("#1a1a2e")
@@ -115,9 +117,7 @@ def main():
         x, y, dx, dy = rect["x"], rect["y"], rect["dx"], rect["dy"]
         ax.add_patch(plt.Rectangle(
             (x, y), dx, dy,
-            facecolor=color,
-            edgecolor="#0d0d1a",
-            linewidth=0.5,
+            facecolor=color, edgecolor="#0d0d1a", linewidth=0.5,
         ))
         if dx >= 1.2 and dy >= 0.8:
             text_color = "#1a1a2e" if color in ("#FFD700", "#2ecc40") else "white"
@@ -128,13 +128,9 @@ def main():
                 fontsize = min(8, max(3.5, min(dx, dy) * 0.8))
                 rotation = 0
             ax.text(
-                x + dx / 2, y + dy / 2,
-                label,
-                ha="center", va="center",
-                color=text_color,
-                fontsize=fontsize,
-                fontweight="bold",
-                alpha=0.85,
+                x + dx / 2, y + dy / 2, label,
+                ha="center", va="center", color=text_color,
+                fontsize=fontsize, fontweight="bold", alpha=0.85,
                 rotation=rotation,
             )
 
@@ -143,16 +139,57 @@ def main():
     ax.set_aspect("equal")
     ax.axis("off")
 
-    # Title
+    # Header
     header = custom_title or "Decompilation Progress"
-    subtitle = f"{exact_pct:.1f}% byte-exact ({exact_methods:,} / {total_methods:,} methods)"
-    if none_count > 0:
-        subtitle += f"  |  {none_count:,} unmatched"
 
-    ax.set_title(
-        f"{header}\n{subtitle}",
-        color="white", fontsize=16, fontweight="bold", pad=20
-    )
+    # Build tier summary line
+    parts = []
+    if structural > 0:
+        parts.append(f"{structural:,} structural")
+    if reordered > 0:
+        parts.append(f"{reordered:,} reordered")
+    if divergent > 0:
+        parts.append(f"{divergent:,} divergent")
+    if unmatched > 0:
+        parts.append(f"{unmatched:,} unmatched")
+
+    non_exact = total_methods - exact_methods
+    line2 = f"{exact_methods:,} / {total_methods:,} byte-exact ({exact_pct:.1f}%)"
+    if non_exact > 0:
+        line2 += f"   |   {non_exact:,} non-exact: {', '.join(parts)}"
+
+    # Status line: compile errors and missing classes
+    status_parts = []
+    if missing_classes > 0:
+        status_parts.append(f"{missing_classes:,} classes failed to compile")
+    if unmatched > 0:
+        status_parts.append(f"{unmatched:,} unmatched methods")
+
+    # Try to read compile error count from nearby error log
+    try:
+        error_log = Path(report_path).parent.parent / "Recompiled-game" / "compile-errors.log"
+        if not error_log.exists():
+            # Try build dir pattern
+            rp = Path(report_path)
+            for parent in [rp.parent.parent.parent]:
+                candidates = list(parent.glob("*/Recompiled-game/compile-errors.log"))
+                if candidates:
+                    error_log = candidates[0]
+                    break
+        if error_log.exists():
+            error_count = sum(1 for line in open(error_log) if "error:" in line)
+            if error_count > 0:
+                status_parts.append(f"{error_count:,} compile errors")
+    except Exception:
+        pass
+
+    if not status_parts:
+        status_parts.append("0 compile errors")
+
+    line3 = "   |   ".join(status_parts)
+    title_text = f"{header}\n{line2}\n{line3}"
+
+    ax.set_title(title_text, color="white", fontsize=14, fontweight="bold", pad=20)
 
     # Legend
     legend_items = []
@@ -160,17 +197,11 @@ def main():
         ec = "#1a1a2e" if color == "#FFD700" else "white"
         legend_items.append(mpatches.Patch(facecolor=color, edgecolor=ec, label=label))
     legend_items.insert(-1, mpatches.Patch(
-        facecolor=COLOR_NOT_COMPILED, edgecolor="white",
-        label="Compile error"))
+        facecolor=COLOR_NOT_COMPILED, edgecolor="white", label="Compile error"))
 
     ax.legend(
-        handles=legend_items,
-        loc="lower right",
-        fontsize=10,
-        facecolor="#1a1a2e",
-        edgecolor="#444",
-        labelcolor="white",
-        framealpha=0.9,
+        handles=legend_items, loc="lower right", fontsize=10,
+        facecolor="#1a1a2e", edgecolor="#444", labelcolor="white", framealpha=0.9,
     )
 
     plt.tight_layout()
