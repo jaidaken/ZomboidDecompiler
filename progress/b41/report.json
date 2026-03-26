@@ -5,9 +5,9 @@
     "matched_code_percent": 94.84566912857319,
     "match_tiers": {
       "CORE_OPS_ONLY": 1,
-      "FUZZY_COMPUTATION": 31,
-      "EXACT": 31702,
-      "SORTED_MULTISET": 583,
+      "FUZZY_COMPUTATION": 29,
+      "EXACT": 31705,
+      "SORTED_MULTISET": 582,
       "STRUCTURAL_NO_TRYCATCH": 5,
       "STRUCTURAL": 645
     },
@@ -9055,14 +9055,6 @@
     {
       "total_instructions": 258,
       "matched_code_percent": 98.44961240310077,
-      "methods": [{
-        "name": "add",
-        "recompInsnCount": 54,
-        "descriptor": "(S)I",
-        "matchTier": "FUZZY_COMPUTATION",
-        "origInsnCount": 51,
-        "status": "MATCH"
-      }],
       "name": "zombie/core/Styles/IntList",
       "total_methods": 16,
       "matched_instructions": 254,
@@ -9081,14 +9073,6 @@
     {
       "total_instructions": 262,
       "matched_code_percent": 96.94656488549619,
-      "methods": [{
-        "name": "add",
-        "recompInsnCount": 54,
-        "descriptor": "(S)S",
-        "matchTier": "FUZZY_COMPUTATION",
-        "origInsnCount": 51,
-        "status": "MATCH"
-      }],
       "name": "zombie/core/Styles/ShortList",
       "total_methods": 16,
       "matched_instructions": 254,
@@ -11533,14 +11517,6 @@
     {
       "total_instructions": 70,
       "matched_code_percent": 87.14285714285714,
-      "methods": [{
-        "name": "generateNewVariableIndex",
-        "recompInsnCount": 8,
-        "descriptor": "()I",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 6,
-        "status": "MATCH"
-      }],
       "name": "zombie/core/skinnedmodel/advancedanimation/AnimationVariableHandlePool",
       "total_methods": 6,
       "matched_instructions": 61,

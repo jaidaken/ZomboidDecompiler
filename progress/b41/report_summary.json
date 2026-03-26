@@ -1,11 +1,11 @@
 {
-  "exact": 31702,
+  "exact": 31705,
   "total": 32967,
   "tiers": {
-    "EXACT": 31702,
+    "EXACT": 31705,
     "STRUCTURAL": 645,
-    "SORTED_MULTISET": 583,
-    "FUZZY_COMPUTATION": 31,
+    "SORTED_MULTISET": 582,
+    "FUZZY_COMPUTATION": 29,
     "CORE_OPS_ONLY": 1,
     "NONE": 0
   }
