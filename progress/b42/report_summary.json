@@ -1,0 +1,21 @@
+{
+  "instructions": {
+    "matched": 1465592,
+    "total": 1919914,
+    "percent": 76.34
+  },
+  "methods": {
+    "matched": 54807,
+    "total": 54911,
+    "percent": 99.81
+  },
+  "tiers": {
+    "EXACT": 52766,
+    "STRUCTURAL": 774,
+    "SORTED_MULTISET": 1092,
+    "FUZZY_COMPUTATION": 161,
+    "CORE_OPS_ONLY": 11,
+    "NONE": 104
+  },
+  "exact_percent": 96.09
+}

@@ -246,7 +246,7 @@ run_decompile() {
     local log_file
     log_file=$(mktemp)
 
-    "$JAVA_BIN" \
+    "$JAVA_BIN" -Xmx16g \
         --module-path "$module_path" \
         --module com.github.zomboiddecompiler/com.github.zomboiddecompiler.commands.Decompile \
         "$input_path" "$output_path" "$@" > "$log_file" 2>&1 &
