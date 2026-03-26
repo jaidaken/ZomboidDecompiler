@@ -5,8 +5,8 @@
     "matched_code_percent": 94.84566912857319,
     "match_tiers": {
       "CORE_OPS_ONLY": 1,
-      "FUZZY_COMPUTATION": 29,
-      "EXACT": 31705,
+      "FUZZY_COMPUTATION": 28,
+      "EXACT": 31706,
       "SORTED_MULTISET": 582,
       "STRUCTURAL_NO_TRYCATCH": 5,
       "STRUCTURAL": 645
@@ -9029,14 +9029,6 @@
     {
       "total_instructions": 252,
       "matched_code_percent": 98.41269841269842,
-      "methods": [{
-        "name": "add",
-        "recompInsnCount": 55,
-        "descriptor": "(F)F",
-        "matchTier": "FUZZY_COMPUTATION",
-        "origInsnCount": 52,
-        "status": "MATCH"
-      }],
       "name": "zombie/core/Styles/FloatList",
       "total_methods": 16,
       "matched_instructions": 248,
