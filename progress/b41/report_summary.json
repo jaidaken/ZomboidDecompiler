@@ -11,9 +11,9 @@
   },
   "tiers": {
     "EXACT": 31592,
-    "STRUCTURAL": 633,
-    "SORTED_MULTISET": 640,
-    "FUZZY_COMPUTATION": 95,
+    "STRUCTURAL": 648,
+    "SORTED_MULTISET": 624,
+    "FUZZY_COMPUTATION": 96,
     "CORE_OPS_ONLY": 1,
     "NONE": 0
   },

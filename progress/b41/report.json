@@ -5,11 +5,11 @@
     "matched_code_percent": 94.84566912857319,
     "match_tiers": {
       "CORE_OPS_ONLY": 1,
-      "FUZZY_COMPUTATION": 95,
+      "FUZZY_COMPUTATION": 96,
       "EXACT": 31592,
-      "SORTED_MULTISET": 640,
+      "SORTED_MULTISET": 624,
       "STRUCTURAL_NO_TRYCATCH": 6,
-      "STRUCTURAL": 633
+      "STRUCTURAL": 648
     },
     "total_methods": 32967,
     "matched_function_percent": 100,
@@ -1075,7 +1075,7 @@
         },
         {
           "name": "addZombiesInBuilding",
-          "recompInsnCount": 153,
+          "recompInsnCount": 151,
           "descriptor": "(Lzombie/iso/BuildingDef;ILjava/lang/String;Lzombie/iso/RoomDef;Ljava/lang/Integer;)Ljava/util/ArrayList;",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 151,
@@ -4953,7 +4953,7 @@
         },
         {
           "name": "renderlast",
-          "recompInsnCount": 2969,
+          "recompInsnCount": 2967,
           "descriptor": "()V",
           "matchTier": "FUZZY_COMPUTATION",
           "origInsnCount": 2923,
@@ -4961,9 +4961,9 @@
         },
         {
           "name": "debugAim",
-          "recompInsnCount": 457,
+          "recompInsnCount": 455,
           "descriptor": "()V",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 455,
           "status": "MATCH"
         },
@@ -5314,17 +5314,17 @@
         },
         {
           "name": "getJoypadAimVector",
-          "recompInsnCount": 45,
+          "recompInsnCount": 43,
           "descriptor": "(Lzombie/iso/Vector2;)Lzombie/iso/Vector2;",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 43,
           "status": "MATCH"
         },
         {
           "name": "getJoypadMoveVector",
-          "recompInsnCount": 47,
+          "recompInsnCount": 45,
           "descriptor": "(Lzombie/iso/Vector2;)Lzombie/iso/Vector2;",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 45,
           "status": "MATCH"
         },
@@ -5346,9 +5346,9 @@
         },
         {
           "name": "attackWhileInVehicle",
-          "recompInsnCount": 252,
+          "recompInsnCount": 250,
           "descriptor": "()V",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 250,
           "status": "MATCH"
         },
@@ -5600,7 +5600,7 @@
       "matched_code_percent": 98.62385321100918,
       "methods": [{
         "name": "calculate",
-        "recompInsnCount": 206,
+        "recompInsnCount": 204,
         "descriptor": "(Lzombie/ai/astar/Mover;Lzombie/iso/IsoGridSquare;)V",
         "matchTier": "SORTED_MULTISET",
         "origInsnCount": 202,
@@ -14639,7 +14639,7 @@
         },
         {
           "name": "renderwallnw",
-          "recompInsnCount": 233,
+          "recompInsnCount": 225,
           "descriptor": "(FFFFIIIIII)V",
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 221,
@@ -14647,17 +14647,17 @@
         },
         {
           "name": "renderwallw",
-          "recompInsnCount": 146,
+          "recompInsnCount": 142,
           "descriptor": "(FFFFIIII)V",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 142,
           "status": "MATCH"
         },
         {
           "name": "renderwalln",
-          "recompInsnCount": 142,
+          "recompInsnCount": 138,
           "descriptor": "(FFFFIIII)V",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 138,
           "status": "MATCH"
         },
@@ -14796,7 +14796,7 @@
         },
         {
           "name": "Create",
-          "recompInsnCount": 222,
+          "recompInsnCount": 212,
           "descriptor": "(Lzombie/core/textures/TextureDraw;Lzombie/core/textures/Texture;Lzombie/core/SpriteRenderer$WallShaderTexRender;FFFFFFFFLjava/util/function/Consumer;)Lzombie/core/textures/TextureDraw;",
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 208,
@@ -15578,15 +15578,15 @@
       "methods": [
         {
           "name": "eval",
-          "recompInsnCount": 1935,
+          "recompInsnCount": 1919,
           "descriptor": "(DDD)D",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "FUZZY_COMPUTATION",
           "origInsnCount": 1951,
           "status": "MATCH"
         },
         {
           "name": "eval",
-          "recompInsnCount": 4921,
+          "recompInsnCount": 4849,
           "descriptor": "(DDDD)D",
           "matchTier": "FUZZY_COMPUTATION",
           "origInsnCount": 4887,
@@ -17181,7 +17181,7 @@
       "matched_code_percent": 98.6,
       "methods": [{
         "name": "calculate",
-        "recompInsnCount": 197,
+        "recompInsnCount": 195,
         "descriptor": "(Lzombie/ai/astar/Mover;Lzombie/iso/IsoGridSquare;)V",
         "matchTier": "SORTED_MULTISET",
         "origInsnCount": 193,
@@ -17199,7 +17199,7 @@
       "methods": [
         {
           "name": "renderScene",
-          "recompInsnCount": 131,
+          "recompInsnCount": 129,
           "descriptor": "()V",
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 127,
@@ -19149,9 +19149,9 @@
         },
         {
           "name": "RenderFloorShading",
-          "recompInsnCount": 192,
+          "recompInsnCount": 188,
           "descriptor": "(I)V",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 188,
           "status": "MATCH"
         },
@@ -20462,9 +20462,9 @@
         },
         {
           "name": "getPipedFuelAmount",
-          "recompInsnCount": 133,
+          "recompInsnCount": 129,
           "descriptor": "()I",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 129,
           "status": "MATCH"
         },
@@ -21687,9 +21687,9 @@
       "matched_code_percent": 97.5,
       "methods": [{
         "name": "update",
-        "recompInsnCount": 931,
+        "recompInsnCount": 929,
         "descriptor": "()V",
-        "matchTier": "SORTED_MULTISET",
+        "matchTier": "STRUCTURAL",
         "origInsnCount": 929,
         "status": "MATCH"
       }],
@@ -21821,7 +21821,7 @@
         },
         {
           "name": "updateTileOverlaySprite",
-          "recompInsnCount": 136,
+          "recompInsnCount": 134,
           "descriptor": "(Lzombie/iso/IsoObject;)V",
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 132,
@@ -22868,9 +22868,9 @@
         },
         {
           "name": "render",
-          "recompInsnCount": 583,
+          "recompInsnCount": 581,
           "descriptor": "(FFFLzombie/core/textures/ColorInfo;ZZLzombie/core/opengl/Shader;)V",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 581,
           "status": "MATCH"
         },
@@ -24535,7 +24535,7 @@
       "methods": [
         {
           "name": "RandNext",
-          "recompInsnCount": 24,
+          "recompInsnCount": 20,
           "descriptor": "(FF)F",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 24,
@@ -24543,7 +24543,7 @@
         },
         {
           "name": "RandNext",
-          "recompInsnCount": 21,
+          "recompInsnCount": 17,
           "descriptor": "(II)I",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 21,
@@ -26388,7 +26388,7 @@
         },
         {
           "name": "serverPacket",
-          "recompInsnCount": 376,
+          "recompInsnCount": 374,
           "descriptor": "(Ljava/nio/ByteBuffer;Lzombie/core/raknet/UdpConnection;)V",
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 375,
@@ -29767,7 +29767,7 @@
       "methods": [
         {
           "name": "addZombies",
-          "recompInsnCount": 159,
+          "recompInsnCount": 157,
           "descriptor": "(Lzombie/iso/BuildingDef;ILjava/lang/String;Ljava/lang/Integer;Lzombie/iso/RoomDef;)Ljava/util/ArrayList;",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 157,
@@ -31656,7 +31656,7 @@
       "methods": [
         {
           "name": "RandNext",
-          "recompInsnCount": 23,
+          "recompInsnCount": 19,
           "descriptor": "(FF)F",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 23,
@@ -31664,7 +31664,7 @@
         },
         {
           "name": "RandNext",
-          "recompInsnCount": 20,
+          "recompInsnCount": 16,
           "descriptor": "(II)I",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 20,
@@ -34293,9 +34293,9 @@
         },
         {
           "name": "renderExits",
-          "recompInsnCount": 210,
+          "recompInsnCount": 208,
           "descriptor": "()V",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 208,
           "status": "MATCH"
         },
@@ -35231,7 +35231,7 @@
         },
         {
           "name": "cleanPath",
-          "recompInsnCount": 426,
+          "recompInsnCount": 424,
           "descriptor": "(Ljava/util/ArrayList;Lzombie/vehicles/PolygonalMap2$PathFindRequest;ZZLzombie/vehicles/PolygonalMap2$SearchNode;)V",
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 423,
@@ -36084,9 +36084,9 @@
         },
         {
           "name": "render",
-          "recompInsnCount": 54,
+          "recompInsnCount": 50,
           "descriptor": "()V",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 50,
           "status": "MATCH"
         }
@@ -36462,9 +36462,9 @@
       "matched_code_percent": 95.77464788732394,
       "methods": [{
         "name": "hitTest",
-        "recompInsnCount": 323,
+        "recompInsnCount": 317,
         "descriptor": "(FF)Lzombie/vehicles/UI3DScene$Axis;",
-        "matchTier": "SORTED_MULTISET",
+        "matchTier": "STRUCTURAL",
         "origInsnCount": 317,
         "status": "MATCH"
       }],
@@ -36561,9 +36561,9 @@
       "methods": [
         {
           "name": "hitTest",
-          "recompInsnCount": 331,
+          "recompInsnCount": 325,
           "descriptor": "(FF)Lzombie/vehicles/UI3DScene$Axis;",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 325,
           "status": "MATCH"
         },
@@ -37821,9 +37821,9 @@
         },
         {
           "name": "fillPolygon",
-          "recompInsnCount": 574,
+          "recompInsnCount": 572,
           "descriptor": "(Lzombie/worldMap/styles/WorldMapStyleLayer$RenderArgs;Lzombie/worldMap/WorldMapFeature;Lzombie/worldMap/styles/WorldMapStyleLayer$RGBAf;)V",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 574,
           "status": "MATCH"
         },
@@ -37959,7 +37959,7 @@
       "matched_code_percent": 99.05913978494624,
       "methods": [{
         "name": "setBounds",
-        "recompInsnCount": 157,
+        "recompInsnCount": 153,
         "descriptor": "(IIII)V",
         "matchTier": "SORTED_MULTISET",
         "origInsnCount": 151,
