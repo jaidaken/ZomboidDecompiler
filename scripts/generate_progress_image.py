@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate a treemap progress image showing EXACT method percentage per class."""
+"""Generate a treemap progress image showing bytecode match quality per class."""
 
 import json
 import sys
@@ -15,35 +15,30 @@ import squarify
 # Color by percentage of methods that are EXACT matches
 COLOR_TIERS = [
     # (min_pct, color,     label)
-    (100,      "#FFD700",  "100% EXACT"),        # gold
-    (95,       "#2ecc40",  "95-100% EXACT"),      # bright green
-    (90,       "#1a8f1a",  "90-95% EXACT"),       # medium green
-    (75,       "#0e6b2c",  "75-90% EXACT"),       # dark green
-    (50,       "#1a6b6b",  "50-75% EXACT"),       # teal
-    (25,       "#0c3795",  "25-50% EXACT"),       # dark blue
-    (0,        "#0d1b3e",  "< 25% EXACT"),        # deep navy
-    (-1,       "#353535",  "Not started"),         # gray
+    (100,      "#FFD700",  "100% exact"),
+    (95,       "#2ecc40",  "95-99%"),
+    (90,       "#1a8f1a",  "90-95%"),
+    (75,       "#0e6b2c",  "75-90%"),
+    (50,       "#1a6b6b",  "50-75%"),
+    (25,       "#0c3795",  "25-50%"),
+    (0,        "#0d1b3e",  "< 25%"),
+    (-1,       "#353535",  "Not started"),
 ]
 
-COLOR_NOT_COMPILED = "#D35400"  # burnt orange
+COLOR_NOT_COMPILED = "#D35400"
 
 
 def get_exact_pct(unit):
-    """Calculate what percentage of a class's methods are EXACT matches."""
     total = unit.get("total_methods", 0)
     if total == 0:
         return 0
-    # The methods array only contains NON-EXACT methods.
-    # EXACT count = total - len(methods array)
     non_exact = len(unit.get("methods", []))
     exact = total - non_exact
     return 100.0 * exact / total
 
 
 def get_color(unit, source_dir=None):
-    """Color based on EXACT method percentage."""
     status = unit.get("status", "")
-
     if status == "MISSING_RECOMP":
         if source_dir:
             name = unit.get("name", "")
@@ -52,9 +47,7 @@ def get_color(unit, source_dir=None):
             if not source_file.exists():
                 return "#353535"
         return COLOR_NOT_COMPILED
-
     pct = get_exact_pct(unit)
-
     for min_pct, color, _ in COLOR_TIERS:
         if pct >= min_pct:
             return color
@@ -74,10 +67,9 @@ def main():
     with open(report_path) as f:
         report = json.load(f)
 
-    measures = report["measures"]
     units = report["units"]
 
-    # Calculate global tier counts
+    # Calculate global stats
     total_methods = 0
     exact_methods = 0
     tier_counts = {}
@@ -90,7 +82,10 @@ def main():
             tier = m.get("matchTier", "NONE")
             tier_counts[tier] = tier_counts.get(tier, 0) + 1
 
-    # Prepare data for treemap
+    none_count = tier_counts.get("NONE", 0)
+    exact_pct = 100.0 * exact_methods / total_methods if total_methods > 0 else 0
+
+    # Prepare treemap data
     sizes = []
     labels = []
     colors = []
@@ -124,16 +119,12 @@ def main():
             edgecolor="#0d0d1a",
             linewidth=0.5,
         ))
-        # Pick orientation based on rectangle aspect ratio
-        # Tall/narrow rectangles get vertical text, wide ones get horizontal
         if dx >= 1.2 and dy >= 0.8:
             text_color = "#1a1a2e" if color in ("#FFD700", "#2ecc40") else "white"
             if dy > dx * 1.5:
-                # Tall rectangle - vertical text fits better
                 fontsize = min(8, max(3.5, dx * 0.9))
                 rotation = 90
             else:
-                # Wide or square rectangle - horizontal text
                 fontsize = min(8, max(3.5, min(dx, dy) * 0.8))
                 rotation = 0
             ax.text(
@@ -152,40 +143,16 @@ def main():
     ax.set_aspect("equal")
     ax.axis("off")
 
-    # Title: clean summary
+    # Title
     header = custom_title or "Decompilation Progress"
-    exact_pct = 100.0 * exact_methods / total_methods if total_methods > 0 else 0
-    none_count = tier_counts.get("NONE", 0)
-    non_exact = total_methods - exact_methods
-
-    # Try to load semantic report for the second line
-    semantic_path = report_path.replace(".json", "_semantic.json")
-    semantic_exact = None
-    try:
-        from pathlib import Path
-        if Path(semantic_path).exists():
-            with open(semantic_path) as sf:
-                sem_data = json.load(sf)
-            sem_total = sem_data["measures"]["total_methods"]
-            sem_tiers = {}
-            for u in sem_data["units"]:
-                for m in u.get("methods", []):
-                    t = m.get("matchTier", "EXACT")
-                    sem_tiers[t] = sem_tiers.get(t, 0) + 1
-            semantic_exact = sem_total - sum(sem_tiers.values())
-    except Exception:
-        pass
-
-    non_exact = total_methods - exact_methods
-
-    line2 = f"Byte-exact: {exact_pct:.1f}% ({exact_methods:,} / {total_methods:,})"
-    if non_exact > 0:
-        line2 += f"    Non-exact: {non_exact:,}"
+    subtitle = f"{exact_pct:.1f}% byte-exact ({exact_methods:,} / {total_methods:,} methods)"
     if none_count > 0:
-        line2 += f"    Unmatched: {none_count:,}"
+        subtitle += f"  |  {none_count:,} unmatched"
 
-    title = f"{header}\n{line2}"
-    ax.set_title(title, color="white", fontsize=14, fontweight="bold", pad=20)
+    ax.set_title(
+        f"{header}\n{subtitle}",
+        color="white", fontsize=16, fontweight="bold", pad=20
+    )
 
     # Legend
     legend_items = []
@@ -194,12 +161,12 @@ def main():
         legend_items.append(mpatches.Patch(facecolor=color, edgecolor=ec, label=label))
     legend_items.insert(-1, mpatches.Patch(
         facecolor=COLOR_NOT_COMPILED, edgecolor="white",
-        label="Decompiled, not compiled"))
+        label="Compile error"))
 
     ax.legend(
         handles=legend_items,
         loc="lower right",
-        fontsize=9,
+        fontsize=10,
         facecolor="#1a1a2e",
         edgecolor="#444",
         labelcolor="white",
