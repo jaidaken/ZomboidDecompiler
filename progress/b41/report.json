@@ -2,20 +2,20 @@
   "measures": {
     "total_classes": 2977,
     "total_instructions": 1180386,
-    "matched_code_percent": 92.94044490531064,
+    "matched_code_percent": 94.722658520179,
     "match_tiers": {
       "CORE_OPS_ONLY": 1,
-      "FUZZY_COMPUTATION": 26,
-      "EXACT": 31400,
-      "SORTED_MULTISET": 511,
+      "FUZZY_COMPUTATION": 27,
+      "EXACT": 31695,
+      "SORTED_MULTISET": 519,
       "STRUCTURAL_NO_TRYCATCH": 5,
-      "STRUCTURAL": 665
+      "STRUCTURAL": 680
     },
     "total_methods": 32967,
-    "matched_function_percent": 98.91103224436557,
-    "matched_instructions": 1097056,
-    "matched_classes": 2970,
-    "matched_methods": 32608
+    "matched_function_percent": 99.87866654533322,
+    "matched_instructions": 1118093,
+    "matched_classes": 2975,
+    "matched_methods": 32927
   },
   "units": [
     {
@@ -25062,48 +25062,242 @@
     },
     {
       "total_instructions": 22546,
-      "matched_code_percent": 0,
+      "matched_code_percent": 92.86791448593986,
+      "methods": [
+        {
+          "name": "main",
+          "recompInsnCount": 1822,
+          "descriptor": "([Ljava/lang/String;)V",
+          "matchTier": "FUZZY_COMPUTATION",
+          "origInsnCount": 1823,
+          "status": "MATCH"
+        },
+        {
+          "name": "mainLoopDealWithNetData",
+          "recompInsnCount": 92,
+          "descriptor": "(Lzombie/network/ZomboidNetData;)V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 93,
+          "status": "MATCH"
+        },
+        {
+          "name": "receiveLogin",
+          "recompInsnCount": 643,
+          "descriptor": "(Ljava/nio/ByteBuffer;Lzombie/core/raknet/UdpConnection;S)V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 643,
+          "status": "MATCH"
+        },
+        {
+          "name": "receivePlayerUpdate",
+          "recompInsnCount": 336,
+          "descriptor": "(Ljava/nio/ByteBuffer;Lzombie/core/raknet/UdpConnection;S)V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 336,
+          "status": "MATCH"
+        },
+        {
+          "name": "sendOptionsToClients",
+          "recompInsnCount": 47,
+          "descriptor": "()V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 47,
+          "status": "MATCH"
+        },
+        {
+          "name": "receiveReceiveCommand",
+          "recompInsnCount": 42,
+          "descriptor": "(Ljava/nio/ByteBuffer;Lzombie/core/raknet/UdpConnection;S)V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 42,
+          "status": "MATCH"
+        },
+        {
+          "name": "receiveStopSound",
+          "recompInsnCount": 41,
+          "descriptor": "(Ljava/nio/ByteBuffer;Lzombie/core/raknet/UdpConnection;S)V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 42,
+          "status": "MATCH"
+        },
+        {
+          "name": "receivePlaySound",
+          "recompInsnCount": 89,
+          "descriptor": "(Ljava/nio/ByteBuffer;Lzombie/core/raknet/UdpConnection;S)V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 90,
+          "status": "MATCH"
+        },
+        {
+          "name": "receivePlayWorldSound",
+          "recompInsnCount": 86,
+          "descriptor": "(Ljava/nio/ByteBuffer;Lzombie/core/raknet/UdpConnection;S)V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 87,
+          "status": "MATCH"
+        },
+        {
+          "name": "initClientCommandFilter",
+          "recompInsnCount": 75,
+          "descriptor": "()V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 77,
+          "status": "MATCH"
+        },
+        {
+          "name": "receiveItemStats",
+          "recompInsnCount": 197,
+          "descriptor": "(Ljava/nio/ByteBuffer;Lzombie/core/raknet/UdpConnection;S)V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 205,
+          "status": "MATCH"
+        },
+        {
+          "name": "receiveRequestItemsForContainer",
+          "recompInsnCount": 268,
+          "descriptor": "(Ljava/nio/ByteBuffer;Lzombie/core/raknet/UdpConnection;S)V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 267,
+          "status": "MATCH"
+        },
+        {
+          "name": "receivePlayerConnect",
+          "recompInsnCount": 471,
+          "descriptor": "(Ljava/nio/ByteBuffer;Lzombie/core/raknet/UdpConnection;Ljava/lang/String;)V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 471,
+          "status": "MATCH"
+        },
+        {
+          "name": "receiveAddCoopPlayer",
+          "recompInsnCount": 308,
+          "descriptor": "(Ljava/nio/ByteBuffer;Lzombie/core/raknet/UdpConnection;S)V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 310,
+          "status": "MATCH"
+        },
+        {
+          "name": "receiveSyncAlarmClock",
+          "recompInsnCount": 200,
+          "descriptor": "(Ljava/nio/ByteBuffer;Lzombie/core/raknet/UdpConnection;S)V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 201,
+          "status": "MATCH"
+        },
+        {
+          "name": "SyncObjectsRequest",
+          "recompInsnCount": 111,
+          "descriptor": "(Ljava/nio/ByteBuffer;Lzombie/core/raknet/UdpConnection;)V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 112,
+          "status": "MATCH"
+        },
+        {
+          "name": "receiveSyncDoorKey",
+          "recompInsnCount": 104,
+          "descriptor": "(Ljava/nio/ByteBuffer;Lzombie/core/raknet/UdpConnection;S)V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 106,
+          "status": "MATCH"
+        },
+        {
+          "name": "receiveSyncThumpable",
+          "recompInsnCount": 126,
+          "descriptor": "(Ljava/nio/ByteBuffer;Lzombie/core/raknet/UdpConnection;S)V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 128,
+          "status": "MATCH"
+        },
+        {
+          "name": "addIncoming",
+          "recompInsnCount": 82,
+          "descriptor": "(SLjava/nio/ByteBuffer;Lzombie/core/raknet/UdpConnection;)V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 82,
+          "status": "MATCH"
+        },
+        {
+          "name": "sendWorldSound",
+          "recompInsnCount": 45,
+          "descriptor": "(Lzombie/WorldSoundManager$WorldSound;Lzombie/core/raknet/UdpConnection;)V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 46,
+          "status": "MATCH"
+        },
+        {
+          "name": "sendWorldMapPlayerPosition",
+          "recompInsnCount": 27,
+          "descriptor": "()V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 28,
+          "status": "MATCH"
+        },
+        {
+          "name": "sendItemListNet",
+          "recompInsnCount": 111,
+          "descriptor": "(Lzombie/core/raknet/UdpConnection;Lzombie/characters/IsoPlayer;Ljava/util/ArrayList;Lzombie/characters/IsoPlayer;Ljava/lang/String;Ljava/lang/String;)Z",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 112,
+          "status": "MATCH"
+        },
+        {
+          "name": "isWorldVersionUnsupported",
+          "recompInsnCount": 112,
+          "descriptor": "()Ljava/lang/String;",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 113,
+          "status": "MATCH"
+        },
+        {
+          "name": "lambda$launchCommandHandler$1",
+          "recompInsnCount": 39,
+          "descriptor": "()V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 38,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/network/GameServer",
       "total_methods": 310,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 20938,
+      "matched_methods": 310,
+      "status": "MATCH"
     },
     {
       "total_instructions": 26,
-      "matched_code_percent": 0,
+      "matched_code_percent": 92.3076923076923,
       "name": "zombie/network/GameServer$1",
       "total_methods": 1,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 24,
+      "matched_methods": 1,
+      "status": "MATCH"
     },
     {
       "total_instructions": 34,
-      "matched_code_percent": 0,
+      "matched_code_percent": 88.23529411764706,
       "name": "zombie/network/GameServer$CCFilter",
       "total_methods": 3,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 30,
+      "matched_methods": 3,
+      "status": "MATCH"
     },
     {
       "total_instructions": 30,
-      "matched_code_percent": 0,
+      "matched_code_percent": 86.66666666666667,
       "name": "zombie/network/GameServer$DelayedConnection",
       "total_methods": 3,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 26,
+      "matched_methods": 3,
+      "status": "MATCH"
     },
     {
       "total_instructions": 19,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/network/GameServer$s_performance",
       "total_methods": 2,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 19,
+      "matched_methods": 2,
+      "status": "MATCH"
     },
     {
       "total_instructions": 227,
