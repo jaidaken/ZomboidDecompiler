@@ -4,9 +4,9 @@
     "total_instructions": 1180386,
     "matched_code_percent": 94.84566912857319,
     "match_tiers": {
-      "CORE_OPS_ONLY": 4,
-      "FUZZY_COMPUTATION": 101,
-      "EXACT": 31532,
+      "CORE_OPS_ONLY": 2,
+      "FUZZY_COMPUTATION": 98,
+      "EXACT": 31537,
       "SORTED_MULTISET": 707,
       "STRUCTURAL_NO_TRYCATCH": 6,
       "STRUCTURAL": 617
@@ -9054,14 +9054,6 @@
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 81,
           "status": "MATCH"
-        },
-        {
-          "name": "addEntry",
-          "recompInsnCount": 68,
-          "descriptor": "(ILjava/lang/Object;Ljava/lang/Object;I)V",
-          "matchTier": "FUZZY_COMPUTATION",
-          "origInsnCount": 65,
-          "status": "MATCH"
         }
       ],
       "name": "zombie/core/Collections/ZomboidHashMap",
@@ -9100,24 +9092,6 @@
     {
       "total_instructions": 130,
       "matched_code_percent": 92.3076923076923,
-      "methods": [
-        {
-          "name": "<init>",
-          "recompInsnCount": 38,
-          "descriptor": "(Lzombie/core/Collections/ZomboidHashMap;)V",
-          "matchTier": "CORE_OPS_ONLY",
-          "origInsnCount": 33,
-          "status": "MATCH"
-        },
-        {
-          "name": "nextEntry",
-          "recompInsnCount": 52,
-          "descriptor": "()Lzombie/core/Collections/ZomboidHashMap$Entry;",
-          "matchTier": "CORE_OPS_ONLY",
-          "origInsnCount": 48,
-          "status": "MATCH"
-        }
-      ],
       "name": "zombie/core/Collections/ZomboidHashMap$HashIterator",
       "total_methods": 4,
       "matched_instructions": 120,
@@ -22976,32 +22950,14 @@
     {
       "total_instructions": 200,
       "matched_code_percent": 98,
-      "methods": [
-        {
-          "name": "allocIsoWorldRegion",
-          "recompInsnCount": 43,
-          "descriptor": "()Lzombie/iso/areas/isoregion/regions/IsoWorldRegion;",
-          "matchTier": "FUZZY_COMPUTATION",
-          "origInsnCount": 41,
-          "status": "MATCH"
-        },
-        {
-          "name": "allocIsoChunkRegion",
-          "recompInsnCount": 44,
-          "descriptor": "(I)Lzombie/iso/areas/isoregion/regions/IsoChunkRegion;",
-          "matchTier": "FUZZY_COMPUTATION",
-          "origInsnCount": 42,
-          "status": "MATCH"
-        },
-        {
-          "name": "getColor",
-          "recompInsnCount": 21,
-          "descriptor": "()Lzombie/core/Color;",
-          "matchTier": "FUZZY_COMPUTATION",
-          "origInsnCount": 18,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "name": "getColor",
+        "recompInsnCount": 21,
+        "descriptor": "()Lzombie/core/Color;",
+        "matchTier": "FUZZY_COMPUTATION",
+        "origInsnCount": 18,
+        "status": "MATCH"
+      }],
       "name": "zombie/iso/areas/isoregion/regions/IsoRegionManager",
       "total_methods": 8,
       "matched_instructions": 196,
@@ -26176,7 +26132,7 @@
       "methods": [
         {
           "name": "main",
-          "recompInsnCount": 1830,
+          "recompInsnCount": 1826,
           "descriptor": "([Ljava/lang/String;)V",
           "matchTier": "FUZZY_COMPUTATION",
           "origInsnCount": 1823,

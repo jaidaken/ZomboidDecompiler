@@ -10,12 +10,12 @@
     "percent": 100.0
   },
   "tiers": {
-    "EXACT": 31532,
+    "EXACT": 31537,
     "STRUCTURAL": 617,
     "SORTED_MULTISET": 707,
-    "FUZZY_COMPUTATION": 101,
-    "CORE_OPS_ONLY": 4,
+    "FUZZY_COMPUTATION": 98,
+    "CORE_OPS_ONLY": 2,
     "NONE": 0
   },
-  "exact_percent": 95.65
+  "exact_percent": 95.66
 }
