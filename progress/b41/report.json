@@ -5,11 +5,11 @@
     "matched_code_percent": 94.84566912857319,
     "match_tiers": {
       "CORE_OPS_ONLY": 1,
-      "FUZZY_COMPUTATION": 86,
-      "EXACT": 31648,
-      "SORTED_MULTISET": 588,
-      "STRUCTURAL_NO_TRYCATCH": 6,
-      "STRUCTURAL": 638
+      "FUZZY_COMPUTATION": 45,
+      "EXACT": 31662,
+      "SORTED_MULTISET": 622,
+      "STRUCTURAL_NO_TRYCATCH": 5,
+      "STRUCTURAL": 632
     },
     "total_methods": 32967,
     "matched_function_percent": 100,
@@ -426,27 +426,11 @@
       "matched_code_percent": 88.61047835990888,
       "methods": [
         {
-          "name": "initClipEvents",
-          "recompInsnCount": 56,
-          "descriptor": "(Lzombie/audio/GameSound;)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 56,
-          "status": "MATCH"
-        },
-        {
           "name": "loadNonBankSounds",
           "recompInsnCount": 24,
           "descriptor": "()V",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 24,
-          "status": "MATCH"
-        },
-        {
-          "name": "loadINI",
-          "recompInsnCount": 36,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 36,
           "status": "MATCH"
         },
         {
@@ -994,14 +978,6 @@
           "status": "MATCH"
         },
         {
-          "name": "getMapDirectoryTable",
-          "recompInsnCount": 97,
-          "descriptor": "()Lse/krka/kahlua/vm/KahluaTable;",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 97,
-          "status": "MATCH"
-        },
-        {
           "name": "getServerList",
           "recompInsnCount": 198,
           "descriptor": "()Lse/krka/kahlua/vm/KahluaTable;",
@@ -1045,7 +1021,7 @@
           "name": "getPublicServersList",
           "recompInsnCount": 369,
           "descriptor": "()Lse/krka/kahlua/vm/KahluaTable;",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 367,
           "status": "MATCH"
         },
@@ -1240,7 +1216,7 @@
           "name": "addMissingVanillaDirectories",
           "recompInsnCount": 94,
           "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 96,
           "status": "MATCH"
         },
@@ -1927,7 +1903,7 @@
           "name": "loadModPackFiles",
           "recompInsnCount": 65,
           "descriptor": "()V",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 66,
           "status": "MATCH"
         },
@@ -1935,7 +1911,7 @@
           "name": "loadModTileDefs",
           "recompInsnCount": 77,
           "descriptor": "()V",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 78,
           "status": "MATCH"
         },
@@ -1943,7 +1919,7 @@
           "name": "loadModTileDefPropertyStrings",
           "recompInsnCount": 77,
           "descriptor": "()V",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 78,
           "status": "MATCH"
         },
@@ -6457,7 +6433,7 @@
           "name": "parse",
           "recompInsnCount": 64,
           "descriptor": "(Ljava/lang/String;)V",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 64,
           "status": "MATCH"
         },
@@ -6669,7 +6645,7 @@
           "name": "updateWhisperChat",
           "recompInsnCount": 108,
           "descriptor": "()V",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 108,
           "status": "MATCH"
         }
@@ -8769,7 +8745,7 @@
           "name": "loadOptions",
           "recompInsnCount": 1836,
           "descriptor": "()Z",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 1832,
           "status": "MATCH"
         },
@@ -10593,24 +10569,14 @@
     {
       "total_instructions": 2636,
       "matched_code_percent": 94.49924127465857,
-      "methods": [
-        {
-          "name": "UpdateVMClient",
-          "recompInsnCount": 513,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL_NO_TRYCATCH",
-          "origInsnCount": 513,
-          "status": "MATCH"
-        },
-        {
-          "name": "checkForNearbyRadios",
-          "recompInsnCount": 224,
-          "descriptor": "(Lzombie/core/raknet/VoiceManagerData;)Lzombie/core/raknet/VoiceManagerData$RadioData;",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 226,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "name": "checkForNearbyRadios",
+        "recompInsnCount": 224,
+        "descriptor": "(Lzombie/core/raknet/VoiceManagerData;)Lzombie/core/raknet/VoiceManagerData$RadioData;",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 226,
+        "status": "MATCH"
+      }],
       "name": "zombie/core/raknet/VoiceManager",
       "total_methods": 44,
       "matched_instructions": 2491,
@@ -11139,14 +11105,6 @@
           "descriptor": "()V",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 113,
-          "status": "MATCH"
-        },
-        {
-          "name": "setActiveAnimations",
-          "recompInsnCount": 71,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 71,
           "status": "MATCH"
         },
         {
@@ -12933,7 +12891,7 @@
           "name": "loadTxt",
           "recompInsnCount": 952,
           "descriptor": "(Ljava/lang/String;ZZLzombie/core/skinnedmodel/model/SkinningData;)Lzombie/core/skinnedmodel/model/ModelTxt;",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 951,
           "status": "MATCH"
         },
@@ -13615,14 +13573,6 @@
     {
       "total_instructions": 196,
       "matched_code_percent": 84.6938775510204,
-      "methods": [{
-        "name": "init",
-        "recompInsnCount": 78,
-        "descriptor": "()V",
-        "matchTier": "STRUCTURAL",
-        "origInsnCount": 78,
-        "status": "MATCH"
-      }],
       "name": "zombie/core/skinnedmodel/population/BeardStyles",
       "total_methods": 9,
       "matched_instructions": 166,
@@ -13659,14 +13609,6 @@
     {
       "total_instructions": 265,
       "matched_code_percent": 86.79245283018868,
-      "methods": [{
-        "name": "init",
-        "recompInsnCount": 78,
-        "descriptor": "()V",
-        "matchTier": "STRUCTURAL",
-        "origInsnCount": 78,
-        "status": "MATCH"
-      }],
       "name": "zombie/core/skinnedmodel/population/ClothingDecals",
       "total_methods": 8,
       "matched_instructions": 230,
@@ -13774,14 +13716,6 @@
     {
       "total_instructions": 304,
       "matched_code_percent": 88.48684210526316,
-      "methods": [{
-        "name": "init",
-        "recompInsnCount": 111,
-        "descriptor": "()V",
-        "matchTier": "STRUCTURAL",
-        "origInsnCount": 111,
-        "status": "MATCH"
-      }],
       "name": "zombie/core/skinnedmodel/population/HairStyles",
       "total_methods": 13,
       "matched_instructions": 269,
@@ -14953,7 +14887,7 @@
         "name": "dequeueMin",
         "recompInsnCount": 210,
         "descriptor": "()Lzombie/core/utils/FibonacciHeap$Entry;",
-        "matchTier": "FUZZY_COMPUTATION",
+        "matchTier": "SORTED_MULTISET",
         "origInsnCount": 211,
         "status": "MATCH"
       }],
@@ -15299,7 +15233,7 @@
           "name": "validateModsFolder",
           "recompInsnCount": 66,
           "descriptor": "(Ljava/nio/file/Path;)Ljava/lang/String;",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 67,
           "status": "MATCH"
         },
@@ -15315,7 +15249,7 @@
           "name": "validateContents",
           "recompInsnCount": 155,
           "descriptor": "()Ljava/lang/String;",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 156,
           "status": "MATCH"
         },
@@ -16938,7 +16872,7 @@
           "name": "drawModData",
           "recompInsnCount": 219,
           "descriptor": "()V",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 213,
           "status": "MATCH"
         },
@@ -17645,7 +17579,7 @@
           "name": "LoadFile",
           "recompInsnCount": 245,
           "descriptor": "()V",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 243,
           "status": "MATCH"
         }
@@ -18067,7 +18001,7 @@
           "name": "ParseSuburbsDistributions",
           "recompInsnCount": 109,
           "descriptor": "()V",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 109,
           "status": "MATCH"
         },
@@ -20043,7 +19977,7 @@
           "name": "loadZone",
           "recompInsnCount": 435,
           "descriptor": "(Ljava/nio/ByteBuffer;I)V",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 435,
           "status": "MATCH"
         },
@@ -20051,7 +19985,7 @@
           "name": "saveZone",
           "recompInsnCount": 291,
           "descriptor": "(Ljava/nio/ByteBuffer;)V",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 295,
           "status": "MATCH"
         }
@@ -21010,7 +20944,7 @@
           "name": "LoadTileDefinitions",
           "recompInsnCount": 2141,
           "descriptor": "(Lzombie/iso/sprite/IsoSpriteManager;Ljava/lang/String;I)V",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 2145,
           "status": "MATCH"
         },
@@ -21261,7 +21195,7 @@
         "name": "doStage",
         "recompInsnCount": 270,
         "descriptor": "(Lzombie/characters/IsoGameCharacter;Lzombie/iso/objects/IsoThumpable;Z)V",
-        "matchTier": "FUZZY_COMPUTATION",
+        "matchTier": "STRUCTURAL",
         "origInsnCount": 270,
         "status": "MATCH"
       }],
@@ -22012,7 +21946,7 @@
           "name": "canBeSafehouse",
           "recompInsnCount": 352,
           "descriptor": "(Lzombie/iso/IsoGridSquare;Lzombie/characters/IsoPlayer;)Ljava/lang/String;",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 353,
           "status": "MATCH"
         }
@@ -22058,7 +21992,7 @@
           "name": "thread_main_loop",
           "recompInsnCount": 149,
           "descriptor": "()V",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 148,
           "status": "MATCH"
         },
@@ -22606,14 +22540,6 @@
           "descriptor": "()V",
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 84,
-          "status": "MATCH"
-        },
-        {
-          "name": "updateBodies",
-          "recompInsnCount": 116,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 116,
           "status": "MATCH"
         },
         {
@@ -24419,7 +24345,7 @@
           "name": "calculateTotal",
           "recompInsnCount": 444,
           "descriptor": "()Lzombie/iso/weather/dbg/ClimMngrDebug$RunInfo;",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 440,
           "status": "MATCH"
         },
@@ -24662,14 +24588,6 @@
     {
       "total_instructions": 496,
       "matched_code_percent": 97.37903225806451,
-      "methods": [{
-        "name": "initMask",
-        "recompInsnCount": 192,
-        "descriptor": "()V",
-        "matchTier": "STRUCTURAL",
-        "origInsnCount": 192,
-        "status": "MATCH"
-      }],
       "name": "zombie/iso/weather/fx/WeatherFxMask$PlayerFxMask",
       "total_methods": 8,
       "matched_instructions": 483,
@@ -24729,14 +24647,6 @@
           "descriptor": "(Ljava/lang/String;Lzombie/modding/ActiveMods;)Z",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 68,
-          "status": "MATCH"
-        },
-        {
-          "name": "fromString",
-          "recompInsnCount": 76,
-          "descriptor": "(Ljava/lang/String;Lzombie/modding/ActiveMods;)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 76,
           "status": "MATCH"
         }
       ],
@@ -24842,7 +24752,7 @@
         "name": "writeMods",
         "recompInsnCount": 74,
         "descriptor": "(Ljava/nio/ByteBuffer;)V",
-        "matchTier": "FUZZY_COMPUTATION",
+        "matchTier": "SORTED_MULTISET",
         "origInsnCount": 70,
         "status": "MATCH"
       }],
@@ -25128,7 +25038,7 @@
           "name": "main",
           "recompInsnCount": 169,
           "descriptor": "([Ljava/lang/String;)V",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 167,
           "status": "MATCH"
         }
@@ -25269,7 +25179,7 @@
         "name": "getNearestPlayer",
         "recompInsnCount": 44,
         "descriptor": "()Lzombie/network/FakeClientManager$PlayerManager$RemotePlayer;",
-        "matchTier": "FUZZY_COMPUTATION",
+        "matchTier": "SORTED_MULTISET",
         "origInsnCount": 46,
         "status": "MATCH"
       }],
@@ -25468,14 +25378,6 @@
           "status": "MATCH"
         },
         {
-          "name": "sendAddedRemovedItems",
-          "recompInsnCount": 466,
-          "descriptor": "(Z)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 466,
-          "status": "MATCH"
-        },
-        {
           "name": "sendItemStats",
           "recompInsnCount": 275,
           "descriptor": "(Lzombie/inventory/InventoryItem;)V",
@@ -25636,7 +25538,7 @@
           "name": "receivePlayerConnect",
           "recompInsnCount": 475,
           "descriptor": "(Ljava/nio/ByteBuffer;Lzombie/core/raknet/UdpConnection;Ljava/lang/String;)V",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 471,
           "status": "MATCH"
         },
@@ -28126,14 +28028,6 @@
           "status": "MATCH"
         },
         {
-          "name": "beginSaveRealZombies",
-          "recompInsnCount": 125,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 125,
-          "status": "MATCH"
-        },
-        {
           "name": "endSaveRealZombies",
           "recompInsnCount": 3,
           "descriptor": "()V",
@@ -28473,7 +28367,7 @@
         "name": "update",
         "recompInsnCount": 65,
         "descriptor": "()V",
-        "matchTier": "FUZZY_COMPUTATION",
+        "matchTier": "SORTED_MULTISET",
         "origInsnCount": 66,
         "status": "MATCH"
       }],
@@ -28491,7 +28385,7 @@
           "name": "loadTranslations",
           "recompInsnCount": 167,
           "descriptor": "()Z",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 163,
           "status": "MATCH"
         },
@@ -28499,7 +28393,7 @@
           "name": "ReadFile",
           "recompInsnCount": 188,
           "descriptor": "(Ljava/lang/String;)Lzombie/radio/RadioTranslationData;",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 186,
           "status": "MATCH"
         }
@@ -28534,7 +28428,7 @@
           "name": "readTranslatorNames",
           "recompInsnCount": 81,
           "descriptor": "(Ljava/lang/String;)Ljava/util/ArrayList;",
-          "matchTier": "STRUCTURAL",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 80,
           "status": "MATCH"
         }
@@ -28633,7 +28527,7 @@
           "name": "Init",
           "recompInsnCount": 239,
           "descriptor": "(I)V",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 239,
           "status": "MATCH"
         },
@@ -28649,7 +28543,7 @@
           "name": "Load",
           "recompInsnCount": 163,
           "descriptor": "()Z",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 153,
           "status": "MATCH"
         }
@@ -28693,7 +28587,7 @@
           "name": "sendDeviceDataStatePacket",
           "recompInsnCount": 243,
           "descriptor": "(Lzombie/core/raknet/UdpConnection;S)V",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 244,
           "status": "MATCH"
         },
@@ -30290,7 +30184,7 @@
           "name": "parse",
           "recompInsnCount": 64,
           "descriptor": "(Ljava/lang/String;)V",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 64,
           "status": "MATCH"
         }
@@ -30896,7 +30790,7 @@
           "name": "Load",
           "recompInsnCount": 1033,
           "descriptor": "(Ljava/lang/String;Ljava/lang/String;)V",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 1035,
           "status": "MATCH"
         },
@@ -30904,7 +30798,7 @@
           "name": "LoadPhysicsShape",
           "recompInsnCount": 121,
           "descriptor": "(Lzombie/scripting/ScriptParser$Block;)Lzombie/scripting/objects/VehicleScript$PhysicsShape;",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 121,
           "status": "MATCH"
         },
@@ -32283,7 +32177,7 @@
           "name": "resolve",
           "recompInsnCount": 281,
           "descriptor": "(Lorg/w3c/dom/Element;Lorg/w3c/dom/Element;Lorg/w3c/dom/Document;)Lorg/w3c/dom/Element;",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 282,
           "status": "MATCH"
         }
@@ -34299,7 +34193,7 @@
           "name": "resolveCollision",
           "recompInsnCount": 923,
           "descriptor": "(Lzombie/characters/IsoGameCharacter;FFLorg/joml/Vector2f;)Lorg/joml/Vector2f;",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 927,
           "status": "MATCH"
         }
@@ -36206,7 +36100,7 @@
           "name": "Load",
           "recompInsnCount": 127,
           "descriptor": "(Ljava/lang/String;Ljava/lang/String;)V",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 128,
           "status": "MATCH"
         },
@@ -36214,7 +36108,7 @@
           "name": "LoadData",
           "recompInsnCount": 75,
           "descriptor": "(Lzombie/scripting/ScriptParser$Block;Lzombie/vehicles/EngineRPMData;)V",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 76,
           "status": "MATCH"
         }
@@ -37062,24 +36956,14 @@
     {
       "total_instructions": 1445,
       "matched_code_percent": 96.67820069204153,
-      "methods": [
-        {
-          "name": "render",
-          "recompInsnCount": 604,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 604,
-          "status": "MATCH"
-        },
-        {
-          "name": "renderBuildingsWithoutFeatures",
-          "recompInsnCount": 127,
-          "descriptor": "()V",
-          "matchTier": "FUZZY_COMPUTATION",
-          "origInsnCount": 126,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "name": "renderBuildingsWithoutFeatures",
+        "recompInsnCount": 127,
+        "descriptor": "()V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 126,
+        "status": "MATCH"
+      }],
       "name": "zombie/worldMap/UIWorldMap",
       "total_methods": 23,
       "matched_instructions": 1397,
@@ -37375,7 +37259,7 @@
           "name": "renderZones",
           "recompInsnCount": 533,
           "descriptor": "(Ljava/util/ArrayList;Ljava/lang/String;FFFF)V",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 528,
           "status": "MATCH"
         },
