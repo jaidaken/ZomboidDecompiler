@@ -6,10 +6,10 @@
     "match_tiers": {
       "CORE_OPS_ONLY": 1,
       "FUZZY_COMPUTATION": 26,
-      "EXACT": 31399,
-      "SORTED_MULTISET": 515,
+      "EXACT": 31400,
+      "SORTED_MULTISET": 511,
       "STRUCTURAL_NO_TRYCATCH": 5,
-      "STRUCTURAL": 662
+      "STRUCTURAL": 665
     },
     "total_methods": 32967,
     "matched_function_percent": 98.91103224436557,
@@ -1196,9 +1196,9 @@
         },
         {
           "name": "getLotDirectories",
-          "recompInsnCount": 72,
+          "recompInsnCount": 70,
           "descriptor": "(Ljava/lang/String;)Ljava/util/ArrayList;",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 72,
           "status": "MATCH"
         },
@@ -6131,7 +6131,7 @@
       "matched_code_percent": 85.14150943396227,
       "methods": [{
         "name": "loadGroupData",
-        "recompInsnCount": 101,
+        "recompInsnCount": 99,
         "descriptor": "(Ljava/io/File;)V",
         "matchTier": "FUZZY_COMPUTATION",
         "origInsnCount": 100,
@@ -10404,9 +10404,9 @@
         },
         {
           "name": "Connect",
-          "recompInsnCount": 50,
+          "recompInsnCount": 48,
           "descriptor": "(Ljava/lang/String;ILjava/lang/String;Z)V",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 50,
           "status": "MATCH"
         }
@@ -15023,9 +15023,9 @@
         },
         {
           "name": "validateModDotInfo",
-          "recompInsnCount": 73,
+          "recompInsnCount": 71,
           "descriptor": "(Ljava/nio/file/Path;)Ljava/lang/String;",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 71,
           "status": "MATCH"
         },
@@ -27908,16 +27908,8 @@
           "status": "MATCH"
         },
         {
-          "name": "Save",
-          "recompInsnCount": 126,
-          "descriptor": "()V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 124,
-          "status": "MATCH"
-        },
-        {
           "name": "Load",
-          "recompInsnCount": 163,
+          "recompInsnCount": 161,
           "descriptor": "()Z",
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 153,
