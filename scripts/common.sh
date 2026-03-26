@@ -545,8 +545,7 @@ run_verify() {
     local module_path
     module_path="$(get_module_path)"
 
-    echo "Running bytecode verification..."
-    # Exit code 2 = mismatches found (expected, not an error)
+    echo "Verifying bytecode..."
     local rc=0
     local log_file
     log_file=$(mktemp)
@@ -557,19 +556,15 @@ run_verify() {
         "$original" "$recompiled" \
         --semantic --summary-only --json-report "$report_path" > "$log_file" 2>&1 &
     local java_pid=$!
-
-    spinner "$java_pid" "Verifying bytecode"
-
+    spinner "$java_pid" "Verifying"
     wait "$java_pid" || rc=$?
     if [ "$rc" -ne 0 ] && [ "$rc" -ne 2 ]; then
-        echo "Verification failed (exit code $rc). Log: $log_file"
+        echo "  Verification failed (exit code $rc). Log: $log_file"
         return "$rc"
     fi
     rm -f "$log_file"
 
-    # Print mismatch category summary from the JSON report
     if [ -f "$report_path" ]; then
-        echo "  Report: $report_path"
         ensure_venv
         "$VENV_PYTHON" -c "
 import json
@@ -583,36 +578,28 @@ for u in data['units']:
     for method in u.get('methods', []):
         tiers[method.get('matchTier', 'EXACT')] += 1
 tiers['EXACT'] = tiers.get('EXACT', 0) + (total - sum(tiers.values()))
-order = ['EXACT', 'STRUCTURAL', 'SORTED_MULTISET', 'FUZZY_COMPUTATION', 'CORE_OPS_ONLY', 'NONE']
-safety = {
-    'EXACT': 'safe',
-    'STRUCTURAL': 'mostly safe',
-    'SORTED_MULTISET': 'risky — order lost',
-    'FUZZY_COMPUTATION': 'risky — control flow stripped',
-    'CORE_OPS_ONLY': 'most risky',
-    'NONE': 'unmatched',
-}
-matched_cls = m.get('matched_classes', 0)
-total_cls = m.get('total_classes', 0)
-matched_meth = m.get('matched_methods', 0)
-matched_insns = m.get('matched_instructions', 0)
-total_insns = m.get('total_instructions', 0)
-cls_pct = 100.0 * matched_cls / total_cls if total_cls > 0 else 0
-meth_pct = 100.0 * matched_meth / total if total > 0 else 0
-insn_pct = 100.0 * matched_insns / total_insns if total_insns > 0 else 0
-print(f'  Match tiers ({total} methods):')
-for tier in order:
-    count = tiers.get(tier, 0)
-    if count > 0:
-        pct = 100.0 * count / total
-        print(f'    {count:6,d}  {pct:5.1f}%  {tier:20s}  ({safety.get(tier, \"\")})')
-print(f'  Coverage:')
-print(f'    Classes:      {matched_cls:,}/{total_cls:,} ({cls_pct:.1f}%)')
-print(f'    Methods:      {matched_meth:,}/{total:,} ({meth_pct:.1f}%)')
-print(f'    Instructions: {matched_insns:,}/{total_insns:,} ({insn_pct:.1f}%)')
+
+exact = tiers.get('EXACT', 0)
+functional = exact + tiers.get('STRUCTURAL', 0) + tiers.get('SORTED_MULTISET', 0)
+none = tiers.get('NONE', 0)
+
+print()
+print(f'  Byte-exact:    {exact:,} / {total:,} ({100*exact/total:.1f}%)')
+print(f'  Functional:    {functional:,} / {total:,} ({100*functional/total:.1f}%)')
+if none > 0:
+    print(f'  Unmatched:     {none:,}')
+print()
+
+non_exact = total - exact
+if non_exact > 0:
+    order = ['STRUCTURAL', 'SORTED_MULTISET', 'FUZZY_COMPUTATION', 'CORE_OPS_ONLY', 'NONE']
+    for tier in order:
+        c = tiers.get(tier, 0)
+        if c > 0:
+            print(f'    {c:>5,}  {tier}')
+    print()
 " 2>/dev/null || true
 
-        # Generate compact summary JSON
         local summary_path="${report_path%.json}_summary.json"
         "$VENV_PYTHON" -c "
 import json
@@ -626,19 +613,16 @@ for u in data['units']:
     for method in u.get('methods', []):
         tiers[method.get('matchTier', 'EXACT')] += 1
 tiers['EXACT'] = tiers.get('EXACT', 0) + (total - sum(tiers.values()))
-total_insns = m.get('total_instructions', 0)
-matched_insns = m.get('matched_instructions', 0)
-pct = 100.0 * matched_insns / total_insns if total_insns > 0 else 0
+exact = tiers.get('EXACT', 0)
+functional = exact + tiers.get('STRUCTURAL', 0) + tiers.get('SORTED_MULTISET', 0)
 summary = {
-    'instructions': {'matched': matched_insns, 'total': total_insns, 'percent': round(pct, 2)},
-    'methods': {'matched': total - tiers.get('NONE', 0), 'total': total,
-                'percent': round(100.0 * (total - tiers.get('NONE', 0)) / total, 2) if total > 0 else 0},
-    'tiers': {tier: tiers.get(tier, 0) for tier in ['EXACT','STRUCTURAL','SORTED_MULTISET','FUZZY_COMPUTATION','CORE_OPS_ONLY','NONE']},
-    'exact_percent': round(100.0 * tiers.get('EXACT', 0) / total, 2) if total > 0 else 0,
+    'exact': exact,
+    'functional': functional,
+    'total': total,
+    'tiers': {t: tiers.get(t, 0) for t in ['EXACT','STRUCTURAL','SORTED_MULTISET','FUZZY_COMPUTATION','CORE_OPS_ONLY','NONE']},
 }
 with open('$summary_path', 'w') as f:
     json.dump(summary, f, indent=2)
-print(f'  Summary: $summary_path')
 " 2>/dev/null || true
     fi
 }

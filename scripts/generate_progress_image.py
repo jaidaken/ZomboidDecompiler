@@ -152,22 +152,41 @@ def main():
     ax.set_aspect("equal")
     ax.axis("off")
 
-    # Title: show EXACT stats and tier breakdown
+    # Title: clean summary
     header = custom_title or "Decompilation Progress"
     exact_pct = 100.0 * exact_methods / total_methods if total_methods > 0 else 0
-    matched_insn_pct = measures.get("matched_code_percent", 0)
     none_count = tier_counts.get("NONE", 0)
+    non_exact = total_methods - exact_methods
+
+    # Try to load semantic report for the second line
+    semantic_path = report_path.replace(".json", "_semantic.json")
+    semantic_exact = None
+    try:
+        from pathlib import Path
+        if Path(semantic_path).exists():
+            with open(semantic_path) as sf:
+                sem_data = json.load(sf)
+            sem_total = sem_data["measures"]["total_methods"]
+            sem_tiers = {}
+            for u in sem_data["units"]:
+                for m in u.get("methods", []):
+                    t = m.get("matchTier", "EXACT")
+                    sem_tiers[t] = sem_tiers.get(t, 0) + 1
+            semantic_exact = sem_total - sum(sem_tiers.values())
+    except Exception:
+        pass
+
     structural = tier_counts.get("STRUCTURAL", 0)
     sorted_ms = tier_counts.get("SORTED_MULTISET", 0)
+    functional = exact_methods + structural + sorted_ms
+    func_pct = 100.0 * functional / total_methods if total_methods > 0 else 0
 
-    title = (
-        f"{header}\n"
-        f"EXACT: {exact_pct:.1f}% ({exact_methods:,}/{total_methods:,} methods)  |  "
-        f"Code match: {matched_insn_pct:.1f}%  |  "
-        f"STRUCTURAL {structural:,}  |  "
-        f"SORTED_MULTISET {sorted_ms:,}  |  "
-        f"NONE {none_count:,}"
-    )
+    line2 = f"Byte-exact: {exact_pct:.1f}% ({exact_methods:,} / {total_methods:,})"
+    line2 += f"    Functional: {func_pct:.1f}% ({functional:,} / {total_methods:,})"
+    if none_count > 0:
+        line2 += f"    Unmatched: {none_count:,}"
+
+    title = f"{header}\n{line2}"
     ax.set_title(title, color="white", fontsize=14, fontweight="bold", pad=20)
 
     # Legend
@@ -192,8 +211,6 @@ def main():
     plt.tight_layout()
     plt.savefig(output_path, dpi=150, bbox_inches="tight", facecolor=fig.get_facecolor())
     plt.close()
-    print(f"  EXACT: {exact_pct:.1f}% ({exact_methods:,}/{total_methods:,} methods)  Code match: {matched_insn_pct:.1f}%")
-    print(f"  STRUCTURAL: {structural:,}  SORTED_MULTISET: {sorted_ms:,}  NONE: {none_count:,}")
 
 
 if __name__ == "__main__":

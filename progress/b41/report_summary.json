@@ -1,14 +1,7 @@
 {
-  "instructions": {
-    "matched": 1119545,
-    "total": 1180386,
-    "percent": 94.85
-  },
-  "methods": {
-    "matched": 32967,
-    "total": 32967,
-    "percent": 100.0
-  },
+  "exact": 31607,
+  "functional": 32864,
+  "total": 32967,
   "tiers": {
     "EXACT": 31607,
     "STRUCTURAL": 634,
@@ -16,6 +9,5 @@
     "FUZZY_COMPUTATION": 96,
     "CORE_OPS_ONLY": 1,
     "NONE": 0
-  },
-  "exact_percent": 95.87
+  }
 }
