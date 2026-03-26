@@ -2,20 +2,20 @@
   "measures": {
     "total_classes": 2977,
     "total_instructions": 1180386,
-    "matched_code_percent": 94.722658520179,
+    "matched_code_percent": 94.84566912857319,
     "match_tiers": {
       "CORE_OPS_ONLY": 1,
-      "FUZZY_COMPUTATION": 27,
-      "EXACT": 31695,
-      "SORTED_MULTISET": 519,
+      "FUZZY_COMPUTATION": 25,
+      "EXACT": 31737,
+      "SORTED_MULTISET": 513,
       "STRUCTURAL_NO_TRYCATCH": 5,
-      "STRUCTURAL": 680
+      "STRUCTURAL": 686
     },
     "total_methods": 32967,
-    "matched_function_percent": 99.87866654533322,
-    "matched_instructions": 1118093,
-    "matched_classes": 2975,
-    "matched_methods": 32927
+    "matched_function_percent": 100,
+    "matched_instructions": 1119545,
+    "matched_classes": 2977,
+    "matched_methods": 32967
   },
   "units": [
     {
@@ -4839,9 +4839,9 @@
         },
         {
           "name": "renderlast",
-          "recompInsnCount": 2967,
+          "recompInsnCount": 2931,
           "descriptor": "()V",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 2923,
           "status": "MATCH"
         },
@@ -5363,9 +5363,9 @@
       "methods": [
         {
           "name": "renderlast",
-          "recompInsnCount": 98,
+          "recompInsnCount": 94,
           "descriptor": "()V",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 94,
           "status": "MATCH"
         },
@@ -14488,21 +14488,47 @@
     },
     {
       "total_instructions": 1507,
-      "matched_code_percent": 0,
+      "matched_code_percent": 95.95222295952223,
+      "methods": [
+        {
+          "name": "getData",
+          "recompInsnCount": 26,
+          "descriptor": "()Lzombie/core/utils/WrappedBuffer;",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 24,
+          "status": "MATCH"
+        },
+        {
+          "name": "limitMaxSize",
+          "recompInsnCount": 97,
+          "descriptor": "(Lzombie/core/textures/ImageData;)Lzombie/core/textures/ImageData;",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 95,
+          "status": "MATCH"
+        },
+        {
+          "name": "<clinit>",
+          "recompInsnCount": 32,
+          "descriptor": "()V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 32,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/core/textures/TextureID",
       "total_methods": 39,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 1446,
+      "matched_methods": 39,
+      "status": "MATCH"
     },
     {
       "total_instructions": 6,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/core/textures/TextureID$TextureIDAssetParams",
       "total_methods": 1,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 6,
+      "matched_methods": 1,
+      "status": "MATCH"
     },
     {
       "total_instructions": 137,
@@ -14552,48 +14578,6 @@
     {
       "total_instructions": 567,
       "matched_code_percent": 93.65079365079364,
-      "methods": [
-        {
-          "name": "addFlags",
-          "recompInsnCount": 17,
-          "descriptor": "(BI)B",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 15,
-          "status": "MATCH"
-        },
-        {
-          "name": "addFlags",
-          "recompInsnCount": 17,
-          "descriptor": "(SI)S",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 15,
-          "status": "MATCH"
-        },
-        {
-          "name": "addFlags",
-          "recompInsnCount": 17,
-          "descriptor": "(II)I",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 15,
-          "status": "MATCH"
-        },
-        {
-          "name": "addFlags",
-          "recompInsnCount": 20,
-          "descriptor": "(JI)J",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 18,
-          "status": "MATCH"
-        },
-        {
-          "name": "addFlags",
-          "recompInsnCount": 20,
-          "descriptor": "(JJ)J",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 18,
-          "status": "MATCH"
-        }
-      ],
       "name": "zombie/core/utils/Bits",
       "total_methods": 48,
       "matched_instructions": 531,
@@ -16636,17 +16620,17 @@
         },
         {
           "name": "drawModData",
-          "recompInsnCount": 219,
+          "recompInsnCount": 213,
           "descriptor": "()V",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 213,
           "status": "MATCH"
         },
         {
           "name": "drawPlayerInfo",
-          "recompInsnCount": 215,
+          "recompInsnCount": 197,
           "descriptor": "()V",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 197,
           "status": "MATCH"
         },
@@ -17442,7 +17426,7 @@
       "methods": [
         {
           "name": "DoTooltip",
-          "recompInsnCount": 1176,
+          "recompInsnCount": 1172,
           "descriptor": "(Lzombie/ui/ObjectTooltip;)V",
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 1172,
@@ -24267,9 +24251,9 @@
       "matched_code_percent": 93.08755760368663,
       "methods": [{
         "name": "renderUI",
-        "recompInsnCount": 133,
+        "recompInsnCount": 131,
         "descriptor": "()V",
-        "matchTier": "SORTED_MULTISET",
+        "matchTier": "STRUCTURAL",
         "origInsnCount": 131,
         "status": "MATCH"
       }],
@@ -33191,9 +33175,9 @@
         },
         {
           "name": "renderAuthorizations",
-          "recompInsnCount": 692,
+          "recompInsnCount": 680,
           "descriptor": "()V",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 680,
           "status": "MATCH"
         },
@@ -33435,9 +33419,9 @@
         },
         {
           "name": "TEST",
-          "recompInsnCount": 582,
+          "recompInsnCount": 572,
           "descriptor": "(Lorg/joml/Vector3f;FFFFLzombie/core/physics/CarController;)Z",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 574,
           "status": "MATCH"
         }
