@@ -5,8 +5,8 @@
     "matched_code_percent": 94.84566912857319,
     "match_tiers": {
       "CORE_OPS_ONLY": 2,
-      "FUZZY_COMPUTATION": 98,
-      "EXACT": 31537,
+      "FUZZY_COMPUTATION": 97,
+      "EXACT": 31538,
       "SORTED_MULTISET": 707,
       "STRUCTURAL_NO_TRYCATCH": 6,
       "STRUCTURAL": 617
@@ -820,14 +820,6 @@
     {
       "total_instructions": 14,
       "matched_code_percent": 92.85714285714286,
-      "methods": [{
-        "name": "fromJavaToLua",
-        "recompInsnCount": 2,
-        "descriptor": "(Ljava/lang/Boolean;)Ljava/lang/Object;",
-        "matchTier": "FUZZY_COMPUTATION",
-        "origInsnCount": 4,
-        "status": "MATCH"
-      }],
       "name": "zombie/Lua/KahluaNumberConverter$7",
       "total_methods": 4,
       "matched_instructions": 13,
