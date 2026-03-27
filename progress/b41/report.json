@@ -5,9 +5,9 @@
     "matched_code_percent": 94.84566912857319,
     "match_tiers": {
       "CORE_OPS_ONLY": 1,
-      "FUZZY_COMPUTATION": 21,
+      "FUZZY_COMPUTATION": 19,
       "EXACT": 31756,
-      "SORTED_MULTISET": 492,
+      "SORTED_MULTISET": 494,
       "STRUCTURAL_NO_TRYCATCH": 5,
       "STRUCTURAL": 692
     },
@@ -23683,9 +23683,9 @@
       "matched_code_percent": 98.69942196531792,
       "methods": [{
         "name": "updateValues",
-        "recompInsnCount": 665,
+        "recompInsnCount": 694,
         "descriptor": "(DFLzombie/iso/weather/ClimateManager$DayInfo;Lzombie/iso/weather/ClimateManager$DayInfo;)V",
-        "matchTier": "FUZZY_COMPUTATION",
+        "matchTier": "SORTED_MULTISET",
         "origInsnCount": 697,
         "status": "MATCH"
       }],
@@ -23903,9 +23903,9 @@
         },
         {
           "name": "applyFlare",
-          "recompInsnCount": 415,
+          "recompInsnCount": 413,
           "descriptor": "(Lzombie/core/opengl/RenderSettings$PlayerRenderSettings;ILzombie/characters/IsoPlayer;)V",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 399,
           "status": "MATCH"
         }

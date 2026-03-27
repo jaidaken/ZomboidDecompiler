@@ -4,8 +4,8 @@
   "tiers": {
     "EXACT": 31756,
     "STRUCTURAL": 692,
-    "SORTED_MULTISET": 492,
-    "FUZZY_COMPUTATION": 21,
+    "SORTED_MULTISET": 494,
+    "FUZZY_COMPUTATION": 19,
     "CORE_OPS_ONLY": 1,
     "NONE": 0
   }
