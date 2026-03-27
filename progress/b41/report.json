@@ -5,11 +5,11 @@
     "matched_code_percent": 94.84566912857319,
     "match_tiers": {
       "CORE_OPS_ONLY": 1,
-      "FUZZY_COMPUTATION": 21,
-      "EXACT": 31741,
-      "SORTED_MULTISET": 512,
+      "FUZZY_COMPUTATION": 19,
+      "EXACT": 31748,
+      "SORTED_MULTISET": 496,
       "STRUCTURAL_NO_TRYCATCH": 5,
-      "STRUCTURAL": 687
+      "STRUCTURAL": 698
     },
     "total_methods": 32967,
     "matched_function_percent": 100,
@@ -4316,6 +4316,80 @@
     {
       "total_instructions": 1096,
       "matched_code_percent": 98.26642335766424,
+      "methods": [
+        {
+          "name": "GetSkinSurface",
+          "recompInsnCount": 36,
+          "descriptor": "(Lzombie/characters/BodyDamage/BodyPartType;)F",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 36,
+          "status": "MATCH"
+        },
+        {
+          "name": "GetDistToCore",
+          "recompInsnCount": 36,
+          "descriptor": "(Lzombie/characters/BodyDamage/BodyPartType;)F",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 36,
+          "status": "MATCH"
+        },
+        {
+          "name": "GetUmbrellaMod",
+          "recompInsnCount": 33,
+          "descriptor": "(Lzombie/characters/BodyDamage/BodyPartType;)F",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 33,
+          "status": "MATCH"
+        },
+        {
+          "name": "GetMaxActionPenalty",
+          "recompInsnCount": 36,
+          "descriptor": "(Lzombie/characters/BodyDamage/BodyPartType;)F",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 36,
+          "status": "MATCH"
+        },
+        {
+          "name": "GetMaxMovementPenalty",
+          "recompInsnCount": 36,
+          "descriptor": "(Lzombie/characters/BodyDamage/BodyPartType;)F",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 36,
+          "status": "MATCH"
+        },
+        {
+          "name": "getBandageModel",
+          "recompInsnCount": 41,
+          "descriptor": "()Ljava/lang/String;",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 41,
+          "status": "MATCH"
+        },
+        {
+          "name": "getBiteWoundModel",
+          "recompInsnCount": 58,
+          "descriptor": "(Z)Ljava/lang/String;",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 58,
+          "status": "MATCH"
+        },
+        {
+          "name": "getScratchWoundModel",
+          "recompInsnCount": 58,
+          "descriptor": "(Z)Ljava/lang/String;",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 58,
+          "status": "MATCH"
+        },
+        {
+          "name": "getCutWoundModel",
+          "recompInsnCount": 58,
+          "descriptor": "(Z)Ljava/lang/String;",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 58,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/characters/BodyDamage/BodyPartType",
       "total_methods": 24,
       "matched_instructions": 1077,
@@ -6566,11 +6640,27 @@
           "status": "MATCH"
         },
         {
+          "name": "processLeaveChatPacket",
+          "recompInsnCount": 78,
+          "descriptor": "(Ljava/nio/ByteBuffer;)V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 78,
+          "status": "MATCH"
+        },
+        {
           "name": "isPlayerCanUseChat",
           "recompInsnCount": 39,
           "descriptor": "(Lzombie/network/chat/ChatType;)Ljava/lang/Boolean;",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 39,
+          "status": "MATCH"
+        },
+        {
+          "name": "getChat",
+          "recompInsnCount": 42,
+          "descriptor": "(Lzombie/network/chat/ChatType;)Lzombie/chat/ChatBase;",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 42,
           "status": "MATCH"
         },
         {
@@ -11171,24 +11261,6 @@
     {
       "total_instructions": 258,
       "matched_code_percent": 90.31007751937985,
-      "methods": [
-        {
-          "name": "getValueString",
-          "recompInsnCount": 29,
-          "descriptor": "()Ljava/lang/String;",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 29,
-          "status": "MATCH"
-        },
-        {
-          "name": "checkInternal",
-          "recompInsnCount": 108,
-          "descriptor": "(Lzombie/core/skinnedmodel/advancedanimation/IAnimationVariableSource;)Z",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 108,
-          "status": "MATCH"
-        }
-      ],
       "name": "zombie/core/skinnedmodel/advancedanimation/AnimCondition",
       "total_methods": 7,
       "matched_instructions": 233,
@@ -11198,14 +11270,6 @@
     {
       "total_instructions": 61,
       "matched_code_percent": 96.72131147540983,
-      "methods": [{
-        "name": "<clinit>",
-        "recompInsnCount": 59,
-        "descriptor": "()V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 59,
-        "status": "MATCH"
-      }],
       "name": "zombie/core/skinnedmodel/advancedanimation/AnimCondition$1",
       "total_methods": 1,
       "matched_instructions": 59,
@@ -12401,14 +12465,6 @@
     {
       "total_instructions": 117,
       "matched_code_percent": 98.2905982905983,
-      "methods": [{
-        "name": "<clinit>",
-        "recompInsnCount": 115,
-        "descriptor": "()V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 115,
-        "status": "MATCH"
-      }],
       "name": "zombie/core/skinnedmodel/model/CharacterMask$1",
       "total_methods": 1,
       "matched_instructions": 115,
@@ -12773,14 +12829,6 @@
     {
       "total_instructions": 103,
       "matched_code_percent": 98.05825242718447,
-      "methods": [{
-        "name": "<clinit>",
-        "recompInsnCount": 101,
-        "descriptor": "()V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 101,
-        "status": "MATCH"
-      }],
       "name": "zombie/core/skinnedmodel/model/ModelLoader$1",
       "total_methods": 1,
       "matched_instructions": 101,
@@ -12996,14 +13044,6 @@
     {
       "total_instructions": 54,
       "matched_code_percent": 96.29629629629629,
-      "methods": [{
-        "name": "<clinit>",
-        "recompInsnCount": 52,
-        "descriptor": "()V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 52,
-        "status": "MATCH"
-      }],
       "name": "zombie/core/skinnedmodel/model/VertexBufferObject$1",
       "total_methods": 1,
       "matched_instructions": 52,
@@ -14394,14 +14434,6 @@
     {
       "total_instructions": 275,
       "matched_code_percent": 98.54545454545455,
-      "methods": [{
-        "name": "<clinit>",
-        "recompInsnCount": 271,
-        "descriptor": "()V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 271,
-        "status": "MATCH"
-      }],
       "name": "zombie/core/textures/TextureDraw$1",
       "total_methods": 1,
       "matched_instructions": 271,
@@ -15865,24 +15897,14 @@
     {
       "total_instructions": 824,
       "matched_code_percent": 95.02427184466019,
-      "methods": [
-        {
-          "name": "validateSpawn",
-          "recompInsnCount": 206,
-          "descriptor": "(Lzombie/iso/IsoGridSquare;Lzombie/erosion/ErosionData$Square;Lzombie/erosion/ErosionData$Chunk;ZZZ)Z",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 207,
-          "status": "MATCH"
-        },
-        {
-          "name": "init",
-          "recompInsnCount": 257,
-          "descriptor": "()V",
-          "matchTier": "FUZZY_COMPUTATION",
-          "origInsnCount": 251,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "name": "validateSpawn",
+        "recompInsnCount": 206,
+        "descriptor": "(Lzombie/iso/IsoGridSquare;Lzombie/erosion/ErosionData$Square;Lzombie/erosion/ErosionData$Chunk;ZZZ)Z",
+        "matchTier": "STRUCTURAL",
+        "origInsnCount": 207,
+        "status": "MATCH"
+      }],
       "name": "zombie/erosion/categories/WallVines",
       "total_methods": 7,
       "matched_instructions": 783,
@@ -16078,14 +16100,6 @@
     {
       "total_instructions": 26,
       "matched_code_percent": 92.3076923076923,
-      "methods": [{
-        "name": "<clinit>",
-        "recompInsnCount": 24,
-        "descriptor": "()V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 24,
-        "status": "MATCH"
-      }],
       "name": "zombie/fileSystem/DiskFileDevice$1",
       "total_methods": 1,
       "matched_instructions": 24,
@@ -16097,7 +16111,7 @@
       "matched_code_percent": 91.63636363636364,
       "methods": [{
         "name": "seek",
-        "recompInsnCount": 41,
+        "recompInsnCount": 42,
         "descriptor": "(Lzombie/fileSystem/FileSeekMode;J)Z",
         "matchTier": "SORTED_MULTISET",
         "origInsnCount": 42,
@@ -17895,14 +17909,6 @@
     {
       "total_instructions": 40,
       "matched_code_percent": 95,
-      "methods": [{
-        "name": "<clinit>",
-        "recompInsnCount": 38,
-        "descriptor": "()V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 38,
-        "status": "MATCH"
-      }],
       "name": "zombie/inventory/RecipeManager$1",
       "total_methods": 1,
       "matched_instructions": 38,
@@ -18071,9 +18077,9 @@
         },
         {
           "name": "updateWetness",
-          "recompInsnCount": 95,
+          "recompInsnCount": 96,
           "descriptor": "(Z)V",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 96,
           "status": "MATCH"
         }
@@ -18087,14 +18093,6 @@
     {
       "total_instructions": 26,
       "matched_code_percent": 92.3076923076923,
-      "methods": [{
-        "name": "<clinit>",
-        "recompInsnCount": 24,
-        "descriptor": "()V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 24,
-        "status": "MATCH"
-      }],
       "name": "zombie/inventory/types/Clothing$1",
       "total_methods": 1,
       "matched_instructions": 24,
@@ -19034,6 +19032,40 @@
     {
       "total_instructions": 698,
       "matched_code_percent": 99.14040114613181,
+      "methods": [
+        {
+          "name": "RotRight",
+          "recompInsnCount": 23,
+          "descriptor": "(Lzombie/iso/IsoDirections;)Lzombie/iso/IsoDirections;",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 23,
+          "status": "MATCH"
+        },
+        {
+          "name": "reverse",
+          "recompInsnCount": 23,
+          "descriptor": "(Lzombie/iso/IsoDirections;)Lzombie/iso/IsoDirections;",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 23,
+          "status": "MATCH"
+        },
+        {
+          "name": "ToVector",
+          "recompInsnCount": 65,
+          "descriptor": "()Lzombie/iso/Vector2;",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 65,
+          "status": "MATCH"
+        },
+        {
+          "name": "toAngle",
+          "recompInsnCount": 41,
+          "descriptor": "()F",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 41,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/iso/IsoDirections",
       "total_methods": 24,
       "matched_instructions": 692,
@@ -21682,7 +21714,7 @@
           "name": "thread_run_batched_jobs",
           "recompInsnCount": 207,
           "descriptor": "()V",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 207,
           "status": "MATCH"
         },
@@ -21934,14 +21966,6 @@
     {
       "total_instructions": 148,
       "matched_code_percent": 79.72972972972973,
-      "methods": [{
-        "name": "release",
-        "recompInsnCount": 40,
-        "descriptor": "(Lzombie/iso/areas/isoregion/jobs/RegionJob;)V",
-        "matchTier": "STRUCTURAL",
-        "origInsnCount": 41,
-        "status": "MATCH"
-      }],
       "name": "zombie/iso/areas/isoregion/jobs/RegionJobManager",
       "total_methods": 8,
       "matched_instructions": 118,
@@ -23021,14 +23045,6 @@
     {
       "total_instructions": 26,
       "matched_code_percent": 92.3076923076923,
-      "methods": [{
-        "name": "<clinit>",
-        "recompInsnCount": 24,
-        "descriptor": "()V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 24,
-        "status": "MATCH"
-      }],
       "name": "zombie/iso/objects/ObjectRenderEffects$1",
       "total_methods": 1,
       "matched_instructions": 24,
@@ -23877,14 +23893,6 @@
     {
       "total_instructions": 33,
       "matched_code_percent": 93.93939393939394,
-      "methods": [{
-        "name": "<clinit>",
-        "recompInsnCount": 31,
-        "descriptor": "()V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 31,
-        "status": "MATCH"
-      }],
       "name": "zombie/iso/weather/WeatherPeriod$1",
       "total_methods": 1,
       "matched_instructions": 31,
@@ -23903,14 +23911,6 @@
     {
       "total_instructions": 415,
       "matched_code_percent": 100,
-      "methods": [{
-        "name": "getLerpValue",
-        "recompInsnCount": 24,
-        "descriptor": "(Lzombie/iso/weather/WeatherPeriod$StrLerpVal;)F",
-        "matchTier": "STRUCTURAL",
-        "origInsnCount": 24,
-        "status": "MATCH"
-      }],
       "name": "zombie/iso/weather/WeatherPeriod$WeatherStage",
       "total_methods": 27,
       "matched_instructions": 415,
@@ -24695,14 +24695,6 @@
           "matchTier": "STRUCTURAL",
           "origInsnCount": 121,
           "status": "MATCH"
-        },
-        {
-          "name": "getBooleanVariables",
-          "recompInsnCount": 43,
-          "descriptor": "()I",
-          "matchTier": "FUZZY_COMPUTATION",
-          "origInsnCount": 43,
-          "status": "MATCH"
         }
       ],
       "name": "zombie/network/FakeClientManager$Client",
@@ -25021,14 +25013,6 @@
     {
       "total_instructions": 47,
       "matched_code_percent": 95.74468085106383,
-      "methods": [{
-        "name": "<clinit>",
-        "recompInsnCount": 45,
-        "descriptor": "()V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 45,
-        "status": "MATCH"
-      }],
       "name": "zombie/network/GameClient$1",
       "total_methods": 1,
       "matched_instructions": 45,
@@ -25058,7 +25042,7 @@
         },
         {
           "name": "mainLoopDealWithNetData",
-          "recompInsnCount": 92,
+          "recompInsnCount": 93,
           "descriptor": "(Lzombie/network/ZomboidNetData;)V",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 93,
@@ -25563,14 +25547,6 @@
     {
       "total_instructions": 47,
       "matched_code_percent": 95.74468085106383,
-      "methods": [{
-        "name": "<clinit>",
-        "recompInsnCount": 45,
-        "descriptor": "()V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 45,
-        "status": "MATCH"
-      }],
       "name": "zombie/network/NetChecksum$1",
       "total_methods": 1,
       "matched_instructions": 45,
@@ -25600,7 +25576,7 @@
         },
         {
           "name": "update",
-          "recompInsnCount": 24,
+          "recompInsnCount": 25,
           "descriptor": "()V",
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 28,
@@ -26757,14 +26733,6 @@
     {
       "total_instructions": 159,
       "matched_code_percent": 98.74213836477988,
-      "methods": [{
-        "name": "<clinit>",
-        "recompInsnCount": 157,
-        "descriptor": "()V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 157,
-        "status": "MATCH"
-      }],
       "name": "zombie/network/packets/EventPacket$1",
       "total_methods": 1,
       "matched_instructions": 157,
@@ -30746,24 +30714,14 @@
     {
       "total_instructions": 1267,
       "matched_code_percent": 100,
-      "methods": [
-        {
-          "name": "render",
-          "recompInsnCount": 494,
-          "descriptor": "()V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 494,
-          "status": "MATCH"
-        },
-        {
-          "name": "update",
-          "recompInsnCount": 255,
-          "descriptor": "()V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 253,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "name": "update",
+        "recompInsnCount": 255,
+        "descriptor": "()V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 253,
+        "status": "MATCH"
+      }],
       "name": "zombie/ui/MoodlesUI",
       "total_methods": 11,
       "matched_instructions": 1267,
@@ -31319,7 +31277,7 @@
         "name": "update",
         "recompInsnCount": 416,
         "descriptor": "()V",
-        "matchTier": "SORTED_MULTISET",
+        "matchTier": "STRUCTURAL",
         "origInsnCount": 419,
         "status": "MATCH"
       }],
@@ -35001,7 +34959,7 @@
           "name": "calcMatrices",
           "recompInsnCount": 127,
           "descriptor": "(Lorg/joml/Matrix4f;Lorg/joml/Matrix4f;)V",
-          "matchTier": "STRUCTURAL",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 128,
           "status": "MATCH"
         },
@@ -35583,14 +35541,6 @@
     {
       "total_instructions": 68,
       "matched_code_percent": 97.05882352941177,
-      "methods": [{
-        "name": "<clinit>",
-        "recompInsnCount": 66,
-        "descriptor": "()V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 66,
-        "status": "MATCH"
-      }],
       "name": "zombie/vehicles/VehicleManager$1",
       "total_methods": 1,
       "matched_instructions": 66,
@@ -36567,14 +36517,6 @@
           "descriptor": "(Lzombie/worldMap/styles/WorldMapStyleLayer$RenderArgs;Lzombie/worldMap/WorldMapFeature;Lzombie/worldMap/styles/WorldMapStyleLayer$RGBAf;F)V",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 136,
-          "status": "MATCH"
-        },
-        {
-          "name": "drawLineString",
-          "recompInsnCount": 125,
-          "descriptor": "(Lzombie/worldMap/styles/WorldMapStyleLayer$RenderArgs;Lzombie/worldMap/WorldMapFeature;Lzombie/worldMap/styles/WorldMapStyleLayer$RGBAf;F)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 124,
           "status": "MATCH"
         },
         {
