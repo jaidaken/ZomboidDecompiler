@@ -5,11 +5,11 @@
     "matched_code_percent": 94.84566912857319,
     "match_tiers": {
       "CORE_OPS_ONLY": 1,
-      "FUZZY_COMPUTATION": 25,
-      "EXACT": 31737,
-      "SORTED_MULTISET": 513,
+      "FUZZY_COMPUTATION": 21,
+      "EXACT": 31741,
+      "SORTED_MULTISET": 512,
       "STRUCTURAL_NO_TRYCATCH": 5,
-      "STRUCTURAL": 686
+      "STRUCTURAL": 687
     },
     "total_methods": 32967,
     "matched_function_percent": 100,
@@ -9422,6 +9422,14 @@
     {
       "total_instructions": 751,
       "matched_code_percent": 95.47270306258322,
+      "methods": [{
+        "name": "getButtonCount",
+        "recompInsnCount": 12,
+        "descriptor": "(I)I",
+        "matchTier": "STRUCTURAL",
+        "origInsnCount": 11,
+        "status": "MATCH"
+      }],
       "name": "zombie/core/input/Input",
       "total_methods": 26,
       "matched_instructions": 717,
@@ -11766,14 +11774,6 @@
     {
       "total_instructions": 64,
       "matched_code_percent": 84.375,
-      "methods": [{
-        "name": "lambda$alloc$0",
-        "recompInsnCount": 4,
-        "descriptor": "(I)[Lzombie/core/skinnedmodel/advancedanimation/AnimBoneWeight;",
-        "matchTier": "FUZZY_COMPUTATION",
-        "origInsnCount": 3,
-        "status": "MATCH"
-      }],
       "name": "zombie/core/skinnedmodel/advancedanimation/PooledAnimBoneWeightArray",
       "total_methods": 6,
       "matched_instructions": 54,
@@ -30041,24 +30041,14 @@
     {
       "total_instructions": 8168,
       "matched_code_percent": 98.73898139079334,
-      "methods": [
-        {
-          "name": "Load",
-          "recompInsnCount": 193,
-          "descriptor": "(Ljava/lang/String;[Ljava/lang/String;)V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 191,
-          "status": "MATCH"
-        },
-        {
-          "name": "DoParam",
-          "recompInsnCount": 4205,
-          "descriptor": "(Ljava/lang/String;)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 4205,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "name": "DoParam",
+        "recompInsnCount": 4205,
+        "descriptor": "(Ljava/lang/String;)V",
+        "matchTier": "STRUCTURAL",
+        "origInsnCount": 4205,
+        "status": "MATCH"
+      }],
       "name": "zombie/scripting/objects/Item",
       "total_methods": 246,
       "matched_instructions": 8065,
@@ -31122,14 +31112,6 @@
     {
       "total_instructions": 5427,
       "matched_code_percent": 97.78883360972914,
-      "methods": [{
-        "name": "isKeyConsumed",
-        "recompInsnCount": 21,
-        "descriptor": "(I)Z",
-        "matchTier": "FUZZY_COMPUTATION",
-        "origInsnCount": 22,
-        "status": "MATCH"
-      }],
       "name": "zombie/ui/UIElement",
       "total_methods": 145,
       "matched_instructions": 5307,
@@ -35991,32 +35973,14 @@
     {
       "total_instructions": 1404,
       "matched_code_percent": 91.73789173789174,
-      "methods": [
-        {
-          "name": "parseObjectNameLoadList",
-          "recompInsnCount": 63,
-          "descriptor": "(Ljava/util/List;)V",
-          "matchTier": "FUZZY_COMPUTATION",
-          "origInsnCount": 60,
-          "status": "MATCH"
-        },
-        {
-          "name": "load",
-          "recompInsnCount": 68,
-          "descriptor": "()V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 69,
-          "status": "MATCH"
-        },
-        {
-          "name": "saveAsText",
-          "recompInsnCount": 151,
-          "descriptor": "(Ljava/lang/String;)V",
-          "matchTier": "FUZZY_COMPUTATION",
-          "origInsnCount": 153,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "name": "load",
+        "recompInsnCount": 68,
+        "descriptor": "()V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 69,
+        "status": "MATCH"
+      }],
       "name": "zombie/world/DictionaryData",
       "total_methods": 25,
       "matched_instructions": 1288,
