@@ -14,15 +14,15 @@ import numpy as np
 import squarify
 
 
-# Gold (0 non-exact) -> bright green (1) -> dark blue (many non-exact)
+# Gold (0 non-exact) -> bright green (1) -> red (many non-exact)
 GRADIENT_GOLD = np.array([1.0, 0.843, 0.0])          # #FFD700
 GRADIENT_GREEN = np.array([0.180, 0.800, 0.251])     # bright green
-GRADIENT_DARK_BLUE = np.array([0.051, 0.106, 0.243]) # #0d1b3e
+GRADIENT_RED = np.array([0.800, 0.100, 0.100])       # #CC1A1A
 
-# Max non-exact count that maps to the darkest color; anything above is clamped
+# Max non-exact count that maps to the worst color; anything above is clamped
 GRADIENT_MAX = 50
 
-COLOR_NOT_STARTED = "#353535"
+COLOR_NOT_STARTED = "#000000"
 COLOR_NOT_COMPILED = "#D35400"
 
 
@@ -34,7 +34,7 @@ def _gradient_color(non_exact: int) -> str:
         return mcolors.to_hex(GRADIENT_GREEN)
     # 2..GRADIENT_MAX: green -> dark blue
     t = min(non_exact - 1, GRADIENT_MAX - 1) / (GRADIENT_MAX - 1)
-    rgb = GRADIENT_GREEN * (1 - t) + GRADIENT_DARK_BLUE * t
+    rgb = GRADIENT_GREEN * (1 - t) + GRADIENT_RED * t
     return mcolors.to_hex(rgb)
 
 
