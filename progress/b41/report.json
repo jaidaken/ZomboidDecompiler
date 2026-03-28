@@ -6,10 +6,10 @@
     "match_tiers": {
       "CORE_OPS_ONLY": 2,
       "FUZZY_COMPUTATION": 18,
-      "EXACT": 32207,
+      "EXACT": 32208,
       "SORTED_MULTISET": 323,
       "STRUCTURAL_NO_TRYCATCH": 5,
-      "STRUCTURAL": 412
+      "STRUCTURAL": 411
     },
     "total_methods": 32967,
     "matched_function_percent": 100,
@@ -7773,14 +7773,6 @@
     {
       "total_instructions": 50,
       "matched_code_percent": 84,
-      "methods": [{
-        "name": "reduceSinAngle",
-        "recompInsnCount": 18,
-        "descriptor": "(D)D",
-        "matchTier": "STRUCTURAL",
-        "origInsnCount": 20,
-        "status": "MATCH"
-      }],
       "name": "zombie/core/FastTrig",
       "total_methods": 4,
       "matched_instructions": 42,
@@ -15074,7 +15066,7 @@
         },
         {
           "name": "lineClearCached",
-          "recompInsnCount": 465,
+          "recompInsnCount": 471,
           "descriptor": "(Lzombie/iso/IsoCell;IIIIIIZ)Lzombie/iso/LosUtil$TestResults;",
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 489,
@@ -21157,7 +21149,7 @@
       "methods": [
         {
           "name": "RandNext",
-          "recompInsnCount": 22,
+          "recompInsnCount": 24,
           "descriptor": "(FF)F",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 24,
@@ -21165,7 +21157,7 @@
         },
         {
           "name": "RandNext",
-          "recompInsnCount": 19,
+          "recompInsnCount": 21,
           "descriptor": "(II)I",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 21,
@@ -26696,7 +26688,7 @@
       "matched_code_percent": 99.51338199513383,
       "methods": [{
         "name": "SplitExceptInbetween",
-        "recompInsnCount": 212,
+        "recompInsnCount": 214,
         "descriptor": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)[Ljava/lang/String;",
         "matchTier": "STRUCTURAL",
         "origInsnCount": 216,
@@ -27296,7 +27288,7 @@
       "methods": [
         {
           "name": "RandNext",
-          "recompInsnCount": 21,
+          "recompInsnCount": 23,
           "descriptor": "(FF)F",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 23,
@@ -27304,7 +27296,7 @@
         },
         {
           "name": "RandNext",
-          "recompInsnCount": 18,
+          "recompInsnCount": 20,
           "descriptor": "(II)I",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 20,
