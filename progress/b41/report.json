@@ -4,10 +4,10 @@
     "total_instructions": 1180386,
     "matched_code_percent": 94.84566912857319,
     "match_tiers": {
-      "CORE_OPS_ONLY": 2,
-      "FUZZY_COMPUTATION": 18,
+      "CORE_OPS_ONLY": 1,
+      "FUZZY_COMPUTATION": 16,
       "EXACT": 32208,
-      "SORTED_MULTISET": 323,
+      "SORTED_MULTISET": 326,
       "STRUCTURAL_NO_TRYCATCH": 5,
       "STRUCTURAL": 411
     },
@@ -26530,17 +26530,17 @@
       "methods": [
         {
           "name": "isPlayerAlive",
-          "recompInsnCount": 125,
+          "recompInsnCount": 114,
           "descriptor": "(Ljava/lang/String;I)Z",
-          "matchTier": "CORE_OPS_ONLY",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 114,
           "status": "MATCH"
         },
         {
           "name": "setPlayer1",
-          "recompInsnCount": 252,
+          "recompInsnCount": 246,
           "descriptor": "(Ljava/lang/String;I)V",
-          "matchTier": "FUZZY_COMPUTATION",
+          "matchTier": "SORTED_MULTISET",
           "origInsnCount": 246,
           "status": "MATCH"
         }
@@ -26583,9 +26583,9 @@
       "matched_code_percent": 93.53233830845771,
       "methods": [{
         "name": "serverUpdateNetworkCharacterInt",
-        "recompInsnCount": 238,
+        "recompInsnCount": 232,
         "descriptor": "(Lzombie/savefile/ServerPlayerDB$NetworkCharacterData;)V",
-        "matchTier": "FUZZY_COMPUTATION",
+        "matchTier": "SORTED_MULTISET",
         "origInsnCount": 233,
         "status": "MATCH"
       }],
