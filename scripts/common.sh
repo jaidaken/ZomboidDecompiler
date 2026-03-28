@@ -760,13 +760,18 @@ generate_image() {
 }
 
 # Launch Project Zomboid from a game directory.
-# Usage: run_game <game_dir> [extra_classpath_prefix]
+# Usage: run_game <game_dir> [extra_classpath_prefix] [extra_vm_args] [game_args...]
 #
 # When extra_classpath_prefix is given, those entries are prepended to the
 # classpath so recompiled classes take priority over originals.
+# When extra_vm_args is given, those are appended to the JVM arguments.
+# Any remaining arguments are passed to the game process (e.g. -debug).
 run_game() {
     local game_dir="$1"
     local extra_cp="${2:-}"
+    local extra_vm_args="${3:-}"
+    shift 3 2>/dev/null || shift $#
+    local game_args=("$@")
 
     local config="$game_dir/ProjectZomboid64.json"
     if [ ! -f "$config" ]; then
@@ -812,6 +817,11 @@ print(cfg['mainClass'].replace('/', '.'))
     # Disable Steam integration (not running from Steam)
     vm_args="$vm_args -Dzomboid.steam=0"
 
+    # Append extra VM args (e.g. debug flags)
+    if [ -n "$extra_vm_args" ]; then
+        vm_args="$vm_args $extra_vm_args"
+    fi
+
     echo "Game dir:    $game_dir"
     echo "JRE:         $game_java"
     echo "Main class:  $main_class"
@@ -823,5 +833,5 @@ print(cfg['mainClass'].replace('/', '.'))
         -cp "$cp" \
         $vm_args \
         "$main_class" \
-        "$@"
+        "${game_args[@]}"
 }

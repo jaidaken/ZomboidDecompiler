@@ -5,7 +5,7 @@
 # over the original loose class files. Any classes that weren't recompiled
 # fall back to the originals.
 #
-# Usage:  ./scripts/b41_run_recompiled.sh
+# Usage:  ./scripts/b41_run_recompiled.sh [-debug]
 
 source "$(dirname "$0")/common.sh"
 
@@ -19,4 +19,4 @@ if [ ! -d "$RECOMPILED_DIR/zombie" ]; then
 fi
 
 echo "=== Build 41: Run Recompiled ==="
-run_game "$GAME_DIR" "$RECOMPILED_DIR"
+run_game "$GAME_DIR" "$RECOMPILED_DIR" "" "$@"
