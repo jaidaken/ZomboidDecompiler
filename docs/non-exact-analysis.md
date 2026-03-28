@@ -21,63 +21,60 @@
 
 ---
 
-## Critical Finding: Original Compiled with ECJ, Not javac
+## Critical Finding: Original Compiled with javac (ECJ Theory Disproved)
 
-The original Project Zomboid Build 41 was compiled with the **Eclipse Compiler for Java (ECJ)**, not javac. This is the fundamental reason many methods cannot reach EXACT - ECJ and javac produce structurally different bytecode for identical Java source code. This affects ~400+ of the 1,200 non-EXACT methods and is **not fixable** without recompiling with ECJ.
+**Initial theory (wrong):** We initially believed the game was compiled with ECJ (Eclipse Compiler) based on the `aload_0; pop` bytecode pattern before static field access, which was attributed to ECJ.
 
-However, this does NOT account for all 1,200 non-EXACT methods. The remaining ~800 are caused by:
+**Disproved:** The original bytecode contains `invokedynamic makeConcatWithConstants` for string concatenation. ECJ did not support this feature until mid-2023 (ECJ 3.35+). Build 41 shipped December 2021. This proves the game was compiled with **javac**, not ECJ.
+
+**The `aload_0; pop` pattern explained:** javac itself generates `aload_0; pop` when the source code uses `this.staticField = value` (qualifying static field access with `this.`). This is a developer coding style choice, not an ECJ artifact. Verified by compiling test code with javac 17.
+
+**ECJ experiment results:** We tested ECJ 3.28 and 3.33 for recompilation. Both produced far worse results than javac (25,882 EXACT vs 32,207 with javac), generating 472 extra methods and completely different bytecode patterns.
+
+The remaining non-EXACT methods are caused by:
+- javac block layout optimizations (not controllable from source): ~400+ methods
 - Vineflower decompilation artifacts (fixable): ~200-300 methods
-- Switch case ordering (potentially fixable): ~110 methods
-- Condition polarity lost during if-merging (fixable): ~80+ methods
-- Variable slot assignment differences (unfixable): ~150 methods
+- Variable slot assignment / declaration ordering: ~150 methods
 
 ---
 
 ## Root Cause Categories
 
-### 1. ECJ vs javac Compiler Mismatch (~400+ methods)
+### 1. javac Block Layout Optimization (~400+ methods)
 
-**CRITICAL FINDING:** The original game was compiled with **ECJ (Eclipse Compiler for Java)**, not javac. ECJ and javac produce structurally different bytecode for identical Java source. Since decompiled code is recompiled with javac, many differences are inherent compiler mismatches that cannot be fixed by changing the decompiler.
+The original game was compiled with **javac** (confirmed by `invokedynamic makeConcatWithConstants` in bytecode). The non-EXACT methods in this category are from javac recompiling correct source with slightly different block layout than the original javac version used by The Indie Stone.
 
-**Evidence of ECJ compilation:**
-- `aload_0; pop` before static field access (ECJ loads `this` then discards it; javac never does this)
-- Duplicate return instructions (ECJ generates separate `return` per branch; javac merges them)
-- Linear try-finally layout (ECJ places return before exception handler; javac uses GOTO to skip over handler)
-- No GOTO-to-return coalescing (ECJ keeps GOTO to separate return points; javac inlines the return)
+**Patterns observed (all are javac behaviors, not ECJ):**
+- `aload_0; pop` before static field access (source used `this.staticField` style - fixed in fix #14)
+- Separate return per branch (javac keeps returns separate, but block order may differ between versions)
+- GOTOs eliminated by block reordering (javac inverts branches to make common path fall through)
+- Variable slot differences from declaration ordering
 
 **Affected tiers:** STRUCTURAL delta=-1 (140), delta=-2 (81), delta=-3 (30), delta=-4 (22), delta=+1 (28), delta=+2 (26)
 
-#### Sub-cause A: ECJ's Redundant `aload_0; pop` (~50-70 methods, large negative deltas)
+#### Sub-cause A: `this.staticField` Pattern (~4 methods, large negative deltas)
 
-ECJ loads `this` before accessing static fields from instance methods, then pops it. javac never generates this. Each occurrence costs -2 instructions.
-- `GameClient.doConnect`: delta=-20 (10 instances)
-- `GameClient.doConnectCoop`: delta=-12 (6 instances)
+Original developers wrote `this.staticField = value` for static field access. javac compiles this as `aload_0; pop; putstatic`. Vineflower decompiled as unqualified `staticField = value`, losing the `aload_0; pop`.
 
-**Not fixable** - inherent ECJ behavior.
+**FIXED in fix #14:** +4 EXACT. Only 4 methods had this pattern (GameClient.doConnect, doConnectCoop, TileOverlays.addOverlays, LoadingQueueUI.setPlaceInQueue).
 
-#### Sub-cause B: ECJ's Duplicate Return Instructions (~200+ methods, delta=-1 per branch)
+#### Sub-cause B: Block Layout - Redundant GOTO Elimination (~200+ methods, delta=-1/-2)
 
-ECJ generates separate `return` for each branch exit. javac merges them into one shared `return`. This is the single most common pattern, explaining the vast majority of the 140 delta=-1 methods.
+The original javac version keeps GOTOs that jump to nearby returns or fall-through blocks. javac 17 reorders blocks to eliminate these GOTOs by inverting branch conditions or placing return inline.
 
-**Not fixable** - inherent ECJ behavior.
+**Not fixable from source** - javac's block ordering algorithm is internal. Potentially addressable via ASM post-processing.
 
-#### Sub-cause C: ECJ's Linear try-finally Layout (~26 methods, delta=+1/+2)
+#### Sub-cause C: Try-finally Block Layout (~26 methods, delta=+1/+2)
 
-ECJ places the normal-path return BEFORE the exception handler (no GOTO needed). javac places it AFTER, requiring a GOTO to skip over. Explains most delta=+2 methods.
+Different javac versions lay out try-finally exception handlers differently. Original places return before handler, javac 17 places it after with a GOTO to skip.
 
-**Not fixable** - inherent ECJ behavior.
+**Not fixable from source** - javac internal layout.
 
 #### Sub-cause D: Synchronized Block Layout (~33 methods, delta=-3)
 
-ECJ duplicates `monitorexit + return` for each exit path in synchronized blocks. javac is more economical. Explains the delta=-3 group including LuaEventManager's 9 triggerEvent methods.
+Original duplicates `monitorexit + return` for each exit path. javac 17 is more economical. Explains delta=-3 group including LuaEventManager's 9 triggerEvent methods.
 
-**Not fixable** - inherent ECJ behavior.
-
-#### Sub-cause E: Negated-if Inside Loops (~26 methods, delta=+1)
-
-Vineflower emits `if (!(cond)) {} else { body }` where `if (cond) { continue; }` would produce fewer GOTOs. Partially fixable but still won't match ECJ exactly.
-
-**Partially fixable** in Vineflower.
+**Not fixable from source** - javac internal layout.
 
 ### 2. Variable Slot / Instruction Ordering (~488 SORTED_MULTISET methods)
 
@@ -376,18 +373,17 @@ All investigations complete. Here are the concrete fixes ranked by estimated met
 |---|-----|-------|--------:|
 | 13 | Label + variable index normalization - promote methods where only labels and var indices differ | BytecodeComparator.java:469-505 | **+253** (done, overlaps with #12) |
 
-### Not Fixable (ECJ vs javac)
+### Not Fixable From Source (javac internal behavior)
 
-These are inherent compiler differences and cannot be resolved without recompiling with ECJ:
+These are from javac's block layout algorithm which cannot be controlled from Java source:
 
-| Pattern | Methods | Why Unfixable |
-|---------|--------:|---------------|
-| ECJ's duplicate returns | ~200+ | ECJ generates separate return per branch |
-| ECJ's `aload_0; pop` for static access | ~50-70 | ECJ loads this before static field access |
-| ECJ's linear try-finally layout | ~26 | Different exception handler placement |
-| ECJ's synchronized block layout | ~33 | Different monitorexit duplication strategy |
-| Variable slot assignment | ~65+150 | javac assigns different local variable indices |
-| Expression evaluation order | ~30-40 | XOR associativity reordering |
+| Pattern | Methods | Why Unfixable | Potential Workaround |
+|---------|--------:|---------------|---------------------|
+| Block reorder + GOTO elimination | ~214 | javac inverts branches to eliminate GOTOs | ASM post-processing |
+| Synchronized block layout | ~33 | javac optimizes monitorexit patterns | ASM post-processing |
+| Try-finally handler layout | ~26 | javac places handler differently | ASM post-processing |
+| Variable slot assignment | ~113 | Declaration order controls slots | Fix Vineflower var ordering |
+| Expression evaluation order | ~30-40 | XOR associativity reordering | Not fixable |
 
 ### Estimated Total Fixable
 
@@ -527,9 +523,19 @@ All from Vineflower's inability to reconstruct DUP-based bytecode idioms.
 | Comparator: DUP normalization for delta=+4 | ~10-15 | Medium |
 | **Total remaining fixable** | **~70-80** | |
 
-### Unfixable (javac behavior)
+### Partially Addressable (javac behavior - research update 2026-03-28)
 
-~680 methods are caused by javac's block layout, goto optimization, return sharing, and variable slot assignment. These cannot be fixed without a custom compiler backend or post-compilation bytecode rewriting.
+~680 methods are primarily from javac block layout differences. New research findings:
+
+1. **Variable declaration order controls slot assignment (~113 methods):** javac assigns slots strictly in declaration order. If Vineflower preserves original variable declaration order (by slot number), slot mismatches would disappear. Affects 73 STRUCTURAL delta=0 + 40 SORTED_MULTISET delta=0.
+
+2. **ASM post-processing (~214 methods):** A bytecode rewriting pass after javac could reorder basic blocks and insert/remove GOTOs to match the original. Engineering-heavy but feasible using the ASM framework.
+
+3. **Condition operand order:** `if (a != null)` produces `ifnonnull` while `if (null != a)` produces `if_acmpne`. Vineflower could match the original comparison form.
+
+4. **No javac flags exist** for block ordering. `-O` is no-op, `-g` affects only debug attributes, `-XD` flags don't control codegen layout. Confirmed by OpenJDK source.
+
+5. **jNorm tool** (ECOOP 2024) normalizes 99%+ of compiler version differences across 16 categories. Could be used as comparison infrastructure.
 
 ### Theoretical Maximum
 
