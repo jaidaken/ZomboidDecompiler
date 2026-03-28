@@ -476,10 +476,12 @@ public class Verify implements Callable<Integer> {
                         method.put("matchTier", mr.matchTier() != null ? mr.matchTier().name() : "NONE");
                         method.put("origInsnCount", mr.origInsnCount());
                         method.put("recompInsnCount", mr.recompInsnCount());
+                        if (mr.rawSimilarity() >= 0) {
+                            method.put("rawSimilarity", Math.round(mr.rawSimilarity() * 10000.0) / 100.0);
+                        }
                         if (mr.status() == Status.MISMATCH) {
                             method.put("category", MismatchCategorizer.categorize(mr).name());
                             method.put("diffDescription", mr.diffDescription());
-                            method.put("firstDiffIndex", mr.firstDiffIndex());
                             method.put("origContext", new JSONArray(mr.origContext()));
                             method.put("recompContext", new JSONArray(mr.recompContext()));
                         }
