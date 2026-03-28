@@ -470,8 +470,14 @@ public final class BytecodeComparator {
         // Same instruction count with only label target differences means the bytecode
         // is functionally identical - javac just assigned different label offsets due
         // to block ordering. Promote these to EXACT rather than STRUCTURAL.
+        //
+        // Extended: also strip variable indices (VAR_STRIP). When instructions differ
+        // only in label targets and variable slot assignments, the code is functionally
+        // identical - the compiler just assigned different local variable slots due to
+        // block reordering or register allocation differences. Promote to EXACT.
         if (origInsns.size() == recompInsns.size()) {
             boolean labelOnly = true;
+            boolean labelVarOnly = true;
             for (int i = 0; i < origInsns.size(); i++) {
                 String a = origInsns.get(i), b = recompInsns.get(i);
                 if (!a.equals(b)) {
@@ -479,11 +485,17 @@ public final class BytecodeComparator {
                     String skelB = LABEL_REF.matcher(b).replaceAll("L?");
                     if (!skelA.equals(skelB)) {
                         labelOnly = false;
-                        break;
+                        // Also check with variable indices stripped
+                        String varSkelA = VAR_STRIP.matcher(skelA).replaceAll("v?");
+                        String varSkelB = VAR_STRIP.matcher(skelB).replaceAll("v?");
+                        if (!varSkelA.equals(varSkelB)) {
+                            labelVarOnly = false;
+                            break;
+                        }
                     }
                 }
             }
-            if (labelOnly) {
+            if (labelOnly || labelVarOnly) {
                 String tryCatchDiff = compareTryCatchBlocks(orig, recomp);
                 if (tryCatchDiff == null || semanticNormalize) {
                     return new MethodResult(name, desc, Status.MATCH, MatchTier.EXACT,

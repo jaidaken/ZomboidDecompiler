@@ -19,6 +19,14 @@ TOOLS_DIR="$BUILDS_DIR/tools"
 JUNIT_JAR="$TOOLS_DIR/junit-4.13.2.jar"
 HAMCREST_JAR="$TOOLS_DIR/hamcrest-core-1.3.jar"
 
+# ECJ (Eclipse Compiler for Java) — available as alternative compiler.
+# ECJ 3.33.0 for Java 17 (Build 41), ECJ 3.45.0 for Java 25 (Build 42).
+# Set USE_ECJ=1 to enable ECJ instead of javac.
+ECJ_JAR_17="$TOOLS_DIR/ecj-3.28.0.jar"
+ECJ_JAR_25="$TOOLS_DIR/ecj-3.45.0.jar"
+ECJ_JAR="${ECJ_JAR:-$ECJ_JAR_17}"
+USE_ECJ="${USE_ECJ:-0}"
+
 # Default to Zulu 17 (build 41 / decompiler toolchain)
 # JAVA_HOME is set so Gradle builds also use the correct JDK
 JAVA_BIN="java"
@@ -224,6 +232,42 @@ count_classes() {
     echo "$count"
 }
 
+# ── ECJ compilation helper ─────────────────────────────────────────────
+
+# Compile Java source files.
+# When USE_ECJ=1 and ECJ jar exists, uses ECJ. Otherwise uses javac.
+# ECJ flags: -<version> (e.g. -17), -proc:none, -nowarn, -maxProblems N
+# javac flags: -source X -target X, -proc:none, -nowarn, -implicit:class, -Xmaxerrs N
+# The run_recompile function passes ECJ-style flags; this function translates
+# them to javac-style when needed.
+do_compile() {
+    if [ "$USE_ECJ" = "1" ] && [ -f "$ECJ_JAR" ]; then
+        "$JAVA_BIN" -jar "$ECJ_JAR" "$@"
+    else
+        # Translate ECJ flags to javac equivalents
+        local args=()
+        local i=0
+        for arg in "$@"; do
+            case "$arg" in
+                -maxProblems)
+                    args+=("-Xmaxerrs")
+                    ;;
+                -[0-9]|-[0-9][0-9])
+                    # ECJ shorthand -17 becomes -source 17 -target 17
+                    local ver="${arg#-}"
+                    args+=("-source" "$ver" "-target" "$ver")
+                    ;;
+                *)
+                    args+=("$arg")
+                    ;;
+            esac
+        done
+        # Add javac-specific flags
+        args+=("-implicit:class" "-Xmaxwarns" "0")
+        "$JAVAC_BIN" "${args[@]}"
+    fi
+}
+
 # ── Core operations ───────────────────────────────────────────────────
 
 run_decompile() {
@@ -317,15 +361,13 @@ run_recompile() {
 
     local log_file="$output_dir/compile-errors.log"
 
-    "$JAVAC_BIN" \
+    do_compile \
         -d "$output_dir" \
         -cp "$cp" \
-        -source "${JAVAC_SOURCE_VERSION:-17}" -target "${JAVAC_TARGET_VERSION:-17}" \
+        -"${JAVAC_SOURCE_VERSION:-17}" \
         -proc:none \
         -nowarn \
-        -implicit:class \
-        -Xmaxerrs 99999 \
-        -Xmaxwarns 0 \
+        -maxProblems 99999 \
         "@$src_list" > "$log_file" 2>&1 &
     local javac_pid=$!
 
@@ -345,15 +387,34 @@ run_recompile() {
         local prev_compiled="$compiled"
 
         while [ "$pass" -le "$max_passes" ]; do
-            # Find files with their OWN errors (not cascade "cannot find symbol")
+            # Find files with their OWN errors (not cascade "cannot find symbol").
             local root_cause
             root_cause=$(mktemp)
-            grep "^.*\.java:[0-9]*: error:" "$log_file" 2>/dev/null \
-                | grep -v "error: cannot find symbol" \
-                | grep -v "error: package .* does not exist" \
-                | grep -v "error: cannot access " \
-                | sed 's/:[0-9]*: error:.*//' \
-                | sort -u > "$root_cause" || true
+
+            if [ "$USE_ECJ" = "1" ] && [ -f "$ECJ_JAR" ]; then
+                # ECJ format: "N. ERROR in /path/File.java (at line N)"
+                # Cascade errors contain "cannot be resolved" phrases.
+                local all_error_files
+                all_error_files=$(mktemp)
+                local cascade_files
+                cascade_files=$(mktemp)
+
+                command grep -oP 'ERROR in \K[^ ]+\.java' "$log_file" 2>/dev/null \
+                    | sort -u > "$all_error_files" || true
+                command grep -B5 -E 'cannot be resolved|The import .* cannot be resolved' "$log_file" 2>/dev/null \
+                    | command grep -oP 'ERROR in \K[^ ]+\.java' \
+                    | sort -u > "$cascade_files" || true
+                comm -23 "$all_error_files" "$cascade_files" > "$root_cause" || true
+                rm -f "$all_error_files" "$cascade_files"
+            else
+                # javac format: "/path/File.java:N: error: message"
+                command grep "^.*\.java:[0-9]*: error:" "$log_file" 2>/dev/null \
+                    | command grep -v "error: cannot find symbol" \
+                    | command grep -v "error: package .* does not exist" \
+                    | command grep -v "error: cannot access " \
+                    | sed 's/:[0-9]*: error:.*//' \
+                    | sort -u > "$root_cause" || true
+            fi
 
             local exclude_count
             exclude_count=$(wc -l < "$root_cause")
@@ -384,15 +445,13 @@ run_recompile() {
 
             local pass_log
             pass_log=$(mktemp)
-            "$JAVAC_BIN" \
+            do_compile \
                 -d "$output_dir" \
                 -cp "$cp" \
-                -source "${JAVAC_SOURCE_VERSION:-17}" -target "${JAVAC_TARGET_VERSION:-17}" \
+                -"${JAVAC_SOURCE_VERSION:-17}" \
                 -proc:none \
                 -nowarn \
-                -implicit:class \
-                -Xmaxerrs 99999 \
-                -Xmaxwarns 0 \
+                -maxProblems 99999 \
                 "@$src_list" > "$pass_log" 2>&1 &
             javac_pid=$!
 
@@ -441,12 +500,21 @@ run_recompile() {
 
             # Small batches (20 files each) to limit cascade within a batch
             # while keeping JVM startup overhead reasonable.
-            cat "$remaining" | xargs -P "$jobs" -L 20 \
-                "$JAVAC_BIN" -d "$output_dir" -cp "$cp:$output_dir" \
-                -source "${JAVAC_SOURCE_VERSION:-17}" -target "${JAVAC_TARGET_VERSION:-17}" \
-                -proc:none -nowarn -implicit:none \
-                -Xmaxerrs 99999 -Xmaxwarns 0 \
-                2>"$fallback_log" || true
+            if [ "$USE_ECJ" = "1" ] && [ -f "$ECJ_JAR" ]; then
+                cat "$remaining" | xargs -P "$jobs" -L 20 \
+                    "$JAVA_BIN" -jar "$ECJ_JAR" -d "$output_dir" -cp "$cp:$output_dir" \
+                    -"${JAVAC_SOURCE_VERSION:-17}" \
+                    -proc:none -nowarn \
+                    -maxProblems 99999 \
+                    2>"$fallback_log" || true
+            else
+                cat "$remaining" | xargs -P "$jobs" -L 20 \
+                    "$JAVAC_BIN" -d "$output_dir" -cp "$cp:$output_dir" \
+                    -source "${JAVAC_SOURCE_VERSION:-17}" -target "${JAVAC_TARGET_VERSION:-17}" \
+                    -proc:none -nowarn -implicit:none \
+                    -Xmaxerrs 99999 -Xmaxwarns 0 \
+                    2>"$fallback_log" || true
+            fi
 
             local new_compiled
             new_compiled=$(command find "$output_dir" -name "*.class" 2>/dev/null | wc -l)
@@ -470,12 +538,21 @@ run_recompile() {
             if [ "$still_count" -gt 0 ]; then
                 local fallback2_log
                 fallback2_log=$(mktemp)
-                cat "$still_missing" | xargs -P "$jobs" -L 1 \
-                    "$JAVAC_BIN" -d "$output_dir" -cp "$cp:$output_dir" \
-                    -source "${JAVAC_SOURCE_VERSION:-17}" -target "${JAVAC_TARGET_VERSION:-17}" \
-                    -proc:none -nowarn -implicit:none \
-                    -Xmaxerrs 99999 -Xmaxwarns 0 \
-                    2>"$fallback2_log" || true
+                if [ "$USE_ECJ" = "1" ] && [ -f "$ECJ_JAR" ]; then
+                    cat "$still_missing" | xargs -P "$jobs" -L 1 \
+                        "$JAVA_BIN" -jar "$ECJ_JAR" -d "$output_dir" -cp "$cp:$output_dir" \
+                        -"${JAVAC_SOURCE_VERSION:-17}" \
+                        -proc:none -nowarn \
+                        -maxProblems 99999 \
+                        2>"$fallback2_log" || true
+                else
+                    cat "$still_missing" | xargs -P "$jobs" -L 1 \
+                        "$JAVAC_BIN" -d "$output_dir" -cp "$cp:$output_dir" \
+                        -source "${JAVAC_SOURCE_VERSION:-17}" -target "${JAVAC_TARGET_VERSION:-17}" \
+                        -proc:none -nowarn -implicit:none \
+                        -Xmaxerrs 99999 -Xmaxwarns 0 \
+                        2>"$fallback2_log" || true
+                fi
                 new_compiled=$(command find "$output_dir" -name "*.class" 2>/dev/null | wc -l)
                 local recovered2=$((new_compiled - compiled))
                 if [ "$recovered2" -gt 0 ]; then
@@ -499,11 +576,20 @@ run_recompile() {
     fi
 
     # Count errors from the log (covers all passes)
-    local errors
-    errors=$(grep -c "^.*\.java:[0-9]*: error:" "$log_file" 2>/dev/null || echo 0)
-    local error_files
-    error_files=$(grep "^.*\.java:[0-9]*: error:" "$log_file" 2>/dev/null \
-        | sed 's/:[0-9]*: error:.*//' | sort -u | wc -l)
+    # ECJ format: "N. ERROR in /path/File.java (at line N)"
+    # javac format: "/path/File.java:N: error: message"
+    local errors error_files compiler_name
+    if [ "$USE_ECJ" = "1" ] && [ -f "$ECJ_JAR" ]; then
+        compiler_name="ECJ (Eclipse Compiler for Java)"
+        errors=$(command grep -c 'ERROR in .*\.java' "$log_file" 2>/dev/null) || errors=0
+        error_files=$({ command grep -oP 'ERROR in \K[^ ]+\.java' "$log_file" 2>/dev/null || true; } \
+            | sort -u | wc -l)
+    else
+        compiler_name="javac"
+        errors=$(command grep -c "^.*\.java:[0-9]*: error:" "$log_file" 2>/dev/null) || errors=0
+        error_files=$({ command grep "^.*\.java:[0-9]*: error:" "$log_file" 2>/dev/null || true; } \
+            | sed 's/:[0-9]*: error:.*//' | sort -u | wc -l)
+    fi
     local source_count
     source_count=$(wc -l < "$src_list")
 
@@ -511,6 +597,7 @@ run_recompile() {
     echo "  ========================================"
     echo "  Compilation Summary"
     echo "  ========================================"
+    echo "  Compiler:      $compiler_name"
     echo "  Source files:  $source_count"
     echo "  Classes built: $compiled"
     echo "  Errors:        $errors (in $error_files files)"
@@ -518,9 +605,22 @@ run_recompile() {
         echo "  Error log:     $log_file"
         echo ""
         echo "  Error breakdown:"
-        grep "^.*\.java:[0-9]*: error:" "$log_file" 2>/dev/null \
-            | sed 's/.*: error: //' | sort | uniq -c | sort -rn | head -10 \
-            | while IFS= read -r line; do echo "    $line"; done
+        if [ "$USE_ECJ" = "1" ] && [ -f "$ECJ_JAR" ]; then
+            # Extract ECJ error messages (line after the ^^^ pointer line)
+            command grep -A4 'ERROR in .*\.java' "$log_file" 2>/dev/null \
+                | command grep -v '^--$' \
+                | command grep -v 'ERROR in ' \
+                | command grep -v '^\t' \
+                | command grep -v '^\s*\^' \
+                | command grep -v '^-' \
+                | sed 's/^[[:space:]]*//' \
+                | sort | uniq -c | sort -rn | head -10 \
+                | while IFS= read -r line; do echo "    $line"; done
+        else
+            command grep "^.*\.java:[0-9]*: error:" "$log_file" 2>/dev/null \
+                | sed 's/.*: error: //' | sort | uniq -c | sort -rn | head -10 \
+                | while IFS= read -r line; do echo "    $line"; done
+        fi
         echo "  ========================================"
     else
         echo "  ========================================"

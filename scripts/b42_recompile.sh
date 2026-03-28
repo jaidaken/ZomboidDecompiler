@@ -12,6 +12,7 @@ if [ -x "$ZULU25_HOME/bin/java" ]; then
 fi
 JAVAC_SOURCE_VERSION=25
 JAVAC_TARGET_VERSION=25
+ECJ_JAR="$ECJ_JAR_25"
 
 GAME_DIR="$BUILDS_DIR/build-42/vanilla-game-42/projectzomboid"
 DECOMPILED_DIR="$BUILDS_DIR/build-42/Decompiled-src"
