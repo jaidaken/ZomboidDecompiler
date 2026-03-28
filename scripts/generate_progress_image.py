@@ -23,7 +23,7 @@ GRADIENT_RED = np.array([0.800, 0.100, 0.100])       # #CC1A1A
 GRADIENT_MAX = 50
 
 COLOR_NOT_STARTED = "#000000"
-COLOR_NOT_COMPILED = "#D35400"
+COLOR_NOT_COMPILED = "#CC00FF"  # bright purple
 
 
 def _gradient_color(non_exact: int) -> str:

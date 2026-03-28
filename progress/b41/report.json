@@ -6,8 +6,8 @@
     "match_tiers": {
       "CORE_OPS_ONLY": 1,
       "FUZZY_COMPUTATION": 14,
-      "EXACT": 32218,
-      "SORTED_MULTISET": 326,
+      "EXACT": 32220,
+      "SORTED_MULTISET": 324,
       "STRUCTURAL": 408
     },
     "total_methods": 32967,
@@ -30004,15 +30004,6 @@
     {
       "total_instructions": 216,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 50,
-        "name": "replaceAll",
-        "recompInsnCount": 27,
-        "descriptor": "(Ljava/util/function/UnaryOperator;)V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 28,
-        "status": "MATCH"
-      }],
       "name": "zombie/util/list/PZConvertList",
       "total_methods": 18,
       "matched_instructions": 216,
@@ -31928,15 +31919,6 @@
     {
       "total_instructions": 105,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 83.33,
-        "name": "render",
-        "recompInsnCount": 94,
-        "descriptor": "()V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 96,
-        "status": "MATCH"
-      }],
       "name": "zombie/vehicles/UI3DScene$GridPlaneDrawer",
       "total_methods": 2,
       "matched_instructions": 105,
