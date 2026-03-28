@@ -418,7 +418,8 @@ Realistic ceiling with all remaining fixes: ~32,100-32,200 / 32,967 (~97.4-97.7%
 | 2026-03-27 | #12: originalBytecodeType at render | 31,943 | **32,202** | **+259** |
 | 2026-03-27 | #13: Label+var normalization (comparator) | 31,943 | **32,202** | **+253** |
 | 2026-03-27 | #9: Dead Object var null elimination | 31,943 | 32,202 | +259 (overlaps) |
-| 2026-03-27 | **FINAL COMBINED** | **31,767** | **32,202** | **+435** |
+| 2026-03-27 | #14: this.staticField qualification | 32,202 | 32,206 | +4 |
+| 2026-03-27 | **FINAL COMBINED** | **31,767** | **32,206** | **+439** |
 
 ---
 
