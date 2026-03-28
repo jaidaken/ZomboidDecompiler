@@ -487,16 +487,16 @@ public class Verify implements Callable<Integer> {
                     }
                 }
 
-                // For classes with methods not in recompiled, also count from ClassNode
+                // For classes with methods not in recompiled, also count from ClassNode.
+                // Only override when there are actually more methods in the original
+                // than were compared — not when semantic normalization simply reduced
+                // instruction counts (which would inflate the denominator and deflate %).
                 ClassNode origNode = origClasses.get(className);
                 if (origNode != null) {
-                    int origTotal = countClassInstructions(origNode);
                     int origMethods = countClassMethods(origNode);
-                    // Use original counts if they're larger (captures methods missed by comparison)
-                    if (origTotal > classTotal) {
-                        classTotal = origTotal;
-                    }
                     if (origMethods > methodTotal) {
+                        int origTotal = countClassInstructions(origNode);
+                        classTotal = origTotal;
                         methodTotal = origMethods;
                     }
                 }
