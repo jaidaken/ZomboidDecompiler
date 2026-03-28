@@ -14,10 +14,10 @@ import numpy as np
 import squarify
 
 
-# Gold (0 non-exact) -> dark blue (many non-exact)
-GRADIENT_GOLD = np.array([1.0, 0.843, 0.0])       # #FFD700
-GRADIENT_GREEN = np.array([0.180, 0.561, 0.251])   # #2ecc40 approx
-GRADIENT_DARK_BLUE = np.array([0.051, 0.106, 0.243])  # #0d1b3e
+# Yellow (0 non-exact) -> bright green (1) -> dark blue (many non-exact)
+GRADIENT_YELLOW = np.array([1.0, 1.0, 0.0])         # #FFFF00
+GRADIENT_GREEN = np.array([0.180, 0.800, 0.251])     # bright green
+GRADIENT_DARK_BLUE = np.array([0.051, 0.106, 0.243]) # #0d1b3e
 
 # Max non-exact count that maps to the darkest color; anything above is clamped
 GRADIENT_MAX = 20
@@ -27,18 +27,14 @@ COLOR_NOT_COMPILED = "#D35400"
 
 
 def _gradient_color(non_exact: int) -> str:
-    """Map non-exact method count to a gold -> green -> dark blue gradient."""
+    """Map non-exact method count to a yellow -> green -> dark blue gradient."""
     if non_exact == 0:
-        return mcolors.to_hex(GRADIENT_GOLD)
-    t = min(non_exact, GRADIENT_MAX) / GRADIENT_MAX
-    if t <= 0.5:
-        # Gold -> Green for 1..10
-        blend = t * 2
-        rgb = GRADIENT_GOLD * (1 - blend) + GRADIENT_GREEN * blend
-    else:
-        # Green -> Dark blue for 10..20+
-        blend = (t - 0.5) * 2
-        rgb = GRADIENT_GREEN * (1 - blend) + GRADIENT_DARK_BLUE * blend
+        return mcolors.to_hex(GRADIENT_YELLOW)
+    if non_exact == 1:
+        return mcolors.to_hex(GRADIENT_GREEN)
+    # 2..GRADIENT_MAX: green -> dark blue
+    t = min(non_exact - 1, GRADIENT_MAX - 1) / (GRADIENT_MAX - 1)
+    rgb = GRADIENT_GREEN * (1 - t) + GRADIENT_DARK_BLUE * t
     return mcolors.to_hex(rgb)
 
 
