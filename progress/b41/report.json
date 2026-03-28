@@ -6,8 +6,8 @@
     "match_tiers": {
       "CORE_OPS_ONLY": 2,
       "FUZZY_COMPUTATION": 18,
-      "EXACT": 32206,
-      "SORTED_MULTISET": 324,
+      "EXACT": 32207,
+      "SORTED_MULTISET": 323,
       "STRUCTURAL_NO_TRYCATCH": 5,
       "STRUCTURAL": 412
     },
@@ -1040,7 +1040,7 @@
       "matched_code_percent": 93.80530973451327,
       "methods": [{
         "name": "removeChunkFromWorld",
-        "recompInsnCount": 3,
+        "recompInsnCount": 4,
         "descriptor": "(Lzombie/iso/IsoChunk;)V",
         "matchTier": "STRUCTURAL",
         "origInsnCount": 4,
@@ -1444,7 +1444,7 @@
       "matched_code_percent": 87.1559633027523,
       "methods": [{
         "name": "initSharedDescriptors",
-        "recompInsnCount": 2,
+        "recompInsnCount": 3,
         "descriptor": "()V",
         "matchTier": "STRUCTURAL",
         "origInsnCount": 3,
@@ -1479,7 +1479,7 @@
       "matched_code_percent": 96.14499424626007,
       "methods": [{
         "name": "setMusicVolume",
-        "recompInsnCount": 6,
+        "recompInsnCount": 7,
         "descriptor": "(F)V",
         "matchTier": "STRUCTURAL",
         "origInsnCount": 7,
@@ -1949,7 +1949,7 @@
       "matched_code_percent": 96.84721099434115,
       "methods": [{
         "name": "updateSnow",
-        "recompInsnCount": 7,
+        "recompInsnCount": 8,
         "descriptor": "(Lzombie/characters/IsoPlayer;)V",
         "matchTier": "STRUCTURAL",
         "origInsnCount": 8,
@@ -4431,7 +4431,7 @@
         },
         {
           "name": "checkDrawWeaponPre",
-          "recompInsnCount": 39,
+          "recompInsnCount": 40,
           "descriptor": "(FFFLzombie/core/textures/ColorInfo;)V",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 40,
@@ -16196,14 +16196,6 @@
     {
       "total_instructions": 2518,
       "matched_code_percent": 94.83717235901509,
-      "methods": [{
-        "name": "update",
-        "recompInsnCount": 7,
-        "descriptor": "()V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 8,
-        "status": "MATCH"
-      }],
       "name": "zombie/inventory/types/Clothing",
       "total_methods": 87,
       "matched_instructions": 2388,
@@ -24605,7 +24597,7 @@
         },
         {
           "name": "endSaveRealZombies",
-          "recompInsnCount": 3,
+          "recompInsnCount": 4,
           "descriptor": "()V",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 4,
@@ -27731,7 +27723,7 @@
       "matched_code_percent": 94.57364341085271,
       "methods": [{
         "name": "init",
-        "recompInsnCount": 5,
+        "recompInsnCount": 6,
         "descriptor": "()V",
         "matchTier": "STRUCTURAL",
         "origInsnCount": 6,
@@ -29755,7 +29747,7 @@
         },
         {
           "name": "setActiveInBullet",
-          "recompInsnCount": 5,
+          "recompInsnCount": 6,
           "descriptor": "(Z)V",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 6,
