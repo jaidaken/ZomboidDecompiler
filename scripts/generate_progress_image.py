@@ -8,46 +8,51 @@ from pathlib import Path
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
 import matplotlib.patches as mpatches
+import numpy as np
 import squarify
 
 
-COLOR_TIERS = [
-    (100,  "#FFD700",  "100% exact"),
-    (95,   "#2ecc40",  "95-99%"),
-    (90,   "#1a8f1a",  "90-95%"),
-    (75,   "#0e6b2c",  "75-90%"),
-    (50,   "#1a6b6b",  "50-75%"),
-    (25,   "#0c3795",  "25-50%"),
-    (0,    "#0d1b3e",  "< 25%"),
-    (-1,   "#353535",  "Not started"),
-]
+# Gold (0 non-exact) -> dark blue (many non-exact)
+GRADIENT_GOLD = np.array([1.0, 0.843, 0.0])       # #FFD700
+GRADIENT_GREEN = np.array([0.180, 0.561, 0.251])   # #2ecc40 approx
+GRADIENT_DARK_BLUE = np.array([0.051, 0.106, 0.243])  # #0d1b3e
 
+# Max non-exact count that maps to the darkest color; anything above is clamped
+GRADIENT_MAX = 20
+
+COLOR_NOT_STARTED = "#353535"
 COLOR_NOT_COMPILED = "#D35400"
 
 
-def get_exact_pct(unit):
-    total = unit.get("total_methods", 0)
-    if total == 0:
-        return 0
-    non_exact = len(unit.get("methods", []))
-    return 100.0 * (total - non_exact) / total
+def _gradient_color(non_exact: int) -> str:
+    """Map non-exact method count to a gold -> green -> dark blue gradient."""
+    if non_exact == 0:
+        return mcolors.to_hex(GRADIENT_GOLD)
+    t = min(non_exact, GRADIENT_MAX) / GRADIENT_MAX
+    if t <= 0.5:
+        # Gold -> Green for 1..10
+        blend = t * 2
+        rgb = GRADIENT_GOLD * (1 - blend) + GRADIENT_GREEN * blend
+    else:
+        # Green -> Dark blue for 10..20+
+        blend = (t - 0.5) * 2
+        rgb = GRADIENT_GREEN * (1 - blend) + GRADIENT_DARK_BLUE * blend
+    return mcolors.to_hex(rgb)
 
 
-def get_color(unit, source_dir=None):
+def get_color(unit: dict, source_dir: str | None = None) -> str:
     status = unit.get("status", "")
     if status == "MISSING_RECOMP":
         if source_dir:
             name = unit.get("name", "")
             source_file = Path(source_dir) / (name.split("$")[0] + ".java")
             if not source_file.exists():
-                return "#353535"
+                return COLOR_NOT_STARTED
         return COLOR_NOT_COMPILED
-    pct = get_exact_pct(unit)
-    for min_pct, color, _ in COLOR_TIERS:
-        if pct >= min_pct:
-            return color
-    return "#353535"
+    non_exact = len(unit.get("methods", []))
+    return _gradient_color(non_exact)
 
 
 def main():
@@ -120,7 +125,10 @@ def main():
             facecolor=color, edgecolor="#0d0d1a", linewidth=0.5,
         ))
         if dx >= 1.2 and dy >= 0.8:
-            text_color = "#1a1a2e" if color in ("#FFD700", "#2ecc40") else "white"
+            # Use dark text on bright backgrounds based on luminance
+            rgb = mcolors.to_rgb(color)
+            luminance = 0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2]
+            text_color = "#1a1a2e" if luminance > 0.45 else "white"
             if dy > dx * 1.5:
                 fontsize = min(8, max(3.5, dx * 0.9))
                 rotation = 90
@@ -191,20 +199,32 @@ def main():
 
     ax.set_title(title_text, color="white", fontsize=14, fontweight="bold", pad=20)
 
-    # Legend
-    legend_items = []
-    for _, color, label in COLOR_TIERS:
-        ec = "#1a1a2e" if color == "#FFD700" else "white"
-        legend_items.append(mpatches.Patch(facecolor=color, edgecolor=ec, label=label))
-    legend_items.insert(-1, mpatches.Patch(
-        facecolor=COLOR_NOT_COMPILED, edgecolor="white", label="Compile error"))
+    # Legend: gradient bar + special status patches
+    # Gradient colorbar
+    gradient_ax = fig.add_axes([0.72, 0.08, 0.22, 0.025])  # [left, bottom, width, height]
+    gradient_data = np.linspace(0, GRADIENT_MAX, 256).reshape(1, -1)
+    gradient_colors = [_gradient_color(int(v)) for v in np.linspace(0, GRADIENT_MAX, 256)]
+    cmap = mcolors.ListedColormap(gradient_colors)
+    gradient_ax.imshow(gradient_data, aspect="auto", cmap=cmap)
+    gradient_ax.set_xticks([0, 128, 255])
+    gradient_ax.set_xticklabels(["0", str(GRADIENT_MAX // 2), f"{GRADIENT_MAX}+"],
+                                 color="white", fontsize=8)
+    gradient_ax.set_yticks([])
+    gradient_ax.set_xlabel("non-exact methods", color="white", fontsize=8, labelpad=2)
+    gradient_ax.tick_params(axis="x", colors="white", length=0)
+    for spine in gradient_ax.spines.values():
+        spine.set_edgecolor("#444")
 
+    # Special status patches
+    special_items = [
+        mpatches.Patch(facecolor=COLOR_NOT_COMPILED, edgecolor="white", label="Compile error"),
+        mpatches.Patch(facecolor=COLOR_NOT_STARTED, edgecolor="white", label="Not started"),
+    ]
     ax.legend(
-        handles=legend_items, loc="lower right", fontsize=10,
+        handles=special_items, loc="lower left", fontsize=10,
         facecolor="#1a1a2e", edgecolor="#444", labelcolor="white", framealpha=0.9,
     )
 
-    plt.tight_layout()
     plt.savefig(output_path, dpi=150, bbox_inches="tight", facecolor=fig.get_facecolor())
     plt.close()
 
