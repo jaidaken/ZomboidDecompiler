@@ -419,7 +419,123 @@ Realistic ceiling with all remaining fixes: ~32,100-32,200 / 32,967 (~97.4-97.7%
 | 2026-03-27 | #13: Label+var normalization (comparator) | 31,943 | **32,202** | **+253** |
 | 2026-03-27 | #9: Dead Object var null elimination | 31,943 | 32,202 | +259 (overlaps) |
 | 2026-03-27 | #14: this.staticField qualification | 32,202 | 32,206 | +4 |
-| 2026-03-27 | **FINAL COMBINED** | **31,767** | **32,206** | **+439** |
+| 2026-03-27 | #15: Guard clause return at method end | 32,206 | 32,207 | +1 |
+| 2026-03-27 | **FINAL COMBINED** | **31,767** | **32,207** | **+440** |
+
+---
+
+## Phase 2 Deep Investigation: Remaining 760 Methods (2026-03-27)
+
+### SORTED_MULTISET delta=-1 (74 methods) - NOT FIXABLE
+
+All 74 are caused by javac's basic block reordering strategy. javac inverts branch conditions and reorders blocks to eliminate one `goto` or `return`. Three sub-patterns:
+
+- **Pattern A (~60%):** Branch inversion eliminates goto. Original: `ifXX target; code_B; goto end; target: code_A`. Recompiled: `ifYY else; code_A; else: code_B` (no goto needed).
+- **Pattern B (~25%):** Early return consolidation. Original has separate `return` per branch, recompiled shares one `return` via inverted branch.
+- **Pattern C (~15%):** Block layout eliminates goto-to-goto chains.
+
+The block reordering AND the missing instruction are the same root cause. Cannot fix one without the other. javac's block ordering algorithm is not controllable from source.
+
+### STRUCTURAL delta=-1 (140 methods) - NOT FIXABLE
+
+All 140 are the same root cause as SORTED_MULTISET delta=-1: javac 17 eliminates redundant `goto` instructions through smarter block layout. Four sub-variants:
+
+- **Sub-variant A:** `goto return` at method end - goto jumps to an immediately reachable return. javac eliminates the goto.
+- **Sub-variant B:** Negated branch condition - original has `ifXX target; goto other`, javac inverts to `if!XX other` (1 instruction instead of 2).
+- **Sub-variant C:** Block reordering for spin-wait/CAS loops - javac reorders blocks so the common path falls through.
+- **Sub-variant D:** Duplicate return after try-catch - original has separate returns for normal and catch paths, javac shares one.
+
+The original compiler does not optimize away `goto` instructions that jump to immediately following instructions or to reachable returns. javac 17 does. Not fixable in the decompiler.
+
+### STRUCTURAL delta=-2 (81 methods) - PARTIALLY FIXABLE
+
+All 81 have 2 fewer instructions from redundant variable operations. Three patterns:
+
+- **Pattern A1 (~45):** Try-catch goto-to-return elimination. javac inlines the return, eliminating goto + label. **Not fixable** - javac block layout.
+- **Pattern A2 (~16):** Dead store / redundant variable copy. Vineflower preserves `aload X; astore Y` where Y is never read. **POTENTIALLY FIXABLE** - dead store elimination in Vineflower.
+- **Pattern B (~8):** String switch parameter copy. `aload_1; astore N` before hashCode. javac skips the copy on recompilation. **POTENTIALLY FIXABLE** - Vineflower could omit the copy.
+- **Pattern C (~4):** Swap optimization. Original uses temp variable, javac uses `dup`. **Not fixable** - javac optimization.
+
+Fixable subset: ~24 methods (16 dead stores + 8 string switch copies).
+
+### SORTED_MULTISET delta=+2 (53 methods) - MOSTLY FIXABLE
+
+Dominant cause (~35-40 methods): redundant variable initialization before do-while loops, synchronized blocks, and try blocks. Same root cause as fix #7 (for-loop init) but for three more statement types.
+
+- **Do-while loops:** `int x = 0; do { x = compute(); } while (cond)` - the `= 0` is dead because do-while body always executes once.
+- **Synchronized blocks:** `Object x = null; synchronized(lock) { x = getValue(); }` - the `= null` is dead.
+- **Try blocks:** `int x = 0; try { x = read(); } catch ...` - the `= 0` is dead when first statement in try assigns it.
+
+Fix location: `VarDefinitionHelper.isDefinitelyAssignedImpl()` lines 730-895. Extend to handle DO_WHILE bodies, synchronized bodies, and deeper try-body nesting.
+
+Minor causes: dup2 for array compound assignment (~5-8), redundant casts (~3-5).
+
+**FIXABLE: ~35-40 methods via VarDefinitionHelper improvement.**
+
+### SORTED_MULTISET delta=+4 (28 methods) - PARTIALLY FIXABLE
+
+All from Vineflower's inability to reconstruct DUP-based bytecode idioms.
+
+- **Chained constant init (3):** `a = b = c = 0` uses DUP, Vineflower emits three separate assignments.
+- **Inline assignment in args (3):** `call(field = value)` uses DUP+PUTSTATIC, Vineflower extracts to temp var.
+- **Compound field update (1):** `obj.field += value` uses DUP, Vineflower splits into read + write.
+- **Null initialization (2):** Variables assigned in all branches get unnecessary null init.
+- **Dead code variable (1):** POP becomes variable assignment.
+- **Complex restructuring (4):** Multiple DUP differences + control flow.
+- **Array init DUP (13):** test_IsQuadranglesAreTransposed (known pattern).
+- **Subexpression extraction (1):** Inline computation extracted to named variable.
+
+**Comparator fix possible:** Extend normalization to handle constant deduplication and PUTFIELD DUP patterns. Would cover ~10-15 methods.
+**Vineflower fix (hard):** Reconstruct chained assignments, inline assignments, compound operators. Would cover all 28 but requires significant work.
+
+---
+
+## Phase 2: Cross-Reference and Unlock Combinations
+
+### Summary of All 760 Non-EXACT Methods
+
+| Group | Count | Root Cause | Fixable? |
+|-------|------:|-----------|----------|
+| STRUCTURAL delta=-1 | 140 | javac block layout optimization | NO |
+| STRUCTURAL delta=-2 (A1) | ~45 | javac try-catch goto elimination | NO |
+| STRUCTURAL delta=-2 (A2) | ~16 | Dead stores in Vineflower | YES (~16) |
+| STRUCTURAL delta=-2 (B) | ~8 | String switch parameter copy | YES (~8) |
+| STRUCTURAL delta=-2 (C) | ~4 | Swap optimization (dup vs temp) | NO |
+| STRUCTURAL delta=-2 (other) | ~8 | Mixed | NO |
+| STRUCTURAL delta=-3 | 26 | Synchronized + multiple gotos | NO |
+| STRUCTURAL delta=-4+ | 29 | Multiple missing gotos | NO |
+| STRUCTURAL delta=0 | 73 | Variable slot differences | NO |
+| STRUCTURAL delta=+1/+2/+3 | 52 | Extra gotos from javac try layout | NO |
+| SORTED_MULTISET delta=-1 | 74 | javac block reordering | NO |
+| SORTED_MULTISET delta=-2/-3/-4 | 74 | javac block reordering + gotos | NO |
+| SORTED_MULTISET delta=0 | 40 | Variable slot reordering | NO |
+| SORTED_MULTISET delta=+1 | 30 | Minor instruction differences | MAYBE (~5) |
+| SORTED_MULTISET delta=+2 | 53 | Redundant var init (do-while/sync/try) | YES (~35-40) |
+| SORTED_MULTISET delta=+4 | 28 | DUP idiom reconstruction | PARTIAL (~10-15) |
+| SORTED_MULTISET delta=+5+ | 16 | Multiple DUP + other causes | NO |
+| FUZZY_COMPUTATION | 18 | Deep structural differences | NO |
+| STRUCTURAL_NO_TRYCATCH | 5 | Exception table differences | MAYBE |
+| CORE_OPS_ONLY | 2 | Fundamental bytecode differences | NO |
+
+### Remaining Fixable Methods
+
+| Fix | Target Methods | Difficulty |
+|-----|---------------:|------------|
+| VarDefinitionHelper: do-while/sync/try definite assignment | ~35-40 | Medium |
+| Dead store elimination (delta=-2 A2 pattern) | ~16 | Medium |
+| String switch parameter copy removal | ~8 | Easy |
+| Comparator: DUP normalization for delta=+4 | ~10-15 | Medium |
+| **Total remaining fixable** | **~70-80** | |
+
+### Unfixable (javac behavior)
+
+~680 methods are caused by javac's block layout, goto optimization, return sharing, and variable slot assignment. These cannot be fixed without a custom compiler backend or post-compilation bytecode rewriting.
+
+### Theoretical Maximum
+
+Current: 32,207 EXACT (97.69%)
+With remaining fixes: ~32,280-32,290 EXACT (~97.9%)
+Absolute ceiling: ~32,290 / 32,967 (~98.0%)
 
 ---
 
