@@ -6,8 +6,8 @@
     "match_tiers": {
       "CORE_OPS_ONLY": 1,
       "FUZZY_COMPUTATION": 10,
-      "EXACT": 32360,
-      "SORTED_MULTISET": 274,
+      "EXACT": 32373,
+      "SORTED_MULTISET": 261,
       "STRUCTURAL": 322
     },
     "total_methods": 32967,
@@ -5789,15 +5789,6 @@
     {
       "total_instructions": 219,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 100,
-        "name": "renderInnerBased",
-        "recompInsnCount": 168,
-        "descriptor": "(IIIIFFFF)V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 168,
-        "status": "MATCH"
-      }],
       "name": "zombie/chat/NineGridTexture",
       "total_methods": 2,
       "matched_instructions": 219,
@@ -11398,35 +11389,6 @@
     {
       "total_instructions": 160,
       "matched_code_percent": 100,
-      "methods": [
-        {
-          "rawSimilarity": 100,
-          "name": "setElement",
-          "recompInsnCount": 30,
-          "descriptor": "(IIFF)V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 30,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 100,
-          "name": "setElement",
-          "recompInsnCount": 40,
-          "descriptor": "(IIFFF)V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 40,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 100,
-          "name": "setElement",
-          "recompInsnCount": 50,
-          "descriptor": "(IIFFFF)V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 50,
-          "status": "MATCH"
-        }
-      ],
       "name": "zombie/core/skinnedmodel/model/VertexBufferObject$VertexArray",
       "total_methods": 5,
       "matched_instructions": 160,
@@ -14737,20 +14699,11 @@
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 99.12,
-          "name": "drawGrid",
-          "recompInsnCount": 226,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 228,
-          "status": "MATCH"
-        },
-        {
           "rawSimilarity": 98.77,
           "name": "lineClearCached",
           "recompInsnCount": 483,
           "descriptor": "(Lzombie/iso/IsoCell;IIIIIIZ)Lzombie/iso/LosUtil$TestResults;",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 489,
           "status": "MATCH"
         }
@@ -14856,26 +14809,15 @@
     {
       "total_instructions": 2971,
       "matched_code_percent": 100,
-      "methods": [
-        {
-          "rawSimilarity": 98.5,
-          "name": "renderDebugOverhead",
-          "recompInsnCount": 333,
-          "descriptor": "(Lzombie/iso/IsoCell;IIII)V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 333,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 91.12,
-          "name": "exit",
-          "recompInsnCount": 439,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 439,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "rawSimilarity": 91.12,
+        "name": "exit",
+        "recompInsnCount": 439,
+        "descriptor": "()V",
+        "matchTier": "STRUCTURAL",
+        "origInsnCount": 439,
+        "status": "MATCH"
+      }],
       "name": "zombie/gameStates/IngameState",
       "total_methods": 30,
       "matched_instructions": 2971,
@@ -15952,15 +15894,6 @@
     {
       "total_instructions": 497,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 98.17,
-        "name": "DoTooltip",
-        "recompInsnCount": 107,
-        "descriptor": "(Lzombie/ui/ObjectTooltip;)V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 109,
-        "status": "MATCH"
-      }],
       "name": "zombie/inventory/types/InventoryContainer",
       "total_methods": 25,
       "matched_instructions": 497,
@@ -16722,15 +16655,6 @@
           "descriptor": "(Z)Lzombie/iso/IsoObject;",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 95,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 100,
-          "name": "damageSpriteSheetRopeFromBottom",
-          "recompInsnCount": 120,
-          "descriptor": "(Lzombie/characters/IsoPlayer;Z)Z",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 120,
           "status": "MATCH"
         },
         {
@@ -19635,26 +19559,15 @@
     {
       "total_instructions": 5442,
       "matched_code_percent": 100,
-      "methods": [
-        {
-          "rawSimilarity": 86.36,
-          "name": "isAdjacentToSquare",
-          "recompInsnCount": 689,
-          "descriptor": "(Lzombie/iso/IsoGridSquare;)Z",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 689,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 100,
-          "name": "addSheet",
-          "recompInsnCount": 158,
-          "descriptor": "(Lzombie/characters/IsoGameCharacter;)V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 158,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "rawSimilarity": 86.36,
+        "name": "isAdjacentToSquare",
+        "recompInsnCount": 689,
+        "descriptor": "(Lzombie/iso/IsoGridSquare;)Z",
+        "matchTier": "STRUCTURAL",
+        "origInsnCount": 689,
+        "status": "MATCH"
+      }],
       "name": "zombie/iso/objects/IsoThumpable",
       "total_methods": 151,
       "matched_instructions": 5442,
@@ -19742,7 +19655,7 @@
           "name": "addSheet",
           "recompInsnCount": 176,
           "descriptor": "(Lzombie/characters/IsoGameCharacter;)V",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 177,
           "status": "MATCH"
         },
@@ -19783,15 +19696,6 @@
     {
       "total_instructions": 434,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 87.27,
-        "name": "addSheet",
-        "recompInsnCount": 110,
-        "descriptor": "(Lzombie/iso/IsoObject;Lzombie/characters/IsoGameCharacter;)V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 110,
-        "status": "MATCH"
-      }],
       "name": "zombie/iso/objects/IsoWindowFrame",
       "total_methods": 15,
       "matched_instructions": 434,
@@ -24685,15 +24589,6 @@
     {
       "total_instructions": 1015,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 74.17,
-        "name": "save",
-        "recompInsnCount": 116,
-        "descriptor": "()V",
-        "matchTier": "STRUCTURAL",
-        "origInsnCount": 120,
-        "status": "MATCH"
-      }],
       "name": "zombie/radio/media/RecordedMedia",
       "total_methods": 20,
       "matched_instructions": 1015,
@@ -29657,15 +29552,6 @@
     {
       "total_instructions": 999,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 94.79,
-        "name": "init",
-        "recompInsnCount": 730,
-        "descriptor": "(Lzombie/iso/IsoChunk;ILzombie/vehicles/CollideWithObstaclesPoly;)V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 730,
-        "status": "MATCH"
-      }],
       "name": "zombie/vehicles/CollideWithObstaclesPoly$ChunkDataZ",
       "total_methods": 9,
       "matched_instructions": 999,
@@ -29929,15 +29815,6 @@
     {
       "total_instructions": 747,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 100,
-        "name": "init",
-        "recompInsnCount": 445,
-        "descriptor": "(Lzombie/vehicles/PolygonalMap2$Chunk;I)V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 445,
-        "status": "MATCH"
-      }],
       "name": "zombie/vehicles/PolygonalMap2$ChunkDataZ",
       "total_methods": 6,
       "matched_instructions": 747,
