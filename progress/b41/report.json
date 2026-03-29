@@ -6,8 +6,8 @@
     "match_tiers": {
       "CORE_OPS_ONLY": 1,
       "FUZZY_COMPUTATION": 10,
-      "EXACT": 32373,
-      "SORTED_MULTISET": 261,
+      "EXACT": 32374,
+      "SORTED_MULTISET": 260,
       "STRUCTURAL": 322
     },
     "total_methods": 32967,
@@ -16664,15 +16664,6 @@
           "descriptor": "()V",
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 93,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 100,
-          "name": "AddStairs",
-          "recompInsnCount": 443,
-          "descriptor": "(ZILjava/lang/String;Ljava/lang/String;Lse/krka/kahlua/vm/KahluaTable;)Lzombie/iso/objects/IsoThumpable;",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 443,
           "status": "MATCH"
         },
         {
