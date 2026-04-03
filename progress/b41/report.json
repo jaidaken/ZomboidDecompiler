@@ -6,9 +6,9 @@
     "match_tiers": {
       "CORE_OPS_ONLY": 1,
       "FUZZY_COMPUTATION": 10,
-      "EXACT": 32479,
+      "EXACT": 32485,
       "SORTED_MULTISET": 220,
-      "STRUCTURAL": 257
+      "STRUCTURAL": 251
     },
     "total_methods": 32967,
     "matched_function_percent": 100,
@@ -2707,15 +2707,6 @@
     {
       "total_instructions": 32,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 90,
-        "name": "checkParameters",
-        "recompInsnCount": 20,
-        "descriptor": "(Lzombie/audio/BaseSoundEmitter;J)V",
-        "matchTier": "STRUCTURAL",
-        "origInsnCount": 20,
-        "status": "MATCH"
-      }],
       "name": "zombie/audio/ObjectAmbientEmitters$WindowLogic",
       "total_methods": 6,
       "matched_instructions": 32,
@@ -3970,15 +3961,6 @@
       "total_instructions": 29067,
       "matched_code_percent": 100,
       "methods": [
-        {
-          "rawSimilarity": 98.74,
-          "name": "<init>",
-          "recompInsnCount": 1114,
-          "descriptor": "(Lzombie/iso/IsoCell;FFF)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 1114,
-          "status": "MATCH"
-        },
         {
           "rawSimilarity": 99.36,
           "name": "Hit",
@@ -12692,26 +12674,15 @@
     {
       "total_instructions": 387,
       "matched_code_percent": 100,
-      "methods": [
-        {
-          "rawSimilarity": 89.47,
-          "name": "isValidSteamID",
-          "recompInsnCount": 17,
-          "descriptor": "(Ljava/lang/String;)Z",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 19,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 90.48,
-          "name": "clientInitiateConnectionCallback",
-          "recompInsnCount": 21,
-          "descriptor": "(J)I",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 21,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "rawSimilarity": 89.47,
+        "name": "isValidSteamID",
+        "recompInsnCount": 17,
+        "descriptor": "(Ljava/lang/String;)Z",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 19,
+        "status": "MATCH"
+      }],
       "name": "zombie/core/znet/SteamUtils",
       "total_methods": 29,
       "matched_instructions": 387,
@@ -16422,26 +16393,15 @@
     {
       "total_instructions": 5187,
       "matched_code_percent": 100,
-      "methods": [
-        {
-          "rawSimilarity": 98.63,
-          "name": "postupdate",
-          "recompInsnCount": 732,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 732,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 94.59,
-          "name": "canHaveMultipleHits",
-          "recompInsnCount": 110,
-          "descriptor": "()B",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 111,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "rawSimilarity": 94.59,
+        "name": "canHaveMultipleHits",
+        "recompInsnCount": 110,
+        "descriptor": "()B",
+        "matchTier": "STRUCTURAL",
+        "origInsnCount": 111,
+        "status": "MATCH"
+      }],
       "name": "zombie/iso/IsoMovingObject",
       "total_methods": 172,
       "matched_instructions": 5187,
@@ -18263,26 +18223,15 @@
     {
       "total_instructions": 1861,
       "matched_code_percent": 100,
-      "methods": [
-        {
-          "rawSimilarity": 89.66,
-          "name": "WeaponHit",
-          "recompInsnCount": 145,
-          "descriptor": "(Lzombie/characters/IsoGameCharacter;Lzombie/inventory/types/HandWeapon;)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 145,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 92,
-          "name": "Damage",
-          "recompInsnCount": 76,
-          "descriptor": "(I)V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 75,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "rawSimilarity": 92,
+        "name": "Damage",
+        "recompInsnCount": 76,
+        "descriptor": "(I)V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 75,
+        "status": "MATCH"
+      }],
       "name": "zombie/iso/objects/IsoBarricade",
       "total_methods": 36,
       "matched_instructions": 1861,
@@ -20749,15 +20698,6 @@
           "descriptor": "([Ljava/lang/String;)V",
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 1823,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 90.77,
-          "name": "receivePlayerUpdate",
-          "recompInsnCount": 336,
-          "descriptor": "(Ljava/nio/ByteBuffer;Lzombie/core/raknet/UdpConnection;S)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 336,
           "status": "MATCH"
         },
         {
