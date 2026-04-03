@@ -6,9 +6,9 @@
     "match_tiers": {
       "CORE_OPS_ONLY": 1,
       "FUZZY_COMPUTATION": 10,
-      "EXACT": 32374,
-      "SORTED_MULTISET": 260,
-      "STRUCTURAL": 322
+      "EXACT": 32469,
+      "SORTED_MULTISET": 230,
+      "STRUCTURAL": 257
     },
     "total_methods": 32967,
     "matched_function_percent": 100,
@@ -40,21 +40,12 @@
       "matched_code_percent": 100,
       "methods": [
         {
-          "rawSimilarity": 90.98,
+          "rawSimilarity": 92.83,
           "name": "update",
           "recompInsnCount": 488,
           "descriptor": "()V",
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 488,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 90.48,
-          "name": "getNearestBuilding",
-          "recompInsnCount": 83,
-          "descriptor": "(FFLorg/joml/Vector2f;)Lzombie/iso/BuildingDef;",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 84,
           "status": "MATCH"
         },
         {
@@ -365,7 +356,7 @@
       "total_instructions": 778,
       "matched_code_percent": 100,
       "methods": [{
-        "rawSimilarity": 83.33,
+        "rawSimilarity": 91.67,
         "name": "loadNonBankSounds",
         "recompInsnCount": 24,
         "descriptor": "()V",
@@ -564,15 +555,6 @@
     {
       "total_instructions": 494,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 86.25,
-        "name": "respawnInChunk",
-        "recompInsnCount": 158,
-        "descriptor": "(Lzombie/iso/IsoChunk;)V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 160,
-        "status": "MATCH"
-      }],
       "name": "zombie/LootRespawn",
       "total_methods": 9,
       "matched_instructions": 494,
@@ -708,89 +690,6 @@
     {
       "total_instructions": 1806,
       "matched_code_percent": 100,
-      "methods": [
-        {
-          "rawSimilarity": 69.57,
-          "name": "triggerEvent",
-          "recompInsnCount": 20,
-          "descriptor": "(Ljava/lang/String;)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 23,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 82.05,
-          "name": "triggerEvent",
-          "recompInsnCount": 75,
-          "descriptor": "(Ljava/lang/String;Ljava/lang/Object;)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 78,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 83.91,
-          "name": "triggerEvent",
-          "recompInsnCount": 84,
-          "descriptor": "(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 87,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 85.42,
-          "name": "triggerEvent",
-          "recompInsnCount": 93,
-          "descriptor": "(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 96,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 86.67,
-          "name": "triggerEvent",
-          "recompInsnCount": 102,
-          "descriptor": "(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 105,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 87.72,
-          "name": "triggerEvent",
-          "recompInsnCount": 111,
-          "descriptor": "(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 114,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 88.62,
-          "name": "triggerEvent",
-          "recompInsnCount": 120,
-          "descriptor": "(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 123,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 89.39,
-          "name": "triggerEvent",
-          "recompInsnCount": 129,
-          "descriptor": "(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 132,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 90.07,
-          "name": "triggerEvent",
-          "recompInsnCount": 138,
-          "descriptor": "(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 141,
-          "status": "MATCH"
-        }
-      ],
       "name": "zombie/Lua/LuaEventManager",
       "total_methods": 26,
       "matched_instructions": 1806,
@@ -847,15 +746,6 @@
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 90.72,
-          "name": "getMapDirectoryTable",
-          "recompInsnCount": 98,
-          "descriptor": "()Lse/krka/kahlua/vm/KahluaTable;",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 97,
-          "status": "MATCH"
-        },
-        {
           "rawSimilarity": 88.89,
           "name": "deleteAllGameModeSaves",
           "recompInsnCount": 31,
@@ -880,15 +770,6 @@
           "descriptor": "(Ljava/lang/String;)V",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 37,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 72.92,
-          "name": "createTile",
-          "recompInsnCount": 45,
-          "descriptor": "(Ljava/lang/String;Lzombie/iso/IsoGridSquare;)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 48,
           "status": "MATCH"
         },
         {
@@ -973,26 +854,6 @@
     {
       "total_instructions": 652,
       "matched_code_percent": 100,
-      "methods": [
-        {
-          "rawSimilarity": 78.23,
-          "name": "newGridSquare",
-          "recompInsnCount": 122,
-          "descriptor": "(Lzombie/iso/IsoGridSquare;)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 124,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 78.23,
-          "name": "loadGridSquare",
-          "recompInsnCount": 122,
-          "descriptor": "(Lzombie/iso/IsoGridSquare;)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 124,
-          "status": "MATCH"
-        }
-      ],
       "name": "zombie/Lua/MapObjects",
       "total_methods": 15,
       "matched_instructions": 652,
@@ -1057,15 +918,6 @@
       "total_instructions": 670,
       "matched_code_percent": 100,
       "methods": [
-        {
-          "rawSimilarity": 88.83,
-          "name": "createGroups",
-          "recompInsnCount": 180,
-          "descriptor": "(Lzombie/modding/ActiveMods;ZZ)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 179,
-          "status": "MATCH"
-        },
         {
           "rawSimilarity": 90.28,
           "name": "getLotDirectories",
@@ -1233,9 +1085,9 @@
       "matched_code_percent": 100,
       "methods": [
         {
-          "rawSimilarity": 98.5,
+          "rawSimilarity": 100,
           "name": "load",
-          "recompInsnCount": 132,
+          "recompInsnCount": 134,
           "descriptor": "(Ljava/nio/ByteBuffer;)V",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 133,
@@ -1476,26 +1328,15 @@
     {
       "total_instructions": 1105,
       "matched_code_percent": 100,
-      "methods": [
-        {
-          "rawSimilarity": 90.91,
-          "name": "addSound",
-          "recompInsnCount": 145,
-          "descriptor": "(Ljava/lang/Object;IIIIIZFFZZZ)Lzombie/WorldSoundManager$WorldSound;",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 143,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 73.53,
-          "name": "getBiggestSoundZomb",
-          "recompInsnCount": 169,
-          "descriptor": "(IIIZLzombie/characters/IsoZombie;)Lzombie/WorldSoundManager$ResultBiggestSound;",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 170,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "rawSimilarity": 90.91,
+        "name": "addSound",
+        "recompInsnCount": 145,
+        "descriptor": "(Ljava/lang/Object;IIIIIZFFZZZ)Lzombie/WorldSoundManager$WorldSound;",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 143,
+        "status": "MATCH"
+      }],
       "name": "zombie/WorldSoundManager",
       "total_methods": 20,
       "matched_instructions": 1105,
@@ -1597,29 +1438,29 @@
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 86.36,
+          "rawSimilarity": 95.45,
           "name": "loadModPackFiles",
-          "recompInsnCount": 65,
+          "recompInsnCount": 66,
           "descriptor": "()V",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 66,
           "status": "MATCH"
         },
         {
           "rawSimilarity": 89.74,
           "name": "loadModTileDefs",
-          "recompInsnCount": 77,
+          "recompInsnCount": 78,
           "descriptor": "()V",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 78,
           "status": "MATCH"
         },
         {
           "rawSimilarity": 89.74,
           "name": "loadModTileDefPropertyStrings",
-          "recompInsnCount": 77,
+          "recompInsnCount": 78,
           "descriptor": "()V",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 78,
           "status": "MATCH"
         }
@@ -1741,15 +1582,6 @@
     {
       "total_instructions": 1022,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 91.27,
-        "name": "update",
-        "recompInsnCount": 379,
-        "descriptor": "(Lzombie/characters/IsoZombie;)V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 378,
-        "status": "MATCH"
-      }],
       "name": "zombie/ai/ZombieGroupManager",
       "total_methods": 8,
       "matched_instructions": 1022,
@@ -2256,9 +2088,9 @@
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 91.04,
+          "rawSimilarity": 100,
           "name": "shouldIgnoreProneZombies",
-          "recompInsnCount": 68,
+          "recompInsnCount": 69,
           "descriptor": "(Lzombie/characters/IsoGameCharacter;Ljava/util/ArrayList;F)Z",
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 67,
@@ -2274,30 +2106,21 @@
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 88.54,
+          "rawSimilarity": 91.15,
           "name": "CalcHitListShove",
-          "recompInsnCount": 190,
+          "recompInsnCount": 191,
           "descriptor": "(Lzombie/characters/IsoGameCharacter;ZLzombie/network/packets/hit/AttackVars;Ljava/util/ArrayList;)V",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 192,
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 88.5,
+          "rawSimilarity": 92.04,
           "name": "CalcHitListWeapon",
-          "recompInsnCount": 224,
+          "recompInsnCount": 225,
           "descriptor": "(Lzombie/characters/IsoGameCharacter;ZLzombie/network/packets/hit/AttackVars;Ljava/util/ArrayList;)V",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 226,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 93.83,
-          "name": "CalcHitListWindow",
-          "recompInsnCount": 161,
-          "descriptor": "(Lzombie/characters/IsoGameCharacter;Lzombie/inventory/types/HandWeapon;Ljava/util/ArrayList;)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 162,
           "status": "MATCH"
         },
         {
@@ -2307,15 +2130,6 @@
           "descriptor": "(Lzombie/characters/IsoGameCharacter;Lzombie/inventory/types/HandWeapon;Lzombie/network/packets/hit/HitInfo;)I",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 340,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 91.94,
-          "name": "ConnectSwing",
-          "recompInsnCount": 1650,
-          "descriptor": "(Lzombie/characters/IsoGameCharacter;Lzombie/inventory/types/HandWeapon;)V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 1651,
           "status": "MATCH"
         }
       ],
@@ -3977,9 +3791,9 @@
       "matched_code_percent": 100,
       "methods": [
         {
-          "rawSimilarity": 87.03,
+          "rawSimilarity": 87.9,
           "name": "updateWetness",
-          "recompInsnCount": 694,
+          "recompInsnCount": 698,
           "descriptor": "(FF)V",
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 694,
@@ -4186,15 +4000,6 @@
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 98.68,
-          "name": "DoDeath",
-          "recompInsnCount": 754,
-          "descriptor": "(Lzombie/inventory/types/HandWeapon;Lzombie/characters/IsoGameCharacter;Z)V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 755,
-          "status": "MATCH"
-        },
-        {
           "rawSimilarity": 99.36,
           "name": "Hit",
           "recompInsnCount": 309,
@@ -4213,9 +4018,9 @@
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 97.47,
+          "rawSimilarity": 93.71,
           "name": "renderlast",
-          "recompInsnCount": 2931,
+          "recompInsnCount": 2932,
           "descriptor": "()V",
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 2923,
@@ -4237,15 +4042,6 @@
           "descriptor": "()Lzombie/core/skinnedmodel/advancedanimation/AnimationVariableSource;",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 66,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 96.21,
-          "name": "getNearVehicle",
-          "recompInsnCount": 131,
-          "descriptor": "()Lzombie/vehicles/BaseVehicle;",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 132,
           "status": "MATCH"
         }
       ],
@@ -4458,24 +4254,6 @@
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 99.87,
-          "name": "updateInternal2",
-          "recompInsnCount": 1515,
-          "descriptor": "()Z",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 1515,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 94.19,
-          "name": "getNearVehicle",
-          "recompInsnCount": 170,
-          "descriptor": "()Lzombie/vehicles/BaseVehicle;",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 172,
-          "status": "MATCH"
-        },
-        {
           "rawSimilarity": 99.76,
           "name": "calculateContext",
           "recompInsnCount": 412,
@@ -4530,7 +4308,7 @@
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 94.69,
+          "rawSimilarity": 95.13,
           "name": "updateFootInjuries",
           "recompInsnCount": 225,
           "descriptor": "()V",
@@ -4622,27 +4400,9 @@
       "matched_code_percent": 100,
       "methods": [
         {
-          "rawSimilarity": 87.5,
-          "name": "clearAggroList",
-          "recompInsnCount": 7,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 8,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 96.97,
-          "name": "processAggroList",
-          "recompInsnCount": 32,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 33,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 71.23,
+          "rawSimilarity": 72.6,
           "name": "addAggro",
-          "recompInsnCount": 72,
+          "recompInsnCount": 73,
           "descriptor": "(Lzombie/iso/IsoMovingObject;F)V",
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 73,
@@ -4839,9 +4599,9 @@
       "total_instructions": 779,
       "matched_code_percent": 100,
       "methods": [{
-        "rawSimilarity": 98.81,
+        "rawSimilarity": 97.62,
         "name": "update",
-        "recompInsnCount": 83,
+        "recompInsnCount": 85,
         "descriptor": "(Lzombie/characters/IsoGameCharacter;Lzombie/network/packets/PlayerPacket;)V",
         "matchTier": "STRUCTURAL",
         "origInsnCount": 84,
@@ -5180,35 +4940,6 @@
     {
       "total_instructions": 952,
       "matched_code_percent": 100,
-      "methods": [
-        {
-          "rawSimilarity": 91.89,
-          "name": "init",
-          "recompInsnCount": 38,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 37,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 94.23,
-          "name": "initZone",
-          "recompInsnCount": 53,
-          "descriptor": "(Ljava/lang/String;Lse/krka/kahlua/j2se/KahluaTableImpl;)Lzombie/characters/ZombiesZoneDefinition$ZZDZone;",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 52,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 98.72,
-          "name": "pickDefinition",
-          "recompInsnCount": 234,
-          "descriptor": "(IIIZ)Lzombie/characters/ZombiesZoneDefinition$PickDefinition;",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 235,
-          "status": "MATCH"
-        }
-      ],
       "name": "zombie/characters/ZombiesZoneDefinition",
       "total_methods": 17,
       "matched_instructions": 952,
@@ -5265,12 +4996,12 @@
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 90,
-          "name": "evaluateCurrentStateTransitions",
-          "recompInsnCount": 98,
+          "rawSimilarity": 95.24,
+          "name": "evaluateSubStateTransitions",
+          "recompInsnCount": 105,
           "descriptor": "()V",
           "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 100,
+          "origInsnCount": 105,
           "status": "MATCH"
         },
         {
@@ -5690,7 +5421,7 @@
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 92.59,
+          "rawSimilarity": 97.22,
           "name": "updateWhisperChat",
           "recompInsnCount": 108,
           "descriptor": "()V",
@@ -6320,15 +6051,6 @@
     {
       "total_instructions": 257,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 93.6,
-        "name": "Command",
-        "recompInsnCount": 248,
-        "descriptor": "()Ljava/lang/String;",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 250,
-        "status": "MATCH"
-      }],
       "name": "zombie/commands/serverCommands/RemoveZombiesCommand",
       "total_methods": 2,
       "matched_instructions": 257,
@@ -6502,7 +6224,7 @@
       "matched_code_percent": 100,
       "methods": [
         {
-          "rawSimilarity": 88.49,
+          "rawSimilarity": 89.93,
           "name": "read",
           "recompInsnCount": 137,
           "descriptor": "(Ljava/lang/String;)Z",
@@ -6655,26 +6377,15 @@
     {
       "total_instructions": 1129,
       "matched_code_percent": 100,
-      "methods": [
-        {
-          "rawSimilarity": 80.52,
-          "name": "putIfMatch",
-          "recompInsnCount": 269,
-          "descriptor": "(Lzombie/core/Collections/NonBlockingHashMap;[Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 267,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 95,
-          "name": "readObject",
-          "recompInsnCount": 19,
-          "descriptor": "(Ljava/io/ObjectInputStream;)V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 20,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "rawSimilarity": 80.52,
+        "name": "putIfMatch",
+        "recompInsnCount": 269,
+        "descriptor": "(Lzombie/core/Collections/NonBlockingHashMap;[Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 267,
+        "status": "MATCH"
+      }],
       "name": "zombie/core/Collections/NonBlockingHashMap",
       "total_methods": 49,
       "matched_instructions": 1129,
@@ -6803,15 +6514,6 @@
     {
       "total_instructions": 671,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 95.83,
-        "name": "readObject",
-        "recompInsnCount": 23,
-        "descriptor": "(Ljava/io/ObjectInputStream;)V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 24,
-        "status": "MATCH"
-      }],
       "name": "zombie/core/Collections/NonBlockingHashMapLong",
       "total_methods": 48,
       "matched_instructions": 671,
@@ -6958,26 +6660,15 @@
     {
       "total_instructions": 1113,
       "matched_code_percent": 100,
-      "methods": [
-        {
-          "rawSimilarity": 80.52,
-          "name": "putIfMatch",
-          "recompInsnCount": 269,
-          "descriptor": "(Lzombie/core/Collections/NonBlockingHashtable;[Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 267,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 95,
-          "name": "readObject",
-          "recompInsnCount": 19,
-          "descriptor": "(Ljava/io/ObjectInputStream;)V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 20,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "rawSimilarity": 80.52,
+        "name": "putIfMatch",
+        "recompInsnCount": 269,
+        "descriptor": "(Lzombie/core/Collections/NonBlockingHashtable;[Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 267,
+        "status": "MATCH"
+      }],
       "name": "zombie/core/Collections/NonBlockingHashtable",
       "total_methods": 49,
       "matched_instructions": 1113,
@@ -7106,26 +6797,15 @@
     {
       "total_instructions": 1062,
       "matched_code_percent": 100,
-      "methods": [
-        {
-          "rawSimilarity": 80.08,
-          "name": "putIfMatch",
-          "recompInsnCount": 258,
-          "descriptor": "(Lzombie/core/Collections/NonBlockingIdentityHashMap;[Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 256,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 95,
-          "name": "readObject",
-          "recompInsnCount": 19,
-          "descriptor": "(Ljava/io/ObjectInputStream;)V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 20,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "rawSimilarity": 80.08,
+        "name": "putIfMatch",
+        "recompInsnCount": 258,
+        "descriptor": "(Lzombie/core/Collections/NonBlockingIdentityHashMap;[Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 256,
+        "status": "MATCH"
+      }],
       "name": "zombie/core/Collections/NonBlockingIdentityHashMap",
       "total_methods": 48,
       "matched_instructions": 1062,
@@ -7528,7 +7208,7 @@
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 98.48,
+          "rawSimilarity": 98.98,
           "name": "lambda$setDisplayMode$4",
           "recompInsnCount": 199,
           "descriptor": "(IIZ)V",
@@ -7636,26 +7316,6 @@
     {
       "total_instructions": 263,
       "matched_code_percent": 100,
-      "methods": [
-        {
-          "rawSimilarity": 93.75,
-          "name": "init",
-          "recompInsnCount": 49,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 48,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 98.11,
-          "name": "loadTranslateDirectory",
-          "recompInsnCount": 107,
-          "descriptor": "(Ljava/lang/String;)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 106,
-          "status": "MATCH"
-        }
-      ],
       "name": "zombie/core/Languages",
       "total_methods": 12,
       "matched_instructions": 263,
@@ -7909,9 +7569,9 @@
       "total_instructions": 2047,
       "matched_code_percent": 100,
       "methods": [{
-        "rawSimilarity": 91.98,
+        "rawSimilarity": 87.5,
         "name": "parseFile",
-        "recompInsnCount": 420,
+        "recompInsnCount": 421,
         "descriptor": "(Ljava/io/File;Ljava/util/HashMap;Lzombie/core/Language;)V",
         "matchTier": "SORTED_MULTISET",
         "origInsnCount": 424,
@@ -8079,6 +7739,35 @@
     {
       "total_instructions": 1292,
       "matched_code_percent": 100,
+      "methods": [
+        {
+          "rawSimilarity": 97.47,
+          "name": "getHeight",
+          "recompInsnCount": 79,
+          "descriptor": "(Ljava/lang/String;)I",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 79,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 99.07,
+          "name": "getWidth",
+          "recompInsnCount": 108,
+          "descriptor": "(Ljava/lang/String;IIZ)I",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 107,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 99.14,
+          "name": "render",
+          "recompInsnCount": 117,
+          "descriptor": "(Ljava/lang/String;II)V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 116,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/core/fonts/AngelCodeFont",
       "total_methods": 23,
       "matched_instructions": 1292,
@@ -8628,15 +8317,6 @@
     {
       "total_instructions": 874,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 84.62,
-        "name": "init",
-        "recompInsnCount": 23,
-        "descriptor": "()V",
-        "matchTier": "STRUCTURAL",
-        "origInsnCount": 26,
-        "status": "MATCH"
-      }],
       "name": "zombie/core/opengl/RenderThread",
       "total_methods": 46,
       "matched_instructions": 874,
@@ -8664,6 +8344,15 @@
     {
       "total_instructions": 1038,
       "matched_code_percent": 100,
+      "methods": [{
+        "rawSimilarity": 80.95,
+        "name": "findShader",
+        "recompInsnCount": 18,
+        "descriptor": "(Ljava/lang/String;Lzombie/core/opengl/ShaderUnit$Type;)Lzombie/core/opengl/ShaderUnit;",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 21,
+        "status": "MATCH"
+      }],
       "name": "zombie/core/opengl/ShaderProgram",
       "total_methods": 48,
       "matched_instructions": 1038,
@@ -9009,7 +8698,7 @@
       "total_instructions": 1186,
       "matched_code_percent": 100,
       "methods": [{
-        "rawSimilarity": 87.5,
+        "rawSimilarity": 83.93,
         "name": "calcCountPlayersInRelevantPosition",
         "recompInsnCount": 55,
         "descriptor": "()V",
@@ -9271,26 +8960,15 @@
     {
       "total_instructions": 1523,
       "matched_code_percent": 100,
-      "methods": [
-        {
-          "rawSimilarity": 88.76,
-          "name": "render",
-          "recompInsnCount": 88,
-          "descriptor": "()V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 89,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 97.13,
-          "name": "toBodyAtlas",
-          "recompInsnCount": 281,
-          "descriptor": "(Lzombie/core/skinnedmodel/DeadBodyAtlas$RenderJob;)V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 279,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "rawSimilarity": 97.13,
+        "name": "toBodyAtlas",
+        "recompInsnCount": 281,
+        "descriptor": "(Lzombie/core/skinnedmodel/DeadBodyAtlas$RenderJob;)V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 279,
+        "status": "MATCH"
+      }],
       "name": "zombie/core/skinnedmodel/DeadBodyAtlas",
       "total_methods": 18,
       "matched_instructions": 1523,
@@ -9563,35 +9241,15 @@
     {
       "total_instructions": 4276,
       "matched_code_percent": 100,
-      "methods": [
-        {
-          "rawSimilarity": 93.36,
-          "name": "getClosestThreeLights",
-          "recompInsnCount": 227,
-          "descriptor": "(Lzombie/iso/IsoMovingObject;[Lzombie/iso/IsoLightSource;)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 226,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 92.92,
-          "name": "loadModAnimations",
-          "recompInsnCount": 112,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 113,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 96,
-          "name": "initAnimationMeshes",
-          "recompInsnCount": 101,
-          "descriptor": "(Z)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 100,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "rawSimilarity": 97.16,
+        "name": "getLoadedModel",
+        "recompInsnCount": 174,
+        "descriptor": "(Ljava/lang/String;)Lzombie/core/skinnedmodel/model/Model;",
+        "matchTier": "STRUCTURAL",
+        "origInsnCount": 176,
+        "status": "MATCH"
+      }],
       "name": "zombie/core/skinnedmodel/ModelManager",
       "total_methods": 79,
       "matched_instructions": 4276,
@@ -9810,30 +9468,12 @@
       "matched_code_percent": 100,
       "methods": [
         {
-          "rawSimilarity": 88.1,
-          "name": "invokeAnimEvent",
-          "recompInsnCount": 41,
-          "descriptor": "(Lzombie/core/skinnedmodel/animation/AnimationTrack;Lzombie/core/skinnedmodel/advancedanimation/AnimEvent;Z)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 42,
-          "status": "MATCH"
-        },
-        {
           "rawSimilarity": 92.13,
           "name": "updateNewNodeTransitionsInternal",
           "recompInsnCount": 126,
           "descriptor": "()V",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 127,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 96.08,
-          "name": "findTransitionToNewNode",
-          "recompInsnCount": 50,
-          "descriptor": "(Lzombie/core/skinnedmodel/advancedanimation/LiveAnimNode;Z)Lzombie/core/skinnedmodel/advancedanimation/LiveAnimNode;",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 51,
           "status": "MATCH"
         },
         {
@@ -9909,15 +9549,26 @@
     {
       "total_instructions": 2609,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 93.17,
-        "name": "DrawChar",
-        "recompInsnCount": 591,
-        "descriptor": "(Lzombie/core/skinnedmodel/advancedanimation/AnimatedModel$AnimatedModelInstanceRenderData;)V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 600,
-        "status": "MATCH"
-      }],
+      "methods": [
+        {
+          "rawSimilarity": 94.29,
+          "name": "setModelData",
+          "recompInsnCount": 213,
+          "descriptor": "(Lzombie/core/skinnedmodel/visual/HumanVisual;Lzombie/core/skinnedmodel/visual/ItemVisuals;)V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 210,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 93.17,
+          "name": "DrawChar",
+          "recompInsnCount": 591,
+          "descriptor": "(Lzombie/core/skinnedmodel/advancedanimation/AnimatedModel$AnimatedModelInstanceRenderData;)V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 600,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/core/skinnedmodel/advancedanimation/AnimatedModel",
       "total_methods": 75,
       "matched_instructions": 2609,
@@ -10432,9 +10083,9 @@
       "total_instructions": 2694,
       "matched_code_percent": 100,
       "methods": [{
-        "rawSimilarity": 89.83,
+        "rawSimilarity": 96.95,
         "name": "updateLayerBlendWeightings",
-        "recompInsnCount": 296,
+        "recompInsnCount": 297,
         "descriptor": "()V",
         "matchTier": "SORTED_MULTISET",
         "origInsnCount": 295,
@@ -10675,7 +10326,7 @@
       "total_instructions": 660,
       "matched_code_percent": 100,
       "methods": [{
-        "rawSimilarity": 90.83,
+        "rawSimilarity": 96.33,
         "name": "getPose",
         "recompInsnCount": 108,
         "descriptor": "()V",
@@ -11056,7 +10707,7 @@
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 96.31,
+          "rawSimilarity": 95.83,
           "name": "updateLights",
           "recompInsnCount": 624,
           "descriptor": "(Lzombie/characters/IsoGameCharacter;Z)V",
@@ -11156,7 +10807,7 @@
       "total_instructions": 1317,
       "matched_code_percent": 100,
       "methods": [{
-        "rawSimilarity": 76.97,
+        "rawSimilarity": 77.08,
         "name": "loadTxt",
         "recompInsnCount": 952,
         "descriptor": "(Ljava/lang/String;ZZLzombie/core/skinnedmodel/model/SkinningData;)Lzombie/core/skinnedmodel/model/ModelTxt;",
@@ -11506,15 +11157,6 @@
     {
       "total_instructions": 587,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 89.47,
-        "name": "render",
-        "recompInsnCount": 94,
-        "descriptor": "()V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 95,
-        "status": "MATCH"
-      }],
       "name": "zombie/core/skinnedmodel/model/WorldItemAtlas",
       "total_methods": 9,
       "matched_instructions": 587,
@@ -11722,15 +11364,6 @@
     {
       "total_instructions": 166,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 97.44,
-        "name": "init",
-        "recompInsnCount": 79,
-        "descriptor": "()V",
-        "matchTier": "STRUCTURAL",
-        "origInsnCount": 78,
-        "status": "MATCH"
-      }],
       "name": "zombie/core/skinnedmodel/population/BeardStyles",
       "total_methods": 9,
       "matched_instructions": 166,
@@ -11875,15 +11508,6 @@
     {
       "total_instructions": 269,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 98.2,
-        "name": "init",
-        "recompInsnCount": 112,
-        "descriptor": "()V",
-        "matchTier": "STRUCTURAL",
-        "origInsnCount": 111,
-        "status": "MATCH"
-      }],
       "name": "zombie/core/skinnedmodel/population/HairStyles",
       "total_methods": 13,
       "matched_instructions": 269,
@@ -11911,15 +11535,6 @@
     {
       "total_instructions": 452,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 90.48,
-        "name": "findHat",
-        "recompInsnCount": 22,
-        "descriptor": "()Lzombie/core/skinnedmodel/population/ClothingItemReference;",
-        "matchTier": "STRUCTURAL",
-        "origInsnCount": 21,
-        "status": "MATCH"
-      }],
       "name": "zombie/core/skinnedmodel/population/Outfit",
       "total_methods": 14,
       "matched_instructions": 452,
@@ -11938,26 +11553,6 @@
     {
       "total_instructions": 801,
       "matched_code_percent": 100,
-      "methods": [
-        {
-          "rawSimilarity": 98.77,
-          "name": "loaded",
-          "recompInsnCount": 163,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 162,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 85.25,
-          "name": "debugOutfit",
-          "recompInsnCount": 62,
-          "descriptor": "(Lzombie/core/skinnedmodel/population/Outfit;)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 61,
-          "status": "MATCH"
-        }
-      ],
       "name": "zombie/core/skinnedmodel/population/OutfitManager",
       "total_methods": 35,
       "matched_instructions": 801,
@@ -11985,15 +11580,26 @@
     {
       "total_instructions": 621,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 91.3,
-        "name": "isItemModelHidden",
-        "recompInsnCount": 45,
-        "descriptor": "(Lzombie/characters/WornItems/BodyLocationGroup;Lzombie/core/skinnedmodel/visual/ItemVisuals;Lzombie/core/skinnedmodel/visual/ItemVisual;)Z",
-        "matchTier": "STRUCTURAL",
-        "origInsnCount": 46,
-        "status": "MATCH"
-      }],
+      "methods": [
+        {
+          "rawSimilarity": 98.41,
+          "name": "populateCharacterModelSlot",
+          "recompInsnCount": 127,
+          "descriptor": "(Lzombie/characters/IsoGameCharacter;Lzombie/core/skinnedmodel/ModelManager$ModelSlot;)V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 126,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 91.3,
+          "name": "isItemModelHidden",
+          "recompInsnCount": 45,
+          "descriptor": "(Lzombie/characters/WornItems/BodyLocationGroup;Lzombie/core/skinnedmodel/visual/ItemVisuals;Lzombie/core/skinnedmodel/visual/ItemVisual;)Z",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 46,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/core/skinnedmodel/population/PopTemplateManager",
       "total_methods": 10,
       "matched_instructions": 621,
@@ -13200,7 +12806,7 @@
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 96.84,
+          "rawSimilarity": 97.89,
           "name": "validateFileTypes",
           "recompInsnCount": 93,
           "descriptor": "(Ljava/nio/file/Path;)Ljava/lang/String;",
@@ -13680,7 +13286,7 @@
       "total_instructions": 1201,
       "matched_code_percent": 100,
       "methods": [{
-        "rawSimilarity": 78.79,
+        "rawSimilarity": 78.99,
         "name": "readFile",
         "recompInsnCount": 493,
         "descriptor": "(Ljava/lang/String;)Z",
@@ -14284,7 +13890,7 @@
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 94.8,
+          "rawSimilarity": 93.64,
           "name": "updateAsyncTransactions",
           "recompInsnCount": 172,
           "descriptor": "()V",
@@ -14522,7 +14128,7 @@
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 82.91,
+          "rawSimilarity": 83.3,
           "name": "readModInfoAux",
           "recompInsnCount": 514,
           "descriptor": "(Ljava/lang/String;)Lzombie/gameStates/ChooseGameInfo$Mod;",
@@ -14587,9 +14193,9 @@
       "matched_code_percent": 100,
       "methods": [
         {
-          "rawSimilarity": 98.59,
+          "rawSimilarity": 100,
           "name": "WorkshopQuery",
-          "recompInsnCount": 70,
+          "recompInsnCount": 72,
           "descriptor": "()V",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 71,
@@ -15026,11 +14632,11 @@
       "total_instructions": 680,
       "matched_code_percent": 100,
       "methods": [{
-        "rawSimilarity": 94.53,
+        "rawSimilarity": 92.97,
         "name": "load",
-        "recompInsnCount": 127,
+        "recompInsnCount": 124,
         "descriptor": "()V",
-        "matchTier": "STRUCTURAL",
+        "matchTier": "SORTED_MULTISET",
         "origInsnCount": 128,
         "status": "MATCH"
       }],
@@ -15061,26 +14667,6 @@
     {
       "total_instructions": 130,
       "matched_code_percent": 100,
-      "methods": [
-        {
-          "rawSimilarity": 76.19,
-          "name": "poll",
-          "recompInsnCount": 18,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 21,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 84.62,
-          "name": "swap",
-          "recompInsnCount": 36,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 39,
-          "status": "MATCH"
-        }
-      ],
       "name": "zombie/input/ControllerStateCache",
       "total_methods": 6,
       "matched_instructions": 130,
@@ -15090,15 +14676,6 @@
     {
       "total_instructions": 278,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 84.27,
-        "name": "update",
-        "recompInsnCount": 177,
-        "descriptor": "()V",
-        "matchTier": "STRUCTURAL",
-        "origInsnCount": 178,
-        "status": "MATCH"
-      }],
       "name": "zombie/input/GameKeyboard",
       "total_methods": 11,
       "matched_instructions": 278,
@@ -15109,7 +14686,7 @@
       "total_instructions": 1769,
       "matched_code_percent": 100,
       "methods": [{
-        "rawSimilarity": 91.97,
+        "rawSimilarity": 98.95,
         "name": "doControllerFile",
         "recompInsnCount": 573,
         "descriptor": "(Lzombie/input/JoypadManager$Joypad;)V",
@@ -15144,26 +14721,6 @@
     {
       "total_instructions": 119,
       "matched_code_percent": 100,
-      "methods": [
-        {
-          "rawSimilarity": 76.19,
-          "name": "poll",
-          "recompInsnCount": 18,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 21,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 84.62,
-          "name": "swap",
-          "recompInsnCount": 36,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 39,
-          "status": "MATCH"
-        }
-      ],
       "name": "zombie/input/KeyboardStateCache",
       "total_methods": 5,
       "matched_instructions": 119,
@@ -15191,26 +14748,6 @@
     {
       "total_instructions": 119,
       "matched_code_percent": 100,
-      "methods": [
-        {
-          "rawSimilarity": 76.19,
-          "name": "poll",
-          "recompInsnCount": 18,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 21,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 84.62,
-          "name": "swap",
-          "recompInsnCount": 36,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 39,
-          "status": "MATCH"
-        }
-      ],
       "name": "zombie/input/MouseStateCache",
       "total_methods": 5,
       "matched_instructions": 119,
@@ -15577,7 +15114,7 @@
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 78.41,
+          "rawSimilarity": 80.62,
           "name": "fillContainer",
           "recompInsnCount": 224,
           "descriptor": "(Lzombie/inventory/ItemContainer;Lzombie/characters/IsoPlayer;)V",
@@ -15678,16 +15215,16 @@
       "matched_code_percent": 100,
       "methods": [
         {
-          "rawSimilarity": 96.55,
-          "name": "getUniqueRecipeItems",
-          "recompInsnCount": 86,
-          "descriptor": "(Lzombie/inventory/InventoryItem;Lzombie/characters/IsoGameCharacter;Ljava/util/ArrayList;)Ljava/util/ArrayList;",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 87,
+          "rawSimilarity": 93.51,
+          "name": "hasHeat",
+          "recompInsnCount": 73,
+          "descriptor": "(Lzombie/scripting/objects/Recipe;Lzombie/inventory/InventoryItem;Ljava/util/ArrayList;Lzombie/characters/IsoGameCharacter;)Z",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 77,
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 70.8,
+          "rawSimilarity": 70.42,
           "name": "PerformMakeItem",
           "recompInsnCount": 524,
           "descriptor": "(Lzombie/scripting/objects/Recipe;Lzombie/inventory/InventoryItem;Lzombie/characters/IsoGameCharacter;Ljava/util/ArrayList;)Lzombie/inventory/InventoryItem;",
@@ -15714,15 +15251,6 @@
     {
       "total_instructions": 434,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 93.33,
-        "name": "getItemsFromContainer",
-        "recompInsnCount": 73,
-        "descriptor": "(Lzombie/characters/IsoGameCharacter;Lzombie/inventory/ItemContainer;Lzombie/inventory/InventoryItem;)V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 75,
-        "status": "MATCH"
-      }],
       "name": "zombie/inventory/RecipeManager$RMRecipe",
       "total_methods": 13,
       "matched_instructions": 434,
@@ -15741,15 +15269,6 @@
     {
       "total_instructions": 580,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 89.22,
-        "name": "getItemsFrom",
-        "recompInsnCount": 200,
-        "descriptor": "(Ljava/util/ArrayList;Lzombie/inventory/RecipeManager$RMRecipe;)V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 204,
-        "status": "MATCH"
-      }],
       "name": "zombie/inventory/RecipeManager$RMRecipeItemList",
       "total_methods": 11,
       "matched_instructions": 580,
@@ -15804,6 +15323,15 @@
     {
       "total_instructions": 2388,
       "matched_code_percent": 100,
+      "methods": [{
+        "rawSimilarity": 90.69,
+        "name": "DoTooltip",
+        "recompInsnCount": 839,
+        "descriptor": "(Lzombie/ui/ObjectTooltip;Lzombie/ui/ObjectTooltip$Layout;)V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 838,
+        "status": "MATCH"
+      }],
       "name": "zombie/inventory/types/Clothing",
       "total_methods": 87,
       "matched_instructions": 2388,
@@ -16012,7 +15540,7 @@
       "total_instructions": 858,
       "matched_code_percent": 100,
       "methods": [{
-        "rawSimilarity": 81.18,
+        "rawSimilarity": 94.12,
         "name": "addDebrisObject",
         "recompInsnCount": 87,
         "descriptor": "(Lzombie/iso/IsoObject;Lzombie/iso/IsoDirections;)V",
@@ -16056,15 +15584,26 @@
     {
       "total_instructions": 1553,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 86.49,
-        "name": "LoadCellBinaryChunk",
-        "recompInsnCount": 148,
-        "descriptor": "(Lzombie/iso/sprite/IsoSpriteManager;II)Lzombie/iso/IsoCell;",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 148,
-        "status": "MATCH"
-      }],
+      "methods": [
+        {
+          "rawSimilarity": 86.49,
+          "name": "LoadCellBinaryChunk",
+          "recompInsnCount": 148,
+          "descriptor": "(Lzombie/iso/sprite/IsoSpriteManager;II)Lzombie/iso/IsoCell;",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 148,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 93.17,
+          "name": "RecurseMultitileObjects",
+          "recompInsnCount": 160,
+          "descriptor": "(Lzombie/iso/IsoCell;Lzombie/iso/IsoGridSquare;Lzombie/iso/IsoGridSquare;Ljava/util/ArrayList;)V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 161,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/iso/CellLoader",
       "total_methods": 9,
       "matched_instructions": 1553,
@@ -16075,7 +15614,7 @@
       "total_instructions": 202,
       "matched_code_percent": 100,
       "methods": [{
-        "rawSimilarity": 77.78,
+        "rawSimilarity": 90.74,
         "name": "Update",
         "recompInsnCount": 56,
         "descriptor": "(Lzombie/iso/IsoChunk;)V",
@@ -16138,7 +15677,7 @@
       "total_instructions": 805,
       "matched_code_percent": 100,
       "methods": [{
-        "rawSimilarity": 91.6,
+        "rawSimilarity": 91.39,
         "name": "update",
         "recompInsnCount": 488,
         "descriptor": "()V",
@@ -16202,7 +15741,7 @@
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 87.05,
+          "rawSimilarity": 91.14,
           "name": "recalculateAnyGridStacks",
           "recompInsnCount": 444,
           "descriptor": "(Lzombie/iso/IsoCell$PerPlayerRender;IIJ)V",
@@ -16217,33 +15756,6 @@
           "descriptor": "(Lzombie/iso/IsoGridSquare;)Z",
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 155,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 92.04,
-          "name": "RenderSnow",
-          "recompInsnCount": 288,
-          "descriptor": "(I)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 289,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 90.82,
-          "name": "PlaceLot",
-          "recompInsnCount": 195,
-          "descriptor": "(Lzombie/iso/IsoLot;IIIZ)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 196,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 89.81,
-          "name": "PlaceLot",
-          "recompInsnCount": 420,
-          "descriptor": "(Lzombie/iso/IsoLot;IIILzombie/iso/IsoChunk;II)V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 422,
           "status": "MATCH"
         },
         {
@@ -16393,7 +15905,7 @@
       "matched_code_percent": 100,
       "methods": [
         {
-          "rawSimilarity": 73.44,
+          "rawSimilarity": 72.61,
           "name": "AddCorpses",
           "recompInsnCount": 243,
           "descriptor": "(II)V",
@@ -16429,39 +15941,12 @@
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 86.9,
-          "name": "ensureSurroundNotNull",
-          "recompInsnCount": 83,
-          "descriptor": "(III)V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 84,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 80.95,
-          "name": "checkAdjacentChunks",
-          "recompInsnCount": 41,
-          "descriptor": "()V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 42,
-          "status": "MATCH"
-        },
-        {
           "rawSimilarity": 87.95,
           "name": "SafeRead",
           "recompInsnCount": 85,
           "descriptor": "(Ljava/lang/String;IILjava/nio/ByteBuffer;)Ljava/nio/ByteBuffer;",
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 83,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 98.66,
-          "name": "getScavengeZone",
-          "recompInsnCount": 148,
-          "descriptor": "()Lzombie/iso/IsoMetaGrid$Zone;",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 149,
           "status": "MATCH"
         }
       ],
@@ -16536,15 +16021,6 @@
           "descriptor": "()V",
           "matchTier": "FUZZY_COMPUTATION",
           "origInsnCount": 52,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 84.52,
-          "name": "renderBloodForChunks",
-          "recompInsnCount": 618,
-          "descriptor": "(I)V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 620,
           "status": "MATCH"
         },
         {
@@ -16649,48 +16125,12 @@
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 83.16,
-          "name": "getSpecialWall",
-          "recompInsnCount": 94,
-          "descriptor": "(Z)Lzombie/iso/IsoObject;",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 95,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 67.74,
-          "name": "EnsureSurroundNotNull",
-          "recompInsnCount": 91,
+          "rawSimilarity": 97.56,
+          "name": "restackSheetRope",
+          "recompInsnCount": 82,
           "descriptor": "()V",
           "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 93,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 98.01,
-          "name": "RecalcAllWithNeighbours",
-          "recompInsnCount": 149,
-          "descriptor": "(ZLzombie/iso/IsoGridSquare$GetSquare;)V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 151,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 96.47,
-          "name": "RecalcAllWithNeighboursMineOnly",
-          "recompInsnCount": 83,
-          "descriptor": "()V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 85,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 87.11,
-          "name": "BurnWalls",
-          "recompInsnCount": 907,
-          "descriptor": "(Z)V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 908,
+          "origInsnCount": 82,
           "status": "MATCH"
         },
         {
@@ -16718,33 +16158,6 @@
           "descriptor": "(IIIZZ)Lzombie/iso/LosUtil$TestResults;",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 424,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 78.1,
-          "name": "renderCharacters",
-          "recompInsnCount": 132,
-          "descriptor": "(IZZ)V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 137,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 97.51,
-          "name": "RenderMinusFloorFxMask",
-          "recompInsnCount": 238,
-          "descriptor": "(IZZ)Z",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 241,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 99.49,
-          "name": "renderMinusFloor",
-          "recompInsnCount": 1364,
-          "descriptor": "(Lzombie/util/list/PZArrayList;IZZZZZLzombie/core/opengl/Shader;)Z",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 1366,
           "status": "MATCH"
         },
         {
@@ -17076,7 +16489,7 @@
       "matched_code_percent": 100,
       "methods": [
         {
-          "rawSimilarity": 91.94,
+          "rawSimilarity": 98.63,
           "name": "postupdate",
           "recompInsnCount": 732,
           "descriptor": "()V",
@@ -17085,7 +16498,7 @@
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 93.69,
+          "rawSimilarity": 94.59,
           "name": "canHaveMultipleHits",
           "recompInsnCount": 110,
           "descriptor": "()B",
@@ -17147,15 +16560,6 @@
           "descriptor": "(Lzombie/iso/IsoGridSquare;Ljava/lang/String;Ljava/lang/String;Z)Lzombie/iso/IsoObject;",
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 57,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 97.01,
-          "name": "FindExternalWaterSource",
-          "recompInsnCount": 66,
-          "descriptor": "(III)Lzombie/iso/IsoObject;",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 67,
           "status": "MATCH"
         },
         {
@@ -17530,57 +16934,12 @@
       "matched_code_percent": 100,
       "methods": [
         {
-          "rawSimilarity": 91.33,
+          "rawSimilarity": 92.22,
           "name": "ContextPick",
-          "recompInsnCount": 447,
+          "recompInsnCount": 450,
           "descriptor": "(II)Lzombie/iso/IsoObjectPicker$ClickObject;",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 450,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 99.01,
-          "name": "PickTarget",
-          "recompInsnCount": 201,
-          "descriptor": "(II)Lzombie/iso/IsoMovingObject;",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 202,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 98.04,
-          "name": "PickWindow",
-          "recompInsnCount": 152,
-          "descriptor": "(II)Lzombie/iso/IsoObject;",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 153,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 88.28,
-          "name": "PickWindowFrame",
-          "recompInsnCount": 144,
-          "descriptor": "(II)Lzombie/iso/IsoObject;",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 145,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 98.06,
-          "name": "PickThumpable",
-          "recompInsnCount": 102,
-          "descriptor": "(II)Lzombie/iso/IsoObject;",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 103,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 98,
-          "name": "PickHoppable",
-          "recompInsnCount": 99,
-          "descriptor": "(II)Lzombie/iso/IsoObject;",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 100,
           "status": "MATCH"
         },
         {
@@ -17590,15 +16949,6 @@
           "descriptor": "(II)Lzombie/iso/IsoObject;",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 106,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 98,
-          "name": "PickTree",
-          "recompInsnCount": 99,
-          "descriptor": "(II)Lzombie/iso/IsoObject;",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 100,
           "status": "MATCH"
         }
       ],
@@ -17666,9 +17016,9 @@
       "total_instructions": 142,
       "matched_code_percent": 100,
       "methods": [{
-        "rawSimilarity": 88.89,
+        "rawSimilarity": 100,
         "name": "calculate",
-        "recompInsnCount": 8,
+        "recompInsnCount": 10,
         "descriptor": "()V",
         "matchTier": "STRUCTURAL",
         "origInsnCount": 9,
@@ -17719,26 +17069,15 @@
     {
       "total_instructions": 1032,
       "matched_code_percent": 100,
-      "methods": [
-        {
-          "rawSimilarity": 80.34,
-          "name": "getRoofFloorForColumn",
-          "recompInsnCount": 295,
-          "descriptor": "(Lzombie/iso/IsoGridSquare;)Lzombie/iso/IsoGridSquare;",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 295,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 96.49,
-          "name": "scanIsRoofAt",
-          "recompInsnCount": 56,
-          "descriptor": "(Lzombie/iso/IsoGridSquare;Z)Z",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 57,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "rawSimilarity": 80.34,
+        "name": "getRoofFloorForColumn",
+        "recompInsnCount": 296,
+        "descriptor": "(Lzombie/iso/IsoGridSquare;)Lzombie/iso/IsoGridSquare;",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 295,
+        "status": "MATCH"
+      }],
       "name": "zombie/iso/IsoRoofFixer",
       "total_methods": 21,
       "matched_instructions": 1032,
@@ -17840,11 +17179,11 @@
       "matched_code_percent": 100,
       "methods": [
         {
-          "rawSimilarity": 96.04,
+          "rawSimilarity": 96.83,
           "name": "LoadTileDefinitions",
-          "recompInsnCount": 2141,
+          "recompInsnCount": 2142,
           "descriptor": "(Lzombie/iso/sprite/IsoSpriteManager;Ljava/lang/String;I)V",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 2145,
           "status": "MATCH"
         },
@@ -17948,6 +17287,15 @@
     {
       "total_instructions": 126,
       "matched_code_percent": 100,
+      "methods": [{
+        "rawSimilarity": 82.76,
+        "name": "lambda$create$0",
+        "recompInsnCount": 31,
+        "descriptor": "()V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 29,
+        "status": "MATCH"
+      }],
       "name": "zombie/iso/LightingThread",
       "total_methods": 11,
       "matched_instructions": 126,
@@ -18041,11 +17389,11 @@
       "total_instructions": 765,
       "matched_code_percent": 100,
       "methods": [{
-        "rawSimilarity": 93.7,
+        "rawSimilarity": 94.07,
         "name": "doStage",
-        "recompInsnCount": 271,
+        "recompInsnCount": 270,
         "descriptor": "(Lzombie/characters/IsoGameCharacter;Lzombie/iso/objects/IsoThumpable;Z)V",
-        "matchTier": "SORTED_MULTISET",
+        "matchTier": "STRUCTURAL",
         "origInsnCount": 270,
         "status": "MATCH"
       }],
@@ -18058,15 +17406,6 @@
     {
       "total_instructions": 1114,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 94.1,
-        "name": "calcDistanceOnThisChunkOnly",
-        "recompInsnCount": 267,
-        "descriptor": "(Lzombie/iso/IsoChunk;)V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 271,
-        "status": "MATCH"
-      }],
       "name": "zombie/iso/NearestWalls",
       "total_methods": 15,
       "matched_instructions": 1114,
@@ -18085,15 +17424,6 @@
     {
       "total_instructions": 1438,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 95.77,
-        "name": "serverSendRequests",
-        "recompInsnCount": 141,
-        "descriptor": "(Lzombie/core/raknet/UdpConnection;)V",
-        "matchTier": "STRUCTURAL",
-        "origInsnCount": 142,
-        "status": "MATCH"
-      }],
       "name": "zombie/iso/ObjectsSyncRequests",
       "total_methods": 14,
       "matched_instructions": 1438,
@@ -18274,6 +17604,15 @@
     {
       "total_instructions": 367,
       "matched_code_percent": 100,
+      "methods": [{
+        "rawSimilarity": 97.22,
+        "name": "parseServerSpawnPoint",
+        "recompInsnCount": 72,
+        "descriptor": "()Z",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 72,
+        "status": "MATCH"
+      }],
       "name": "zombie/iso/SpawnPoints",
       "total_methods": 15,
       "matched_instructions": 367,
@@ -18509,9 +17848,9 @@
       "total_instructions": 2430,
       "matched_code_percent": 100,
       "methods": [{
-        "rawSimilarity": 99.3,
+        "rawSimilarity": 99.65,
         "name": "loadReceivedChunks",
-        "recompInsnCount": 286,
+        "recompInsnCount": 288,
         "descriptor": "()V",
         "matchTier": "STRUCTURAL",
         "origInsnCount": 287,
@@ -18526,15 +17865,6 @@
     {
       "total_instructions": 200,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 97.89,
-        "name": "compare",
-        "recompInsnCount": 94,
-        "descriptor": "(Lzombie/iso/IsoChunk;Lzombie/iso/IsoChunk;)I",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 95,
-        "status": "MATCH"
-      }],
       "name": "zombie/iso/WorldStreamer$ChunkComparator",
       "total_methods": 4,
       "matched_instructions": 200,
@@ -18582,7 +17912,7 @@
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 81.4,
+          "rawSimilarity": 79.07,
           "name": "hasWater",
           "recompInsnCount": 40,
           "descriptor": "()Z",
@@ -18600,6 +17930,15 @@
     {
       "total_instructions": 776,
       "matched_code_percent": 100,
+      "methods": [{
+        "rawSimilarity": 90.91,
+        "name": "useWater",
+        "recompInsnCount": 21,
+        "descriptor": "()V",
+        "matchTier": "STRUCTURAL",
+        "origInsnCount": 22,
+        "status": "MATCH"
+      }],
       "name": "zombie/iso/areas/IsoRoom",
       "total_methods": 29,
       "matched_instructions": 776,
@@ -18735,15 +18074,6 @@
     {
       "total_instructions": 2965,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 88.49,
-        "name": "_render",
-        "recompInsnCount": 1571,
-        "descriptor": "(Lzombie/ui/UIElement;FFF)V",
-        "matchTier": "STRUCTURAL",
-        "origInsnCount": 1572,
-        "status": "MATCH"
-      }],
       "name": "zombie/iso/areas/isoregion/IsoRegionsRenderer",
       "total_methods": 46,
       "matched_instructions": 2965,
@@ -18788,15 +18118,6 @@
           "descriptor": "(IB)V",
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 10,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 99.01,
-          "name": "linkRegionsOnSide",
-          "recompInsnCount": 201,
-          "descriptor": "(ILzombie/iso/areas/isoregion/data/DataChunk;B)V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 202,
           "status": "MATCH"
         }
       ],
@@ -19009,7 +18330,7 @@
       "matched_code_percent": 100,
       "methods": [
         {
-          "rawSimilarity": 88.28,
+          "rawSimilarity": 89.66,
           "name": "WeaponHit",
           "recompInsnCount": 145,
           "descriptor": "(Lzombie/characters/IsoGameCharacter;Lzombie/inventory/types/HandWeapon;)V",
@@ -19018,7 +18339,7 @@
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 88,
+          "rawSimilarity": 92,
           "name": "Damage",
           "recompInsnCount": 76,
           "descriptor": "(I)V",
@@ -19137,25 +18458,16 @@
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 89.29,
+          "rawSimilarity": 90.48,
           "name": "Burn",
-          "recompInsnCount": 82,
+          "recompInsnCount": 84,
           "descriptor": "()V",
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 84,
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 90.52,
-          "name": "updateBodies",
-          "recompInsnCount": 117,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 116,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 88.49,
+          "rawSimilarity": 92.09,
           "name": "updateRotting",
           "recompInsnCount": 279,
           "descriptor": "(FFZ)V",
@@ -19330,26 +18642,15 @@
     {
       "total_instructions": 1942,
       "matched_code_percent": 100,
-      "methods": [
-        {
-          "rawSimilarity": 95.44,
-          "name": "update",
-          "recompInsnCount": 240,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 241,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 97.22,
-          "name": "chunkLoaded",
-          "recompInsnCount": 71,
-          "descriptor": "(Lzombie/iso/IsoChunk;)V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 72,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "rawSimilarity": 97.48,
+        "name": "addPoweredItem",
+        "recompInsnCount": 117,
+        "descriptor": "(Lzombie/iso/IsoObject;F)V",
+        "matchTier": "STRUCTURAL",
+        "origInsnCount": 119,
+        "status": "MATCH"
+      }],
       "name": "zombie/iso/objects/IsoGenerator",
       "total_methods": 38,
       "matched_instructions": 1942,
@@ -19368,15 +18669,6 @@
     {
       "total_instructions": 2217,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 98.28,
-        "name": "canSwitchLight",
-        "recompInsnCount": 115,
-        "descriptor": "()Z",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 116,
-        "status": "MATCH"
-      }],
       "name": "zombie/iso/objects/IsoLightSwitch",
       "total_methods": 52,
       "matched_instructions": 2217,
@@ -19387,7 +18679,7 @@
       "total_instructions": 2035,
       "matched_code_percent": 100,
       "methods": [{
-        "rawSimilarity": 93.75,
+        "rawSimilarity": 92.5,
         "name": "wearItem",
         "recompInsnCount": 79,
         "descriptor": "(Lzombie/inventory/InventoryItem;Lzombie/characters/IsoGameCharacter;)V",
@@ -19604,6 +18896,15 @@
     {
       "total_instructions": 1179,
       "matched_code_percent": 100,
+      "methods": [{
+        "rawSimilarity": 92.35,
+        "name": "renderInner",
+        "recompInsnCount": 171,
+        "descriptor": "(FFFLzombie/core/textures/ColorInfo;ZZ)V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 170,
+        "status": "MATCH"
+      }],
       "name": "zombie/iso/objects/IsoTree",
       "total_methods": 28,
       "matched_instructions": 1179,
@@ -19707,7 +19008,7 @@
       "matched_code_percent": 100,
       "methods": [
         {
-          "rawSimilarity": 97.87,
+          "rawSimilarity": 98.94,
           "name": "updateSprite",
           "recompInsnCount": 96,
           "descriptor": "()V",
@@ -19835,15 +19136,6 @@
     {
       "total_instructions": 819,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 90.61,
-        "name": "AddSplashes",
-        "recompInsnCount": 244,
-        "descriptor": "()V",
-        "matchTier": "STRUCTURAL",
-        "origInsnCount": 245,
-        "status": "MATCH"
-      }],
       "name": "zombie/iso/objects/RainManager",
       "total_methods": 23,
       "matched_instructions": 819,
@@ -20432,7 +19724,7 @@
       "total_instructions": 1569,
       "matched_code_percent": 100,
       "methods": [{
-        "rawSimilarity": 95.55,
+        "rawSimilarity": 95.32,
         "name": "update",
         "recompInsnCount": 450,
         "descriptor": "(D)V",
@@ -20502,6 +19794,15 @@
           "descriptor": "(II)I",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 21,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 91.78,
+          "name": "updateCurrentStage",
+          "recompInsnCount": 643,
+          "descriptor": "()V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 645,
           "status": "MATCH"
         }
       ],
@@ -20687,15 +19988,6 @@
     {
       "total_instructions": 1652,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 76.19,
-        "name": "render",
-        "recompInsnCount": 41,
-        "descriptor": "()V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 42,
-        "status": "MATCH"
-      }],
       "name": "zombie/iso/weather/fx/IsoWeatherFX",
       "total_methods": 34,
       "matched_instructions": 1652,
@@ -20769,7 +20061,7 @@
       "total_instructions": 2577,
       "matched_code_percent": 100,
       "methods": [{
-        "rawSimilarity": 95.24,
+        "rawSimilarity": 98.64,
         "name": "scanForTiles",
         "recompInsnCount": 147,
         "descriptor": "(I)V",
@@ -21150,6 +20442,15 @@
     {
       "total_instructions": 199,
       "matched_code_percent": 100,
+      "methods": [{
+        "rawSimilarity": 90.32,
+        "name": "setChannelByID",
+        "recompInsnCount": 29,
+        "descriptor": "(Ljava/lang/String;)V",
+        "matchTier": "STRUCTURAL",
+        "origInsnCount": 31,
+        "status": "MATCH"
+      }],
       "name": "zombie/network/DiscordBot",
       "total_methods": 7,
       "matched_instructions": 199,
@@ -21404,26 +20705,15 @@
     {
       "total_instructions": 1416,
       "matched_code_percent": 100,
-      "methods": [
-        {
-          "rawSimilarity": 88.16,
-          "name": "process",
-          "recompInsnCount": 76,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 76,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 98.39,
-          "name": "send",
-          "recompInsnCount": 187,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 186,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "rawSimilarity": 88.16,
+        "name": "process",
+        "recompInsnCount": 76,
+        "descriptor": "()V",
+        "matchTier": "STRUCTURAL",
+        "origInsnCount": 76,
+        "status": "MATCH"
+      }],
       "name": "zombie/network/FakeClientManager$ZombieSimulator",
       "total_methods": 17,
       "matched_instructions": 1416,
@@ -21444,7 +20734,7 @@
       "matched_code_percent": 100,
       "methods": [
         {
-          "rawSimilarity": 99.41,
+          "rawSimilarity": 92.35,
           "name": "SendCommandToServer",
           "recompInsnCount": 170,
           "descriptor": "(Ljava/lang/String;)V",
@@ -21462,21 +20752,12 @@
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 89.39,
+          "rawSimilarity": 88.83,
           "name": "receiveSyncAlarmClock",
-          "recompInsnCount": 179,
+          "recompInsnCount": 178,
           "descriptor": "(Ljava/nio/ByteBuffer;S)V",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 179,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 92.29,
-          "name": "receiveBloodSplatter",
-          "recompInsnCount": 440,
-          "descriptor": "(Ljava/nio/ByteBuffer;S)V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 441,
           "status": "MATCH"
         },
         {
@@ -21527,9 +20808,9 @@
       "matched_code_percent": 100,
       "methods": [
         {
-          "rawSimilarity": 94.51,
+          "rawSimilarity": 96.71,
           "name": "main",
-          "recompInsnCount": 1823,
+          "recompInsnCount": 1825,
           "descriptor": "([Ljava/lang/String;)V",
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 1823,
@@ -21545,12 +20826,12 @@
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 96.1,
-          "name": "initClientCommandFilter",
-          "recompInsnCount": 75,
-          "descriptor": "()V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 77,
+          "rawSimilarity": 100,
+          "name": "process",
+          "recompInsnCount": 27,
+          "descriptor": "(Lzombie/network/ZomboidNetData;)V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 26,
           "status": "MATCH"
         },
         {
@@ -21563,7 +20844,7 @@
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 88.39,
+          "rawSimilarity": 83.9,
           "name": "receiveRequestItemsForContainer",
           "recompInsnCount": 268,
           "descriptor": "(Ljava/nio/ByteBuffer;Lzombie/core/raknet/UdpConnection;S)V",
@@ -21572,9 +20853,9 @@
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 91.61,
+          "rawSimilarity": 99.03,
           "name": "receiveAddCoopPlayer",
-          "recompInsnCount": 308,
+          "recompInsnCount": 311,
           "descriptor": "(Ljava/nio/ByteBuffer;Lzombie/core/raknet/UdpConnection;S)V",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 310,
@@ -21605,33 +20886,6 @@
           "descriptor": "(Ljava/nio/ByteBuffer;Lzombie/core/raknet/UdpConnection;S)V",
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 128,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 89.13,
-          "name": "sendWorldSound",
-          "recompInsnCount": 45,
-          "descriptor": "(Lzombie/WorldSoundManager$WorldSound;Lzombie/core/raknet/UdpConnection;)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 46,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 92.86,
-          "name": "sendWorldMapPlayerPosition",
-          "recompInsnCount": 27,
-          "descriptor": "()V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 28,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 98.21,
-          "name": "sendItemListNet",
-          "recompInsnCount": 111,
-          "descriptor": "(Lzombie/core/raknet/UdpConnection;Lzombie/characters/IsoPlayer;Ljava/util/ArrayList;Lzombie/characters/IsoPlayer;Ljava/lang/String;Ljava/lang/String;)Z",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 112,
           "status": "MATCH"
         },
         {
@@ -21865,7 +21119,7 @@
       "total_instructions": 2673,
       "matched_code_percent": 100,
       "methods": [{
-        "rawSimilarity": 99.13,
+        "rawSimilarity": 95.81,
         "name": "printCSVStatistic",
         "recompInsnCount": 574,
         "descriptor": "()V",
@@ -22001,7 +21255,7 @@
       "matched_code_percent": 100,
       "methods": [
         {
-          "rawSimilarity": 71.2,
+          "rawSimilarity": 74.4,
           "name": "serverPacket",
           "recompInsnCount": 374,
           "descriptor": "(Ljava/nio/ByteBuffer;Lzombie/core/raknet/UdpConnection;)V",
@@ -22345,6 +21599,15 @@
     {
       "total_instructions": 420,
       "matched_code_percent": 100,
+      "methods": [{
+        "rawSimilarity": 94.94,
+        "name": "handlePacket",
+        "recompInsnCount": 177,
+        "descriptor": "(IILjava/lang/String;)V",
+        "matchTier": "STRUCTURAL",
+        "origInsnCount": 178,
+        "status": "MATCH"
+      }],
       "name": "zombie/network/RCONServer$ClientThread",
       "total_methods": 7,
       "matched_instructions": 420,
@@ -22426,15 +21689,6 @@
     {
       "total_instructions": 236,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 93.22,
-        "name": "EnsureSurroundNotNull",
-        "recompInsnCount": 117,
-        "descriptor": "(III)V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 118,
-        "status": "MATCH"
-      }],
       "name": "zombie/network/ServerChunkLoader$GetSquare",
       "total_methods": 5,
       "matched_instructions": 236,
@@ -22518,15 +21772,6 @@
     {
       "total_instructions": 90,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 98.15,
-        "name": "<init>",
-        "recompInsnCount": 53,
-        "descriptor": "(Lzombie/network/ServerChunkLoader;Lzombie/GameTime;)V",
-        "matchTier": "STRUCTURAL",
-        "origInsnCount": 54,
-        "status": "MATCH"
-      }],
       "name": "zombie/network/ServerChunkLoader$SaveGameTimeTask",
       "total_methods": 5,
       "matched_instructions": 90,
@@ -22565,15 +21810,6 @@
       "matched_code_percent": 100,
       "methods": [
         {
-          "rawSimilarity": 99.11,
-          "name": "init",
-          "recompInsnCount": 111,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 112,
-          "status": "MATCH"
-        },
-        {
           "rawSimilarity": 66.4,
           "name": "updateCamera",
           "recompInsnCount": 123,
@@ -22590,24 +21826,6 @@
           "matchTier": "STRUCTURAL",
           "origInsnCount": 298,
           "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 99.16,
-          "name": "renderMinusFloor",
-          "recompInsnCount": 593,
-          "descriptor": "(Lzombie/iso/IsoGridSquare;ZZ)Z",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 595,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 91.43,
-          "name": "renderCharacters",
-          "recompInsnCount": 134,
-          "descriptor": "(Lzombie/iso/IsoGridSquare;Z)V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 140,
-          "status": "MATCH"
         }
       ],
       "name": "zombie/network/ServerGUI",
@@ -22619,15 +21837,6 @@
     {
       "total_instructions": 329,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 78.26,
-        "name": "addPlayer",
-        "recompInsnCount": 43,
-        "descriptor": "(Lzombie/characters/IsoPlayer;)V",
-        "matchTier": "STRUCTURAL",
-        "origInsnCount": 46,
-        "status": "MATCH"
-      }],
       "name": "zombie/network/ServerLOS",
       "total_methods": 12,
       "matched_instructions": 329,
@@ -22978,15 +22187,6 @@
           "descriptor": "(Ljava/lang/String;)V",
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 54,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 85.19,
-          "name": "sendMessage",
-          "recompInsnCount": 24,
-          "descriptor": "(Lzombie/chat/ChatMessage;)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 27,
           "status": "MATCH"
         }
       ],
@@ -23729,7 +22929,7 @@
       "total_instructions": 1347,
       "matched_code_percent": 100,
       "methods": [{
-        "rawSimilarity": 95.65,
+        "rawSimilarity": 99.64,
         "name": "serverPacket",
         "recompInsnCount": 275,
         "descriptor": "(Ljava/nio/ByteBuffer;Lzombie/core/raknet/UdpConnection;)V",
@@ -23800,15 +23000,6 @@
     {
       "total_instructions": 730,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 94.55,
-        "name": "getZombieData",
-        "recompInsnCount": 111,
-        "descriptor": "(Lzombie/core/raknet/UdpConnection;Ljava/nio/ByteBuffer;)I",
-        "matchTier": "STRUCTURAL",
-        "origInsnCount": 110,
-        "status": "MATCH"
-      }],
       "name": "zombie/popman/NetworkZombiePacker",
       "total_methods": 12,
       "matched_instructions": 730,
@@ -23827,26 +23018,15 @@
     {
       "total_instructions": 1031,
       "matched_code_percent": 100,
-      "methods": [
-        {
-          "rawSimilarity": 88.73,
-          "name": "added",
-          "recompInsnCount": 71,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 71,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 98.36,
-          "name": "send",
-          "recompInsnCount": 366,
-          "descriptor": "()V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 365,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "rawSimilarity": 88.73,
+        "name": "added",
+        "recompInsnCount": 71,
+        "descriptor": "()V",
+        "matchTier": "STRUCTURAL",
+        "origInsnCount": 71,
+        "status": "MATCH"
+      }],
       "name": "zombie/popman/NetworkZombieSimulator",
       "total_methods": 21,
       "matched_instructions": 1031,
@@ -24346,15 +23526,26 @@
     {
       "total_instructions": 3316,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 98.36,
-        "name": "sendDeviceDataStatePacket",
-        "recompInsnCount": 243,
-        "descriptor": "(Lzombie/core/raknet/UdpConnection;S)V",
-        "matchTier": "STRUCTURAL",
-        "origInsnCount": 244,
-        "status": "MATCH"
-      }],
+      "methods": [
+        {
+          "rawSimilarity": 98.36,
+          "name": "sendDeviceDataStatePacket",
+          "recompInsnCount": 243,
+          "descriptor": "(Lzombie/core/raknet/UdpConnection;S)V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 244,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 92.24,
+          "name": "receiveDeviceDataStatePacket",
+          "recompInsnCount": 335,
+          "descriptor": "(Ljava/nio/ByteBuffer;Lzombie/core/raknet/UdpConnection;)V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 335,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/radio/devices/DeviceData",
       "total_methods": 105,
       "matched_instructions": 3316,
@@ -24760,6 +23951,15 @@
           "matchTier": "STRUCTURAL",
           "origInsnCount": 310,
           "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 95.35,
+          "name": "addRandomDeadSurvivorStory",
+          "recompInsnCount": 42,
+          "descriptor": "(Lzombie/iso/BuildingDef;)V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 43,
+          "status": "MATCH"
         }
       ],
       "name": "zombie/randomizedWorld/randomizedBuilding/RBBasic",
@@ -24960,15 +24160,6 @@
     {
       "total_instructions": 1226,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 88.78,
-        "name": "addBarricade",
-        "recompInsnCount": 97,
-        "descriptor": "(Lzombie/iso/IsoGridSquare;I)V",
-        "matchTier": "STRUCTURAL",
-        "origInsnCount": 98,
-        "status": "MATCH"
-      }],
       "name": "zombie/randomizedWorld/randomizedBuilding/RandomizedBuildingBase",
       "total_methods": 29,
       "matched_instructions": 1226,
@@ -25068,15 +24259,6 @@
     {
       "total_instructions": 340,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 95.83,
-        "name": "checkForTable",
-        "recompInsnCount": 47,
-        "descriptor": "(Lzombie/iso/IsoGridSquare;Lzombie/iso/IsoObject;Ljava/util/ArrayList;)Lzombie/iso/IsoObject;",
-        "matchTier": "STRUCTURAL",
-        "origInsnCount": 48,
-        "status": "MATCH"
-      }],
       "name": "zombie/randomizedWorld/randomizedBuilding/TableStories/RBTableStoryBase",
       "total_methods": 7,
       "matched_instructions": 340,
@@ -25864,7 +25046,7 @@
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 86.59,
+          "rawSimilarity": 89.43,
           "name": "setPlayer1",
           "recompInsnCount": 246,
           "descriptor": "(Ljava/lang/String;I)V",
@@ -25910,9 +25092,9 @@
       "total_instructions": 564,
       "matched_code_percent": 100,
       "methods": [{
-        "rawSimilarity": 91.42,
+        "rawSimilarity": 98.28,
         "name": "serverUpdateNetworkCharacterInt",
-        "recompInsnCount": 232,
+        "recompInsnCount": 233,
         "descriptor": "(Lzombie/savefile/ServerPlayerDB$NetworkCharacterData;)V",
         "matchTier": "SORTED_MULTISET",
         "origInsnCount": 233,
@@ -25945,15 +25127,26 @@
     {
       "total_instructions": 1917,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 94.74,
-        "name": "LoadFile",
-        "recompInsnCount": 155,
-        "descriptor": "(Ljava/lang/String;Z)V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 152,
-        "status": "MATCH"
-      }],
+      "methods": [
+        {
+          "rawSimilarity": 94.74,
+          "name": "LoadFile",
+          "recompInsnCount": 155,
+          "descriptor": "(Ljava/lang/String;Z)V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 152,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 97.22,
+          "name": "Load",
+          "recompInsnCount": 253,
+          "descriptor": "()V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 252,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/scripting/ScriptManager",
       "total_methods": 54,
       "matched_instructions": 1917,
@@ -25990,6 +25183,15 @@
     {
       "total_instructions": 292,
       "matched_code_percent": 100,
+      "methods": [{
+        "rawSimilarity": 72.41,
+        "name": "getBlock",
+        "recompInsnCount": 34,
+        "descriptor": "(Ljava/lang/String;Ljava/lang/String;)Lzombie/scripting/ScriptParser$Block;",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 29,
+        "status": "MATCH"
+      }],
       "name": "zombie/scripting/ScriptParser$Block",
       "total_methods": 12,
       "matched_instructions": 292,
@@ -26054,7 +25256,7 @@
       "total_instructions": 1763,
       "matched_code_percent": 100,
       "methods": [{
-        "rawSimilarity": 97.07,
+        "rawSimilarity": 93.85,
         "name": "addItem",
         "recompInsnCount": 718,
         "descriptor": "(Lzombie/inventory/InventoryItem;Lzombie/inventory/InventoryItem;Lzombie/characters/IsoGameCharacter;)Lzombie/inventory/InventoryItem;",
@@ -26261,7 +25463,7 @@
       "total_instructions": 5031,
       "matched_code_percent": 100,
       "methods": [{
-        "rawSimilarity": 90.53,
+        "rawSimilarity": 89.86,
         "name": "Load",
         "recompInsnCount": 1033,
         "descriptor": "(Ljava/lang/String;Ljava/lang/String;)V",
@@ -27074,7 +26276,7 @@
       "matched_code_percent": 100,
       "methods": [
         {
-          "rawSimilarity": 95.28,
+          "rawSimilarity": 92.91,
           "name": "update",
           "recompInsnCount": 255,
           "descriptor": "()V",
@@ -27083,7 +26285,7 @@
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 96.12,
+          "rawSimilarity": 94.17,
           "name": "ProcessCommand",
           "recompInsnCount": 102,
           "descriptor": "()V",
@@ -27146,26 +26348,15 @@
     {
       "total_instructions": 3319,
       "matched_code_percent": 100,
-      "methods": [
-        {
-          "rawSimilarity": 87.74,
-          "name": "render",
-          "recompInsnCount": 317,
-          "descriptor": "()V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 318,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 85.99,
-          "name": "update",
-          "recompInsnCount": 1085,
-          "descriptor": "()V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 1092,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "rawSimilarity": 97.44,
+        "name": "update",
+        "recompInsnCount": 1090,
+        "descriptor": "()V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 1092,
+        "status": "MATCH"
+      }],
       "name": "zombie/ui/UIManager",
       "total_methods": 114,
       "matched_instructions": 3319,
@@ -27231,7 +26422,7 @@
       "matched_code_percent": 100,
       "methods": [
         {
-          "rawSimilarity": 93.81,
+          "rawSimilarity": 97.14,
           "name": "Paginate",
           "recompInsnCount": 210,
           "descriptor": "()V",
@@ -27357,35 +26548,6 @@
     {
       "total_instructions": 176,
       "matched_code_percent": 100,
-      "methods": [
-        {
-          "rawSimilarity": 92.31,
-          "name": "write",
-          "recompInsnCount": 25,
-          "descriptor": "(I)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 26,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 94.59,
-          "name": "write",
-          "recompInsnCount": 36,
-          "descriptor": "([B)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 37,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 95,
-          "name": "write",
-          "recompInsnCount": 39,
-          "descriptor": "([BII)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 40,
-          "status": "MATCH"
-        }
-      ],
       "name": "zombie/util/ByteBufferOutputStream",
       "total_methods": 9,
       "matched_instructions": 176,
@@ -28664,6 +27826,26 @@
     {
       "total_instructions": 1414,
       "matched_code_percent": 100,
+      "methods": [
+        {
+          "rawSimilarity": 86.49,
+          "name": "contains",
+          "recompInsnCount": 33,
+          "descriptor": "(Ljava/util/Collection;Ljava/util/function/Predicate;)Z",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 37,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 88.1,
+          "name": "contains",
+          "recompInsnCount": 38,
+          "descriptor": "(Ljava/lang/Iterable;Ljava/util/function/Predicate;)Z",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 42,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/util/list/PZArrayUtil",
       "total_methods": 85,
       "matched_instructions": 1414,
@@ -28972,9 +28154,9 @@
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 92.86,
+          "rawSimilarity": 100,
           "name": "setLightbarLightsMode",
-          "recompInsnCount": 13,
+          "recompInsnCount": 15,
           "descriptor": "(I)V",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 14,
@@ -29005,15 +28187,6 @@
           "descriptor": "(Lzombie/vehicles/BaseVehicle;Ljava/lang/String;Ljava/lang/String;Z)Z",
           "matchTier": "STRUCTURAL",
           "origInsnCount": 135,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 100,
-          "name": "tryReconnectToTowedVehicle",
-          "recompInsnCount": 85,
-          "descriptor": "()V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 84,
           "status": "MATCH"
         },
         {
@@ -29188,26 +28361,15 @@
     {
       "total_instructions": 3030,
       "matched_code_percent": 100,
-      "methods": [
-        {
-          "rawSimilarity": 79.46,
-          "name": "checkforcecirclescollidetime",
-          "recompInsnCount": 2385,
-          "descriptor": "(Ljava/util/List;Ljava/util/ArrayList;[D[ZZ)Lzombie/vehicles/CircleLineIntersect$Collideresult;",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 2386,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 95.64,
-          "name": "TEST",
-          "recompInsnCount": 572,
-          "descriptor": "(Lorg/joml/Vector3f;FFFFLzombie/core/physics/CarController;)Z",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 574,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "rawSimilarity": 95.64,
+        "name": "TEST",
+        "recompInsnCount": 572,
+        "descriptor": "(Lorg/joml/Vector3f;FFFFLzombie/core/physics/CarController;)Z",
+        "matchTier": "STRUCTURAL",
+        "origInsnCount": 574,
+        "status": "MATCH"
+      }],
       "name": "zombie/vehicles/CircleLineIntersect",
       "total_methods": 5,
       "matched_instructions": 3030,
@@ -29353,9 +28515,9 @@
       "total_instructions": 2446,
       "matched_code_percent": 100,
       "methods": [{
-        "rawSimilarity": 97.52,
+        "rawSimilarity": 97.63,
         "name": "resolveCollision",
-        "recompInsnCount": 924,
+        "recompInsnCount": 926,
         "descriptor": "(Lzombie/characters/IsoGameCharacter;FFLorg/joml/Vector2f;)Lorg/joml/Vector2f;",
         "matchTier": "STRUCTURAL",
         "origInsnCount": 927,
@@ -29462,15 +28624,6 @@
     {
       "total_instructions": 1367,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 98.94,
-        "name": "resolveCollision",
-        "recompInsnCount": 470,
-        "descriptor": "(Lzombie/characters/IsoGameCharacter;FFLorg/joml/Vector2f;)Lorg/joml/Vector2f;",
-        "matchTier": "STRUCTURAL",
-        "origInsnCount": 473,
-        "status": "MATCH"
-      }],
       "name": "zombie/vehicles/CollideWithObstaclesPoly",
       "total_methods": 10,
       "matched_instructions": 1367,
@@ -29725,15 +28878,6 @@
       "matched_code_percent": 100,
       "methods": [
         {
-          "rawSimilarity": 98.5,
-          "name": "createVehicleCluster",
-          "recompInsnCount": 132,
-          "descriptor": "(Lzombie/vehicles/PolygonalMap2$VehicleRect;Ljava/util/ArrayList;Ljava/util/ArrayList;)V",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 133,
-          "status": "MATCH"
-        },
-        {
           "rawSimilarity": 96.42,
           "name": "findPath",
           "recompInsnCount": 1616,
@@ -29861,7 +29005,7 @@
       "total_instructions": 997,
       "matched_code_percent": 100,
       "methods": [{
-        "rawSimilarity": 96.41,
+        "rawSimilarity": 96.81,
         "name": "floodFill",
         "recompInsnCount": 252,
         "descriptor": "(II)V",
@@ -30161,15 +29305,6 @@
     {
       "total_instructions": 1148,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 97.69,
-        "name": "getSuccessors",
-        "recompInsnCount": 344,
-        "descriptor": "(Ljava/util/ArrayList;)V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 347,
-        "status": "MATCH"
-      }],
       "name": "zombie/vehicles/PolygonalMap2$SearchNode",
       "total_methods": 18,
       "matched_instructions": 1148,
@@ -30305,15 +29440,6 @@
     {
       "total_instructions": 4230,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 93.47,
-        "name": "connectVehicleCrawlNodes",
-        "recompInsnCount": 442,
-        "descriptor": "()V",
-        "matchTier": "STRUCTURAL",
-        "origInsnCount": 444,
-        "status": "MATCH"
-      }],
       "name": "zombie/vehicles/PolygonalMap2$VisibilityGraph",
       "total_methods": 33,
       "matched_instructions": 4230,
@@ -31329,7 +30455,7 @@
       "total_instructions": 1288,
       "matched_code_percent": 100,
       "methods": [{
-        "rawSimilarity": 94.2,
+        "rawSimilarity": 95.65,
         "name": "load",
         "recompInsnCount": 68,
         "descriptor": "()V",
@@ -31482,7 +30608,7 @@
       "total_instructions": 135,
       "matched_code_percent": 100,
       "methods": [{
-        "rawSimilarity": 86.46,
+        "rawSimilarity": 88.54,
         "name": "saveLog",
         "recompInsnCount": 94,
         "descriptor": "(Ljava/lang/String;)V",
@@ -31536,7 +30662,7 @@
       "total_instructions": 1132,
       "matched_code_percent": 100,
       "methods": [{
-        "rawSimilarity": 82.98,
+        "rawSimilarity": 78.72,
         "name": "readInfoFile",
         "recompInsnCount": 145,
         "descriptor": "()V",
@@ -31930,15 +31056,6 @@
           "descriptor": "(Lzombie/worldMap/WorldMapGeometry;FFF)V",
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 102,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 76.7,
-          "name": "renderZones",
-          "recompInsnCount": 533,
-          "descriptor": "(Ljava/util/ArrayList;Ljava/lang/String;FFFF)V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 528,
           "status": "MATCH"
         }
       ],
