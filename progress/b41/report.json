@@ -6,8 +6,8 @@
     "match_tiers": {
       "CORE_OPS_ONLY": 1,
       "FUZZY_COMPUTATION": 10,
-      "EXACT": 32469,
-      "SORTED_MULTISET": 230,
+      "EXACT": 32479,
+      "SORTED_MULTISET": 220,
       "STRUCTURAL": 257
     },
     "total_methods": 32967,
@@ -955,26 +955,6 @@
     {
       "total_instructions": 375,
       "matched_code_percent": 100,
-      "methods": [
-        {
-          "rawSimilarity": 100,
-          "name": "addDirectory",
-          "recompInsnCount": 24,
-          "descriptor": "(Ljava/lang/String;Ljava/lang/String;)V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 23,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 100,
-          "name": "addDirectory",
-          "recompInsnCount": 25,
-          "descriptor": "(Ljava/lang/String;Ljava/lang/String;Ljava/util/ArrayList;)V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 24,
-          "status": "MATCH"
-        }
-      ],
       "name": "zombie/MapGroups$MapGroup",
       "total_methods": 14,
       "matched_instructions": 375,
@@ -6469,15 +6449,6 @@
     {
       "total_instructions": 38,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 100,
-        "name": "next",
-        "recompInsnCount": 16,
-        "descriptor": "()Ljava/util/Map$Entry;",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 15,
-        "status": "MATCH"
-      }],
       "name": "zombie/core/Collections/NonBlockingHashMap$SnapshotE",
       "total_methods": 5,
       "matched_instructions": 38,
@@ -6615,15 +6586,6 @@
     {
       "total_instructions": 39,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 100,
-        "name": "next",
-        "recompInsnCount": 17,
-        "descriptor": "()Ljava/util/Map$Entry;",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 16,
-        "status": "MATCH"
-      }],
       "name": "zombie/core/Collections/NonBlockingHashMapLong$SnapshotE",
       "total_methods": 5,
       "matched_instructions": 39,
@@ -6752,15 +6714,6 @@
     {
       "total_instructions": 38,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 100,
-        "name": "next",
-        "recompInsnCount": 16,
-        "descriptor": "()Ljava/util/Map$Entry;",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 15,
-        "status": "MATCH"
-      }],
       "name": "zombie/core/Collections/NonBlockingHashtable$SnapshotE",
       "total_methods": 5,
       "matched_instructions": 38,
@@ -6889,15 +6842,6 @@
     {
       "total_instructions": 38,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 100,
-        "name": "next",
-        "recompInsnCount": 16,
-        "descriptor": "()Ljava/util/Map$Entry;",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 15,
-        "status": "MATCH"
-      }],
       "name": "zombie/core/Collections/NonBlockingIdentityHashMap$SnapshotE",
       "total_methods": 5,
       "matched_instructions": 38,
@@ -15849,15 +15793,6 @@
     {
       "total_instructions": 969,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 93.79,
-        "name": "init",
-        "recompInsnCount": 713,
-        "descriptor": "(I)Lzombie/iso/IsoCell$SnowGrid;",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 708,
-        "status": "MATCH"
-      }],
       "name": "zombie/iso/IsoCell$SnowGrid",
       "total_methods": 6,
       "matched_instructions": 969,
@@ -21725,44 +21660,15 @@
     {
       "total_instructions": 271,
       "matched_code_percent": 100,
-      "methods": [
-        {
-          "rawSimilarity": 92.16,
-          "name": "run",
-          "recompInsnCount": 49,
-          "descriptor": "()V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 51,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 100,
-          "name": "addUnloadedJob",
-          "recompInsnCount": 14,
-          "descriptor": "(Lzombie/iso/IsoChunk;)V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 13,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 100,
-          "name": "addLoadedJob",
-          "recompInsnCount": 46,
-          "descriptor": "(Lzombie/iso/IsoChunk;)V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 45,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 100,
-          "name": "saveLater",
-          "recompInsnCount": 14,
-          "descriptor": "(Lzombie/GameTime;)V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 13,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "rawSimilarity": 92.16,
+        "name": "run",
+        "recompInsnCount": 49,
+        "descriptor": "()V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 51,
+        "status": "MATCH"
+      }],
       "name": "zombie/network/ServerChunkLoader$SaveChunkThread",
       "total_methods": 8,
       "matched_instructions": 271,
