@@ -1,21 +1,21 @@
 {
   "measures": {
     "total_classes": 4917,
-    "total_instructions": 1840643,
-    "matched_code_percent": 89.45634759157534,
+    "total_instructions": 1838772,
+    "matched_code_percent": 91.54495500257781,
     "match_tiers": {
       "CORE_OPS_ONLY": 4,
-      "FUZZY_COMPUTATION": 45,
-      "EXACT": 49987,
-      "SORTED_MULTISET": 640,
+      "FUZZY_COMPUTATION": 47,
+      "EXACT": 50692,
+      "SORTED_MULTISET": 650,
       "NONE": 26,
-      "STRUCTURAL": 387
+      "STRUCTURAL": 393
     },
     "total_methods": 55231,
-    "matched_function_percent": 92.45351342543137,
-    "matched_instructions": 1646572,
-    "matched_classes": 4721,
-    "matched_methods": 51063
+    "matched_function_percent": 93.76256088066485,
+    "matched_instructions": 1683303,
+    "matched_classes": 4741,
+    "matched_methods": 51786
   },
   "units": [
     {
@@ -10899,58 +10899,114 @@
       "status": "MATCH"
     },
     {
-      "total_instructions": 1388,
-      "matched_code_percent": 0,
+      "total_instructions": 1290,
+      "matched_code_percent": 100,
+      "methods": [
+        {
+          "rawSimilarity": 98.81,
+          "name": "<init>",
+          "recompInsnCount": 86,
+          "descriptor": "(Ljava/lang/String;Ljava/lang/String;)V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 84,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 97.87,
+          "name": "getHeight",
+          "recompInsnCount": 94,
+          "descriptor": "(Ljava/lang/String;ZZ)I",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 94,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 99.05,
+          "name": "getWidth",
+          "recompInsnCount": 106,
+          "descriptor": "(Ljava/lang/String;IIZ)I",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 105,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/core/fonts/AngelCodeFont",
       "total_methods": 26,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 1290,
+      "matched_methods": 26,
+      "status": "MATCH"
     },
     {
-      "total_instructions": 27,
-      "matched_code_percent": 0,
+      "total_instructions": 21,
+      "matched_code_percent": 100,
+      "methods": [{
+        "rawSimilarity": 100,
+        "name": "<init>",
+        "recompInsnCount": 11,
+        "descriptor": "(Lzombie/core/fonts/AngelCodeFont;IFZ)V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 10,
+        "status": "MATCH"
+      }],
       "name": "zombie/core/fonts/AngelCodeFont$1",
       "total_methods": 2,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 21,
+      "matched_methods": 2,
+      "status": "MATCH"
     },
     {
       "total_instructions": 116,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
+      "methods": [{
+        "rawSimilarity": 100,
+        "name": "<init>",
+        "recompInsnCount": 8,
+        "descriptor": "(Lzombie/core/fonts/AngelCodeFont;)V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 7,
+        "status": "MATCH"
+      }],
       "name": "zombie/core/fonts/AngelCodeFont$2",
       "total_methods": 3,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 116,
+      "matched_methods": 3,
+      "status": "MATCH"
     },
     {
-      "total_instructions": 226,
-      "matched_code_percent": 0,
+      "total_instructions": 219,
+      "matched_code_percent": 100,
+      "methods": [{
+        "rawSimilarity": 100,
+        "name": "<init>",
+        "recompInsnCount": 8,
+        "descriptor": "(Lzombie/core/fonts/AngelCodeFont;)V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 7,
+        "status": "MATCH"
+      }],
       "name": "zombie/core/fonts/AngelCodeFont$CharDef",
       "total_methods": 6,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 219,
+      "matched_methods": 6,
+      "status": "MATCH"
     },
     {
       "total_instructions": 10,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/core/fonts/AngelCodeFont$CharDefTexture",
       "total_methods": 2,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 10,
+      "matched_methods": 2,
+      "status": "MATCH"
     },
     {
       "total_instructions": 3,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/core/fonts/AngelCodeFont$DisplayList",
       "total_methods": 1,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 3,
+      "matched_methods": 1,
+      "status": "MATCH"
     },
     {
       "total_instructions": 0,
@@ -26276,121 +26332,240 @@
       "status": "MATCH"
     },
     {
-      "total_instructions": 34832,
-      "matched_code_percent": 0,
+      "total_instructions": 33076,
+      "matched_code_percent": 100,
+      "methods": [
+        {
+          "rawSimilarity": 88.47,
+          "name": "DoCutawayShader",
+          "recompInsnCount": 929,
+          "descriptor": "(Lzombie/iso/IsoObject;Lzombie/iso/IsoDirections;IIIIIZZZZLzombie/iso/sprite/shapers/WallShaper;)V",
+          "matchTier": "FUZZY_COMPUTATION",
+          "origInsnCount": 911,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 92.48,
+          "name": "DoCutawayShaderSprite",
+          "recompInsnCount": 661,
+          "descriptor": "(Lzombie/iso/sprite/IsoSprite;Lzombie/iso/IsoDirections;IIIII)V",
+          "matchTier": "FUZZY_COMPUTATION",
+          "origInsnCount": 652,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 80.25,
+          "name": "DoWallLightingNW",
+          "recompInsnCount": 322,
+          "descriptor": "(Lzombie/iso/IsoObject;IIIIIIZZZZLzombie/core/opengl/Shader;)I",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 314,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 98.65,
+          "name": "calculateWallAlphaAndCircleStencilEdge",
+          "recompInsnCount": 74,
+          "descriptor": "(Lzombie/iso/IsoObject;ZZZLzombie/iso/SpriteDetails/IsoFlagType;Lzombie/iso/SpriteDetails/IsoFlagType;Lzombie/iso/SpriteDetails/IsoFlagType;ZIZZ)Z",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 74,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 81.82,
+          "name": "toBoolean",
+          "recompInsnCount": 11,
+          "descriptor": "([B)Z",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 11,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 92.65,
+          "name": "getSpecialSolid",
+          "recompInsnCount": 68,
+          "descriptor": "()Lzombie/iso/IsoObject;",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 68,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 96.97,
+          "name": "getGarageDoor",
+          "recompInsnCount": 34,
+          "descriptor": "(Z)Lzombie/iso/IsoObject;",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 33,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 97.56,
+          "name": "restackSheetRope",
+          "recompInsnCount": 82,
+          "descriptor": "()V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 82,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 97.46,
+          "name": "CalculateCollide",
+          "recompInsnCount": 1417,
+          "descriptor": "(Lzombie/iso/IsoGridSquare;ZZZZLzombie/iso/IsoGridSquare$GetSquare;)Z",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 1419,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 86.58,
+          "name": "testVisionAdjacent",
+          "recompInsnCount": 459,
+          "descriptor": "(IIIZZ)Lzombie/iso/LosUtil$TestResults;",
+          "matchTier": "FUZZY_COMPUTATION",
+          "origInsnCount": 447,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 93.72,
+          "name": "renderMinusFloor",
+          "recompInsnCount": 1661,
+          "descriptor": "(IZZIIIIILzombie/core/opengl/Shader;)Z",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 1656,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 98.57,
+          "name": "getSlopedSurfaceHeight",
+          "recompInsnCount": 74,
+          "descriptor": "(FF)F",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 70,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 89,
+          "name": "getFirstBlocking",
+          "recompInsnCount": 495,
+          "descriptor": "(Lzombie/iso/IsoGridSquareCollisionData;IIIZZ)Lzombie/iso/IsoGridSquareCollisionData;",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 500,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/iso/IsoGridSquare",
       "total_methods": 605,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 33076,
+      "matched_methods": 605,
+      "status": "MATCH"
     },
     {
-      "total_instructions": 61,
-      "matched_code_percent": 0,
+      "total_instructions": 59,
+      "matched_code_percent": 100,
       "name": "zombie/iso/IsoGridSquare$1",
       "total_methods": 1,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 59,
+      "matched_methods": 1,
+      "status": "MATCH"
     },
     {
       "total_instructions": 42,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/iso/IsoGridSquare$CircleStencilShader",
       "total_methods": 4,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 42,
+      "matched_methods": 4,
+      "status": "MATCH"
     },
     {
-      "total_instructions": 41,
-      "matched_code_percent": 0,
+      "total_instructions": 39,
+      "matched_code_percent": 100,
       "name": "zombie/iso/IsoGridSquare$CutawayNoDepthShader",
       "total_methods": 4,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 39,
+      "matched_methods": 4,
+      "status": "MATCH"
     },
     {
       "total_instructions": 0,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/iso/IsoGridSquare$GetSquare",
       "total_methods": 1,
       "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_methods": 1,
+      "status": "MATCH"
     },
     {
       "total_instructions": 0,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/iso/IsoGridSquare$ILighting",
       "total_methods": 22,
       "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_methods": 22,
+      "status": "MATCH"
     },
     {
       "total_instructions": 127,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/iso/IsoGridSquare$Lighting",
       "total_methods": 23,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 127,
+      "matched_methods": 23,
+      "status": "MATCH"
     },
     {
       "total_instructions": 37,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/iso/IsoGridSquare$NoCircleStencilShader",
       "total_methods": 3,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 37,
+      "matched_methods": 3,
+      "status": "MATCH"
     },
     {
       "total_instructions": 3,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/iso/IsoGridSquare$PuddlesDirection",
       "total_methods": 1,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 3,
+      "matched_methods": 1,
+      "status": "MATCH"
     },
     {
       "total_instructions": 0,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/iso/IsoGridSquare$RenderWallCallback",
       "total_methods": 1,
       "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_methods": 1,
+      "status": "MATCH"
     },
     {
       "total_instructions": 41,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/iso/IsoGridSquare$ResultLight",
       "total_methods": 2,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 41,
+      "matched_methods": 2,
+      "status": "MATCH"
     },
     {
       "total_instructions": 182,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/iso/IsoGridSquare$WaterSplashData",
       "total_methods": 7,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 182,
+      "matched_methods": 7,
+      "status": "MATCH"
     },
     {
       "total_instructions": 10,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/iso/IsoGridSquare$s_performance",
       "total_methods": 2,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 10,
+      "matched_methods": 2,
+      "status": "MATCH"
     },
     {
       "total_instructions": 11,
@@ -48826,12 +49001,12 @@
     },
     {
       "total_instructions": 1456,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/ui/LoadingQueueUI",
       "total_methods": 7,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 1456,
+      "matched_methods": 7,
+      "status": "MATCH"
     },
     {
       "total_instructions": 287,
@@ -54192,15 +54367,6 @@
     {
       "total_instructions": 3441,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 99.13,
-        "name": "countUpsideDownCharacters",
-        "recompInsnCount": 117,
-        "descriptor": "(Lzombie/worldMap/streets/WorldMapStreet$LayoutCounts;)V",
-        "matchTier": "FUZZY_COMPUTATION",
-        "origInsnCount": 115,
-        "status": "MATCH"
-      }],
       "name": "zombie/worldMap/streets/WorldMapStreet",
       "total_methods": 61,
       "matched_instructions": 3441,
