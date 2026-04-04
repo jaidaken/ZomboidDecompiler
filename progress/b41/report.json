@@ -5,10 +5,10 @@
     "matched_code_percent": 100,
     "match_tiers": {
       "CORE_OPS_ONLY": 1,
-      "FUZZY_COMPUTATION": 10,
+      "FUZZY_COMPUTATION": 9,
       "EXACT": 32487,
       "SORTED_MULTISET": 219,
-      "STRUCTURAL": 250
+      "STRUCTURAL": 251
     },
     "total_methods": 32967,
     "matched_function_percent": 100,
@@ -6186,7 +6186,7 @@
       "matched_code_percent": 100,
       "methods": [
         {
-          "rawSimilarity": 89.93,
+          "rawSimilarity": 94.24,
           "name": "read",
           "recompInsnCount": 137,
           "descriptor": "(Ljava/lang/String;)Z",
@@ -14763,11 +14763,11 @@
       "total_instructions": 656,
       "matched_code_percent": 100,
       "methods": [{
-        "rawSimilarity": 97.95,
+        "rawSimilarity": 96.58,
         "name": "areItemsIdentical",
         "recompInsnCount": 149,
         "descriptor": "(Lzombie/inventory/CompressIdenticalItems$PerThreadData;Lzombie/inventory/InventoryItem;Lzombie/inventory/InventoryItem;)Z",
-        "matchTier": "FUZZY_COMPUTATION",
+        "matchTier": "SORTED_MULTISET",
         "origInsnCount": 146,
         "status": "MATCH"
       }],
@@ -20753,11 +20753,11 @@
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 87.61,
+          "rawSimilarity": 94.69,
           "name": "isWorldVersionUnsupported",
           "recompInsnCount": 112,
           "descriptor": "()Ljava/lang/String;",
-          "matchTier": "SORTED_MULTISET",
+          "matchTier": "STRUCTURAL",
           "origInsnCount": 113,
           "status": "MATCH"
         },
