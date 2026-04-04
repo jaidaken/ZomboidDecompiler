@@ -1,21 +1,21 @@
 {
   "measures": {
     "total_classes": 4917,
-    "total_instructions": 1838013,
-    "matched_code_percent": 92.33090299143694,
+    "total_instructions": 1834577,
+    "matched_code_percent": 94.9328918873397,
     "match_tiers": {
       "CORE_OPS_ONLY": 4,
-      "FUZZY_COMPUTATION": 47,
-      "EXACT": 51066,
-      "SORTED_MULTISET": 652,
+      "FUZZY_COMPUTATION": 48,
+      "EXACT": 52298,
+      "SORTED_MULTISET": 671,
       "NONE": 26,
-      "STRUCTURAL": 394
+      "STRUCTURAL": 408
     },
     "total_methods": 55231,
-    "matched_function_percent": 94.4451485578751,
-    "matched_instructions": 1697054,
-    "matched_classes": 4749,
-    "matched_methods": 52163
+    "matched_function_percent": 96.73733953757853,
+    "matched_instructions": 1741617,
+    "matched_classes": 4803,
+    "matched_methods": 53429
   },
   "units": [
     {
@@ -5235,13 +5235,22 @@
       "status": "MATCH"
     },
     {
-      "total_instructions": 1373,
-      "matched_code_percent": 0,
+      "total_instructions": 1236,
+      "matched_code_percent": 100,
+      "methods": [{
+        "rawSimilarity": 94.12,
+        "name": "renderMain",
+        "recompInsnCount": 35,
+        "descriptor": "()V",
+        "matchTier": "STRUCTURAL",
+        "origInsnCount": 34,
+        "status": "MATCH"
+      }],
       "name": "zombie/buildingRooms/BuildingRoomsEditor",
       "total_methods": 31,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 1236,
+      "matched_methods": 31,
+      "status": "MATCH"
     },
     {
       "total_instructions": 497,
@@ -5471,22 +5480,22 @@
       "status": "MATCH"
     },
     {
-      "total_instructions": 774,
-      "matched_code_percent": 0,
+      "total_instructions": 688,
+      "matched_code_percent": 100,
       "name": "zombie/characters/AttachedItems/AttachedWeaponDefinitions",
       "total_methods": 13,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 688,
+      "matched_methods": 13,
+      "status": "MATCH"
     },
     {
       "total_instructions": 12,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/characters/AttachedItems/AttachedWeaponDefinitions$L_addRandomAttachedWeapon",
       "total_methods": 2,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 12,
+      "matched_methods": 2,
+      "status": "MATCH"
     },
     {
       "total_instructions": 172,
@@ -6094,40 +6103,49 @@
       "status": "MATCH"
     },
     {
-      "total_instructions": 869,
-      "matched_code_percent": 0,
+      "total_instructions": 805,
+      "matched_code_percent": 100,
+      "methods": [{
+        "rawSimilarity": 74.77,
+        "name": "init",
+        "recompInsnCount": 99,
+        "descriptor": "()V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 107,
+        "status": "MATCH"
+      }],
       "name": "zombie/characters/HairOutfitDefinitions",
       "total_methods": 13,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 805,
+      "matched_methods": 13,
+      "status": "MATCH"
     },
     {
       "total_instructions": 12,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/characters/HairOutfitDefinitions$HaircutDefinition",
       "total_methods": 1,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 12,
+      "matched_methods": 1,
+      "status": "MATCH"
     },
     {
       "total_instructions": 21,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/characters/HairOutfitDefinitions$HaircutOutfitDefinition",
       "total_methods": 1,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 21,
+      "matched_methods": 1,
+      "status": "MATCH"
     },
     {
       "total_instructions": 3,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/characters/HairOutfitDefinitions$StringChance",
       "total_methods": 1,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 3,
+      "matched_methods": 1,
+      "status": "MATCH"
     },
     {
       "total_instructions": 405,
@@ -7533,31 +7551,31 @@
       "status": "MATCH"
     },
     {
-      "total_instructions": 287,
-      "matched_code_percent": 0,
+      "total_instructions": 260,
+      "matched_code_percent": 100,
       "name": "zombie/characters/UnderwearDefinition",
       "total_methods": 5,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 260,
+      "matched_methods": 5,
+      "status": "MATCH"
     },
     {
       "total_instructions": 41,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/characters/UnderwearDefinition$OutfitUnderwearDefinition",
       "total_methods": 1,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 41,
+      "matched_methods": 1,
+      "status": "MATCH"
     },
     {
       "total_instructions": 9,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/characters/UnderwearDefinition$StringChance",
       "total_methods": 1,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 9,
+      "matched_methods": 1,
+      "status": "MATCH"
     },
     {
       "total_instructions": 27,
@@ -7704,49 +7722,58 @@
       "status": "MATCH"
     },
     {
-      "total_instructions": 1134,
-      "matched_code_percent": 0,
+      "total_instructions": 1037,
+      "matched_code_percent": 100,
+      "methods": [{
+        "rawSimilarity": 73.17,
+        "name": "init",
+        "recompInsnCount": 39,
+        "descriptor": "()V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 41,
+        "status": "MATCH"
+      }],
       "name": "zombie/characters/ZombiesZoneDefinition",
       "total_methods": 17,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 1037,
+      "matched_methods": 17,
+      "status": "MATCH"
     },
     {
       "total_instructions": 3,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/characters/ZombiesZoneDefinition$PickDefinition",
       "total_methods": 1,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 3,
+      "matched_methods": 1,
+      "status": "MATCH"
     },
     {
       "total_instructions": 3,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/characters/ZombiesZoneDefinition$StringChance",
       "total_methods": 1,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 3,
+      "matched_methods": 1,
+      "status": "MATCH"
     },
     {
       "total_instructions": 3,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/characters/ZombiesZoneDefinition$ZZDOutfit",
       "total_methods": 1,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 3,
+      "matched_methods": 1,
+      "status": "MATCH"
     },
     {
       "total_instructions": 8,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/characters/ZombiesZoneDefinition$ZZDZone",
       "total_methods": 1,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 8,
+      "matched_methods": 1,
+      "status": "MATCH"
     },
     {
       "total_instructions": 692,
@@ -8385,31 +8412,31 @@
       "status": "MATCH"
     },
     {
-      "total_instructions": 181,
-      "matched_code_percent": 0,
+      "total_instructions": 166,
+      "matched_code_percent": 100,
       "name": "zombie/characters/animals/datas/AnimalBreed",
       "total_methods": 11,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 166,
+      "matched_methods": 11,
+      "status": "MATCH"
     },
     {
       "total_instructions": 3,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/characters/animals/datas/AnimalBreed$ForcedGenes",
       "total_methods": 1,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 3,
+      "matched_methods": 1,
+      "status": "MATCH"
     },
     {
       "total_instructions": 21,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/characters/animals/datas/AnimalBreed$Sound",
       "total_methods": 2,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 21,
+      "matched_methods": 2,
+      "status": "MATCH"
     },
     {
       "total_instructions": 5429,
@@ -10418,49 +10445,69 @@
       "status": "MATCH"
     },
     {
-      "total_instructions": 1623,
-      "matched_code_percent": 0,
+      "total_instructions": 1608,
+      "matched_code_percent": 100,
       "name": "zombie/core/SpriteRenderer",
       "total_methods": 115,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 1608,
+      "matched_methods": 115,
+      "status": "MATCH"
     },
     {
-      "total_instructions": 1253,
-      "matched_code_percent": 0,
+      "total_instructions": 1229,
+      "matched_code_percent": 100,
       "name": "zombie/core/SpriteRenderer$RingBuffer",
       "total_methods": 13,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 1229,
+      "matched_methods": 13,
+      "status": "MATCH"
     },
     {
-      "total_instructions": 455,
-      "matched_code_percent": 0,
+      "total_instructions": 410,
+      "matched_code_percent": 100,
+      "methods": [
+        {
+          "rawSimilarity": 93.33,
+          "name": "<init>",
+          "recompInsnCount": 16,
+          "descriptor": "(Lzombie/core/SpriteRenderer$RingBuffer;)V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 15,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 100,
+          "name": "render",
+          "recompInsnCount": 345,
+          "descriptor": "()V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 341,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/core/SpriteRenderer$RingBuffer$StateRun",
       "total_methods": 4,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 410,
+      "matched_methods": 4,
+      "status": "MATCH"
     },
     {
-      "total_instructions": 50,
-      "matched_code_percent": 0,
+      "total_instructions": 46,
+      "matched_code_percent": 100,
       "name": "zombie/core/SpriteRenderer$WallShaderTexRender",
       "total_methods": 5,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 46,
+      "matched_methods": 5,
+      "status": "MATCH"
     },
     {
       "total_instructions": 24,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/core/SpriteRenderer$s_performance",
       "total_methods": 2,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 24,
+      "matched_methods": 2,
+      "status": "MATCH"
     },
     {
       "total_instructions": 15,
@@ -18542,85 +18589,94 @@
       "status": "MATCH"
     },
     {
-      "total_instructions": 366,
-      "matched_code_percent": 0,
+      "total_instructions": 331,
+      "matched_code_percent": 100,
       "name": "zombie/debug/objects/ObjectDebugger",
       "total_methods": 24,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 331,
+      "matched_methods": 24,
+      "status": "MATCH"
     },
     {
       "total_instructions": 10,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/debug/objects/ObjectDebugger$1",
       "total_methods": 3,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 10,
+      "matched_methods": 3,
+      "status": "MATCH"
     },
     {
       "total_instructions": 3,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/debug/objects/ObjectDebugger$LogCollection",
       "total_methods": 2,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 3,
+      "matched_methods": 2,
+      "status": "MATCH"
     },
     {
-      "total_instructions": 65,
-      "matched_code_percent": 0,
+      "total_instructions": 57,
+      "matched_code_percent": 100,
       "name": "zombie/debug/objects/ObjectDebugger$LogEntry",
       "total_methods": 6,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 57,
+      "matched_methods": 6,
+      "status": "MATCH"
     },
     {
-      "total_instructions": 174,
-      "matched_code_percent": 0,
+      "total_instructions": 146,
+      "matched_code_percent": 100,
       "name": "zombie/debug/objects/ObjectDebugger$LogField",
       "total_methods": 7,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 146,
+      "matched_methods": 7,
+      "status": "MATCH"
     },
     {
-      "total_instructions": 137,
-      "matched_code_percent": 0,
+      "total_instructions": 127,
+      "matched_code_percent": 100,
       "name": "zombie/debug/objects/ObjectDebugger$LogList",
       "total_methods": 7,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 127,
+      "matched_methods": 7,
+      "status": "MATCH"
     },
     {
-      "total_instructions": 149,
-      "matched_code_percent": 0,
+      "total_instructions": 121,
+      "matched_code_percent": 100,
       "name": "zombie/debug/objects/ObjectDebugger$LogMap",
       "total_methods": 7,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 121,
+      "matched_methods": 7,
+      "status": "MATCH"
     },
     {
-      "total_instructions": 150,
-      "matched_code_percent": 0,
+      "total_instructions": 144,
+      "matched_code_percent": 100,
       "name": "zombie/debug/objects/ObjectDebugger$LogObject",
       "total_methods": 9,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 144,
+      "matched_methods": 9,
+      "status": "MATCH"
     },
     {
-      "total_instructions": 672,
-      "matched_code_percent": 0,
+      "total_instructions": 637,
+      "matched_code_percent": 100,
+      "methods": [{
+        "rawSimilarity": 88.36,
+        "name": "parseClassMembers",
+        "recompInsnCount": 189,
+        "descriptor": "(Lzombie/debug/objects/ObjectDebugger$LogObject;Ljava/lang/Class;I)V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 189,
+        "status": "MATCH"
+      }],
       "name": "zombie/debug/objects/ObjectDebugger$Parser",
       "total_methods": 9,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 637,
+      "matched_methods": 9,
+      "status": "MATCH"
     },
     {
       "total_instructions": 60,
@@ -20305,13 +20361,13 @@
       "status": "MATCH"
     },
     {
-      "total_instructions": 594,
-      "matched_code_percent": 0,
+      "total_instructions": 519,
+      "matched_code_percent": 100,
       "name": "zombie/entity/components/build/BuildLogic",
       "total_methods": 26,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 519,
+      "matched_methods": 26,
+      "status": "MATCH"
     },
     {
       "total_instructions": 197,
@@ -24775,13 +24831,69 @@
       "status": "MATCH"
     },
     {
-      "total_instructions": 11097,
-      "matched_code_percent": 0,
+      "total_instructions": 10589,
+      "matched_code_percent": 100,
+      "methods": [
+        {
+          "rawSimilarity": 88.64,
+          "name": "loadCorpseFromByteData",
+          "recompInsnCount": 49,
+          "descriptor": "(Lzombie/iso/IsoGridSquare;)Lzombie/iso/objects/IsoDeadBody;",
+          "matchTier": "FUZZY_COMPUTATION",
+          "origInsnCount": 44,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 89.84,
+          "name": "tryLoadCorpseFromByteData",
+          "recompInsnCount": 127,
+          "descriptor": "(Lzombie/iso/IsoGridSquare;)Lzombie/iso/objects/IsoDeadBody;",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 128,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 99.07,
+          "name": "DoTooltipEmbedded",
+          "recompInsnCount": 1728,
+          "descriptor": "(Lzombie/ui/ObjectTooltip;Lzombie/ui/ObjectTooltip$Layout;I)V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 1726,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 100,
+          "name": "loadItem",
+          "recompInsnCount": 109,
+          "descriptor": "(Ljava/nio/ByteBuffer;IZLzombie/inventory/InventoryItem;)Lzombie/inventory/InventoryItem;",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 107,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 92,
+          "name": "getReplaceOnUseOnString",
+          "recompInsnCount": 23,
+          "descriptor": "()Ljava/lang/String;",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 25,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 87.1,
+          "name": "getWeaponLevel",
+          "recompInsnCount": 92,
+          "descriptor": "()I",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 93,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/inventory/InventoryItem",
       "total_methods": 646,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 10589,
+      "matched_methods": 646,
+      "status": "MATCH"
     },
     {
       "total_instructions": 507,
@@ -25076,76 +25188,150 @@
       "status": "MATCH"
     },
     {
-      "total_instructions": 5925,
-      "matched_code_percent": 0,
+      "total_instructions": 5442,
+      "matched_code_percent": 100,
+      "methods": [
+        {
+          "rawSimilarity": 91.61,
+          "name": "ParseSuburbsDistributions",
+          "recompInsnCount": 286,
+          "descriptor": "()V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 286,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 76.19,
+          "name": "ParseProceduralDistributions",
+          "recompInsnCount": 34,
+          "descriptor": "()V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 42,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 91.75,
+          "name": "fillContainerInternal",
+          "recompInsnCount": 288,
+          "descriptor": "(Lzombie/inventory/ItemPickInfo;Lzombie/inventory/ItemContainer;Lzombie/characters/IsoPlayer;)V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 291,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 89.84,
+          "name": "doRollItemInternal",
+          "recompInsnCount": 709,
+          "descriptor": "(Lzombie/inventory/ItemPickInfo;Lzombie/inventory/ItemPickerJava$ItemPickerContainer;Lzombie/inventory/ItemContainer;FLzombie/characters/IsoGameCharacter;ZLzombie/inventory/ItemPickerJava$ItemPickerRoom;Z)V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 709,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 86.53,
+          "name": "trashItem",
+          "recompInsnCount": 246,
+          "descriptor": "(Lzombie/inventory/InventoryItem;)V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 245,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 86,
+          "name": "trashItemLooted",
+          "recompInsnCount": 151,
+          "descriptor": "(Lzombie/inventory/InventoryItem;)V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 150,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 85.71,
+          "name": "trashItemRats",
+          "recompInsnCount": 92,
+          "descriptor": "(Lzombie/inventory/InventoryItem;)V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 91,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 76.17,
+          "name": "wearDownItem",
+          "recompInsnCount": 257,
+          "descriptor": "(Lzombie/inventory/InventoryItem;)V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 256,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/inventory/ItemPickerJava",
       "total_methods": 64,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 5442,
+      "matched_methods": 64,
+      "status": "MATCH"
     },
     {
       "total_instructions": 29,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/inventory/ItemPickerJava$ItemPickerContainer",
       "total_methods": 2,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 29,
+      "matched_methods": 2,
+      "status": "MATCH"
     },
     {
       "total_instructions": 3,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/inventory/ItemPickerJava$ItemPickerItem",
       "total_methods": 1,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 3,
+      "matched_methods": 1,
+      "status": "MATCH"
     },
     {
-      "total_instructions": 27,
-      "matched_code_percent": 0,
+      "total_instructions": 22,
+      "matched_code_percent": 100,
       "name": "zombie/inventory/ItemPickerJava$ItemPickerRoom",
       "total_methods": 2,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 22,
+      "matched_methods": 2,
+      "status": "MATCH"
     },
     {
       "total_instructions": 8,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/inventory/ItemPickerJava$ItemPickerUpgradeWeapons",
       "total_methods": 1,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 8,
+      "matched_methods": 1,
+      "status": "MATCH"
     },
     {
-      "total_instructions": 305,
-      "matched_code_percent": 0,
+      "total_instructions": 279,
+      "matched_code_percent": 100,
       "name": "zombie/inventory/ItemPickerJava$KeyNamer",
       "total_methods": 5,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 279,
+      "matched_methods": 5,
+      "status": "MATCH"
     },
     {
       "total_instructions": 3,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/inventory/ItemPickerJava$ProceduralItem",
       "total_methods": 1,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 3,
+      "matched_methods": 1,
+      "status": "MATCH"
     },
     {
-      "total_instructions": 35,
-      "matched_code_percent": 0,
+      "total_instructions": 33,
+      "matched_code_percent": 100,
       "name": "zombie/inventory/ItemPickerJava$VehicleDistribution",
       "total_methods": 2,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 33,
+      "matched_methods": 2,
+      "status": "MATCH"
     },
     {
       "total_instructions": 445,
@@ -25530,40 +25716,60 @@
       "status": "MATCH"
     },
     {
-      "total_instructions": 2853,
-      "matched_code_percent": 0,
+      "total_instructions": 2662,
+      "matched_code_percent": 100,
+      "methods": [
+        {
+          "rawSimilarity": 77.78,
+          "name": "addFenceTiles",
+          "recompInsnCount": 187,
+          "descriptor": "(ILse/krka/kahlua/j2se/KahluaTableImpl;)V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 180,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 100,
+          "name": "checkDamageHoppableFence",
+          "recompInsnCount": 52,
+          "descriptor": "(Lzombie/iso/IsoMovingObject;Lzombie/iso/IsoGridSquare;Lzombie/iso/IsoGridSquare;)V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 48,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/iso/BentFences",
       "total_methods": 42,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 2662,
+      "matched_methods": 42,
+      "status": "MATCH"
     },
     {
-      "total_instructions": 33,
-      "matched_code_percent": 0,
+      "total_instructions": 31,
+      "matched_code_percent": 100,
       "name": "zombie/iso/BentFences$1",
       "total_methods": 1,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 31,
+      "matched_methods": 1,
+      "status": "MATCH"
     },
     {
       "total_instructions": 48,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/iso/BentFences$Entry",
       "total_methods": 2,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 48,
+      "matched_methods": 2,
+      "status": "MATCH"
     },
     {
       "total_instructions": 15,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/iso/BentFences$ThumpData",
       "total_methods": 1,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 15,
+      "matched_methods": 1,
+      "status": "MATCH"
     },
     {
       "total_instructions": 968,
@@ -25847,13 +26053,105 @@
       "status": "MATCH"
     },
     {
-      "total_instructions": 15624,
-      "matched_code_percent": 0,
+      "total_instructions": 14325,
+      "matched_code_percent": 100,
+      "methods": [
+        {
+          "rawSimilarity": 89.51,
+          "name": "fetch",
+          "recompInsnCount": 1507,
+          "descriptor": "(Lse/krka/kahlua/vm/KahluaTable;Lzombie/iso/IsoObject;DZ)V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 1506,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 98.32,
+          "name": "doWashClothingOrYourselfMenu",
+          "recompInsnCount": 117,
+          "descriptor": "(Lse/krka/kahlua/vm/KahluaTable;DLse/krka/kahlua/vm/KahluaTable;Lse/krka/kahlua/vm/KahluaTable;Lse/krka/kahlua/vm/KahluaTable;Lzombie/ui/ISUIWrapper/ISContextMenuWrapper;Lzombie/iso/objects/IsoClothingWasher;Lzombie/iso/objects/IsoCombinationWasherDryer;Lzombie/characters/IsoPlayer;)Z",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 119,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 96.5,
+          "name": "doBedMenu",
+          "recompInsnCount": 141,
+          "descriptor": "(DZLzombie/ui/ISUIWrapper/ISContextMenuWrapper;Lzombie/iso/IsoObject;Lzombie/characters/IsoPlayer;)Z",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 143,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 98.62,
+          "name": "doDoorMenu",
+          "recompInsnCount": 433,
+          "descriptor": "(Lse/krka/kahlua/vm/KahluaTable;Lse/krka/kahlua/vm/KahluaTable;Lse/krka/kahlua/vm/KahluaTable;ZLzombie/ui/ISUIWrapper/ISContextMenuWrapper;Lzombie/characters/IsoPlayer;Z)Lzombie/ui/ISUIWrapper/ISContextMenuWrapper;",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 435,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 95.19,
+          "name": "doWindowMenu",
+          "recompInsnCount": 1203,
+          "descriptor": "(Lse/krka/kahlua/vm/KahluaTable;Lse/krka/kahlua/vm/KahluaTable;ZLzombie/ui/ISUIWrapper/ISContextMenuWrapper;Lzombie/iso/objects/IsoWindow;ZLzombie/characters/IsoPlayer;ZZ)Lzombie/ui/ISUIWrapper/ISContextMenuWrapper;",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 1205,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 84.89,
+          "name": "getDirtGravelSand",
+          "recompInsnCount": 137,
+          "descriptor": "(Lzombie/iso/IsoGridSquare;)Lse/krka/kahlua/vm/KahluaTable;",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 139,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 97.06,
+          "name": "handleInteraction",
+          "recompInsnCount": 273,
+          "descriptor": "(IIZLzombie/ui/ISUIWrapper/ISContextMenuWrapper;Lse/krka/kahlua/vm/KahluaTable;Lzombie/characters/IsoPlayer;Lzombie/inventory/ItemContainer;)Z",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 272,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 96.09,
+          "name": "doPlacedFishNetOptions",
+          "recompInsnCount": 177,
+          "descriptor": "(Lzombie/ui/ISUIWrapper/ISContextMenuWrapper;Lzombie/characters/IsoPlayer;Lzombie/iso/IsoObject;)V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 179,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 84.26,
+          "name": "doFluidContainerMenu",
+          "recompInsnCount": 233,
+          "descriptor": "(Lzombie/ui/ISUIWrapper/ISContextMenuWrapper;Lzombie/iso/IsoObject;DLzombie/characters/IsoPlayer;Lse/krka/kahlua/vm/KahluaTable;)Lzombie/ui/ISUIWrapper/ISContextMenuWrapper;",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 235,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 90.97,
+          "name": "doStoveOption",
+          "recompInsnCount": 142,
+          "descriptor": "(Lse/krka/kahlua/vm/KahluaTable;ZLzombie/ui/ISUIWrapper/ISContextMenuWrapper;DLzombie/characters/IsoPlayer;)Z",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 144,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/iso/ISWorldObjectContextMenuLogic",
       "total_methods": 114,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 14325,
+      "matched_methods": 114,
+      "status": "MATCH"
     },
     {
       "total_instructions": 573,
@@ -34845,49 +35143,67 @@
       "status": "MATCH"
     },
     {
-      "total_instructions": 999,
-      "matched_code_percent": 0,
+      "total_instructions": 878,
+      "matched_code_percent": 100,
+      "methods": [{
+        "rawSimilarity": 96.36,
+        "name": "parsePointTable",
+        "recompInsnCount": 116,
+        "descriptor": "(Lse/krka/kahlua/vm/KahluaTable;)Lzombie/network/SpawnRegions$Point;",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 110,
+        "status": "MATCH"
+      }],
       "name": "zombie/network/SpawnRegions",
       "total_methods": 15,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 878,
+      "matched_methods": 15,
+      "status": "MATCH"
     },
     {
-      "total_instructions": 29,
-      "matched_code_percent": 0,
+      "total_instructions": 22,
+      "matched_code_percent": 100,
+      "methods": [{
+        "rawSimilarity": 83.33,
+        "name": "<init>",
+        "recompInsnCount": 8,
+        "descriptor": "(Lzombie/network/SpawnRegions;)V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 6,
+        "status": "MATCH"
+      }],
       "name": "zombie/network/SpawnRegions$1",
       "total_methods": 3,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 22,
+      "matched_methods": 3,
+      "status": "MATCH"
     },
     {
       "total_instructions": 3,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/network/SpawnRegions$Point",
       "total_methods": 1,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 3,
+      "matched_methods": 1,
+      "status": "MATCH"
     },
     {
       "total_instructions": 3,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/network/SpawnRegions$Profession",
       "total_methods": 1,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 3,
+      "matched_methods": 1,
+      "status": "MATCH"
     },
     {
       "total_instructions": 3,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/network/SpawnRegions$Region",
       "total_methods": 1,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 3,
+      "matched_methods": 1,
+      "status": "MATCH"
     },
     {
       "total_instructions": 24,
@@ -36271,13 +36587,13 @@
       "status": "MATCH"
     },
     {
-      "total_instructions": 283,
-      "matched_code_percent": 0,
+      "total_instructions": 266,
+      "matched_code_percent": 100,
       "name": "zombie/network/packets/AddExplosiveTrapPacket",
       "total_methods": 7,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 266,
+      "matched_methods": 7,
+      "status": "MATCH"
     },
     {
       "total_instructions": 396,
@@ -48296,13 +48612,13 @@
       "status": "MATCH"
     },
     {
-      "total_instructions": 192,
-      "matched_code_percent": 0,
+      "total_instructions": 156,
+      "matched_code_percent": 100,
       "name": "zombie/text/templating/ReplaceProviderLua",
       "total_methods": 11,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 156,
+      "matched_methods": 11,
+      "status": "MATCH"
     },
     {
       "total_instructions": 25,
