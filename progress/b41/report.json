@@ -6,9 +6,9 @@
     "match_tiers": {
       "CORE_OPS_ONLY": 1,
       "FUZZY_COMPUTATION": 10,
-      "EXACT": 32485,
-      "SORTED_MULTISET": 220,
-      "STRUCTURAL": 251
+      "EXACT": 32487,
+      "SORTED_MULTISET": 219,
+      "STRUCTURAL": 250
     },
     "total_methods": 32967,
     "matched_function_percent": 100,
@@ -14762,26 +14762,15 @@
     {
       "total_instructions": 656,
       "matched_code_percent": 100,
-      "methods": [
-        {
-          "rawSimilarity": 91.07,
-          "name": "setCompareItem",
-          "recompInsnCount": 55,
-          "descriptor": "(Lzombie/inventory/CompressIdenticalItems$PerThreadData;Lzombie/inventory/InventoryItem;)Z",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 56,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 97.95,
-          "name": "areItemsIdentical",
-          "recompInsnCount": 149,
-          "descriptor": "(Lzombie/inventory/CompressIdenticalItems$PerThreadData;Lzombie/inventory/InventoryItem;Lzombie/inventory/InventoryItem;)Z",
-          "matchTier": "FUZZY_COMPUTATION",
-          "origInsnCount": 146,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "rawSimilarity": 97.95,
+        "name": "areItemsIdentical",
+        "recompInsnCount": 149,
+        "descriptor": "(Lzombie/inventory/CompressIdenticalItems$PerThreadData;Lzombie/inventory/InventoryItem;Lzombie/inventory/InventoryItem;)Z",
+        "matchTier": "FUZZY_COMPUTATION",
+        "origInsnCount": 146,
+        "status": "MATCH"
+      }],
       "name": "zombie/inventory/CompressIdenticalItems",
       "total_methods": 10,
       "matched_instructions": 656,
@@ -20993,15 +20982,6 @@
     {
       "total_instructions": 2673,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 95.81,
-        "name": "printCSVStatistic",
-        "recompInsnCount": 574,
-        "descriptor": "()V",
-        "matchTier": "STRUCTURAL",
-        "origInsnCount": 573,
-        "status": "MATCH"
-      }],
       "name": "zombie/network/MPStatistic",
       "total_methods": 28,
       "matched_instructions": 2673,
