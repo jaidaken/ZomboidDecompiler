@@ -1,21 +1,21 @@
 {
   "measures": {
     "total_classes": 4917,
-    "total_instructions": 1838772,
-    "matched_code_percent": 91.54495500257781,
+    "total_instructions": 1838013,
+    "matched_code_percent": 92.33090299143694,
     "match_tiers": {
       "CORE_OPS_ONLY": 4,
       "FUZZY_COMPUTATION": 47,
-      "EXACT": 50692,
-      "SORTED_MULTISET": 650,
+      "EXACT": 51066,
+      "SORTED_MULTISET": 652,
       "NONE": 26,
-      "STRUCTURAL": 393
+      "STRUCTURAL": 394
     },
     "total_methods": 55231,
-    "matched_function_percent": 93.76256088066485,
-    "matched_instructions": 1683303,
-    "matched_classes": 4741,
-    "matched_methods": 51786
+    "matched_function_percent": 94.4451485578751,
+    "matched_instructions": 1697054,
+    "matched_classes": 4749,
+    "matched_methods": 52163
   },
   "units": [
     {
@@ -8167,13 +8167,22 @@
       "status": "MISSING_RECOMP"
     },
     {
-      "total_instructions": 9981,
-      "matched_code_percent": 0,
+      "total_instructions": 9515,
+      "matched_code_percent": 100,
+      "methods": [{
+        "rawSimilarity": 93.89,
+        "name": "respondToSound",
+        "recompInsnCount": 228,
+        "descriptor": "()V",
+        "matchTier": "STRUCTURAL",
+        "origInsnCount": 229,
+        "status": "MATCH"
+      }],
       "name": "zombie/characters/animals/IsoAnimal",
       "total_methods": 263,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 9515,
+      "matched_methods": 263,
+      "status": "MATCH"
     },
     {
       "total_instructions": 775,
@@ -10746,22 +10755,22 @@
       "status": "MATCH"
     },
     {
-      "total_instructions": 1616,
-      "matched_code_percent": 0,
+      "total_instructions": 1454,
+      "matched_code_percent": 100,
       "name": "zombie/core/Translator",
       "total_methods": 50,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 1454,
+      "matched_methods": 50,
+      "status": "MATCH"
     },
     {
       "total_instructions": 148,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/core/Translator$1",
       "total_methods": 1,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 148,
+      "matched_methods": 1,
+      "status": "MATCH"
     },
     {
       "total_instructions": 48,
@@ -30279,49 +30288,67 @@
       "status": "MATCH"
     },
     {
-      "total_instructions": 2396,
-      "matched_code_percent": 0,
+      "total_instructions": 2294,
+      "matched_code_percent": 100,
+      "methods": [{
+        "rawSimilarity": 91.46,
+        "name": "wearItem",
+        "recompInsnCount": 80,
+        "descriptor": "(Lzombie/inventory/InventoryItem;Lzombie/characters/IsoGameCharacter;)V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 82,
+        "status": "MATCH"
+      }],
       "name": "zombie/iso/objects/IsoMannequin",
       "total_methods": 53,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 2294,
+      "matched_methods": 53,
+      "status": "MATCH"
     },
     {
-      "total_instructions": 57,
-      "matched_code_percent": 0,
+      "total_instructions": 51,
+      "matched_code_percent": 100,
+      "methods": [{
+        "rawSimilarity": 100,
+        "name": "<init>",
+        "recompInsnCount": 8,
+        "descriptor": "(Lzombie/iso/objects/IsoMannequin;)V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 7,
+        "status": "MATCH"
+      }],
       "name": "zombie/iso/objects/IsoMannequin$Drawer",
       "total_methods": 4,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 51,
+      "matched_methods": 4,
+      "status": "MATCH"
     },
     {
-      "total_instructions": 96,
-      "matched_code_percent": 0,
+      "total_instructions": 79,
+      "matched_code_percent": 100,
       "name": "zombie/iso/objects/IsoMannequin$MannequinZone",
       "total_methods": 1,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 79,
+      "matched_methods": 1,
+      "status": "MATCH"
     },
     {
       "total_instructions": 3,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/iso/objects/IsoMannequin$PerPlayer",
       "total_methods": 1,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 3,
+      "matched_methods": 1,
+      "status": "MATCH"
     },
     {
-      "total_instructions": 213,
-      "matched_code_percent": 0,
+      "total_instructions": 207,
+      "matched_code_percent": 100,
       "name": "zombie/iso/objects/IsoMannequin$StaticPerPlayer",
       "total_methods": 4,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 207,
+      "matched_methods": 4,
+      "status": "MATCH"
     },
     {
       "total_instructions": 270,
