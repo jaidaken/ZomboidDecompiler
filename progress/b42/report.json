@@ -1,21 +1,21 @@
 {
   "measures": {
     "total_classes": 4917,
-    "total_instructions": 1834577,
-    "matched_code_percent": 94.9328918873397,
+    "total_instructions": 1834539,
+    "matched_code_percent": 94.9525739163899,
     "match_tiers": {
       "CORE_OPS_ONLY": 4,
       "FUZZY_COMPUTATION": 48,
-      "EXACT": 52298,
-      "SORTED_MULTISET": 671,
-      "NONE": 26,
-      "STRUCTURAL": 408
+      "EXACT": 52325,
+      "SORTED_MULTISET": 672,
+      "NONE": 27,
+      "STRUCTURAL": 410
     },
     "total_methods": 55231,
-    "matched_function_percent": 96.73733953757853,
-    "matched_instructions": 1741617,
-    "matched_classes": 4803,
-    "matched_methods": 53429
+    "matched_function_percent": 96.79165685937245,
+    "matched_instructions": 1741942,
+    "matched_classes": 4804,
+    "matched_methods": 53459
   },
   "units": [
     {
@@ -22657,22 +22657,72 @@
       "status": "MATCH"
     },
     {
-      "total_instructions": 304,
-      "matched_code_percent": 0,
+      "total_instructions": 275,
+      "matched_code_percent": 92.36363636363636,
+      "methods": [
+        {
+          "recompContext": ["#0    RETURN"],
+          "origContext": [
+            "#0    ALOAD v0",
+            "#1    GETFIELD zombie/entity/util/enums/EnumBitStore.elementType:Ljava/lang/Class;",
+            "#2    INVOKEVIRTUAL java/lang/Class.getEnumConstants()[Ljava/lang/Object;",
+            "#3    ARRAYLENGTH",
+            "#4    ISTORE v1",
+            "#5    ICONST_0"
+          ],
+          "name": "addAll",
+          "recompInsnCount": 1,
+          "descriptor": "()V",
+          "category": "EXIT_BLOCK_REORDER",
+          "matchTier": "NONE",
+          "origInsnCount": 21,
+          "status": "MISMATCH",
+          "diffDescription": "Instructions differ at #0"
+        },
+        {
+          "rawSimilarity": 75,
+          "name": "equals",
+          "recompInsnCount": 21,
+          "descriptor": "(Ljava/lang/Object;)Z",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 24,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/entity/util/enums/EnumBitStore",
       "total_methods": 27,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 254,
+      "matched_methods": 26,
+      "status": "MISMATCH"
     },
     {
-      "total_instructions": 80,
-      "matched_code_percent": 0,
+      "total_instructions": 71,
+      "matched_code_percent": 100,
+      "methods": [
+        {
+          "rawSimilarity": 100,
+          "name": "<init>",
+          "recompInsnCount": 15,
+          "descriptor": "(Lzombie/entity/util/enums/EnumBitStore;)V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 14,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 95.56,
+          "name": "next",
+          "recompInsnCount": 46,
+          "descriptor": "()Ljava/lang/Enum;",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 45,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/entity/util/enums/EnumBitStore$EnumBitStoreIterator",
       "total_methods": 4,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 71,
+      "matched_methods": 4,
+      "status": "MATCH"
     },
     {
       "total_instructions": 0,
