@@ -1,21 +1,21 @@
 {
   "measures": {
     "total_classes": 4917,
-    "total_instructions": 1834539,
-    "matched_code_percent": 94.9525739163899,
+    "total_instructions": 1834489,
+    "matched_code_percent": 95.07535886015124,
     "match_tiers": {
       "CORE_OPS_ONLY": 4,
       "FUZZY_COMPUTATION": 48,
-      "EXACT": 52325,
-      "SORTED_MULTISET": 672,
-      "NONE": 27,
-      "STRUCTURAL": 410
+      "EXACT": 52453,
+      "SORTED_MULTISET": 673,
+      "NONE": 17,
+      "STRUCTURAL": 413
     },
     "total_methods": 55231,
-    "matched_function_percent": 96.79165685937245,
-    "matched_instructions": 1741942,
-    "matched_classes": 4804,
-    "matched_methods": 53459
+    "matched_function_percent": 97.0306530752657,
+    "matched_instructions": 1744147,
+    "matched_classes": 4822,
+    "matched_methods": 53591
   },
   "units": [
     {
@@ -2241,31 +2241,40 @@
       "status": "MATCH"
     },
     {
-      "total_instructions": 149,
-      "matched_code_percent": 0,
+      "total_instructions": 135,
+      "matched_code_percent": 100,
       "name": "zombie/ai/State",
       "total_methods": 23,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 135,
+      "matched_methods": 23,
+      "status": "MATCH"
     },
     {
-      "total_instructions": 186,
-      "matched_code_percent": 0,
+      "total_instructions": 179,
+      "matched_code_percent": 100,
+      "methods": [{
+        "rawSimilarity": 98.15,
+        "name": "<init>",
+        "recompInsnCount": 54,
+        "descriptor": "(Ljava/lang/String;Ljava/lang/Class;Ljava/util/function/Supplier;)V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 54,
+        "status": "MATCH"
+      }],
       "name": "zombie/ai/State$Param",
       "total_methods": 20,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 179,
+      "matched_methods": 20,
+      "status": "MATCH"
     },
     {
-      "total_instructions": 50,
-      "matched_code_percent": 0,
+      "total_instructions": 46,
+      "matched_code_percent": 100,
       "name": "zombie/ai/State$Stage",
       "total_methods": 5,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 46,
+      "matched_methods": 5,
+      "status": "MATCH"
     },
     {
       "total_instructions": 401,
@@ -6284,7 +6293,7 @@
     },
     {
       "total_instructions": 40591,
-      "matched_code_percent": 99.98768199847257,
+      "matched_code_percent": 100,
       "methods": [
         {
           "rawSimilarity": 82.35,
@@ -6330,24 +6339,6 @@
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 446,
           "status": "MATCH"
-        },
-        {
-          "recompContext": ["#0    RETURN"],
-          "origContext": [
-            "#0    ALOAD v0",
-            "#1    ALOAD v1",
-            "#2    INVOKEVIRTUAL java/lang/Object.getClass()Ljava/lang/Class;",
-            "#3    INVOKEVIRTUAL zombie/characters/IsoGameCharacter.clear(Ljava/lang/Class;)V",
-            "#4    RETURN"
-          ],
-          "name": "clear",
-          "recompInsnCount": 1,
-          "descriptor": "(Lzombie/ai/State;)V",
-          "category": "EXIT_BLOCK_REORDER",
-          "matchTier": "NONE",
-          "origInsnCount": 5,
-          "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #0"
         },
         {
           "rawSimilarity": 95.83,
@@ -6541,9 +6532,9 @@
       ],
       "name": "zombie/characters/IsoGameCharacter",
       "total_methods": 1443,
-      "matched_instructions": 40586,
-      "matched_methods": 1442,
-      "status": "MISMATCH"
+      "matched_instructions": 40591,
+      "matched_methods": 1443,
+      "status": "MATCH"
     },
     {
       "total_instructions": 60,
@@ -13623,55 +13614,12 @@
     },
     {
       "total_instructions": 125,
-      "matched_code_percent": 71.2,
-      "methods": [
-        {
-          "recompContext": [
-            "#0    ACONST_NULL",
-            "#1    ARETURN"
-          ],
-          "origContext": [
-            "#0    ALOAD v0",
-            "#1    INVOKEVIRTUAL zombie/core/skinnedmodel/advancedanimation/AbstractAnimationVariableSlotEnum.getEnumTypeClass()Ljava/lang/Class;",
-            "#2    ASTORE v1",
-            "#3    ALOAD v2",
-            "#4    INVOKEVIRTUAL java/lang/Object.getClass()Ljava/lang/Class;",
-            "#5    ALOAD v1"
-          ],
-          "name": "getEnumValue",
-          "recompInsnCount": 2,
-          "descriptor": "(Ljava/lang/Enum;)Ljava/lang/Enum;",
-          "category": "VARIABLE_COPY_PROPAGATION",
-          "matchTier": "NONE",
-          "origInsnCount": 18,
-          "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #0"
-        },
-        {
-          "recompContext": ["#0    RETURN"],
-          "origContext": [
-            "#0    ALOAD v0",
-            "#1    INVOKEVIRTUAL zombie/core/skinnedmodel/advancedanimation/AbstractAnimationVariableSlotEnum.getEnumTypeClass()Ljava/lang/Class;",
-            "#2    ASTORE v1",
-            "#3    ALOAD v2",
-            "#4    INVOKEVIRTUAL java/lang/Object.getClass()Ljava/lang/Class;",
-            "#5    ALOAD v1"
-          ],
-          "name": "setEnumValue",
-          "recompInsnCount": 1,
-          "descriptor": "(Ljava/lang/Enum;)V",
-          "category": "EXIT_BLOCK_REORDER",
-          "matchTier": "NONE",
-          "origInsnCount": 18,
-          "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #0"
-        }
-      ],
+      "matched_code_percent": 100,
       "name": "zombie/core/skinnedmodel/advancedanimation/AbstractAnimationVariableSlotEnum",
       "total_methods": 18,
-      "matched_instructions": 89,
-      "matched_methods": 16,
-      "status": "MISMATCH"
+      "matched_instructions": 125,
+      "matched_methods": 18,
+      "status": "MATCH"
     },
     {
       "total_instructions": 1757,
@@ -14256,34 +14204,12 @@
     },
     {
       "total_instructions": 250,
-      "matched_code_percent": 90,
-      "methods": [{
-        "recompContext": [
-          "#0    ACONST_NULL",
-          "#1    ARETURN"
-        ],
-        "origContext": [
-          "#0    ALOAD v0",
-          "#1    INVOKESTATIC zombie/core/skinnedmodel/advancedanimation/AnimationVariableHandle.alloc(Ljava/lang/String;)Lzombie/core/skinnedmodel/advancedanimation/AnimationVariableHandle;",
-          "#2    IFNONNULL L0",
-          "#3    ACONST_NULL",
-          "#4    ARETURN",
-          "#5    ALOAD v1"
-        ],
-        "name": "getOrCreateVariable_Enum",
-        "recompInsnCount": 2,
-        "descriptor": "(Ljava/lang/String;Ljava/lang/Enum;)Lzombie/core/skinnedmodel/advancedanimation/IAnimationVariableSlot;",
-        "category": "INSN_COUNT_DIFF",
-        "matchTier": "NONE",
-        "origInsnCount": 25,
-        "status": "MISMATCH",
-        "diffDescription": "Instructions differ at #0"
-      }],
+      "matched_code_percent": 100,
       "name": "zombie/core/skinnedmodel/advancedanimation/AnimationVariableSource",
       "total_methods": 23,
-      "matched_instructions": 225,
-      "matched_methods": 22,
-      "status": "MISMATCH"
+      "matched_instructions": 250,
+      "matched_methods": 23,
+      "status": "MATCH"
     },
     {
       "total_instructions": 66,
@@ -14386,34 +14312,12 @@
     },
     {
       "total_instructions": 26,
-      "matched_code_percent": 65.38461538461539,
-      "methods": [{
-        "recompContext": [
-          "#0    ACONST_NULL",
-          "#1    ARETURN"
-        ],
-        "origContext": [
-          "#0    ALOAD v0",
-          "#1    INVOKEINTERFACE zombie/core/skinnedmodel/advancedanimation/IAnimationVariableSlot.getValueString()Ljava/lang/String;",
-          "#2    ASTORE v1",
-          "#3    ALOAD v2",
-          "#4    INVOKEVIRTUAL java/lang/Object.getClass()Ljava/lang/Class;",
-          "#5    ALOAD v1"
-        ],
-        "name": "getEnumValue",
-        "recompInsnCount": 2,
-        "descriptor": "(Ljava/lang/Enum;)Ljava/lang/Enum;",
-        "category": "VARIABLE_COPY_PROPAGATION",
-        "matchTier": "NONE",
-        "origInsnCount": 9,
-        "status": "MISMATCH",
-        "diffDescription": "Instructions differ at #0"
-      }],
+      "matched_code_percent": 100,
       "name": "zombie/core/skinnedmodel/advancedanimation/IAnimationVariableSlot",
       "total_methods": 18,
-      "matched_instructions": 17,
-      "matched_methods": 17,
-      "status": "MISMATCH"
+      "matched_instructions": 26,
+      "matched_methods": 18,
+      "status": "MATCH"
     },
     {
       "total_instructions": 5,
@@ -14641,13 +14545,13 @@
       "status": "MATCH"
     },
     {
-      "total_instructions": 49,
-      "matched_code_percent": 0,
+      "total_instructions": 46,
+      "matched_code_percent": 100,
       "name": "zombie/core/skinnedmodel/advancedanimation/events/AnimEventListenerWrapperEnum",
       "total_methods": 4,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 46,
+      "matched_methods": 4,
+      "status": "MATCH"
     },
     {
       "total_instructions": 30,
@@ -14677,13 +14581,13 @@
       "status": "MATCH"
     },
     {
-      "total_instructions": 45,
-      "matched_code_percent": 0,
+      "total_instructions": 42,
+      "matched_code_percent": 100,
       "name": "zombie/core/skinnedmodel/advancedanimation/events/AnimEventListenerWrapperNoTrackEnum",
       "total_methods": 4,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 42,
+      "matched_methods": 4,
+      "status": "MATCH"
     },
     {
       "total_instructions": 28,
@@ -19818,31 +19722,12 @@
     },
     {
       "total_instructions": 496,
-      "matched_code_percent": 92.13709677419355,
-      "methods": [{
-        "recompContext": ["#0    RETURN"],
-        "origContext": [
-          "#0    ALOAD v0",
-          "#1    INVOKEVIRTUAL java/lang/Object.getClass()Ljava/lang/Class;",
-          "#2    ASTORE v1",
-          "#3    ALOAD v2",
-          "#4    ALOAD v1",
-          "#5    INVOKEVIRTUAL zombie/entity/SystemManager.getSystem(Ljava/lang/Class;)Lzombie/entity/EngineSystem;"
-        ],
-        "name": "addSystemInternal",
-        "recompInsnCount": 1,
-        "descriptor": "(Lzombie/entity/EngineSystem;)V",
-        "category": "INSN_COUNT_DIFF",
-        "matchTier": "NONE",
-        "origInsnCount": 39,
-        "status": "MISMATCH",
-        "diffDescription": "Instructions differ at #0"
-      }],
+      "matched_code_percent": 100,
       "name": "zombie/entity/SystemManager",
       "total_methods": 16,
-      "matched_instructions": 457,
-      "matched_methods": 15,
-      "status": "MISMATCH"
+      "matched_instructions": 496,
+      "matched_methods": 16,
+      "status": "MATCH"
     },
     {
       "total_instructions": 40,
@@ -22388,58 +22273,87 @@
       "status": "MATCH"
     },
     {
-      "total_instructions": 1130,
-      "matched_code_percent": 0,
+      "total_instructions": 1117,
+      "matched_code_percent": 100,
+      "methods": [
+        {
+          "rawSimilarity": 96.55,
+          "name": "putResize",
+          "recompInsnCount": 29,
+          "descriptor": "(Ljava/lang/Object;Ljava/lang/Object;)V",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 29,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 71.88,
+          "name": "equals",
+          "recompInsnCount": 61,
+          "descriptor": "(Ljava/lang/Object;)Z",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 64,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 72.73,
+          "name": "equalsIdentity",
+          "recompInsnCount": 52,
+          "descriptor": "(Ljava/lang/Object;)Z",
+          "matchTier": "STRUCTURAL",
+          "origInsnCount": 55,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/entity/util/ObjectMap",
       "total_methods": 34,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 1117,
+      "matched_methods": 34,
+      "status": "MATCH"
     },
     {
       "total_instructions": 78,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/entity/util/ObjectMap$Entries",
       "total_methods": 8,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 78,
+      "matched_methods": 8,
+      "status": "MATCH"
     },
     {
-      "total_instructions": 11,
-      "matched_code_percent": 0,
+      "total_instructions": 10,
+      "matched_code_percent": 100,
       "name": "zombie/entity/util/ObjectMap$Entry",
       "total_methods": 2,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 10,
+      "matched_methods": 2,
+      "status": "MATCH"
     },
     {
       "total_instructions": 76,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/entity/util/ObjectMap$Keys",
       "total_methods": 9,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 76,
+      "matched_methods": 9,
+      "status": "MATCH"
     },
     {
-      "total_instructions": 147,
-      "matched_code_percent": 0,
+      "total_instructions": 142,
+      "matched_code_percent": 100,
       "name": "zombie/entity/util/ObjectMap$MapIterator",
       "total_methods": 4,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 142,
+      "matched_methods": 4,
+      "status": "MATCH"
     },
     {
       "total_instructions": 76,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/entity/util/ObjectMap$Values",
       "total_methods": 9,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 76,
+      "matched_methods": 9,
+      "status": "MATCH"
     },
     {
       "total_instructions": 761,
@@ -40455,65 +40369,21 @@
     },
     {
       "total_instructions": 202,
-      "matched_code_percent": 85.64356435643565,
-      "methods": [{
-        "recompContext": [
-          "#0    ICONST_0",
-          "#1    IRETURN"
-        ],
-        "origContext": [
-          "#0    ALOAD v0",
-          "#1    ALOAD v1",
-          "#2    INVOKEVIRTUAL java/lang/Object.getClass()Ljava/lang/Class;",
-          "#3    INVOKESTATIC zombie/util/Type.tryCastTo(Ljava/lang/Object;Ljava/lang/Class;)Ljava/lang/Object;",
-          "#4    IFNULL L0",
-          "#5    ALOAD v1"
-        ],
-        "name": "equals",
-        "recompInsnCount": 2,
-        "descriptor": "(Ljava/lang/Object;)Z",
-        "category": "INSN_COUNT_DIFF",
-        "matchTier": "NONE",
-        "origInsnCount": 29,
-        "status": "MISMATCH",
-        "diffDescription": "Instructions differ at #0"
-      }],
+      "matched_code_percent": 100,
       "name": "zombie/pathfind/highLevel/HLSlopedSurface",
       "total_methods": 22,
-      "matched_instructions": 173,
-      "matched_methods": 21,
-      "status": "MISMATCH"
+      "matched_instructions": 202,
+      "matched_methods": 22,
+      "status": "MATCH"
     },
     {
       "total_instructions": 188,
-      "matched_code_percent": 84.57446808510639,
-      "methods": [{
-        "recompContext": [
-          "#0    ICONST_0",
-          "#1    IRETURN"
-        ],
-        "origContext": [
-          "#0    ALOAD v0",
-          "#1    ALOAD v1",
-          "#2    INVOKEVIRTUAL java/lang/Object.getClass()Ljava/lang/Class;",
-          "#3    INVOKESTATIC zombie/util/Type.tryCastTo(Ljava/lang/Object;Ljava/lang/Class;)Ljava/lang/Object;",
-          "#4    IFNULL L0",
-          "#5    ALOAD v1"
-        ],
-        "name": "equals",
-        "recompInsnCount": 2,
-        "descriptor": "(Ljava/lang/Object;)Z",
-        "category": "INSN_COUNT_DIFF",
-        "matchTier": "NONE",
-        "origInsnCount": 29,
-        "status": "MISMATCH",
-        "diffDescription": "Instructions differ at #0"
-      }],
+      "matched_code_percent": 100,
       "name": "zombie/pathfind/highLevel/HLStaircase",
       "total_methods": 20,
-      "matched_instructions": 159,
-      "matched_methods": 19,
-      "status": "MISMATCH"
+      "matched_instructions": 188,
+      "matched_methods": 20,
+      "status": "MATCH"
     },
     {
       "total_instructions": 3,
@@ -47907,7 +47777,7 @@
     },
     {
       "total_instructions": 2894,
-      "matched_code_percent": 95.1969592259848,
+      "matched_code_percent": 98.16862474084313,
       "methods": [
         {
           "rawSimilarity": 100,
@@ -47917,44 +47787,6 @@
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 1999,
           "status": "MATCH"
-        },
-        {
-          "recompContext": ["#0    RETURN"],
-          "origContext": [
-            "#0    ALOAD v0",
-            "#1    IFNULL L0",
-            "#2    ALOAD v0",
-            "#3    INVOKEVIRTUAL zombie/scripting/ui/XuiScript.isStyle()Z",
-            "#4    IFNE L0",
-            "#5    ALOAD v1"
-          ],
-          "name": "setStyle",
-          "recompInsnCount": 1,
-          "descriptor": "(Lzombie/scripting/ui/XuiScript;)V",
-          "category": "INSN_COUNT_DIFF",
-          "matchTier": "NONE",
-          "origInsnCount": 43,
-          "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #0"
-        },
-        {
-          "recompContext": ["#0    RETURN"],
-          "origContext": [
-            "#0    ALOAD v0",
-            "#1    IFNULL L0",
-            "#2    ALOAD v0",
-            "#3    INVOKEVIRTUAL zombie/scripting/ui/XuiScript.isDefaultStyle()Z",
-            "#4    IFNE L0",
-            "#5    ALOAD v1"
-          ],
-          "name": "setDefaultStyle",
-          "recompInsnCount": 1,
-          "descriptor": "(Lzombie/scripting/ui/XuiScript;)V",
-          "category": "INSN_COUNT_DIFF",
-          "matchTier": "NONE",
-          "origInsnCount": 43,
-          "status": "MISMATCH",
-          "diffDescription": "Instructions differ at #0"
         },
         {
           "recompContext": [
@@ -47982,8 +47814,8 @@
       ],
       "name": "zombie/scripting/ui/XuiScript",
       "total_methods": 102,
-      "matched_instructions": 2755,
-      "matched_methods": 99,
+      "matched_instructions": 2841,
+      "matched_methods": 101,
       "status": "MISMATCH"
     },
     {
