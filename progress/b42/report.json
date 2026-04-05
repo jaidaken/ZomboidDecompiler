@@ -1,21 +1,21 @@
 {
   "measures": {
     "total_classes": 4917,
-    "total_instructions": 1834489,
-    "matched_code_percent": 95.07535886015124,
+    "total_instructions": 1833924,
+    "matched_code_percent": 95.53274835816534,
     "match_tiers": {
       "CORE_OPS_ONLY": 4,
-      "FUZZY_COMPUTATION": 48,
-      "EXACT": 52453,
-      "SORTED_MULTISET": 673,
+      "FUZZY_COMPUTATION": 49,
+      "EXACT": 52589,
+      "SORTED_MULTISET": 674,
       "NONE": 17,
-      "STRUCTURAL": 413
+      "STRUCTURAL": 415
     },
     "total_methods": 55231,
-    "matched_function_percent": 97.0306530752657,
-    "matched_instructions": 1744147,
-    "matched_classes": 4822,
-    "matched_methods": 53591
+    "matched_function_percent": 97.28413391030399,
+    "matched_instructions": 1751998,
+    "matched_classes": 4829,
+    "matched_methods": 53731
   },
   "units": [
     {
@@ -10083,13 +10083,22 @@
       "status": "MATCH"
     },
     {
-      "total_instructions": 902,
-      "matched_code_percent": 0,
+      "total_instructions": 794,
+      "matched_code_percent": 100,
+      "methods": [{
+        "rawSimilarity": 85.29,
+        "name": "setStateFromPacket",
+        "recompInsnCount": 33,
+        "descriptor": "(Lzombie/core/Action;)V",
+        "matchTier": "STRUCTURAL",
+        "origInsnCount": 34,
+        "status": "MATCH"
+      }],
       "name": "zombie/core/ActionManager",
       "total_methods": 35,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 794,
+      "matched_methods": 35,
+      "status": "MATCH"
     },
     {
       "total_instructions": 114,
@@ -22927,22 +22936,22 @@
       "status": "MATCH"
     },
     {
-      "total_instructions": 796,
-      "matched_code_percent": 0,
+      "total_instructions": 764,
+      "matched_code_percent": 100,
       "name": "zombie/erosion/categories/NatureGeneric",
       "total_methods": 10,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 764,
+      "matched_methods": 10,
+      "status": "MATCH"
     },
     {
-      "total_instructions": 59,
-      "matched_code_percent": 0,
+      "total_instructions": 48,
+      "matched_code_percent": 100,
       "name": "zombie/erosion/categories/NatureGeneric$CategoryData",
       "total_methods": 3,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 48,
+      "matched_methods": 3,
+      "status": "MATCH"
     },
     {
       "total_instructions": 1368,
@@ -32143,13 +32152,22 @@
       "status": "MATCH"
     },
     {
-      "total_instructions": 2056,
-      "matched_code_percent": 0,
+      "total_instructions": 1931,
+      "matched_code_percent": 100,
+      "methods": [{
+        "rawSimilarity": 79.27,
+        "name": "applyPrefab",
+        "recompInsnCount": 82,
+        "descriptor": "(Lzombie/iso/worldgen/PrefabStructure;Lzombie/iso/worldgen/biomes/IBiome;Lzombie/iso/IsoCell;Lzombie/iso/IsoChunk;Lzombie/iso/IsoGridSquare;IIIIIILjava/util/EnumMap;IIIILjava/util/Random;)V",
+        "matchTier": "STRUCTURAL",
+        "origInsnCount": 82,
+        "status": "MATCH"
+      }],
       "name": "zombie/iso/worldgen/WorldGenChunk",
       "total_methods": 27,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 1931,
+      "matched_methods": 27,
+      "status": "MATCH"
     },
     {
       "total_instructions": 348,
@@ -40287,22 +40305,42 @@
       "status": "MATCH"
     },
     {
-      "total_instructions": 4313,
-      "matched_code_percent": 0,
+      "total_instructions": 4031,
+      "matched_code_percent": 100,
+      "methods": [
+        {
+          "rawSimilarity": 98.98,
+          "name": "findPath",
+          "recompInsnCount": 402,
+          "descriptor": "(Lzombie/pathfind/PMMover;FFIFFILjava/util/ArrayList;Ljava/util/ArrayList;Ljava/util/ArrayList;Z)V",
+          "matchTier": "FUZZY_COMPUTATION",
+          "origInsnCount": 391,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 100,
+          "name": "getSuccessorsOnAdjacentChunks",
+          "recompInsnCount": 591,
+          "descriptor": "(Lzombie/pathfind/highLevel/HLSearchNode;Ljava/util/ArrayList;)V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 587,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/pathfind/highLevel/HLAStar",
       "total_methods": 51,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 4031,
+      "matched_methods": 51,
+      "status": "MATCH"
     },
     {
       "total_instructions": 8,
-      "matched_code_percent": 0,
+      "matched_code_percent": 100,
       "name": "zombie/pathfind/highLevel/HLAStar$AdjustVisibilityGraphData",
       "total_methods": 1,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 8,
+      "matched_methods": 1,
+      "status": "MATCH"
     },
     {
       "total_instructions": 551,
@@ -40359,13 +40397,13 @@
       "status": "MATCH"
     },
     {
-      "total_instructions": 282,
-      "matched_code_percent": 0,
+      "total_instructions": 275,
+      "matched_code_percent": 100,
       "name": "zombie/pathfind/highLevel/HLSearchNode",
       "total_methods": 13,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 275,
+      "matched_methods": 13,
+      "status": "MATCH"
     },
     {
       "total_instructions": 202,
