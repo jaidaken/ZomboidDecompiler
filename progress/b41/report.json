@@ -5,10 +5,10 @@
     "matched_code_percent": 100,
     "match_tiers": {
       "CORE_OPS_ONLY": 1,
-      "FUZZY_COMPUTATION": 10,
-      "EXACT": 32478,
-      "SORTED_MULTISET": 228,
-      "STRUCTURAL": 250
+      "FUZZY_COMPUTATION": 9,
+      "EXACT": 32487,
+      "SORTED_MULTISET": 219,
+      "STRUCTURAL": 251
     },
     "total_methods": 32967,
     "matched_function_percent": 100,
@@ -1751,26 +1751,15 @@
     {
       "total_instructions": 746,
       "matched_code_percent": 100,
-      "methods": [
-        {
-          "rawSimilarity": 95.95,
-          "name": "getFence",
-          "recompInsnCount": 74,
-          "descriptor": "(Lzombie/characters/IsoGameCharacter;)Lzombie/iso/IsoObject;",
-          "matchTier": "STRUCTURAL",
-          "origInsnCount": 74,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 98.15,
-          "name": "setParams",
-          "recompInsnCount": 218,
-          "descriptor": "(Lzombie/characters/IsoGameCharacter;Lzombie/iso/IsoDirections;)V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 216,
-          "status": "MATCH"
-        }
-      ],
+      "methods": [{
+        "rawSimilarity": 95.95,
+        "name": "getFence",
+        "recompInsnCount": 74,
+        "descriptor": "(Lzombie/characters/IsoGameCharacter;)Lzombie/iso/IsoObject;",
+        "matchTier": "STRUCTURAL",
+        "origInsnCount": 74,
+        "status": "MATCH"
+      }],
       "name": "zombie/ai/states/ClimbOverWallState",
       "total_methods": 13,
       "matched_instructions": 746,
@@ -2250,15 +2239,6 @@
     {
       "total_instructions": 371,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 99.2,
-        "name": "animEvent",
-        "recompInsnCount": 253,
-        "descriptor": "(Lzombie/characters/IsoGameCharacter;Lzombie/core/skinnedmodel/advancedanimation/AnimEvent;)V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 251,
-        "status": "MATCH"
-      }],
       "name": "zombie/ai/states/ZombieHitReactionState",
       "total_methods": 7,
       "matched_instructions": 371,
@@ -14838,9 +14818,9 @@
       "matched_code_percent": 100,
       "methods": [
         {
-          "rawSimilarity": 98.72,
+          "rawSimilarity": 100,
           "name": "DoTooltip",
-          "recompInsnCount": 1174,
+          "recompInsnCount": 1172,
           "descriptor": "(Lzombie/ui/ObjectTooltip;)V",
           "matchTier": "SORTED_MULTISET",
           "origInsnCount": 1172,
@@ -15665,7 +15645,7 @@
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 90.23,
+          "rawSimilarity": 91.14,
           "name": "recalculateAnyGridStacks",
           "recompInsnCount": 444,
           "descriptor": "(Lzombie/iso/IsoCell$PerPlayerRender;IIJ)V",
@@ -15773,15 +15753,6 @@
     {
       "total_instructions": 969,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 86.58,
-        "name": "init",
-        "recompInsnCount": 712,
-        "descriptor": "(I)Lzombie/iso/IsoCell$SnowGrid;",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 708,
-        "status": "MATCH"
-      }],
       "name": "zombie/iso/IsoCell$SnowGrid",
       "total_methods": 6,
       "matched_instructions": 969,
@@ -18232,15 +18203,6 @@
     {
       "total_instructions": 996,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 99.24,
-        "name": "update",
-        "recompInsnCount": 266,
-        "descriptor": "()V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 264,
-        "status": "MATCH"
-      }],
       "name": "zombie/iso/objects/IsoBarbecue",
       "total_methods": 35,
       "matched_instructions": 996,
@@ -18407,15 +18369,6 @@
       "matched_code_percent": 100,
       "methods": [
         {
-          "rawSimilarity": 88.07,
-          "name": "ToggleDoorActual",
-          "recompInsnCount": 438,
-          "descriptor": "(Lzombie/characters/IsoGameCharacter;)V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 436,
-          "status": "MATCH"
-        },
-        {
           "rawSimilarity": 85.63,
           "name": "isAdjacentToSquare",
           "recompInsnCount": 689,
@@ -18553,15 +18506,6 @@
     {
       "total_instructions": 1021,
       "matched_code_percent": 100,
-      "methods": [{
-        "rawSimilarity": 99.06,
-        "name": "update",
-        "recompInsnCount": 215,
-        "descriptor": "()V",
-        "matchTier": "SORTED_MULTISET",
-        "origInsnCount": 213,
-        "status": "MATCH"
-      }],
       "name": "zombie/iso/objects/IsoFireplace",
       "total_methods": 29,
       "matched_instructions": 1021,
@@ -28036,15 +27980,6 @@
           "status": "MATCH"
         },
         {
-          "rawSimilarity": 85.75,
-          "name": "updateSounds",
-          "recompInsnCount": 423,
-          "descriptor": "()V",
-          "matchTier": "FUZZY_COMPUTATION",
-          "origInsnCount": 421,
-          "status": "MATCH"
-        },
-        {
           "rawSimilarity": 100,
           "name": "setLightbarLightsMode",
           "recompInsnCount": 15,
@@ -29359,11 +29294,11 @@
       "total_instructions": 924,
       "matched_code_percent": 100,
       "methods": [{
-        "rawSimilarity": 86.86,
+        "rawSimilarity": 99.27,
         "name": "update",
-        "recompInsnCount": 138,
+        "recompInsnCount": 136,
         "descriptor": "()V",
-        "matchTier": "SORTED_MULTISET",
+        "matchTier": "STRUCTURAL",
         "origInsnCount": 137,
         "status": "MATCH"
       }],
@@ -29900,26 +29835,6 @@
     {
       "total_instructions": 817,
       "matched_code_percent": 100,
-      "methods": [
-        {
-          "rawSimilarity": 98.52,
-          "name": "interpolationMicroStepTest",
-          "recompInsnCount": 137,
-          "descriptor": "()V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 135,
-          "status": "MATCH"
-        },
-        {
-          "rawSimilarity": 98.68,
-          "name": "interpolationMicroStepTest2",
-          "recompInsnCount": 153,
-          "descriptor": "()V",
-          "matchTier": "SORTED_MULTISET",
-          "origInsnCount": 151,
-          "status": "MATCH"
-        }
-      ],
       "name": "zombie/vehicles/VehicleInterpolationTest",
       "total_methods": 9,
       "matched_instructions": 817,
