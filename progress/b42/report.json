@@ -1,21 +1,21 @@
 {
   "measures": {
     "total_classes": 4917,
-    "total_instructions": 1833924,
-    "matched_code_percent": 95.53274835816534,
+    "total_instructions": 1833853,
+    "matched_code_percent": 95.59070438034018,
     "match_tiers": {
       "CORE_OPS_ONLY": 4,
       "FUZZY_COMPUTATION": 49,
-      "EXACT": 52589,
-      "SORTED_MULTISET": 674,
+      "EXACT": 52613,
+      "SORTED_MULTISET": 677,
       "NONE": 17,
       "STRUCTURAL": 415
     },
     "total_methods": 55231,
-    "matched_function_percent": 97.28413391030399,
-    "matched_instructions": 1751998,
-    "matched_classes": 4829,
-    "matched_methods": 53731
+    "matched_function_percent": 97.33301949991852,
+    "matched_instructions": 1752993,
+    "matched_classes": 4834,
+    "matched_methods": 53758
   },
   "units": [
     {
@@ -10856,49 +10856,78 @@
       "status": "MATCH"
     },
     {
-      "total_instructions": 947,
-      "matched_code_percent": 0,
+      "total_instructions": 890,
+      "matched_code_percent": 100,
+      "methods": [
+        {
+          "rawSimilarity": 81.05,
+          "name": "loadWords",
+          "recompInsnCount": 99,
+          "descriptor": "(Ljava/lang/String;Ljava/lang/String;)V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 95,
+          "status": "MATCH"
+        },
+        {
+          "rawSimilarity": 93.83,
+          "name": "loadReplacementsFromFile",
+          "recompInsnCount": 83,
+          "descriptor": "(Ljava/lang/String;)V",
+          "matchTier": "SORTED_MULTISET",
+          "origInsnCount": 81,
+          "status": "MATCH"
+        }
+      ],
       "name": "zombie/core/WordsFilter",
       "total_methods": 17,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 890,
+      "matched_methods": 17,
+      "status": "MATCH"
     },
     {
-      "total_instructions": 24,
-      "matched_code_percent": 0,
+      "total_instructions": 17,
+      "matched_code_percent": 100,
       "name": "zombie/core/WordsFilter$Policy",
       "total_methods": 2,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 17,
+      "matched_methods": 2,
+      "status": "MATCH"
     },
     {
-      "total_instructions": 26,
-      "matched_code_percent": 0,
+      "total_instructions": 25,
+      "matched_code_percent": 100,
       "name": "zombie/core/WordsFilter$SearchResult",
       "total_methods": 2,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 25,
+      "matched_methods": 2,
+      "status": "MATCH"
     },
     {
-      "total_instructions": 19,
-      "matched_code_percent": 0,
+      "total_instructions": 17,
+      "matched_code_percent": 100,
+      "methods": [{
+        "rawSimilarity": 100,
+        "name": "<init>",
+        "recompInsnCount": 18,
+        "descriptor": "(Lzombie/core/WordsFilter;C)V",
+        "matchTier": "SORTED_MULTISET",
+        "origInsnCount": 17,
+        "status": "MATCH"
+      }],
       "name": "zombie/core/WordsFilter$TreeNode",
       "total_methods": 1,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 17,
+      "matched_methods": 1,
+      "status": "MATCH"
     },
     {
-      "total_instructions": 50,
-      "matched_code_percent": 0,
+      "total_instructions": 46,
+      "matched_code_percent": 100,
       "name": "zombie/core/WordsFilter$WordType",
       "total_methods": 5,
-      "matched_instructions": 0,
-      "matched_methods": 0,
-      "status": "MISSING_RECOMP"
+      "matched_instructions": 46,
+      "matched_methods": 5,
+      "status": "MATCH"
     },
     {
       "total_instructions": 574,
